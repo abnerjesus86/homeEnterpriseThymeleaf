@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<!-- Acceso a la base de datos por JNDI -->
+	<jee:jndi-lookup jndi-name="jdbc/application_manager"
+		id="dataSource" expected-type="javax.sql.DataSource">
+	</jee:jndi-lookup>
+
+	<!-- Configuracion para utilizar la anotacion de spring e inyectar las dependencias -->
+	<context:annotation-config></context:annotation-config>
+	<context:component-scan base-package="mx.com.lctpc.helpdeck.dao"></context:component-scan>
+
+	<!-- Configuracion para la fabrica de session que utiliza Hibernate para 
+		conectarse a la base de datos -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- Propiedad para leer las clases que realizaran el mapping de tablas de la base de datos -->
+		<property name="packagesToScan" value="mx.com.lctpc.helpdeck.pojo"/>
+		<!-- Lista de propierdad y configuraciones de hibernate para trabajar con Oracle -->
+		<property name="hibernateProperties">
+			<props>
+			     <!-- Base de datos con que trabajara Hibernate -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+                <!-- Propiedad para mostrar en consola las instruccion de base de datos que va realizando hibernate -->
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+
+    <!-- clase que traducira las exceptiones de hibernate a spring -->
+	<bean id="exceptionTranslator"
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor">
+	</bean>
+    
+    <!-- Configuracion para trabajar transacciones con hibernate -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+    
+    <!-- configuracion para utilizar anotaciones de hibernate enlazadas al bean de transactionManager -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+</beans>

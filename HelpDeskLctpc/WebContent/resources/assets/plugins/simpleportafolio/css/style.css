@@ -1,0 +1,71 @@
+.sp-simpleportfolio .sp-simpleportfolio-filter > ul > li {
+  float: left;
+  display: block;
+  margin: 1px;
+}
+.sp-simpleportfolio .sp-simpleportfolio-filter > ul > li > a {
+  background: #ABBAC3; /*#f0f1f3;*/
+  border-radius: 0px;
+  color: #fff;/*#000;*/
+  -webkit-transition: 300ms;
+  transition: 300ms;
+  /*padding: 10px 20px;*/
+  margin: 0px;
+  border-width: 3px;
+  border-color: #ABBAC3;
+  border-style: solid;
+
+}
+.sp-simpleportfolio .sp-simpleportfolio-filter > ul > li > a:hover {
+  color: #fff;
+}
+.sp-simpleportfolio .sp-simpleportfolio-filter > ul > li.active > a
+{
+ background: #9BAAB3;
+  border-color: #8799A4 ;	
+  border-bottom-color: #92D1F3;
+}
+.sp-simpleportfolio .sp-simpleportfolio-filter > ul > li > a:hover {
+  background: #85929A;
+  border-color: #ABBAC3;
+}
+.sp-simpleportfolio .sp-simpleportfolio-img {
+  max-width: 735px;
+  height: 216px;
+}
+
+.sp-simpleportfolio .sp-simpleportfolio-columns-2 .sp-simpleportfolio-item {
+  width: 50%;
+}
+.sp-simpleportfolio .sp-simpleportfolio-columns-3 .sp-simpleportfolio-item {
+  width: 33.3333%;
+}
+.sp-simpleportfolio .sp-simpleportfolio-columns-4 .sp-simpleportfolio-item {
+  width: 25%;
+  clip: rect(0px,184px,248px,0px);
+}
+.sp-simpleportfolio .sp-simpleportfolio-columns-6 .sp-simpleportfolio-item {
+  width: 16.6666%;
+  height:240px;
+}
+.sp-simpleportfolio .sp-simpleportfolio-columns-8 .sp-simpleportfolio-item {
+  width: 12.5%;
+  height:240px;
+}
+@media (min-width: 1200px) 
+{
+	.sp-simpleportfolio .sp-simpleportfolio-columns-fix .sp-simpleportfolio-item 
+	{
+		width: 16.6666%;
+		height:240px;
+	}	
+}	
+@media (min-width: 1800px) 
+{
+	.sp-simpleportfolio .sp-simpleportfolio-columns-fix .sp-simpleportfolio-item
+	{
+	  width: 12.5%;
+	  height:240px;
+	}
+}	
+
