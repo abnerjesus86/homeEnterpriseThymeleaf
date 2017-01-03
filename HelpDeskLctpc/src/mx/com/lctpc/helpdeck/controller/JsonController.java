@@ -18,6 +18,7 @@ import mx.com.lctpc.helpdeck.pojo.AEntities;
 import mx.com.lctpc.helpdeck.pojo.Application;
 import mx.com.lctpc.helpdeck.pojo.ApplicationRole;
 import mx.com.lctpc.helpdeck.pojo.Page;
+import mx.com.lctpc.helpdeck.pojo.PageEntity;
 import mx.com.lctpc.helpdeck.pojo.Permission;
 import mx.com.lctpc.helpdeck.pojo.Rol;
 import mx.com.lctpc.helpdeck.pojo.SecretQuestion;
@@ -59,7 +60,6 @@ public class JsonController {
 	@RequestMapping(value = "/getJsonUsers", method= RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<List<User> > showListAllUsers(){
 		List<User> users = userService.findAll();
-		System.out.println(users.size());
 		if(users.isEmpty()){
             return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
@@ -194,6 +194,19 @@ public class JsonController {
 		
 		l_map.put("data", l_entities);
 		return new ResponseEntity<Map<String, List<AEntities>>>(l_map, HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(value = "/getJsonEntitiesActiveFromPage/{pagId}", method= RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<Map<String, List<PageEntity>>> showJsonEntitiesActiveFromPage(@PathVariable( "pagId" ) BigDecimal p_pagId){
+		List<PageEntity> l_pagEnts = pagService.findEntitiesActiveFromPage(p_pagId);
+		Map<String, List<PageEntity>> l_map = new HashMap<String, List<PageEntity>>();
+		if(l_pagEnts.isEmpty()){
+            return new ResponseEntity<Map<String, List<PageEntity>>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+        }
+		
+		l_map.put("data", l_pagEnts);
+		return new ResponseEntity<Map<String, List<PageEntity>>>(l_map, HttpStatus.OK);
 		
 	}
 	

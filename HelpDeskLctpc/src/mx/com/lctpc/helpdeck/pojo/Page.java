@@ -80,7 +80,7 @@ public class Page implements Serializable{
 	private Date	g_pageUpdateDate;
 	@Column( name = "PAGE_UPDATE_BY", insertable = true, updatable = true )
 	private String		g_pageUpdateBy;
-	@OneToMany( fetch = FetchType.EAGER, mappedBy = "g_paenEnttId", cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
+	@OneToMany( fetch = FetchType.EAGER, mappedBy = "g_paenPageId", cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
 	private List<PageEntity> g_pageEntities = new ArrayList<PageEntity>();
 	@OneToMany(  mappedBy = "g_pagePageId")
 	private List<Page> g_pageMaster = new ArrayList<Page>();

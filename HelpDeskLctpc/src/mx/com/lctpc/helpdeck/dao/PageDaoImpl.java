@@ -44,7 +44,7 @@ public class PageDaoImpl implements PageDao {
 	@Override
 	public void updatePage( Page p_page ) {
 		// TODO Auto-generated method stub
-		getSession().saveOrUpdate(p_page);
+		getSession().update(p_page);
 	}
 
 	@Override
@@ -108,6 +108,18 @@ public class PageDaoImpl implements PageDao {
 		l_crtQuery.where(l_builder.equal(l_rootUser.get("g_paenId"), p_pagEntId));
 
 		return (PageEntity) getSession().createQuery(l_crtQuery).getSingleResult();
+	}
+
+	@Override
+	public void deletePageEntity( PageEntity p_pagEntId ) {
+		// TODO Auto-generated method stub
+		getSession().update(p_pagEntId);
+	}
+
+	@Override
+	public void savePageEntity( PageEntity p_pagEnt ) {
+		
+		getSession().save(p_pagEnt);
 	}
 	
 	/*

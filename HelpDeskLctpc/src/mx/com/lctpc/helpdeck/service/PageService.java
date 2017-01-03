@@ -56,4 +56,14 @@ public class PageService {
 	public PageEntity findPageEntityById( BigDecimal p_pagEntId ){
 		return pageDao.findPageEntityById(p_pagEntId);
 	}
+	
+	public void deletePageEntity(PageEntity p_pagEnt){
+		p_pagEnt.setPaenActive(false);
+		pageDao.deletePageEntity(p_pagEnt);
+	}
+	
+	public void savePageEntity(PageEntity p_pagEnt){
+		pageDao.savePageEntity(p_pagEnt);
+	}
+	
 }

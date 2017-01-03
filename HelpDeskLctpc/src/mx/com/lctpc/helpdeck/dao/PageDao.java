@@ -16,4 +16,6 @@ public interface PageDao {
 	public List<PageEntity> findEntitiesActiveFromPage(BigDecimal p_pageId);
 	public List<PageEntity> findEntitiesActiveLeftJoinFromPage( BigDecimal p_pageId );
 	public PageEntity findPageEntityById(BigDecimal p_pagEntId);
+	public void deletePageEntity(PageEntity p_pagEntId);
+	public void savePageEntity(PageEntity p_pagEnt);
 }
