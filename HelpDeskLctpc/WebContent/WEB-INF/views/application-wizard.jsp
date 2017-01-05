@@ -703,10 +703,8 @@
 														<div class="form-group">
 															<label class="col-sm-3 control-label no-padding-right" for="pagePageId"> PAGE FATHER </label>
 															<div class="col-sm-9">
-																<sf:select path="pagePageId" cssClass="chosen-select col-xs-11" data-placeholder="Choose a Page Father o Master...">
-																	<sf:option value="NONE" label="---- Select ----" />
-																	<sf:options items="${pagesMasterList}" itemLabel="pageDisplay" itemValue="pageId" />
-																</sf:select>
+																<select id="pagePageId" class="chosen-select col-xs-11" data-placeholder="Choose a Page Father o Master...">
+																</select>
 															</div>
 														</div>
 														<div class="form-group">
