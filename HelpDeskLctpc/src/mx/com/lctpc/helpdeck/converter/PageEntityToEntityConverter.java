@@ -1,10 +1,7 @@
 package mx.com.lctpc.helpdeck.converter;
 
-import java.math.BigDecimal;
-
 import org.springframework.core.convert.converter.Converter;
 
-import mx.com.lctpc.helpdeck.pojo.AEntities;
 import mx.com.lctpc.helpdeck.pojo.PageEntity;
 
 

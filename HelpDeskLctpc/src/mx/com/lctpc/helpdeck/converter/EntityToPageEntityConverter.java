@@ -9,7 +9,6 @@ import mx.com.lctpc.helpdeck.dao.EntityDao;
 import mx.com.lctpc.helpdeck.dao.PageDao;
 import mx.com.lctpc.helpdeck.pojo.AEntities;
 import mx.com.lctpc.helpdeck.pojo.PageEntity;
-import mx.com.lctpc.helpdeck.pojo.Page;
 
 public class EntityToPageEntityConverter implements Converter<String, PageEntity> {
 	

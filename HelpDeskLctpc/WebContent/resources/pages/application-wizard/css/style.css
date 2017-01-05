@@ -69,3 +69,10 @@ input[type=checkbox].ace.ace-switch.ace-switch-6:checked + input[type=hidden] + 
     padding-left: 4px;
 }
 
+.steps li{
+	width: auto;
+}
+
+.steps li:before{
+    display: none;
+}

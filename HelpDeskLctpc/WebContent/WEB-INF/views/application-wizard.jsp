@@ -12,14 +12,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 <!-- bootstrap & fontawesome -->
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/bootstrap.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/font-awesome.css" />
 
 <!-- page specific plugin styles -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/chosen.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/select2.css" />
 
 <!-- text fonts -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/ace-fonts.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/res/pages/application-wizard/css/fuelux.min.css" />
 
 <!-- ace styles -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
@@ -34,6 +37,7 @@
 
 <!-- inline styles related to this page -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/pages/application-wizard/css/style.css" />
+
 
 <!-- ace settings handler -->
 <script src="${pageContext.request.contextPath}/res/assets/js/ace-extra.js"></script>
@@ -539,330 +543,322 @@
 					<!-- /section:settings.box -->
 					<div class="row">
 						<div class="col-xs-12">
-							<div class="widget-box">
-								<div class="widget-header widget-header-blue widget-header-flat">
-									<h4 class="widget-title lighter">New Application Wizard</h4>
+							<div class="fuelux">
+								<div class="wizard" data-initialize="wizard" id="wizard-application">
+									<div class="steps-container">
+										<!-- #section:plugins/fuelux.wizard.steps -->
+										<ul class="steps" style="margin-left: 0">
+											<li data-step="1" class="active"><span class="badge">1</span>Application <span class="chevron"></span></li>
 
-									<!-- <div class="widget-toolbar">
-										<label> <small class="green"> <b>Validation</b>
-										</small> <input id="skip-validation" type="checkbox" class="ace ace-switch ace-switch-4" /> <span class="lbl middle"></span>
-										</label>
-									</div> -->
-								</div>
+											<li data-step="2"><span class="badge">2</span>Roles <span class="chevron"></span></li>
 
-								<div class="widget-body">
-									<div class="widget-main">
-										<!-- #section:plugins/fuelux.wizard -->
-										<div id="fuelux-wizard-container">
-											<div>
-												<!-- #section:plugins/fuelux.wizard.steps -->
-												<ul class="steps">
-													<li data-step="1" class="active"><span class="step">1</span> <span class="title">Application</span></li>
+											<li data-step="3"><span class="badge">3</span>Pages <span class="chevron"></span></li>
 
-													<li data-step="2"><span class="step">2</span> <span class="title">Roles</span></li>
+											<li data-step="4"><span class="badge">4</span>Permits per page <span class="chevron"></span></li>
 
-													<li data-step="3"><span class="step">3</span> <span class="title">Pages</span></li>
+											<li data-step="5"><span class="badge">5</span>Assign page to roles <span class="chevron"></span></li>
+										</ul>
 
-													<li data-step="4"><span class="step">4</span> <span class="title">Permits per page</span></li>
+										<!-- /section:plugins/fuelux.wizard.steps -->
+									</div>
 
-													<li data-step="5"><span class="step">5</span> <span class="title">Assign page to roles</span></li>
-												</ul>
+									<div class="actions">
+										<!-- #section:plugins/fuelux.wizard.buttons -->
+										<button type="button" class="btn btn-sm btn-default btn-prev">
+											<span class="glyphicon glyphicon-arrow-left"></span>Prev
+										</button>
+										<button type="button" class="btn btn-sm btn-primary btn-next radius-4" data-last="Complete">
+											Next <span class="glyphicon glyphicon-arrow-right"></span>
+										</button>
+										<!-- /section:plugins/fuelux.wizard.buttons -->
+									</div>
 
-												<!-- /section:plugins/fuelux.wizard.steps -->
+									<!-- #section:plugins/fuelux.wizard.container -->
+									<div class="step-content pos-rel">
+										<div class="step-pane active sample-pane" data-step="1">
+											<h3 class="lighter block green">Create your application</h3>
+											<div class="row">
+												<sf:form action="${pageContext.request.contextPath}/appForm/save" method="post" commandName="appn" cssClass="form-horizontal" role="form">
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="appnId"> ID </label>
+														<div class="col-sm-9">
+															<sf:input type="text" placeholder="ID" class="col-xs-11" path="appnId" readonly="true" />
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="appnAppnId"> APPLICATION FATHER </label>
+														<div class="col-sm-9">
+															<sf:select path="appnAppnId" cssClass="chosen-select col-xs-11" data-placeholder="Choose a Application Father o Master...">
+																<sf:option value="NONE" label="---- Select ----" />
+																<sf:options items="${appnsMasterList}" itemLabel="appnName" itemValue="appnId" />
+															</sf:select>
+														</div>
+													</div>
+
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="appnPlfmId"> PLATFORM </label>
+														<div class="col-sm-9">
+															<sf:select path="appnPlfmId" cssClass="chosen-select col-xs-11" data-placeholder="Choose a Platform...">
+																<sf:options items="${platformList}" />
+															</sf:select>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="appnName"> NAME </label>
+														<div class="col-sm-9">
+															<sf:input type="text" class="col-xs-11" path="appnName" />
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="appnDescription"> DESCRIPTION </label>
+														<div class="col-sm-9">
+															<sf:input type="text" class="col-xs-11" path="appnDescription" />
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="appnUrl"> URL </label>
+														<div class="col-sm-9">
+															<sf:input type="text" class="col-xs-11" path="appnUrl" />
+														</div>
+													</div>
+
+												</sf:form>
 											</div>
+										</div>
 
-											<!-- #section:plugins/fuelux.wizard.container -->
-											<div class="step-content pos-rel">
-												<div class="step-pane active" data-step="1">
-													<h3 class="lighter block green">Create your application</h3>
+										<div class="step-pane" sample-pane data-step="2">
+											<h3 class="lighter block green">Create Roles for your Application</h3>
+											<div class="row">
+												<div class="col-xs-12 col-sm-6">
+													<table id="tableRoles" class="table table-striped no-margin-bottom no-border-top">
+														<thead>
 
-													<div class="row">
-														<sf:form action="${pageContext.request.contextPath}/appForm/save" method="post" commandName="appn" cssClass="form-horizontal"
-															role="form">
-															<div class="form-group">
-																<label class="col-sm-3 control-label no-padding-right" for="appnId"> ID </label>
-																<div class="col-sm-9">
-																	<sf:input type="text" placeholder="ID" class="col-xs-11" path="appnId" readonly="true" />
-																</div>
-															</div>
-															<div class="form-group">
-																<label class="col-sm-3 control-label no-padding-right" for="appnAppnId"> APPLICATION FATHER </label>
-																<div class="col-sm-9">
-																	<sf:select path="appnAppnId" cssClass="chosen-select col-xs-11" data-placeholder="Choose a Application Father o Master...">
-																		<sf:options items="${appnsMasterList}" itemLabel="appnName" itemValue="appnId" />
-																	</sf:select>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<label class="col-sm-3 control-label no-padding-right" for="appnPlfmId"> PLATFORM </label>
-																<div class="col-sm-9">
-																	<sf:select path="appnPlfmId" items="${platformList}" cssClass="chosen-select col-xs-11" data-placeholder="Choose a Platform..." />
-																</div>
-															</div>
-															<div class="form-group">
-																<label class="col-sm-3 control-label no-padding-right" for="appnName"> NAME </label>
-																<div class="col-sm-9">
-																	<sf:input type="text" class="col-xs-11" path="appnName" />
-																</div>
-															</div>
-															<div class="form-group">
-																<label class="col-sm-3 control-label no-padding-right" for="appnDescription"> DESCRIPTION </label>
-																<div class="col-sm-9">
-																	<sf:input type="text" class="col-xs-11" path="appnDescription" />
-																</div>
-															</div>
-															<div class="form-group">
-																<label class="col-sm-3 control-label no-padding-right" for="appnUrl"> URL </label>
-																<div class="col-sm-9">
-																	<sf:input type="text" class="col-xs-11" path="appnUrl" />
-																</div>
-															</div>
-
-														</sf:form>
-													</div>
+														</thead>
+														<tbody>
+														</tbody>
+													</table>
 												</div>
 
-												<div class="step-pane" data-step="2">
-													<h3 class="lighter block green">Create Roles for your Application</h3>
-													<div class="row">
-														<div class="col-xs-12 col-sm-6">
-															<table id="tableRoles" class="table table-striped no-margin-bottom no-border-top">
-																<thead>
-
-																</thead>
-																<tbody>
-																</tbody>
-															</table>
+												<div class="col-xs-12 col-sm-6">
+													<sf:form action="${pageContext.request.contextPath}/rolFormulario/save" method="post" commandName="rol" cssClass="form-horizontal"
+														role="form">
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right" for="userId"> ID </label>
+															<div class="col-sm-9">
+																<sf:input type="text" placeholder="ID" class="col-xs-11" path="roleId" readonly="true" />
+															</div>
 														</div>
-
-														<div class="col-xs-12 col-sm-6">
-															<sf:form action="${pageContext.request.contextPath}/rolFormulario/save" method="post" commandName="rol" cssClass="form-horizontal"
-																role="form">
-																<div class="form-group">
-																	<label class="col-sm-3 control-label no-padding-right" for="userId"> ID </label>
-																	<div class="col-sm-9">
-																		<sf:input type="text" placeholder="ID" class="col-xs-11" path="roleId" readonly="true" />
-																	</div>
-																</div>
-																<div class="form-group">
-																	<label class="col-sm-3 control-label no-padding-right" for="roleName"> Name </label>
-																	<div class="col-sm-9">
-																		<sf:input type="text" class="col-xs-11" path="roleName" />
-																	</div>
-																</div>
-																<div class="form-group">
-																	<label class="col-sm-3 control-label no-padding-right" for="roleDescription"> Description </label>
-																	<div class="col-sm-9">
-																		<sf:input type="text" class="col-xs-11" path="roleDescription" />
-																	</div>
-																</div>
-																<div class="form-actions center">
-																	<a href="#" class="btn btn-primary btn-sm" id="btn-addRole"> <i class="ace-icon fa fa-floppy-o"></i> New
-																	</a>
-																</div>
-															</sf:form>
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right" for="roleName"> Name </label>
+															<div class="col-sm-9">
+																<sf:input type="text" class="col-xs-11" path="roleName" />
+															</div>
 														</div>
-													</div>
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right" for="roleDescription"> Description </label>
+															<div class="col-sm-9">
+																<sf:input type="text" class="col-xs-11" path="roleDescription" />
+															</div>
+														</div>
+														<div class="form-actions center">
+															<a href="#" class="btn btn-primary btn-sm" id="btn-addRole"> <i class="ace-icon fa fa-floppy-o"></i> New
+															</a>
+														</div>
+													</sf:form>
+												</div>
+											</div>
+										</div>
+
+										<div class="step-pane" sample-pane data-step="3">
+											<h3 class="lighter block green">Create Page for your Application</h3>
+											<div class="row">
+												<div class="col-xs-12 col-sm-6">
+
+													<table id="tablePages" class="table table-striped table-hover">
+														<thead>
+															<tr>
+																<th>ID</th>
+																<th>Nomenclature</th>
+																<th>Name</th>
+																<th>Description</th>
+																<th>Url</th>
+																<th>Actions</th>
+															</tr>
+														</thead>
+														<tbody>
+														</tbody>
+													</table>
 												</div>
 
-												<div class="step-pane" data-step="3">
-													<h3 class="lighter block green">Create Page for your Application</h3>
-													<div class="row">
-														<div class="col-xs-12 col-sm-6">
-
-															<table id="tablePages" class="table table-striped table-hover">
-																<thead>
-																	<tr>
-																		<th>ID</th>
-																		<th>Nomenclature</th>
-																		<th>Name</th>
-																		<th>Description</th>
-																		<th>Url</th>
-																		<th>Actions</th>
-																	</tr>
-																</thead>
-																<tbody>
-																</tbody>
-															</table>
+												<div class="col-xs-12 col-sm-6">
+													<!-- <h4 class="header green">Form Page</h4> -->
+													<sf:form action="${pageContext.request.contextPath}/pageForm/save" method="post" commandName="page" cssClass="form-horizontal"
+														role="form">
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right" for="pageId"> ID </label>
+															<div class="col-sm-9">
+																<sf:input type="text" placeholder="ID" class="col-xs-11" path="pageId" readonly="true" />
+															</div>
 														</div>
-
-														<div class="col-xs-12 col-sm-6">
-															<!-- <h4 class="header green">Form Page</h4> -->
-															<sf:form action="${pageContext.request.contextPath}/pageForm/save" method="post" commandName="page" cssClass="form-horizontal"
-                                                                role="form">
-                                                                <div class="form-group">
-                                                                    <label class="col-sm-3 control-label no-padding-right" for="pageId"> ID </label>
-                                                                    <div class="col-sm-9">
-                                                                        <sf:input type="text" placeholder="ID" class="col-xs-11" path="pageId" readonly="true" />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label class="col-sm-3 control-label no-padding-right" for="pageDisplay"> Name </label>
-                                                                    <div class="col-sm-9">
-                                                                        <sf:input type="text" class="col-xs-11" path="pageDisplay" />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group">
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right" for="pagePageId"> PAGE FATHER </label>
+															<div class="col-sm-9">
+																<sf:select path="pagePageId" cssClass="chosen-select col-xs-11" data-placeholder="Choose a Page Father o Master...">
+																	<sf:option value="NONE" label="---- Select ----" />
+																	<sf:options items="${pagesMasterList}" itemLabel="pageDisplay" itemValue="pageId" />
+																</sf:select>
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right" for="pageDisplay"> Name </label>
+															<div class="col-sm-9">
+																<sf:input type="text" class="col-xs-11" path="pageDisplay" />
+															</div>
+														</div>
+														<%-- <div class="form-group">
                                                                     <label class="col-sm-3 control-label no-padding-right" for="pageNomenclature"> Nomenclature </label>
                                                                     <div class="col-sm-9">
                                                                         <sf:input type="text" class="col-xs-11" path="pageNomenclature" />
                                                                     </div>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label class="col-sm-3 control-label no-padding-right" for="pageDescription"> Descripcion </label>
-                                                                    <div class="col-sm-9">
-                                                                        <sf:input type="text" class="col-xs-11" path="pageDescription" />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label class="col-sm-3 control-label no-padding-right" for="pageUrl"> Url </label>
-                                                                    <div class="col-sm-9">
-                                                                        <sf:input type="text" class="col-xs-11" path="pageUrl" />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-actions center">
-                                                                    <a href="#" class="btn btn-primary btn-sm" id="btn-addPage"> <i class="ace-icon fa fa-floppy-o"></i> New
-                                                                    </a>
-                                                                    <button class="btn btn-sm" type="reset" id="btn-resetPage">
-                                                                        <i class="ace-icon fa fa-undo bigger-110"></i> Reset
-                                                                    </button>
-                                                                </div>
-                                                            </sf:form>
-															
+                                                                </div> --%>
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right" for="pageDescription"> Descripcion </label>
+															<div class="col-sm-9">
+																<sf:input type="text" class="col-xs-11" path="pageDescription" />
+															</div>
 														</div>
-													</div>
-												</div>
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right" for="pageUrl"> Url </label>
+															<div class="col-sm-9">
+																<sf:input type="text" class="col-xs-11" path="pageUrl" />
+															</div>
+														</div>
+														<div class="form-actions center">
+															<a href="#" class="btn btn-primary btn-sm" id="btn-addPage"> <i class="ace-icon fa fa-floppy-o"></i> New
+															</a>
+															<button class="btn btn-sm" type="reset" id="btn-resetPage">
+																<i class="ace-icon fa fa-undo bigger-110"></i> Reset
+															</button>
+														</div>
+													</sf:form>
 
-												<div class="step-pane" data-step="4">
-													<div class="center">
-														<h3 class="lighter block green">Congrats!</h3>
-														Your product is ready to ship! Click finish to continue!
-													</div>
-												</div>
-
-												<div class="step-pane" data-step="5">
-													<div class="center">
-														<h3 class="green">Congrats!</h3>
-														Your product is ready to ship! Click finish to continue!
-													</div>
 												</div>
 											</div>
-
-											<!-- /section:plugins/fuelux.wizard.container -->
 										</div>
 
-										<hr />
-										<div class="wizard-actions">
-											<!-- #section:plugins/fuelux.wizard.buttons -->
-											<button class="btn btn-prev">
-												<i class="ace-icon fa fa-arrow-left"></i> Prev
-											</button>
-
-											<button class="btn btn-success btn-next" data-last="Finish">
-												Next <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
-											</button>
-
-											<!-- /section:plugins/fuelux.wizard.buttons -->
+										<div class="step-pane" sample-pane data-step="4">
+											<div class="center">
+												<h3 class="lighter block green">Congrats!</h3>
+												Your product is ready to ship! Click finish to continue!
+											</div>
 										</div>
 
-										<!-- /section:plugins/fuelux.wizard -->
+										<div class="step-pane" data-step="5">
+											<div class="center">
+												<h3 class="green">Congrats!</h3>
+												Your product is ready to ship! Click finish to continue!
+											</div>
+										</div>
 									</div>
-									<!-- /.widget-main -->
+									<!-- /section:plugins/fuelux.wizard.container -->
 								</div>
-								<!-- /.widget-body -->
+								<!-- /section:plugins/fuelux.wizard -->
 							</div>
 
 						</div>
+						<!-- /.row -->
 					</div>
-					<!-- /.row -->
+					<!-- /.page-content -->
 				</div>
-				<!-- /.page-content -->
 			</div>
-		</div>
-		<!-- /.main-content -->
+			<!-- /.main-content -->
 
-		<div class="footer">
-			<div class="footer-inner">
-				<!-- #section:basics/footer -->
-				<div class="footer-content">
-					<span class="bigger-120"> <span class="blue bolder">HelpDesk</span> Application &copy; 2016 Sistemas Portuarios LCTPC
-					</span>
+			<div class="footer">
+				<div class="footer-inner">
+					<!-- #section:basics/footer -->
+					<div class="footer-content">
+						<span class="bigger-120"> <span class="blue bolder">HelpDesk</span> Application &copy; 2016 Sistemas Portuarios LCTPC
+						</span>
+					</div>
+
+					<!-- /section:basics/footer -->
 				</div>
-
-				<!-- /section:basics/footer -->
 			</div>
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse"> <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+			</a>
 		</div>
-		<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse"> <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-		</a>
-	</div>
-	<!-- /.main-container -->
+		<!-- /.main-container -->
 
-	<!-- basic scripts -->
+		<!-- basic scripts -->
 
-	<!--[if !IE]> -->
-	<script type="text/javascript">
-		window.jQuery || document.write("<script src='${pageContext.request.contextPath}/res/assets/js/jquery.js'>" + "<"+"/script>");
-	</script>
+		<!--[if !IE]> -->
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='${pageContext.request.contextPath}/res/assets/js/jquery.js'>" + "<"+"/script>");
+		</script>
 
-	<!-- <![endif]-->
+		<!-- <![endif]-->
 
-	<!--[if IE]>
+		<!--[if IE]>
 <script type="text/javascript">
  window.jQuery || document.write("<script src='/res/assets/js/jquery1x.js'>"+"<"+"/script>");
 </script>
 <![endif]-->
-	<script type="text/javascript">
-		if ('ontouchstart' in document.documentElement)
-			document.write("<script src='${pageContext.request.contextPath}/res/assets/js/jquery.mobile.custom.js'>" + "<"+"/script>");
-	</script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/bootstrap.js"></script>
+		<script type="text/javascript">
+			if ('ontouchstart' in document.documentElement)
+				document.write("<script src='${pageContext.request.contextPath}/res/assets/js/jquery.mobile.custom.js'>" + "<"+"/script>");
+		</script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/bootstrap.js"></script>
 
-	<!-- page specific plugin scripts -->
-	<script src="${pageContext.request.contextPath}/res/assets/js/fuelux/fuelux.wizard.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/jquery.validate.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/additional-methods.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/bootbox.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/jquery.maskedinput.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/select2.js"></script>
+		<!-- page specific plugin scripts -->
+		<%-- <script src="${pageContext.request.contextPath}/res/assets/js/fuelux/fuelux.wizard.js"></script> --%>
+		<script src="${pageContext.request.contextPath}/res/assets/js/jquery.ui.touch-punch.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/chosen.jquery.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/autosize.js"></script>
 
-	<!-- ace scripts -->
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.scroller.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.colorpicker.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.fileinput.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.typeahead.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.wysiwyg.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.spinner.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.treeview.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.wizard.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.aside.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.ajax-content.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.touch-drag.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.sidebar.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.sidebar-scroll-1.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.submenu-hover.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.widget-box.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.widget-on-reload.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.searchbox-autocomplete.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/jquery.validate.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/additional-methods.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/bootbox.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/jquery.maskedinput.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/select2.js"></script>
 
-	<!-- inline scripts related to this page van los css que subi -->
+		<!-- ace scripts -->
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.scroller.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.colorpicker.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.fileinput.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.typeahead.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.wysiwyg.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.spinner.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.treeview.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.wizard.js"></script>
 
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.aside.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.ajax-content.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.touch-drag.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.sidebar.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.sidebar-scroll-1.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.submenu-hover.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.widget-box.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.widget-on-reload.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.searchbox-autocomplete.js"></script>
 
-	<script src="${pageContext.request.contextPath}/res/assets/js/dataTables/jquery.dataTables.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/dataTables/jquery.dataTables.bootstrap.js"></script>
-	<script type="text/javascript">
-		ace.vars['base'] = '..';
-	</script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.onpage-help.js"></script>
-	<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.onpage-help.js"></script>
-	<script src="${pageContext.request.contextPath}/res/docs/assets/js/rainbow.js"></script>
-	<script src="${pageContext.request.contextPath}/res/docs/assets/js/language/generic.js"></script>
-	<script src="${pageContext.request.contextPath}/res/docs/assets/js/language/html.js"></script>
-	<script src="${pageContext.request.contextPath}/res/docs/assets/js/language/css.js"></script>
-	<script src="${pageContext.request.contextPath}/res/docs/assets/js/language/javascript.js"></script>
-	<script src="${pageContext.request.contextPath}/res/pages/application-wizard/js/script.js"></script>
+		<!-- inline scripts related to this page van los css que subi -->
 
 
+		<script src="${pageContext.request.contextPath}/res/assets/js/dataTables/jquery.dataTables.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/dataTables/jquery.dataTables.bootstrap.js"></script>
+		<script type="text/javascript">
+			ace.vars['base'] = '..';
+		</script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.onpage-help.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.onpage-help.js"></script>
+		<script src="${pageContext.request.contextPath}/res/docs/assets/js/rainbow.js"></script>
+		<script src="${pageContext.request.contextPath}/res/docs/assets/js/language/generic.js"></script>
+		<script src="${pageContext.request.contextPath}/res/docs/assets/js/language/html.js"></script>
+		<script src="${pageContext.request.contextPath}/res/docs/assets/js/language/css.js"></script>
+		<script src="${pageContext.request.contextPath}/res/docs/assets/js/language/javascript.js"></script>
+		<script src="${pageContext.request.contextPath}/res/pages/application-wizard/js/script.js"></script>
+		<script src="${pageContext.request.contextPath}/res/pages/application-wizard/js/fuelux.min.js"></script>
+		<script src="${pageContext.request.contextPath}/res/pages/application-wizard/js/wizard.js"></script>
 </body>
 </html>

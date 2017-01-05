@@ -19,13 +19,17 @@ import mx.com.lctpc.helpdeck.pojo.Application;
 import mx.com.lctpc.helpdeck.pojo.Page;
 import mx.com.lctpc.helpdeck.pojo.Rol;
 import mx.com.lctpc.helpdeck.service.ApplicationService;
+import mx.com.lctpc.helpdeck.service.PageService;
 
 @Controller
 public class ApplicationController {
 
 	@Autowired
 	private ApplicationService appService;
-
+	
+	@Autowired
+	private PageService pageService;
+	
 	@RequestMapping( "/applications" )
 	public String showApplications( Model p_model ) {
 		List<Application> l_appns = appService.findAllApplication();
@@ -105,6 +109,11 @@ public class ApplicationController {
 			p_model.addAttribute("appn", l_app);
 			
 		}
+		
+		Map<BigDecimal, String> l_map = appService.findPlatform();
+		p_model.addAttribute("platformList", l_map);
+		p_model.addAttribute("appnsMasterList", appService.findAllApplication());
+		p_model.addAttribute("pagesMasterList", pageService.findAllPage());
 		//List<ApplicationRole> l_appRoles = appService.findRoleFromApplicationById(p_appId);
 		//p_model.addAttribute("rolesAsigned", l_appRoles);
 		

@@ -1,11 +1,7 @@
 package mx.com.lctpc.helpdeck.controller;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,12 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import mx.com.lctpc.helpdeck.dao.PageDao;
 import mx.com.lctpc.helpdeck.pojo.AEntities;
 import mx.com.lctpc.helpdeck.pojo.Page;
 import mx.com.lctpc.helpdeck.pojo.PageEntity;
-import mx.com.lctpc.helpdeck.pojo.Rol;
-import mx.com.lctpc.helpdeck.pojo.User;
 import mx.com.lctpc.helpdeck.service.EntityService;
 import mx.com.lctpc.helpdeck.service.PageService;
 
@@ -77,7 +69,7 @@ public class PageController {
 				if (element instanceof AEntities) {
 					System.out.println("Converting from AEntities to AEntities: " + element + " : "
 							+ ((AEntities) element).getEnttId());
-					BigDecimal l_d = ((AEntities) element).getEnttId();
+					//BigDecimal l_d = ((AEntities) element).getEnttId();
 
 					return null;
 					/*
@@ -92,7 +84,7 @@ public class PageController {
 					 * element +" : "+l_ent); return l_ent; 41 6 1 42 6 2 43 6 4
 					 */
 					System.out.println("Looking up AEntity BigDecimal from String : " + element);
-					BigDecimal ld = new BigDecimal(element.toString());
+					//BigDecimal ld = new BigDecimal(element.toString());
 
 					// System.out.println("Looking up AEntity BigDecimal from
 					// String : " + element);
@@ -168,7 +160,7 @@ public class PageController {
 	@ResponseBody
 	public ResponseEntity<String> jsonCreatePageEntity(@RequestBody PageEntity p_pagEnt, @PathVariable( "pageId" ) BigDecimal p_pageId){
 		
-		boolean l_isCreate = p_pagEnt.getPaenId() == null;
+		//boolean l_isCreate = p_pagEnt.getPaenId() == null;
 		
 		if(p_pageId == null){
 			return new ResponseEntity<>("not exit entity on page", HttpStatus.NO_CONTENT);

@@ -230,14 +230,14 @@ jQuery(function($) {
 			});
 
 			var $validation = false;
-			$('#fuelux-wizard-container').ace_wizard({
+			$('#wizard-application').wizard({
 			// step: 2 //optional argument. wizard will jump to step "2" at first
 			// buttons: '.wizard-actions:eq(0)'
 			}).on('actionclicked.fu.wizard', function(e, info) {
-				if (info.step == 1 && $validation) {
+				/*if (info.step == 1 && $validation) {
 					if (!$('#validation-form').valid())
 						e.preventDefault();
-				}
+				}*/
 			}).on('finished.fu.wizard', function(e) {
 				bootbox.dialog({
 					message : "Thank you! Your information was successfully saved!",
@@ -255,7 +255,34 @@ jQuery(function($) {
 		} // fin funcion de initializeTable
 
 	});
+	if (!ace.vars['touch']) {
+		$('.chosen-select').chosen({
+			allow_single_deselect : true
+		});
+		//resize the chosen on window resize
 
+		$(window).off('resize.chosen').on('resize.chosen', function() {
+			$('.chosen-select').each(function() {
+				var $this = $(this);
+				$this.next().css({
+					'width' : $this.parent().width()
+				});
+			})
+		}).trigger('resize.chosen');
+		//resize chosen on sidebar collapse/expand
+		$(document).on('settings.ace.chosen', function(e, event_name, event_val) {
+			if (event_name != 'sidebar_collapsed')
+				return;
+			$('.chosen-select').each(function() {
+				var $this = $(this);
+				$this.next().css({
+					'width' : $this.parent().width()
+				});
+			})
+		});
+
+	}
+	
 	$(this).initializeTable();
 
 });
