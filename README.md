@@ -1,2 +1,2 @@
-# lctpc
-proyectos para LCT
+# HomeEnterprise
+proyectos para mi empresa
