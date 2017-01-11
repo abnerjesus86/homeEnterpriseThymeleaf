@@ -270,7 +270,9 @@ jQuery( function( $ ) {
 					} ).on( 'stepclick.fu.wizard', function( e ) {
 						// e.preventDefault();//this will prevent clicking and selecting steps
 					} );
-
+					
+					
+					
 				} // fin funcion de initializeTable
 				,
 				getListValuesText : function( options ) {
@@ -282,15 +284,17 @@ jQuery( function( $ ) {
 						optionSelect : '',
 						parameters : null,
 						errorMessage : 'Ha ocurrido un error al cargar el listado',
-						chosen : false
+						chosen : false,
+						dualList : false
 					}, options );
-
+					
 					return this.each( function() {
-						var optionSelect = '';
+						
 						// var jsonDataObject = new Object();
 						// jsonDataObject.listname = options.listName;
 						// jsonDataObject.parameters = options.parameters
-
+						
+						
 						var jsonDataList = '';
 						if ( options.parameters !== null )
 							jsonDataList = JSON.stringify( options.parameters );
@@ -315,15 +319,14 @@ jQuery( function( $ ) {
 										text : ""
 									} ) );
 								}
-
 								$.each( result.data, function( i, item ) {
 									console.log( i + " item: " + item );
 									$( options.idList ).append( $( '<option>', {
-										value : item.pageId,
-										text : item.pageDisplay
+										value : item.value,
+										text : item.label
 									} ) );
 
-									if ( options.optionSelect == item.Value )
+									if ( options.optionSelect == item.l_valueFieldName )
 										$( options.idList + ' option:eq(' + i + ')' ).prop( 'selected', true )
 								} );
 
@@ -352,7 +355,25 @@ jQuery( function( $ ) {
 											} );
 										} )
 									} );
+									
 								}
+								
+								if(options.dualList){
+									var demo1 = $(options.idList).bootstrapDualListbox({
+										infoTextFiltered : '<span class="label label-purple label-lg">Filtered</span>',
+										preserveSelectionOnMove : 'moved',
+										moveOnSelect: false,
+										eventMoveOverride: true,                                                           // boolean, allows user to unbind default event behaviour and run their own instead
+									    eventMoveAllOverride: true,                                                        // boolean, allows user to unbind default event behaviour and run their own instead
+									    eventRemoveOverride: true,                                                         // boolean, allows user to unbind default event behaviour and run their own instead
+									    eventRemoveAllOverride: true 
+									});
+									
+									var container1 = demo1.bootstrapDualListbox('getContainer');
+									container1.find('.btn').addClass('btn-white btn-info btn-bold');
+								}
+								
+								
 							},
 							error : function( e ) {
 								console.log( options.errorMessage );
@@ -368,10 +389,69 @@ jQuery( function( $ ) {
 	$( this ).getListValuesText( {
 		idList : "#pagePageId",
 		methodType : 'GET',
-		urlWs : '../getJsonPages/',
+		urlWs : '../getJsonPagesForSelect/',
 		optionSelect : '',
 		parameters : null,
 		errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
 		chosen : true
 	} );
+	
+	$( this ).getListValuesText( {
+		idList : "#duallist",
+		methodType : 'GET',
+		urlWs : '../getJsonEntitiesForSelect/',
+		optionSelect : '',
+		parameters : null,
+		errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
+		chosen : false,
+		dualList : true
+	} );
+	
+	$('#duallist').on('change',function(){
+		//var dato = $('select[name="duallistbox_demo1[]_helper2"]').val();
+		//alert( dato );
+		//move($('#duallist').bootstrapDualListbox());
+		alert("Select 1 " + $('select[name="duallistbox_demo1[]_helper1"]').val());
+		alert("Seelct 2 " + $('select[name="duallistbox_demo1[]_helper2"]').val());
+		
+		$('#duallist').bootstrapDualListbox('refresh', true);
+	});
+	
+	//in ajax mode, remove remaining elements before leaving page
+	$(document).one('ajaxloadstart.page', function(e) {
+		$('select[name="duallistbox_demo1[]"]').bootstrapDualListbox('destroy');
+	});
+	
+	
+	
 } );
+
+function move(dualListbox) {
+    if (dualListbox.settings.preserveSelectionOnMove === 'all' && !dualListbox.settings.moveOnSelect) {
+      saveSelections(dualListbox, 1);
+      saveSelections(dualListbox, 2);
+    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !dualListbox.settings.moveOnSelect) {
+      saveSelections(dualListbox, 1);
+    }
+
+    dualListbox.elements.select1.find('option:selected').each(function(index, item) {
+      var $item = $(item);
+      console.log("Hola "+item.data);
+      if (!$item.data('filtered1')) {
+        changeSelectionState(dualListbox, $item.data('original-index'), true);
+      }
+    });
+
+    refreshSelects(dualListbox);
+    triggerChangeEvent(dualListbox);
+    if(dualListbox.settings.sortByInputOrder){
+        sortOptionsByInputOrder(dualListbox.elements.select2);
+    } else {
+        sortOptions(dualListbox.elements.select2);
+    }
+  }
+
+
+
+
+

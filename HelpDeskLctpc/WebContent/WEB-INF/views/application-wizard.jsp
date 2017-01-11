@@ -19,6 +19,7 @@
 <!-- page specific plugin styles -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/chosen.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/select2.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/bootstrap-duallistbox.css" />
 
 <!-- text fonts -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/ace-fonts.css" />
@@ -701,7 +702,7 @@
 															</div>
 														</div>
 														<div class="form-group">
-															<label class="col-sm-3 control-label no-padding-right" for="pagePageId"> PAGE FATHER </label>
+															<label class="col-sm-3 control-label no-padding-right" for="pagePageId"> Page Father </label>
 															<div class="col-sm-9">
 																<select id="pagePageId" class="chosen-select col-xs-11" data-placeholder="Choose a Page Father o Master...">
 																</select>
@@ -731,6 +732,18 @@
 																<sf:input type="text" class="col-xs-11" path="pageUrl" />
 															</div>
 														</div>
+														<div class="hr hr-18 dotted hr-double"></div>
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-top" for="duallist"> Select Entities </label>
+
+															<div class="col-sm-9">
+																<!-- #section:plugins/input.duallist -->
+																<select multiple="multiple" size="10" name="duallistbox_demo1[]" id="duallist">
+																</select>
+
+																<!-- /section:plugins/input.duallist -->
+															</div>
+														</div>
 														<div class="form-actions center">
 															<a href="#" class="btn btn-primary btn-sm" id="btn-addPage"> <i class="ace-icon fa fa-floppy-o"></i> New
 															</a>
@@ -738,7 +751,10 @@
 																<i class="ace-icon fa fa-undo bigger-110"></i> Reset
 															</button>
 														</div>
+
+
 													</sf:form>
+
 
 												</div>
 											</div>
@@ -809,9 +825,11 @@
 
 		<!-- page specific plugin scripts -->
 		<%-- <script src="${pageContext.request.contextPath}/res/assets/js/fuelux/fuelux.wizard.js"></script> --%>
+		<script src="${pageContext.request.contextPath}/res/assets/js/jquery.bootstrap-duallistbox.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/jquery.ui.touch-punch.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/chosen.jquery.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/autosize.js"></script>
+
 
 		<script src="${pageContext.request.contextPath}/res/assets/js/jquery.validate.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/additional-methods.js"></script>
@@ -848,6 +866,7 @@
 		<script type="text/javascript">
 			ace.vars['base'] = '..';
 		</script>
+
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.onpage-help.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.onpage-help.js"></script>
 		<script src="${pageContext.request.contextPath}/res/docs/assets/js/rainbow.js"></script>
@@ -858,5 +877,18 @@
 		<script src="${pageContext.request.contextPath}/res/pages/application-wizard/js/script.js"></script>
 		<script src="${pageContext.request.contextPath}/res/pages/application-wizard/js/fuelux.min.js"></script>
 		<script src="${pageContext.request.contextPath}/res/pages/application-wizard/js/wizard.js"></script>
+		<script type="text/javascript">
+			/* jQuery(function($) {
+				 var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox({
+					infoTextFiltered : '<span class="label label-purple label-lg">Filtered</span>'
+				});
+				var container1 = demo1.bootstrapDualListbox('getContainer');
+				container1.find('.btn').addClass('btn-white btn-info btn-bold');
+				//in ajax mode, remove remaining elements before leaving page
+				$(document).one('ajaxloadstart.page', function(e) {
+					$('select[name="duallistbox_demo1[]"]').bootstrapDualListbox('destroy');
+				});
+			}); */
+		</script>
 </body>
 </html>
