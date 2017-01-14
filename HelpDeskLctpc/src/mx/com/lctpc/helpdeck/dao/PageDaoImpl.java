@@ -38,7 +38,7 @@ public class PageDaoImpl implements PageDao {
 	@Override
 	public void savePage( Page p_page ) {
 		// TODO Auto-generated method stub
-		getSession().save(p_page);
+		getSession().saveOrUpdate(p_page);
 	}
 
 	@Override
@@ -112,13 +112,11 @@ public class PageDaoImpl implements PageDao {
 
 	@Override
 	public void deletePageEntity( PageEntity p_pagEntId ) {
-		// TODO Auto-generated method stub
 		getSession().update(p_pagEntId);
 	}
 
 	@Override
 	public void savePageEntity( PageEntity p_pagEnt ) {
-		
 		getSession().save(p_pagEnt);
 	}
 	

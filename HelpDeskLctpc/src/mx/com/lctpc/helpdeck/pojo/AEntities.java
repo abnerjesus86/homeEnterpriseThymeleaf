@@ -27,9 +27,9 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Entity
 @Table( name = "ENTITY", schema = "APPLICATION_MANAGER" )
 @JsonIgnoreProperties(value = { "pageEntities" })
-@JsonIdentityInfo(
+/*@JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class,
-		  property = "enttId")
+		  property = "enttId")*/
 public class AEntities implements Serializable{
 
 	/*
@@ -72,6 +72,7 @@ public class AEntities implements Serializable{
 	/*@ManyToMany(fetch = FetchType.EAGER, mappedBy = "g_entities")*/
 	@Transient
 	private List<Page> g_pages =  new ArrayList<Page>();
+	
 	
 	public String getIdAsString() {
 		return this.g_enttId.toString();
@@ -223,6 +224,15 @@ public class AEntities implements Serializable{
 	 */
 	public void setPages( List<Page> p_pages ) {
 		this.g_pages = p_pages;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "AEntities [g_enttId=" + this.g_enttId + ", g_enttName=" + this.g_enttName + ", g_enttDescription=" + this.g_enttDescription + ", g_enttActive=" + this.g_enttActive + ", g_enttCreatedDate="
+				+ this.g_enttCreatedDate + ", g_enttCreatedBy=" + this.g_enttCreatedBy + ", g_enttUpdateDate=" + this.g_enttUpdateDate + ", g_enttUpdateBy=" + this.g_enttUpdateBy + "]";
 	}
 
 	/* (non-Javadoc)

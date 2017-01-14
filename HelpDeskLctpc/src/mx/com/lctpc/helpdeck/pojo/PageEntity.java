@@ -9,9 +9,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -19,13 +21,15 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table( name="PAGE_ENTITY",  schema="APPLICATION_MANAGER" )
-@JsonIgnoreProperties(value = { "paenEnttId", "paenPageId"})
+@JsonIgnoreProperties(value = { "paenPageId"})
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class, property = "paenId")
 public class PageEntity implements Serializable{
@@ -35,14 +39,14 @@ public class PageEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "PAEN_ID" )
+	@SequenceGenerator( name = "PAEN_ID", sequenceName = "SQ_PAEN_ID", allocationSize = 1 )
 	@Column( name = "PAEN_ID" )
 	private BigDecimal g_paenId;
-	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
+	@ManyToOne( cascade = {CascadeType.REFRESH})
 	@JoinColumn(name="PAEN_ENTT_ID")
-	@JsonUnwrapped
 	private AEntities g_paenEnttId;
-	@ManyToOne( fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
+	@ManyToOne( cascade = {CascadeType.REFRESH})
 	@JoinColumn(name="PAEN_PAGE_ID")
 	private Page g_paenPageId;
 	@Column( name = "PAEN_ACTIVE" )
@@ -59,27 +63,33 @@ public class PageEntity implements Serializable{
 	private Timestamp	g_paenUpdateDate;
 	@Column( name = "PAEN_UPDATE_BY", insertable = true, updatable = true )
 	private String		g_paenUpdateBy;
+	
 	/**
 	 * @return the paenId
 	 */
 	public BigDecimal getPaenId() {
 		return this.g_paenId;
 	}
+	
 	/**
 	 * @param p_paenId the paenId to set
 	 */
 	public void setPaenId( BigDecimal p_paenId ) {
 		this.g_paenId = p_paenId;
 	}
+	
 	/**
 	 * @return the paenEnttId
 	 */
+	@JsonIgnore
 	public AEntities getPaenEnttId() {
 		return this.g_paenEnttId;
 	}
+	
 	/**
 	 * @param p_paenEnttId the paenEnttId to set
 	 */
+	@JsonProperty
 	public void setPaenEnttId( AEntities p_paenEnttId ) {
 		this.g_paenEnttId = p_paenEnttId;
 	}
@@ -155,6 +165,16 @@ public class PageEntity implements Serializable{
 	public void setPaenUpdateBy( String p_paenUpdateBy ) {
 		this.g_paenUpdateBy = p_paenUpdateBy;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "PageEntity [g_paenId=" + this.g_paenId + ", g_paenEnttId=" + this.g_paenEnttId + ", g_paenPageId=" + this.g_paenPageId + ", g_paenActive=" + this.g_paenActive + ", g_paenCreatedDate="
+				+ this.g_paenCreatedDate + ", g_paenCreatedBy=" + this.g_paenCreatedBy + ", g_paenUpdateDate=" + this.g_paenUpdateDate + ", g_paenUpdateBy=" + this.g_paenUpdateBy + "]";
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -194,7 +214,6 @@ public class PageEntity implements Serializable{
 				return false;
 		} else if (!this.g_paenPageId.equals(other.g_paenPageId))
 			return false;
-		System.out.println("Son inguales los objetos");
 		return true;
 	}
 	

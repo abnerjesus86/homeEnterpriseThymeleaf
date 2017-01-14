@@ -264,7 +264,7 @@ public class JsonController {
 
 	}
 
-	@RequestMapping( value = { "/getJsonRolesApps/{p_appId}" }, method = { RequestMethod.GET }, produces = "application/json" )
+	@RequestMapping( value = { "/getJsonRolesApps/{p_appId}" }, method = { RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<Map<String, List<ApplicationRole>>> showJsonRolesApps( @PathVariable( "p_appId" ) BigDecimal p_appId ) {
 
 		List<ApplicationRole> l_roleApps = appService.findRoleFromApplicationById(p_appId);
@@ -279,6 +279,28 @@ public class JsonController {
 
 		l_map.put("data", l_roleApps);
 		return new ResponseEntity<Map<String, List<ApplicationRole>>>(l_map, HttpStatus.OK);
+	}
+	
+	@RequestMapping( value = { "/getJsonPagesApps/{p_appId}" }, method = { RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<Map<String, List<Page>>> showJsonPagesApps( @PathVariable( "p_appId" ) BigDecimal p_appId ) {
+
+		Application l_app = appService.findApplicationById(p_appId);
+
+		Map<String, List<Page>> l_map = new HashMap<String, List<Page>>();
+
+		if (l_app == null) {
+			return new ResponseEntity<Map<String, List<Page>>>(HttpStatus.NO_CONTENT);// You many decide to
+																									// return
+																									// HttpStatus.NOT_FOUND
+		}
+		if(l_app.getPages().isEmpty()){
+			return new ResponseEntity<Map<String, List<Page>>>(HttpStatus.NO_CONTENT);// You many decide to
+			// return
+			// HttpStatus.NOT_FOUND
+		}
+
+		l_map.put("data", l_app.getPages());
+		return new ResponseEntity<Map<String, List<Page>>>(l_map, HttpStatus.OK);
 	}
 
 }

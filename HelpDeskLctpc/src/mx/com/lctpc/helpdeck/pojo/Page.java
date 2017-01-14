@@ -14,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -25,12 +27,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table( name = "PAGE", schema = "APPLICATION_MANAGER" )
-@JsonIgnoreProperties(value = { "pageEntities", "pagePageId", "pageMaster", "entities" })
+@JsonIgnoreProperties(value = { "pageMaster", "entities" })
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class,
 		  property = "pageId")
@@ -88,6 +92,11 @@ public class Page implements Serializable{
 			inverseJoinColumns = { @JoinColumn(name = "PAEN_ENTT_ID",nullable = false) })*/
 	@Transient
 	private List<AEntities> g_entities = new ArrayList<AEntities>();
+	@ManyToMany( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+	@JoinTable(name = "T_APPLICATION_PAGE", joinColumns = {
+			@JoinColumn(name = "TAPP_PAGE_ID",nullable = false) },
+			inverseJoinColumns = { @JoinColumn(name = "TAPP_APPN_ID",nullable = false) })
+	private List<Application> g_applications = new ArrayList<Application>();
 	
 	/**
 	 * @return the pageId
@@ -107,6 +116,7 @@ public class Page implements Serializable{
 	/**
 	 * @return the pagePageId
 	 */
+	@JsonIgnore
 	public Page getPagePageId() {
 		return this.g_pagePageId;
 	}
@@ -115,6 +125,7 @@ public class Page implements Serializable{
 	 * @param p_pagePageId
 	 *            the pagePageId to set
 	 */
+	@JsonProperty
 	public void setPagePageId( Page p_pagePageId ) {
 		this.g_pagePageId = p_pagePageId;
 	}
@@ -271,6 +282,7 @@ public class Page implements Serializable{
 	/**
 	 * @return the pageEntities
 	 */
+	@JsonIgnore
 	public List<PageEntity> getPageEntities() {
 		return this.g_pageEntities;
 	}
@@ -278,6 +290,7 @@ public class Page implements Serializable{
 	/**
 	 * @param p_pageEntities the pageEntities to set
 	 */
+	@JsonProperty
 	public void setPageEntities( List<PageEntity> p_pageEntities ) {
 		this.g_pageEntities = p_pageEntities;
 	}
@@ -309,6 +322,22 @@ public class Page implements Serializable{
 	 */
 	public void setEntities( List<AEntities> p_entities ) {
 		this.g_entities = p_entities;
+	}
+
+	/**
+	 * @return the applications
+	 */
+	@JsonIgnore
+	public List<Application> getApplications() {
+		return this.g_applications;
+	}
+
+	/**
+	 * @param p_applications the applications to set
+	 */
+	@JsonProperty
+	public void setApplications( List<Application> p_applications ) {
+		this.g_applications = p_applications;
 	}
 
 	/* (non-Javadoc)

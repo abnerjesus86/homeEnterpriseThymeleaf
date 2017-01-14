@@ -587,7 +587,7 @@
 														</div>
 													</div>
 													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="appnAppnId"> APPLICATION FATHER </label>
+														<label class="col-sm-3 control-label no-padding-right" for="appnAppnId"> Application Father </label>
 														<div class="col-sm-9">
 															<sf:select path="appnAppnId" cssClass="chosen-select col-xs-11" data-placeholder="Choose a Application Father o Master...">
 																<sf:option value="NONE" label="---- Select ----" />
@@ -597,7 +597,7 @@
 													</div>
 
 													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="appnPlfmId"> PLATFORM </label>
+														<label class="col-sm-3 control-label no-padding-right" for="appnPlfmId"> Platform </label>
 														<div class="col-sm-9">
 															<sf:select path="appnPlfmId" cssClass="chosen-select col-xs-11" data-placeholder="Choose a Platform...">
 																<sf:options items="${platformList}" />
@@ -605,19 +605,19 @@
 														</div>
 													</div>
 													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="appnName"> NAME </label>
+														<label class="col-sm-3 control-label no-padding-right" for="appnName"> Name </label>
 														<div class="col-sm-9">
 															<sf:input type="text" class="col-xs-11" path="appnName" />
 														</div>
 													</div>
 													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="appnDescription"> DESCRIPTION </label>
+														<label class="col-sm-3 control-label no-padding-right" for="appnDescription"> Description </label>
 														<div class="col-sm-9">
 															<sf:input type="text" class="col-xs-11" path="appnDescription" />
 														</div>
 													</div>
 													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="appnUrl"> URL </label>
+														<label class="col-sm-3 control-label no-padding-right" for="appnUrl"> Url </label>
 														<div class="col-sm-9">
 															<sf:input type="text" class="col-xs-11" path="appnUrl" />
 														</div>
@@ -677,14 +677,6 @@
 
 													<table id="tablePages" class="table table-striped table-hover">
 														<thead>
-															<tr>
-																<th>ID</th>
-																<th>Nomenclature</th>
-																<th>Name</th>
-																<th>Description</th>
-																<th>Url</th>
-																<th>Actions</th>
-															</tr>
 														</thead>
 														<tbody>
 														</tbody>
