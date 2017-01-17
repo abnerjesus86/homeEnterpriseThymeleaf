@@ -223,7 +223,7 @@ public class PageController {
 		p_page.setPageCreatedBy("BEITEZ.ABNER");
 		p_page.setPageUpdateBy("BEITEZ.ABNER");
 		
-		//pageService.saveOrUpdatePage(p_page);
+		pageService.saveOrUpdatePage(p_page);
 		
 		for(PageEntity l_pE : l_lst){
 			
@@ -232,7 +232,7 @@ public class PageController {
 			l_pE.setPaenCreatedBy("BENITEZ.ABNER");
 			l_pE.setPaenUpdateBy("BENITEZ.ABNER");
 			
-			//pageService.savePageEntity(l_pE);
+			pageService.savePageEntity(l_pE);
 		}
 		
 		return new ResponseEntity<String>(HttpStatus.OK);
