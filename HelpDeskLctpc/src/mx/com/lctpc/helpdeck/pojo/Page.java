@@ -82,7 +82,7 @@ public class Page implements Serializable{
 	private Date	g_pageUpdateDate;
 	@Column( name = "PAGE_UPDATE_BY", insertable = true, updatable = true )
 	private String		g_pageUpdateBy;
-	@OneToMany( fetch = FetchType.EAGER, mappedBy = "g_paenPageId", cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
+	@OneToMany(  mappedBy = "g_paenPageId", cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
 	private List<PageEntity> g_pageEntities = new ArrayList<PageEntity>();
 	@OneToMany(  mappedBy = "g_pagePageId")
 	private List<Page> g_pageMaster = new ArrayList<Page>();
@@ -92,8 +92,9 @@ public class Page implements Serializable{
 			inverseJoinColumns = { @JoinColumn(name = "PAEN_ENTT_ID",nullable = false) })*/
 	@Transient
 	private List<AEntities> g_entities = new ArrayList<AEntities>();
-	@ManyToMany( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
-	@JoinTable(name = "T_APPLICATION_PAGE", joinColumns = {
+	@ManyToMany( fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE, CascadeType.PERSIST} )
+	@JoinTable(name = "T_APPLICATION_PAGE", 
+				joinColumns = {
 			@JoinColumn(name = "TAPP_PAGE_ID",nullable = false) },
 			inverseJoinColumns = { @JoinColumn(name = "TAPP_APPN_ID",nullable = false) })
 	private List<Application> g_applications = new ArrayList<Application>();
@@ -347,7 +348,6 @@ public class Page implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((this.g_pageDisplay == null) ? 0 : this.g_pageDisplay.hashCode());
 		result = prime * result + ((this.g_pageId == null) ? 0 : this.g_pageId.hashCode());
 		return result;
 	}
@@ -361,14 +361,9 @@ public class Page implements Serializable{
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Page))
 			return false;
 		Page other = (Page) obj;
-		if (this.g_pageDisplay == null) {
-			if (other.g_pageDisplay != null)
-				return false;
-		} else if (!this.g_pageDisplay.equals(other.g_pageDisplay))
-			return false;
 		if (this.g_pageId == null) {
 			if (other.g_pageId != null)
 				return false;
@@ -376,6 +371,7 @@ public class Page implements Serializable{
 			return false;
 		return true;
 	}
+
 	
 	
 	

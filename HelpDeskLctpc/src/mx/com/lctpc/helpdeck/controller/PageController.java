@@ -151,7 +151,7 @@ public class PageController {
 		return "pageForm";
 	}
 
-	@RequestMapping( value = { "/pageForm/{pageId}/delete", "/appWizard/page/delete/{pageId}" } )
+	@RequestMapping( value = { "/pageForm/{pageId}/delete"} )
 	@ResponseBody
 	public ResponseEntity<String> showDeletePage( Model model, @PathVariable( "pageId" ) BigDecimal p_pageId ) {
 		Page l_page = pageService.findPageById(p_pageId);
@@ -159,6 +159,19 @@ public class PageController {
 
 		return new ResponseEntity<String>("ok", HttpStatus.OK); // ResponseEntity<String>
 	}
+	
+	@RequestMapping( value = { "/appWizard/page/delete/{pageId}/{appId}" } )
+	@ResponseBody
+	public ResponseEntity<String> jsonDeletePageFromApplication( Model model, @PathVariable( "pageId" ) BigDecimal p_pageId, @PathVariable( "appId" ) BigDecimal p_appId ) {
+		Page l_page = pageService.findPageById(p_pageId);
+		//Application l_appn =  appService.findApplicationById(p_appId);
+		
+		//l_page.getApplications().add(l_appn);
+		pageService.deletePageFromApplicationById(l_page, p_appId);
+
+		return new ResponseEntity<String>("ok", HttpStatus.OK); // ResponseEntity<String>
+	}
+	
 
 	@RequestMapping( value = "/appWizard/page/save/{appId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

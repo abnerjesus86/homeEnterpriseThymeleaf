@@ -86,7 +86,9 @@ public class Application implements Serializable {
 	private List<ApplicationRole>	g_appnRoles;
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "g_appnAppnId")
 	private List<Application> g_applicationsMaster = new ArrayList<Application>();
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "g_applications" )
+	/*@ManyToMany(fetch = FetchType.LAZY, mappedBy = "g_applications" )
+	@ManyToMany*/
+	@Transient
 	private List<Page> g_pages =  new ArrayList<Page>();
 	
 	/**

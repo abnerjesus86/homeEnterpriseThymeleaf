@@ -66,4 +66,12 @@ public class PageService {
 		pageDao.savePageEntity(p_pagEnt);
 	}
 	
+	public void deletePageFromApplicationById(Page p_page, BigDecimal p_appnId){
+		pageDao.deletePageFromApplicationById(p_page, p_appnId);
+	}
+	
+	public List<Page> findPageFromApplicationById(BigDecimal p_appnId){
+		return pageDao.findPageFromApplicationById(p_appnId);
+	}
+	
 }

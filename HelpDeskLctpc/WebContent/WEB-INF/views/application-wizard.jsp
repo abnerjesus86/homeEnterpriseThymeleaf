@@ -17,7 +17,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/font-awesome.css" />
 
 <!-- page specific plugin styles -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/jquery-ui.custom.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/chosen.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/jquery-ui.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/select2.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/bootstrap-duallistbox.css" />
 
@@ -540,7 +542,14 @@
 						</h1>
 					</div>
 					<!-- /.ace-settings-container -->
-
+					<!-- #dialog-confirm -->
+					<div id="dialog-confirm" class="hide">
+						<div class="alert alert-info bigger-110">The following record will be disabled.</div>
+						<div class="space-6"></div>
+						<p class="bigger-110 bolder center grey">
+							<i class="ace-icon fa fa-hand-o-right blue bigger-120"></i> Are you sure?
+						</p>
+					</div>
 					<!-- /section:settings.box -->
 					<div class="row">
 						<div class="col-xs-12">
@@ -821,8 +830,8 @@
 		<script src="${pageContext.request.contextPath}/res/assets/js/jquery.ui.touch-punch.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/chosen.jquery.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/autosize.js"></script>
-
-
+		
+		<script src="${pageContext.request.contextPath}/res/assets/js/jquery-ui.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/jquery.validate.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/additional-methods.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/bootbox.js"></script>
@@ -838,8 +847,8 @@
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.spinner.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.treeview.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.wizard.js"></script>
-
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.aside.js"></script>
+		
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.ajax-content.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.touch-drag.js"></script>
@@ -869,18 +878,6 @@
 		<script src="${pageContext.request.contextPath}/res/pages/application-wizard/js/script.js"></script>
 		<script src="${pageContext.request.contextPath}/res/pages/application-wizard/js/fuelux.min.js"></script>
 		<script src="${pageContext.request.contextPath}/res/pages/application-wizard/js/wizard.js"></script>
-		<script type="text/javascript">
-			/* jQuery(function($) {
-				 var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox({
-					infoTextFiltered : '<span class="label label-purple label-lg">Filtered</span>'
-				});
-				var container1 = demo1.bootstrapDualListbox('getContainer');
-				container1.find('.btn').addClass('btn-white btn-info btn-bold');
-				//in ajax mode, remove remaining elements before leaving page
-				$(document).one('ajaxloadstart.page', function(e) {
-					$('select[name="duallistbox_demo1[]"]').bootstrapDualListbox('destroy');
-				});
-			}); */
-		</script>
+		
 </body>
 </html>

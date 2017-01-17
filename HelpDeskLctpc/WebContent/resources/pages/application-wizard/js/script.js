@@ -8,134 +8,158 @@ jQuery(function($) {
 		initializeTable : function() {
 			var idApp = $('#appnId').val();
 			// Codigo para tabla de pagina
-			var tablePages = $('#tablePages').DataTable({
-				deferRender : false,
-				paging : false,
-				info : false,
-				autoWidth : true,
-				select : false,
-				searching : false,
-				ordering : false,
-				stateSave : false,
-				//scrollY : '25vh',
-				scrollCollapse : false,
-				fixedColumns : {
-					heightMatch : 'auto'
-				},/*
-					 * ajax : { url : "./getJsonRolesApps/"+idApp, type : "GET", contentType :
-					 * "application/json; charset=utf-8", dataType : "json" },
-					 */
-				columns : [
-						{
-							title : "Consecutivo",
-							data : "pageId"
-						},
-						/*{
-							title : "Nomenclature",
-							data : "pageDisplay"
-						},*/
-						{
-							title : "Name",
-							data : "pageDisplay"
-						},
-						{
-							title : "Description",
-							data : "pageDescription"
-						},
-						{
-							title : "Url",
-							data : "pageUrl"
-						},
-						{
-							title : "Actions",
-							data : null,
-							render : function(data, type, row) {
-								return "<div class='hidden-sm hidden-xs action-buttons'>" + "<a class='green' id='id-btn-edit' href='#' role='button'><i class='ace-icon fa fa-pencil bigger-130'></i></a>"
-										+ "<a class='red' id='id-btn-delete' href='./appForm/"
-										+ data.pageId
-										+ "/delete'><i class='ace-icon fa fa-trash-o bigger-130'></i></a>"
-										+ "</div> "
-										+ "<div class='hidden-md hidden-lg'>"
-										+ "<div class='inline pos-rel'>"
-										+ "<button class='btn btn-minier btn-primary dropdown-toggle' data-toggle='dropdown' data-position='auto'>"
-										+ "<i class='ace-icon fa fa-cog icon-only bigger-110'></i>"
-										+ "</button>"
-										+ "<ul class='dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close'>"
-										+ "<li>"
-										+ "<a href='#' id='id-btn-edit' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
-										+ "<span class='green'>"
-										+ "<i class='ace-icon fa fa-pencil-square-o bigger-120'></i></span></a>"
-										+ "</li>"
-										+ "<li>"
-										+ "<a href='./appForm/"
-										+ data.pageId
-										+ "/delete' id='id-btn-dialog2' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
-										+ "<span class='red'> <i class='ace-icon fa fa-trash-o bigger-120'></i></span></a>" + "</li>"
+			var tablePages = $('#tablePages').DataTable(
+					{
+						deferRender : false,
+						paging : false,
+						info : false,
+						autoWidth : true,
+						select : false,
+						searching : false,
+						ordering : false,
+						stateSave : false,
+						scrollY : '57vh',
+						scrollCollapse : false,
+						fixedColumns : {
+							heightMatch : 'auto'
+						},/*
+							 * ajax : { url : "./getJsonRolesApps/"+idApp, type : "GET", contentType :
+							 * "application/json; charset=utf-8", dataType : "json" },
+							 */
+						columns : [
+								{
+									title : "ID",
+									data : "pageId"
+								},
+								/*
+								 * { title : "Nomenclature", data : "pageDisplay" },
+								 */
+								{
+									title : "Name",
+									data : "pageDisplay"
+								},
+								{
+									title : "Description",
+									data : "pageDescription"
+								},
+								{
+									title : "Url",
+									data : "pageUrl"
+								},
+								{
+									title : "Actions",
+									data : null,
+									render : function(data, type, row) {
+										return "<div class='hidden-sm hidden-xs action-buttons'>" + "<a class='green' id='id-btn-edit' href='#' role='button'><i class='ace-icon fa fa-pencil bigger-130'></i></a>"
+												+ "<a class='red' id='id-btn-delete' href='../appWizard/page/delete/"
+												+ data.pageId
+												+ "'><i class='ace-icon fa fa-trash-o bigger-130'></i></a>"
+												+ "</div> "
+												+ "<div class='hidden-md hidden-lg'>"
+												+ "<div class='inline pos-rel'>"
+												+ "<button class='btn btn-minier btn-primary dropdown-toggle' data-toggle='dropdown' data-position='auto'>"
+												+ "<i class='ace-icon fa fa-cog icon-only bigger-110'></i>"
+												+ "</button>"
+												+ "<ul class='dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close'>"
+												+ "<li>"
+												+ "<a href='#' id='id-btn-edit' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
+												+ "<span class='green'>"
+												+ "<i class='ace-icon fa fa-pencil-square-o bigger-120'></i></span></a>"
+												+ "</li>"
+												+ "<li>"
+												+ "<a href='../appWizard/page/delete/"
+												+ data.pageId
+												+ "' id='id-btn-delete' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
+												+ "<span class='red'> <i class='ace-icon fa fa-trash-o bigger-120'></i></span></a>" + "</li>"
 
-										+ "</ul>" + "</div>" + "</div>";
-							},
-							className : "gridSystemModal center"
-						}
+												+ "</ul>" + "</div>" + "</div>";
+									},
+									className : "gridSystemModal center"
+								}
 
-				]
-			});
+						]
+					});
 			var counter = 0;
 			var isEdit = false;
+
+			$('#tablePages tbody').on("click", ".gridSystemModal a#id-btn-edit", function() {
+
+				var rowPage = tableRoles.row($(this).parents('tr'));
+				var filaActualPage = rowPage.data();
+
+				$('#pageDisplay').val(FilaActual[2]);
+				$('#pageDescription').val(FilaActual[3]);
+				$('#pageUrl').val(FilaActual[4]);
+
+			});
+
+			$('#tablePages tbody').on("click", ".gridSystemModal a#id-btn-delete", function(e) {
+				// tablePages.row($(this).parents('tr')).remove().draw(false);
+				//var FilaActual = tablePages.row($(this).parents('tr')).data();
+				
+				var linkDelete = this;
+				if (idApp !== null && idApp !== undefined && idApp != '') {
+					linkDelete = linkDelete + "/" + idApp;
+				}
+				console.log("link delete "+ linkDelete);
+				alert("entro en la tabla ... " + linkDelete);
+				e.preventDefault(); // elimina el evento del link.
+				
+				showModalConfirmation(linkDelete, tablePages);
+			});
 
 			$('#btn-addPage').on('click', function() {
 				var d = '';
 				var l_a = [];
 				var l_methodType = 'POST';
-				
+
 				$.each($('#duallist').val() != null ? $('#duallist').val() : [], function(i, item) {
-					l_a.push( { paenEnttId : { enttId : new Number(  item ) } } );
+					l_a.push({
+						paenEnttId : {
+							enttId : new Number(item)
+						}
+					});
 				});
-				
-				l_methodType = $('#pageId').val() != '' ? 'PUT' :  'POST';
-				
+
+				l_methodType = $('#pageId').val() != '' ? 'PUT' : 'POST';
+
 				d = JSON.stringify({
 					pageId : $('#pageId').val() != '' ? new Number($('#pageId').val()) : null,
-					pagePageId : $('#pagePageId').val() != '' ? { pageId : new Number($('#pagePageId').val())} : null,
+					pagePageId : $('#pagePageId').val() != '' ? {
+						pageId : new Number($('#pagePageId').val())
+					} : null,
 					pageDisplay : $('#pageDisplay').val(),
 					pageDescription : $('#pageDescription').val(),
 					pageUrl : $('#pageUrl').val(),
 					pageActive : true,
 					pageEntities : l_a,
-					applications : [{ appnId : new Number(idApp) }]
+					applications : [ {
+						appnId : new Number(idApp)
+					} ]
 				});
-				
+
 				console.log(d);
 				var link = "../appWizard/page/save";
 				if (idApp !== null && idApp !== undefined && idApp != '') {
 					link = link + "/" + idApp;
 				}
-/*
-				$.ajax({
-					url : link,
-					type : l_methodType,
-					contentType : "application/json",
-					data : d,
-					success : function(data) {
-						tablePages.clear().draw();
-						tablePages.ajax.reload();
-					},
-					error : function(e) {
-						alert("ERROR: ", e);
-					}
-				});
-*/				
+				/*
+				 * $.ajax({ url : link, type : l_methodType, contentType : "application/json", data : d, success :
+				 * function(data) { tablePages.clear().draw(); tablePages.ajax.reload(); }, error : function(e) {
+				 * alert("ERROR: ", e); } });
+				 */
 				$('#pageId').val("");
 				$('#pagePageId').val("");
 				$('#pageDisplay').val("");
 				$('#pageDescription').val("");
-				$('#pageUrl').val(""); 
-				//$('#duallist').val();
-				//$('#duallist').bootstrapDualListbox('destroy');
+				$('#pageUrl').val("");
+				// $('#duallist').val();
+				// $('#duallist').bootstrapDualListbox('destroy');
 				alert($('#bootstrap-duallistbox-selected-list_duallistbox_demo1[]"]').val());
 				$('#bootstrap-duallistbox-nonselected-list_duallistbox_demo1[]').empty();
 				$('#bootstrap-duallistbox-selected-list_duallistbox_demo1[]"]').empty();
-				//$('#duallist').trigger('change');
-				
+				// $('#duallist').trigger('change');
+
 				$(this).getListValuesText({
 					idList : "#pagePageId",
 					methodType : 'GET',
@@ -156,32 +180,13 @@ jQuery(function($) {
 					chosen : false,
 					dualList : true
 				});
-				
-				//var dualListbox = $('#duallist').bootstrapDualListbox();
-				
-			    $('#duallist').bootstrapDualListbox('refresh', true);
-				
-				
-			});
-			
-			
-			
-			
-			$('#tablePages tbody').on("click", ".gridSystemModal a#id-btn-edit", function() {
-				
-				var rowPage = tableRoles.row($(this).parents('tr'));
-				var filaActualPage = rowPage.data();
-				
-				$('#pageDisplay').val(FilaActual[2]);
-				$('#pageDescription').val(FilaActual[3]);
-				$('#pageUrl').val(FilaActual[4]);
-				
-				
+
+				// var dualListbox = $('#duallist').bootstrapDualListbox();
+
+				$('#duallist').bootstrapDualListbox('refresh', true);
+
 			});
 
-			$('#tablePages tbody').on("click", ".gridSystemModal a#id-btn-delete", function() {
-				tablePages.row($(this).parents('tr')).remove().draw(false);
-			});
 			// ----------------------------------------------------------------------------------------------------------
 			// Codigo para tabla de roles appnId
 
@@ -263,7 +268,7 @@ jQuery(function($) {
 
 			var RowRoles = null;
 			$('#btn-addRole').on('click', function() {
-				
+
 				var d = '';
 				if ($('#roleId').val() != '') {
 					console.log("Entro al if donde tiene valor");
@@ -322,7 +327,6 @@ jQuery(function($) {
 				tableRoles.row($(this).parents('tr')).remove().draw(false);
 			});
 			// --------------------------------------------------------------------------------------------------------------
-			
 
 			// -------------------------------------------------------------------------------------------------------------
 			$('[data-rel=tooltip]').tooltip();
@@ -450,7 +454,7 @@ jQuery(function($) {
 
 							var container1 = demo1.bootstrapDualListbox('getContainer');
 							container1.find('.btn').addClass('btn-white btn-info btn-bold');
-							
+
 						}
 
 					},
@@ -493,12 +497,65 @@ jQuery(function($) {
 		// alert("Select 1 " + $('select[name="duallistbox_demo1[]_helper1"]').val());
 		// alert("Seelct 2 " + $('select[name="duallistbox_demo1[]_helper2"]').val());
 
-		//$('#duallist').bootstrapDualListbox('refresh', true);
+		// $('#duallist').bootstrapDualListbox('refresh', true);
 	});
-	
+
 	// in ajax mode, remove remaining elements before leaving page
-	/*$(document).one('ajaxloadstart.page', function(e) {
-		$('select[name="duallistbox_demo1[]"]').bootstrapDualListbox('destroy');
-	});*/
+	/*
+	 * $(document).one('ajaxloadstart.page', function(e) {
+	 * $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox('destroy'); });
+	 */
 
 });
+
+$(document).on('click', 'table .dropdown-toggle', function(e) {
+	console.log("Entro al clic de la tabla..");
+	e.stopImmediatePropagation();
+	e.stopPropagation();
+	e.preventDefault();
+});
+
+//override dialog's title function to allow for HTML titles
+$.widget( "ui.dialog", $.extend( {}, $.ui.dialog.prototype, {
+	_title : function( title ) {
+		var $title = this.options.title || '&nbsp;'
+		if ( ( "title_html" in this.options ) && this.options.title_html == true )
+			title.html( $title );
+		else
+			title.text( $title );
+	}
+} ) );
+
+function showModalConfirmation(p_url, p_table) {
+	$("#dialog-confirm").removeClass('hide').dialog({ // Abrir div del modal
+		resizable : false,
+		width : '320',
+		modal : true,
+		title : "<div class='widget-header'><h4 class='smaller'><i class='ace-icon fa fa-exclamation-triangle red'></i> Empty the recycle bin?</h4></div>",
+		title_html : true,
+		buttons : [ {
+			html : "<i class='ace-icon fa fa-trash-o bigger-110'></i>&nbsp; Delete",
+			"class" : "btn btn-danger btn-minier",
+			click : function() {
+				$.ajax({
+					url : p_url,
+					success : function(result) {
+						if (!(result === null)) {
+							p_table.clear().draw();
+							p_table.ajax.reload();
+						}
+					}
+				});
+				$(this).dialog("close");
+			}
+		}, {
+			html : "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; Cancel",
+			"class" : "btn btn-minier",
+			click : function() {
+				$(this).dialog("close");
+
+			}
+		} ]
+	// Cierre de botones del modal
+	});// Fin del bloque para activar el cuadro de dialogo le remueve la clase oculta
+}

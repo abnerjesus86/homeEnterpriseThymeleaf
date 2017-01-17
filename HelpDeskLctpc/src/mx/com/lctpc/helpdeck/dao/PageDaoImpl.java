@@ -65,7 +65,16 @@ public class PageDaoImpl implements PageDao {
 		// TODO Auto-generated method stub
 		getSession().update(p_page);
 	}
-
+	
+	@Override
+	public void deletePageFromApplicationById( Page p_page, BigDecimal p_appnId ) {
+		// TODO Auto-generated method stub
+		//getSession().remove(p_page.getApplications());
+		p_page.getApplications().remove(p_appnId);
+		getSession().save(p_page);
+		
+	}
+	
 	@Override
 	public List<PageEntity> findEntitiesFromPage( BigDecimal p_pageId ) {
 		// TODO Auto-generated method stub
@@ -119,6 +128,18 @@ public class PageDaoImpl implements PageDao {
 	public void savePageEntity( PageEntity p_pagEnt ) {
 		getSession().save(p_pagEnt);
 	}
+
+	@Override
+	public List<Page> findPageFromApplicationById( BigDecimal p_appnId ) {
+		Query<Page> l_queryPageEntity = getSession().createQuery("SELECT pag FROM Page pag JOIN pag.g_applications apps where apps.g_appnId = :p_appId and pag.g_pageActive = :p", Page.class)
+				.setParameter("p_appId", p_appnId)
+				.setParameter("p", true)
+				;
+		return l_queryPageEntity.getResultList();
+	}
+	
+	
+	
 	
 	/*
 	 * private NamedParameterJdbcTemplate jdbcTemplate;
