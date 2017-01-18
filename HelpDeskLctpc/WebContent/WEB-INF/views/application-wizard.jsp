@@ -20,7 +20,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/jquery-ui.custom.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/chosen.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/jquery-ui.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/select2.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/assets/css/bootstrap-duallistbox.css" />
 
 <!-- text fonts -->
@@ -836,7 +835,6 @@
 		<script src="${pageContext.request.contextPath}/res/assets/js/additional-methods.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/bootbox.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/jquery.maskedinput.js"></script>
-		<script src="${pageContext.request.contextPath}/res/assets/js/select2.js"></script>
 
 		<!-- ace scripts -->
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.scroller.js"></script>

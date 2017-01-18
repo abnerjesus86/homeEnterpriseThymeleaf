@@ -7,26 +7,25 @@ jQuery( function( $ ) {
 	jQuery.fn
 			.extend( {
 				
-
 				initializeTable : function() {
 					var idApp = $( '#appnId' ).val();
 					// Codigo para tabla de pagina
 					var tablePages = $( '#tablePages' )
 							.DataTable(
 									{
-										deferRender : false,
+										deferRender : true,
 										paging : false,
 										info : false,
 										autoWidth : true,
 										select : false,
 										searching : false,
 										ordering : false,
-										stateSave : false,
+										stateSave : true,
 										scrollY : '57vh',
 										scrollCollapse : false,
-										fixedColumns : {
+										/*fixedColumns : {
 											heightMatch : 'auto'
-										},/*
+										},
 											 * ajax : { url : "./getJsonRolesApps/"+idApp, type : "GET", contentType : "application/json;
 											 * charset=utf-8", dataType : "json" },
 											 */
@@ -56,7 +55,7 @@ jQuery( function( $ ) {
 													render : function( data, type, row ) {
 														return "<div class='hidden-sm hidden-xs action-buttons'>"
 																+ "<a class='green' id='id-btn-edit' href='#' role='button'><i class='ace-icon fa fa-pencil bigger-130'></i></a>"
-																+ "<a class='red' id='id-btn-delete' href='../appWizard/page/delete/"
+																+ "<a class='red' id='id-btn-delete' href='"+$(location).attr('origin')+"/HelpDeskLctpc/appWizard/page/delete/"
 																+ data.pageId
 																+ "'><i class='ace-icon fa fa-trash-o bigger-130'></i></a>"
 																+ "</div> "
@@ -72,7 +71,7 @@ jQuery( function( $ ) {
 																+ "<i class='ace-icon fa fa-pencil-square-o bigger-120'></i></span></a>"
 																+ "</li>"
 																+ "<li>"
-																+ "<a href='../appWizard/page/delete/"
+																+ "<a href='"+$(location).attr('origin')+"/HelpDeskLctpc/appWizard/page/delete/"
 																+ data.pageId
 																+ "' id='id-btn-delete' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
 																+ "<span class='red'> <i class='ace-icon fa fa-trash-o bigger-120'></i></span></a>"
@@ -102,15 +101,11 @@ jQuery( function( $ ) {
 					$( '#tablePages tbody' ).on( "click", ".gridSystemModal a#id-btn-delete", function( e ) {
 						// tablePages.row($(this).parents('tr')).remove().draw(false);
 						// var FilaActual = tablePages.row($(this).parents('tr')).data();
-
 						var linkDelete = this;
 						if ( idApp !== null && idApp !== undefined && idApp != '' ) {
 							linkDelete = linkDelete + "/" + idApp;
 						}
-						console.log( "link delete " + linkDelete );
-						alert( "entro en la tabla ... " + linkDelete );
 						e.preventDefault(); // elimina el evento del link.
-
 						showModalConfirmation( linkDelete, tablePages );
 					} );
 
@@ -145,7 +140,7 @@ jQuery( function( $ ) {
 						} );
 
 						console.log( d );
-						var link = "../appWizard/page/save";
+						var link = $(location).attr('origin')+"/HelpDeskLctpc/appWizard/page/save";
 						if ( idApp !== null && idApp !== undefined && idApp != '' ) {
 							link = link + "/" + idApp;
 						}
@@ -180,15 +175,17 @@ jQuery( function( $ ) {
 						
 						$('#duallist').trigger('bootstrapDualListbox.removeAll');
 						$('#duallist').trigger('bootstrapDualListbox.refresh' , true);
+						
 						getListValuesText( {
 							idList : '#pagePageId',
 							methodType : 'GET',
-							urlWs : '../getJsonPagesForSelect/',
+							urlWs : $(location).attr('origin')+"/HelpDeskLctpc/getJsonPagesForSelect/",
 							optionSelect : '',
 							parameters : null,
 							errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
 							chosen : true
 						} );
+						
 						$('#pagePageId').trigger("chosen:updated");
 						//$('#duallist').bootstrapDualListbox('destroy');
 						//$('#duallist').empty();
@@ -196,7 +193,7 @@ jQuery( function( $ ) {
 						getListValuesText( {
 							idList : '#duallist',
 							methodType : 'GET',
-							urlWs : '../getJsonEntitiesForSelect/',
+							urlWs : $(location).attr('origin')+"/HelpDeskLctpc/getJsonEntitiesForSelect/",
 							optionSelect : '',
 							parameters : null,
 							errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
@@ -251,7 +248,7 @@ jQuery( function( $ ) {
 													render : function( data, type, row ) {
 														return "<div class='hidden-sm hidden-xs action-buttons'>"
 																+ "<a class='green' id='id-btn-edit' href='#' role='button'><i class='ace-icon fa fa-pencil bigger-130'></i></a>"
-																+ "<a class='red' id='id-btn-delete' href='./appForm/"
+																+ "<a class='red' id='id-btn-delete' href='"+$(location).attr('origin')+"/HelpDeskLctpc/appForm/"
 																+ data.roleId
 																+ "/delete'><i class='ace-icon fa fa-trash-o bigger-130'></i></a>"
 																+ "</div> "
@@ -267,7 +264,7 @@ jQuery( function( $ ) {
 																+ "<i class='ace-icon fa fa-pencil-square-o bigger-120'></i></span></a>"
 																+ "</li>"
 																+ "<li>"
-																+ "<a href='./appForm/"
+																+ "<a href='"+$(location).attr('origin')+"/HelpDeskLctpc/appForm/"
 																+ data.roleId
 																+ "/delete' id='id-btn-dialog2' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
 																+ "<span class='red'> <i class='ace-icon fa fa-trash-o bigger-120'></i></span></a>"
@@ -284,9 +281,9 @@ jQuery( function( $ ) {
 					if ( idApp !== null && idApp !== undefined && idApp != '' ) {
 						console.log( "valor del idApp: " + idApp );
 						tableRoles.clear().draw();
-						tableRoles.ajax.url( "../getJsonRolesApps/" + idApp ).load();
+						tableRoles.ajax.url( $(location).attr('origin')+"/HelpDeskLctpc/getJsonRolesApps/" + idApp ).load();
 						tablePages.clear().draw();
-						tablePages.ajax.url( "../getJsonPagesApps/" + idApp ).load();
+						tablePages.ajax.url( $(location).attr('origin')+"/HelpDeskLctpc/getJsonPagesApps/" + idApp ).load();
 					}
 
 					var counterRoles = 0;
@@ -311,10 +308,8 @@ jQuery( function( $ ) {
 							} );
 						}
 
-						var link = "../appWizard/roles/save";
+						var link = $(location).attr('origin')+"/HelpDeskLctpc/appWizard/roles/save";
 						if ( idApp !== null && idApp !== undefined && idApp != '' ) {
-							console.log( "valor del idApp: " + idApp );
-
 							link = link + "/" + idApp;
 						}
 
@@ -357,12 +352,6 @@ jQuery( function( $ ) {
 					// -------------------------------------------------------------------------------------------------------------
 					$( '[data-rel=tooltip]' ).tooltip();
 
-					$( ".select2" ).css( 'width', '200px' ).select2( {
-						allowClear : true
-					} ).on( 'change', function() {
-						$( this ).closest( 'form' ).validate().element( $( this ) );
-					} );
-
 					var $validation = false;
 					$( '#wizard-application' ).wizard( {
 					// step: 2 //optional argument. wizard will jump to step "2" at first
@@ -388,7 +377,7 @@ jQuery( function( $ ) {
 					getListValuesText( {
 						idList : "#pagePageId",
 						methodType : 'GET',
-						urlWs : '../getJsonPagesForSelect/',
+						urlWs : $(location).attr('origin')+"/HelpDeskLctpc/getJsonPagesForSelect/",
 						optionSelect : '',
 						parameters : null,
 						errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
@@ -398,7 +387,7 @@ jQuery( function( $ ) {
 					getListValuesText( {
 						idList : "#duallist",
 						methodType : 'GET',
-						urlWs : '../getJsonEntitiesForSelect/',
+						urlWs : $(location).attr('origin')+"/HelpDeskLctpc/getJsonEntitiesForSelect/",
 						optionSelect : '',
 						parameters : null,
 						errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
@@ -416,12 +405,17 @@ jQuery( function( $ ) {
 	
 	$( '#duallist' ).on( 'change', function() {
 		// var dato = $('select[name="duallistbox_demo1[]_helper2"]').val();
-		// alert( dato );
-		// move($('#duallist').bootstrapDualListbox());
 		// alert("Select 1 " + $('select[name="duallistbox_demo1[]_helper1"]').val());
 		// alert("Seelct 2 " + $('select[name="duallistbox_demo1[]_helper2"]').val());
-
-		// $('#duallist').bootstrapDualListbox('refresh', true);
+		
+		var jsDO = new Object();
+		jsDO.Protocol = $(location).attr('protocol');
+		jsDO.ContextRoot = ($(location).attr('pathname').substring(1, $(location).attr('pathname').indexOf('/', 1))) == "ruta" ? "/ruta2" : "";
+		jsDO.Initial = jsDO.Protocol + "//" + $(location).attr('host') + jsDO.ContextRoot + "/";
+		//jsDO.Pages = jsDO.Initial + "pages/";
+		alert(JSON.stringify(jsDO));
+		alert(JSON.stringify($(location) ));
+		alert($(location).attr('origin'));
 	} );
 
 	// in ajax mode, remove remaining elements before leaving page
