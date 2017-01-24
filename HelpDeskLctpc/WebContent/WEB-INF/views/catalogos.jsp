@@ -666,7 +666,6 @@
 
 						</div>
 					</div>
-
 					<!-- /.row -->
 				</div>
 				<!-- /.page-content -->
@@ -717,7 +716,6 @@
 	<script src="${pageContext.request.contextPath}/res/assets/js/autosize.js"></script>
 	<script src="${pageContext.request.contextPath}/res/assets/js/bootstrap-multiselect.js"></script>
 	<script src="${pageContext.request.contextPath}/res/assets/js/typeahead.jquery.js"></script>
-
 
 	<!-- ace scripts -->
 	<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.scroller.js"></script>

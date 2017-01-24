@@ -289,31 +289,23 @@ public class JsonController {
 		Map<String, List<Page>> l_map = new HashMap<String, List<Page>>();
 
 		if (l_app == null) {
-			return new ResponseEntity<Map<String, List<Page>>>(HttpStatus.NO_CONTENT);// You many decide to
-																									// return
-																									// HttpStatus.NOT_FOUND
+			return new ResponseEntity<Map<String, List<Page>>>(HttpStatus.NO_CONTENT);// You many decide to return HttpStatus.NOT_FOUND
 		}
 		System.out.println("paso 2...");
 		if(l_app.getPages().isEmpty()){
-			return new ResponseEntity<Map<String, List<Page>>>(HttpStatus.NO_CONTENT);// You many decide to
-			// return
-			// HttpStatus.NOT_FOUND
+			return new ResponseEntity<Map<String, List<Page>>>(HttpStatus.NO_CONTENT);// You many decide to return HttpStatus.NOT_FOUND
 		}
 		System.out.println("paso 3...");
 		l_map.put("data", l_app.getPages());*/
 		
 		Application l_app = appService.findApplicationById(p_appId);
 		if (l_app == null) {
-			return new ResponseEntity<Map<String, List<Page>>>(HttpStatus.NO_CONTENT);// You many decide to
-																									// return
-																									// HttpStatus.NOT_FOUND
+			return new ResponseEntity<Map<String, List<Page>>>(HttpStatus.NO_CONTENT);// You many decide to return HttpStatus.NOT_FOUND
 		}
 		Map<String, List<Page>> l_map = new HashMap<String, List<Page>>();
 		List<Page> l_lst = pagService.findPageFromApplicationById(p_appId);
 		if(l_lst.isEmpty()){
-			return new ResponseEntity<Map<String, List<Page>>>(HttpStatus.NO_CONTENT);// You many decide to
-			// return
-			// HttpStatus.NOT_FOUND
+			return new ResponseEntity<Map<String, List<Page>>>(HttpStatus.NO_CONTENT);// You many decide to return HttpStatus.NOT_FOUND
 		}
 		l_map.put("data", l_lst);
 		return new ResponseEntity<Map<String, List<Page>>>(l_map, HttpStatus.OK);

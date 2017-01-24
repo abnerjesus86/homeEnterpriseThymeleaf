@@ -563,7 +563,7 @@
 
 											<li data-step="3"><span class="badge">3</span>Pages <span class="chevron"></span></li>
 
-											<li data-step="4"><span class="badge">4</span>Permits per page <span class="chevron"></span></li>
+											<li data-step="4"><span class="badge">4</span>Assign page to roles <span class="chevron"></span></li>
 
 											<li data-step="5"><span class="badge">5</span>Assign page to roles <span class="chevron"></span></li>
 										</ul>
@@ -598,7 +598,7 @@
 														<label class="col-sm-3 control-label no-padding-right" for="appnAppnId"> Application Father </label>
 														<div class="col-sm-9">
 															<sf:select path="appnAppnId" cssClass="chosen-select col-xs-11" data-placeholder="Choose a Application Father o Master...">
-																<sf:option value="NONE" label="---- Select ----" />
+																<sf:option value="" label="" />
 																<sf:options items="${appnsMasterList}" itemLabel="appnName" itemValue="appnId" />
 															</sf:select>
 														</div>
@@ -641,7 +641,6 @@
 												<div class="col-xs-12 col-sm-6">
 													<table id="tableRoles" class="table table-striped no-margin-bottom no-border-top">
 														<thead>
-
 														</thead>
 														<tbody>
 														</tbody>
@@ -685,9 +684,9 @@
 
 													<table id="tablePages" class="table table-striped table-hover">
 														<thead>
-														</thead>
-														<tbody>
-														</tbody>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
 													</table>
 												</div>
 
@@ -732,7 +731,7 @@
 																<sf:input type="text" class="col-xs-11" path="pageUrl" />
 															</div>
 														</div>
-														<div class="hr hr-18 dotted hr-double"></div>
+														<!-- <div class="hr hr-18 dotted hr-double"></div> -->
 														<div class="form-group">
 															<label class="col-sm-3 control-label no-padding-top" for="duallist"> Select Entities </label>
 
@@ -825,17 +824,15 @@
 
 		<!-- page specific plugin scripts -->
 		<%-- <script src="${pageContext.request.contextPath}/res/assets/js/fuelux/fuelux.wizard.js"></script> --%>
-		<script src="${pageContext.request.contextPath}/res/assets/js/jquery.bootstrap-duallistbox.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/jquery-ui.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/jquery.ui.touch-punch.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/chosen.jquery.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/autosize.js"></script>
-		
-		<script src="${pageContext.request.contextPath}/res/assets/js/jquery-ui.js"></script>
-		<script src="${pageContext.request.contextPath}/res/assets/js/jquery.validate.js"></script>
-		<script src="${pageContext.request.contextPath}/res/assets/js/additional-methods.js"></script>
-		<script src="${pageContext.request.contextPath}/res/assets/js/bootbox.js"></script>
+		<script src="${pageContext.request.contextPath}/res/assets/js/jquery.bootstrap-duallistbox.js"></script>
+		<%-- <script src="${pageContext.request.contextPath}/res/assets/js/bootbox.js"></script> 
 		<script src="${pageContext.request.contextPath}/res/assets/js/jquery.maskedinput.js"></script>
-
+         <script src="${pageContext.request.contextPath}/res/assets/js/jquery.validate.js"></script> --%>
+        
 		<!-- ace scripts -->
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.scroller.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.colorpicker.js"></script>

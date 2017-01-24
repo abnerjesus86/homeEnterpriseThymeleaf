@@ -92,7 +92,7 @@ public class Page implements Serializable{
 			inverseJoinColumns = { @JoinColumn(name = "PAEN_ENTT_ID",nullable = false) })*/
 	@Transient
 	private List<AEntities> g_entities = new ArrayList<AEntities>();
-	@ManyToMany( fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE, CascadeType.PERSIST} )
+	@ManyToMany( fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
 	@JoinTable(name = "T_APPLICATION_PAGE", 
 				joinColumns = {
 			@JoinColumn(name = "TAPP_PAGE_ID",nullable = false) },
@@ -117,7 +117,7 @@ public class Page implements Serializable{
 	/**
 	 * @return the pagePageId
 	 */
-	@JsonIgnore
+	@JsonProperty
 	public Page getPagePageId() {
 		return this.g_pagePageId;
 	}

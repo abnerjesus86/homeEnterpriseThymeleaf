@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import mx.com.lctpc.helpdeck.pojo.Application;
 import mx.com.lctpc.helpdeck.pojo.Page;
 import mx.com.lctpc.helpdeck.pojo.PageEntity;
 
@@ -67,12 +68,11 @@ public class PageDaoImpl implements PageDao {
 	}
 	
 	@Override
-	public void deletePageFromApplicationById( Page p_page, BigDecimal p_appnId ) {
+	public void deletePageFromApplicationById( Page p_page, Application p_appnId ) {
 		// TODO Auto-generated method stub
 		//getSession().remove(p_page.getApplications());
 		p_page.getApplications().remove(p_appnId);
-		getSession().save(p_page);
-		
+		getSession().update(p_page);
 	}
 	
 	@Override

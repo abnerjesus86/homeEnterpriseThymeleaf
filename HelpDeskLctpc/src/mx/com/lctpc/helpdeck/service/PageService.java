@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mx.com.lctpc.helpdeck.dao.PageDao;
+import mx.com.lctpc.helpdeck.pojo.Application;
 import mx.com.lctpc.helpdeck.pojo.Page;
 import mx.com.lctpc.helpdeck.pojo.PageEntity;
 
@@ -66,7 +67,7 @@ public class PageService {
 		pageDao.savePageEntity(p_pagEnt);
 	}
 	
-	public void deletePageFromApplicationById(Page p_page, BigDecimal p_appnId){
+	public void deletePageFromApplicationById(Page p_page, Application p_appnId){
 		pageDao.deletePageFromApplicationById(p_page, p_appnId);
 	}
 	

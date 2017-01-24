@@ -19,7 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -86,9 +85,7 @@ public class Application implements Serializable {
 	private List<ApplicationRole>	g_appnRoles;
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "g_appnAppnId")
 	private List<Application> g_applicationsMaster = new ArrayList<Application>();
-	/*@ManyToMany(fetch = FetchType.LAZY, mappedBy = "g_applications" )
-	@ManyToMany*/
-	@Transient
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "g_applications" )
 	private List<Page> g_pages =  new ArrayList<Page>();
 	
 	/**
@@ -311,7 +308,7 @@ public class Application implements Serializable {
 	public void setPages( List<Page> p_pages ) {
 		this.g_pages = p_pages;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */

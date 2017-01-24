@@ -8,13 +8,13 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<!-- Acceso a la base de datos por JNDI -->
-	<!-- <jee:jndi-lookup jndi-name="jdbc/application_manager"
+	<jee:jndi-lookup jndi-name="jdbc/application_manager"
 		id="dataSource" expected-type="javax.sql.DataSource">
-	</jee:jndi-lookup> -->
+	</jee:jndi-lookup>
     <!-- Acceso a la base de datos por JNDI -->
-    <jee:jndi-lookup jndi-name="jdbc/application_manager1"
+    <!-- <jee:jndi-lookup jndi-name="jdbc/application_manager1"
         id="dataSource" expected-type="javax.sql.DataSource">
-    </jee:jndi-lookup>
+    </jee:jndi-lookup> -->
 	<!-- Configuracion para utilizar la anotacion de spring e inyectar las dependencias -->
 	<context:annotation-config></context:annotation-config>
 	<context:component-scan base-package="mx.com.lctpc.helpdeck.dao"></context:component-scan>

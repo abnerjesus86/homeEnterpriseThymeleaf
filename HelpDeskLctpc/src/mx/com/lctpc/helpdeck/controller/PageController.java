@@ -164,10 +164,10 @@ public class PageController {
 	@ResponseBody
 	public ResponseEntity<String> jsonDeletePageFromApplication( Model model, @PathVariable( "pageId" ) BigDecimal p_pageId, @PathVariable( "appId" ) BigDecimal p_appId ) {
 		Page l_page = pageService.findPageById(p_pageId);
-		//Application l_appn =  appService.findApplicationById(p_appId);
+		Application l_appn =  appService.findApplicationById(p_appId);
 		
 		//l_page.getApplications().add(l_appn);
-		pageService.deletePageFromApplicationById(l_page, p_appId);
+		pageService.deletePageFromApplicationById(l_page, l_appn);
 
 		return new ResponseEntity<String>("ok", HttpStatus.OK); // ResponseEntity<String>
 	}
