@@ -42,7 +42,7 @@ jQuery(function($) {
 									data : null,
 									render : function(data, type, row) {
 										return "<div class='hidden-sm hidden-xs action-buttons'>" + "<a class='green' id='id-btn-edit' href='#' role='button'><i class='ace-icon fa fa-pencil bigger-130'></i></a>"
-												+ "<a class='orange' id='id-btn-deleteAssoc' href='" 
+												+ "<a class='purple' id='id-btn-deleteAssoc' href='"
 												+ $(location).attr('origin')
 												+ "/HelpDeskLctpc/appWizard/page/delete/"
 												+ data.pageId
@@ -65,17 +65,20 @@ jQuery(function($) {
 												+ "<i class='ace-icon fa fa-pencil-square-o bigger-120'></i></span></a>"
 												+ "</li>"
 												+ "<li>"
-												+ "<a href='" 
+												+ "<a href='"
 												+ $(location).attr('origin')
 												+ "/HelpDeskLctpc/appWizard/page/delete/"
 												+ data.pageId
 												+ "' id='id-btn-deleteAssoc' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
-												+ "<span class='orange'>"
+												+ "<span class='purple'>"
 												+ "<i class='ace-icon fa fa-chain-broken bigger-120'></i>"
 												+ "</span></a>"
 												+ "</li>"
 												+ "<li>"
-												+ "<a href='" + $(location).attr('origin') + "/HelpDeskLctpc/appWizard/page/delete/" + data.pageId
+												+ "<a href='"
+												+ $(location).attr('origin')
+												+ "/HelpDeskLctpc/appWizard/page/delete/"
+												+ data.pageId
 												+ "' id='id-btn-delete' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
 												+ "<span class='red'> <i class='ace-icon fa fa-trash-o bigger-120'></i></span></a>" + "</li>"
 
@@ -94,21 +97,41 @@ jQuery(function($) {
 
 			$('#tablePages tbody').on("click", ".gridSystemModal a#id-btn-edit", function() {
 				var filaActualPage = tablePages.row($(this).parents('tr')).data();
+				var l_entityOptSel = [];
 				$('#pageId').val(filaActualPage.pageId);
 				$('#pageDisplay').val(filaActualPage.pageDisplay);
 				$('#pageDescription').val(filaActualPage.pageDescription);
 				$('#pageUrl').val(filaActualPage.pageUrl);
-				
+
+				$.each(filaActualPage.pageEntities != null ? filaActualPage.pageEntities : [], function(i, item) {
+					l_entityOptSel.push(item.enttId);
+					console.log(item.enttId);
+				});
+				console.log("Size : " + l_entityOptSel.length);
+
 				getListValuesText({
 					idList : '#pagePageId',
 					methodType : 'GET',
 					urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesForSelect/",
-					optionSelect : (filaActualPage.pagePageId instanceof Object ? filaActualPage.pagePageId.pageId : filaActualPage.pagePageId),
+					optionSelect : [ (filaActualPage.pagePageId instanceof Object ? filaActualPage.pagePageId.pageId : filaActualPage.pagePageId) ],
 					parameters : null,
 					errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
 					chosen : true
 				});
-				
+
+				$('#duallist').trigger('bootstrapDualListbox.refresh', true);
+
+				getListValuesText({
+					idList : '#duallist',
+					methodType : 'GET',
+					urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonEntitiesForSelect/",
+					optionSelect : l_entityOptSel.length !== 0 ? l_entityOptSel : null,
+					parameters : null,
+					errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
+					chosen : false,
+					dualList : true
+				});
+
 			});
 
 			$('#tablePages tbody').on("click", ".gridSystemModal a#id-btn-deleteAssoc", function(e) {
@@ -151,7 +174,6 @@ jQuery(function($) {
 					} ]
 				});
 
-				console.log(d);
 				var link = $(location).attr('origin') + "/HelpDeskLctpc/appWizard/page/save";
 				if (idApp !== null && idApp !== undefined && idApp != '') {
 					link = link + "/" + idApp;
@@ -257,7 +279,7 @@ jQuery(function($) {
 				if (idApp !== null && idApp !== undefined && idApp != '') {
 					link = link + "/" + idApp;
 				}
-				
+
 				$.ajax({
 					url : link,
 					type : $('#roleId').val() != '' ? 'PUT' : 'POST',
@@ -292,6 +314,7 @@ jQuery(function($) {
 				tableRoles.row($(this).parents('tr')).remove().draw(false);
 			});
 			// --------------------------------------------------------------------------------------------------------------
+			// Codigo tabla permison por Roles/Page
 
 			// -------------------------------------------------------------------------------------------------------------
 			$('[data-rel=tooltip]').tooltip();
@@ -300,21 +323,62 @@ jQuery(function($) {
 			$('#wizard-application').wizard({
 			// step: 2 //optional argument. wizard will jump to step "2" at first
 			// buttons: '.wizard-actions:eq(0)'
-			}).on('changed.fu.wizard', function(evt, item) {
-				if (item.step == 2) {
-					if (idApp !== null && idApp !== undefined && idApp != '') {
-						$('#tableRoles').DataTable().clear().draw();
-						$('#tableRoles').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpc/getJsonRolesApps/" + idApp).load();
-					}
-				}
-				if (item.step == 3) {
-					if (idApp !== null && idApp !== undefined && idApp != '') {
-						$('#tablePages').DataTable().clear().draw();
-						$('#tablePages').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp).load();
-					}
-					clearFormPage();
-				}
-			}).on('actionclicked.fu.wizard', function(e, item) {
+			}).on(
+					'changed.fu.wizard',
+					function(evt, item) {
+						if (item.step == 2) {
+							if (idApp !== null && idApp !== undefined && idApp != '') {
+								$('#tableRoles').DataTable().clear().draw();
+								$('#tableRoles').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpc/getJsonRolesApps/" + idApp).load();
+							}
+						}
+						if (item.step == 3) {
+							if (idApp !== null && idApp !== undefined && idApp != '') {
+								$('#tablePages').DataTable().clear().draw();
+								$('#tablePages').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp).load();
+							}
+							clearFormPage();
+						}
+						if (item.step == 4) {
+							// var divCol = $("<div class='col-xs-12'>");
+							
+							var divRoles = $('#rolesDiv').empty();
+							var linkStep4 = $(location).attr('origin') + "/HelpDeskLctpc/getJsonRolesApps/" + idApp;
+							var jsonRoles;
+							callAjax(linkStep4, 'GET', function(dJsonRol){
+								jsonRoles = dJsonRol;
+							});
+							
+							$.ajax({
+								url : linkStep4,
+								type : 'GET',
+								contentType : "application/json",
+								// data : d,
+								success : function(dataRol) {
+									jsonRoles = dataRol;
+
+									$.each(dataRol.data, function(i, item) {
+										var title = "<h4 class='header smaller lighter blue'><i class='ace-icon fa fa-user bigger-120'></i> " + item.roleName + " <small> [" + item.roleDescription + "]</small></h3>";
+										var divRol = $("<div id='rol_'" + item.roleId + " class='row'>");
+										var divColRol = $("<div class='col-xs-12'>");
+										divColRol.append(title);
+										var jsonPages;
+										
+										buildDivLstPages(divColRol);
+										
+										divRol.append(divColRol);
+										divRoles.append(divRol);
+									});
+
+								},
+								error : function(e) {
+									alert("ERROR: ", e);
+								}
+							});//fin ajax Roles
+
+							// clearFormPage();
+						}
+					}).on('actionclicked.fu.wizard', function(e, item) {
 				/*
 				 * if (item.step == 1 && $validation) { if (!$('#validation-form').valid()) e.preventDefault(); }
 				 */
@@ -338,13 +402,6 @@ jQuery(function($) {
 	});
 	var idApp = $('#appnId').val();
 	$(this).initializeTable();
-
-	$('#duallist').on('change', function() {
-		// var dato = $('select[name="duallistbox_demo1[]_helper2"]').val();
-		// alert("Select 1 " + $('select[name="duallistbox_demo1[]_helper1"]').val());
-		// alert("Seelct 2 " + $('select[name="duallistbox_demo1[]_helper2"]').val());
-
-	});
 
 	// in ajax mode, remove remaining elements before leaving page
 	/*
@@ -370,38 +427,29 @@ $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
 	}
 }));
 
-
-function clearFormPage(){
+function clearFormPage() {
 	$('#pageId').val("");
 	$('#pageDisplay').val("");
 	$('#pageDescription').val("");
 	$('#pageUrl').val("");
-	
-	// alert( $( '#bootstrap-duallistbox-selected-list_duallistbox_demo1[]"]' ).val() );
-	// $('#bootstrap-duallistbox-nonselected-list_duallistbox_demo1[]').empty();
-	// $('#bootstrap-duallistbox-selected-list_duallistbox_demo1[]"]').empty();
-
-	//var container1 = $('#duallist').bootstrapDualListbox('getContainer');
-	//container1.find('select[name="duallistbox_demo1[]_helper1"]').empty();
 
 	getListValuesText({
 		idList : '#pagePageId',
 		methodType : 'GET',
 		urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesForSelect/",
-		optionSelect : '',
+		optionSelect : null,
 		parameters : null,
 		errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
 		chosen : true
 	});
-	
 
 	$('#duallist').trigger('bootstrapDualListbox.refresh', true);
-	
+
 	getListValuesText({
 		idList : '#duallist',
 		methodType : 'GET',
 		urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonEntitiesForSelect/",
-		optionSelect : '',
+		optionSelect : null,
 		parameters : null,
 		errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
 		chosen : false,
@@ -416,22 +464,22 @@ function getListValuesText(options) {
 		idList : '',
 		methodType : '',
 		urlWs : '',
-		optionSelect : '',
+		optionSelect : null,
 		parameters : null,
 		errorMessage : 'Ha ocurrido un error al cargar el listado',
 		chosen : false,
 		dualList : false
 	}, options);
-	
+
 	var select = $(options.idList);
 	var jsonDataList = '';
 	if (options.parameters !== null)
 		jsonDataList = JSON.stringify(options.parameters);
 	jQuery.support.cors = true;
-	
+
 	select.empty();
 	select.val(null);
-	
+
 	$.ajax({
 		headers : {
 			'Content-Type' : "application/json; charset=utf-8"
@@ -453,13 +501,20 @@ function getListValuesText(options) {
 					value : item.value,
 					text : item.label
 				}));
-				if (options.optionSelect == item.value) {
-					var l_x = select.find('option:eq(' + (i + 1) + ')').attr('selected', 'selected');
-					select.val(item.value);
-				}
+
+				$.each(options.optionSelect != null ? options.optionSelect : [], function(iOS, itemOptionSelect) {
+					console.log(i + " valor Ws :" + item.value)
+					if (itemOptionSelect == item.value) {
+						var l_x = select.find('option:eq(' + (i + 1) + ')').attr('selected', 'selected');
+					}
+
+				});
 
 			});
-			select.trigger("chosen:updated");
+			select.val(options.optionSelect);
+			if (options.chosen)
+				select.trigger("chosen:updated");
+
 			if (!ace.vars['touch'] && options.chosen) {
 				$('.chosen-select').chosen({
 					allow_single_deselect : true
@@ -483,7 +538,7 @@ function getListValuesText(options) {
 					})
 				});
 			}
-			
+
 			if (options.dualList) {
 				var demo1 = $(options.idList).bootstrapDualListbox({
 					infoTextFiltered : '<span class="label label-purple label-lg">Filtered</span>',
@@ -500,7 +555,7 @@ function getListValuesText(options) {
 
 				var container1 = demo1.bootstrapDualListbox('getContainer');
 				container1.find('.btn').addClass('btn-white btn-info btn-bold');
-				
+
 				demo1.trigger('bootstrapDualListbox.refresh', true);
 			}
 
@@ -545,4 +600,88 @@ function showModalConfirmation(p_url, p_table) {
 		} ]
 	// Cierre de botones del modal
 	});// Fin del bloque para activar el cuadro de dialogo le remueve la clase oculta
+}
+
+function callAjax(p_url, p_methodType, successFuction) {
+	var result = null;
+	$.ajax({
+		type : p_methodType,
+		url : p_url,
+		contentType : "application/json",
+		async : false,
+		// dataType: "json",
+		// timeout : 100000,
+		success : function(dataJson) {
+			successFuction(dataJson);
+		},
+		error : function(e) {
+			alert("ERROR: ", e);
+		}
+	});
+
+}
+
+function buildDivLstPages(p_divFather){
+	var idApp = $('#appnId').val();
+	
+	callAjax($(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp, 'GET', function(dataJson) {
+		//jsonPages = dataJson;
+		var divLstRowPage = $("<div class='row'>");
+		$.each(dataJson.data, function(iPage, itemPage) {
+					var divWidgetMain = $("<div class='widget-main'>");
+					var divLstEnts = $("<div class='profile-user-info'>");
+					$.each(itemPage.pageEntities, function(iEnt, itemEnt) {
+						var divEnt = $("<div class='profile-info-row'>").append("<div class='profile-info-name'> " + itemEnt.enttName + " </div>"); 
+						buildDivLstPermission(divEnt);
+						divLstEnts.append(divEnt);
+					}); //Fin ciclo Entity
+
+					divWidgetMain.append(divLstEnts);
+
+					var divColBootStrap = $("<div class='col-sm-4'>");
+					var divWidgetHeaderPage = $("<div class='widget-header'>").append(
+							"<h4 class='widget-title'><i class='ace-icon fa fa-list-alt'></i>Page " + itemPage.pageDisplay + "</h4>");
+					var divWidgetBodyPage = $("<div class='widget-body'>").append(divWidgetMain);
+					var divWidgetBoxPage = $("<div class='widget-box'>");
+
+					divWidgetBoxPage.append(divWidgetHeaderPage);
+					divWidgetBoxPage.append(divWidgetBodyPage);
+
+					divColBootStrap.append(divWidgetBoxPage);
+					
+					if (iPage % 3 === 0)
+						divRowPage = $("<div class='row'>");
+
+					divRowPage.append(divColBootStrap);
+
+					p_divFather.append(divRowPage);
+
+				}); // fin earch Pages
+	}); // callAjax
+	//return p_divFather;
+}
+
+function buildDivLstPermission(p_divFather){
+	var linkStep4Permission = $(location).attr('origin') + "/HelpDeskLctpc/getJsonPermissionActive/";
+	var jsonPermission;
+	
+	callAjax(linkStep4Permission, 'GET', function(dJsonPerm){
+		jsonPermission = dJsonPerm;
+	});
+	
+	var divPermission = $("<div class='profile-info-value'>");
+	$.each(jsonPermission.data, function(iPerm, itemPerm){
+		
+		var inputCboxPermission = $("<input name='form-field-checkbox' type='checkbox' class='ace'>");
+		var labelCboxPermission = $("<label>").append(inputCboxPermission).append("<span class='lbl'>"+itemPerm.prmnName+"</span>");
+		var divCboxPermision = $("<div class='checkbox'>").append(labelCboxPermission);
+		divPermission.append(divCboxPermision);
+		p_divFather.append(divPermission);
+		
+	});//Fin ciclo Permission
+	
+}
+
+function buildDivRoles(p_divFather){
+	
 }

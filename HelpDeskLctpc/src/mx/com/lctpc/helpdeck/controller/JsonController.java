@@ -310,5 +310,21 @@ public class JsonController {
 		l_map.put("data", l_lst);
 		return new ResponseEntity<Map<String, List<Page>>>(l_map, HttpStatus.OK);
 	}
+	
+	@RequestMapping( value = "/getJsonPermissionActive/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<Map<String, List<Permission>>> showJsonPermissionActive(  ) {
+		List<Permission> l_lstPerm = permService.findAllPermissionsActive();
+		Map<String, List<Permission>> l_map = new HashMap<String, List<Permission>>();
+		if (l_lstPerm.isEmpty()) {
+			return new ResponseEntity<Map<String, List<Permission>>>(HttpStatus.NO_CONTENT);// You many decide to return
+																							// HttpStatus.NOT_FOUND
+		}
+
+		l_map.put("data", l_lstPerm);
+		return new ResponseEntity<Map<String, List<Permission>>>(l_map, HttpStatus.OK);
+
+	}
+	
+	
 
 }

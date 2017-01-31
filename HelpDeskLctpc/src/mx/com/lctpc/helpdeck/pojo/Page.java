@@ -23,6 +23,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -30,11 +32,12 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table( name = "PAGE", schema = "APPLICATION_MANAGER" )
-@JsonIgnoreProperties(value = { "pageMaster", "entities" })
+@JsonIgnoreProperties(value = { "pageMaster"})
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class,
 		  property = "pageId")
@@ -82,16 +85,11 @@ public class Page implements Serializable{
 	private Date	g_pageUpdateDate;
 	@Column( name = "PAGE_UPDATE_BY", insertable = true, updatable = true )
 	private String		g_pageUpdateBy;
-	@OneToMany(  mappedBy = "g_paenPageId", cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
+	@OneToMany(  fetch = FetchType.EAGER, mappedBy = "g_paenPageId", cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<PageEntity> g_pageEntities = new ArrayList<PageEntity>();
 	@OneToMany(  mappedBy = "g_pagePageId")
 	private List<Page> g_pageMaster = new ArrayList<Page>();
-	/*@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
-	@JoinTable(name = "PAGE_ENTITY", joinColumns = {
-			@JoinColumn(name = "PAEN_PAGE_ID",nullable = false) },
-			inverseJoinColumns = { @JoinColumn(name = "PAEN_ENTT_ID",nullable = false) })*/
-	@Transient
-	private List<AEntities> g_entities = new ArrayList<AEntities>();
 	@ManyToMany( fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
 	@JoinTable(name = "T_APPLICATION_PAGE", 
 				joinColumns = {
@@ -102,6 +100,7 @@ public class Page implements Serializable{
 	/**
 	 * @return the pageId
 	 */
+	
 	public BigDecimal getPageId() {
 		return this.g_pageId;
 	}
@@ -283,7 +282,7 @@ public class Page implements Serializable{
 	/**
 	 * @return the pageEntities
 	 */
-	@JsonIgnore
+	@JsonProperty
 	public List<PageEntity> getPageEntities() {
 		return this.g_pageEntities;
 	}
@@ -311,19 +310,7 @@ public class Page implements Serializable{
 	}
 
 	
-	/**
-	 * @return the entities
-	 */
-	public List<AEntities> getEntities() {
-		return this.g_entities;
-	}
-
-	/**
-	 * @param p_entities the entities to set
-	 */
-	public void setEntities( List<AEntities> p_entities ) {
-		this.g_entities = p_entities;
-	}
+	
 
 	/**
 	 * @return the applications

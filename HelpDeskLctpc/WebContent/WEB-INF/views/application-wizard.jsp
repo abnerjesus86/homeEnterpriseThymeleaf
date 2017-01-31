@@ -684,9 +684,9 @@
 
 													<table id="tablePages" class="table table-striped table-hover">
 														<thead>
-                                                        </thead>
-                                                        <tbody>
-                                                        </tbody>
+														</thead>
+														<tbody>
+														</tbody>
 													</table>
 												</div>
 
@@ -737,7 +737,7 @@
 
 															<div class="col-sm-9">
 																<!-- #section:plugins/input.duallist -->
-																<select multiple="multiple" size="10" name="duallistbox_demo1[]" id="duallist">
+																<select multiple="multiple" size="6" name="duallistbox_demo1[]" id="duallist">
 																</select>
 
 																<!-- /section:plugins/input.duallist -->
@@ -760,10 +760,10 @@
 										</div>
 
 										<div class="step-pane" sample-pane data-step="4">
-											<div class="center">
-												<h3 class="lighter block green">Congrats!</h3>
-												Your product is ready to ship! Click finish to continue!
-											</div>
+											<h3 class="lighter block green">Assign Permisson to Pages and Role</h3>
+                                            <div id="rolesDiv" class="row">
+                                                
+                                            </div>
 										</div>
 
 										<div class="step-pane" data-step="5">
@@ -832,7 +832,7 @@
 		<%-- <script src="${pageContext.request.contextPath}/res/assets/js/bootbox.js"></script> 
 		<script src="${pageContext.request.contextPath}/res/assets/js/jquery.maskedinput.js"></script>
          <script src="${pageContext.request.contextPath}/res/assets/js/jquery.validate.js"></script> --%>
-        
+
 		<!-- ace scripts -->
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.scroller.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.colorpicker.js"></script>
@@ -843,7 +843,7 @@
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.treeview.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.wizard.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/elements.aside.js"></script>
-		
+
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.ajax-content.js"></script>
 		<script src="${pageContext.request.contextPath}/res/assets/js/ace/ace.touch-drag.js"></script>
@@ -873,6 +873,5 @@
 		<script src="${pageContext.request.contextPath}/res/pages/application-wizard/js/script.js"></script>
 		<script src="${pageContext.request.contextPath}/res/pages/application-wizard/js/fuelux.min.js"></script>
 		<script src="${pageContext.request.contextPath}/res/pages/application-wizard/js/wizard.js"></script>
-		
 </body>
 </html>

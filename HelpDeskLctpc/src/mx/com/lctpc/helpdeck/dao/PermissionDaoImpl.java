@@ -63,6 +63,15 @@ public class PermissionDaoImpl implements PermissionDao {
 		// TODO Auto-generated method stub
 		getSession().update(p_per);
 	}
+
+	@Override
+	public List<Permission> findAllPermissionsActive() {
+		// TODO Auto-generated method stub
+		Query<Permission> l_query = getSession().createQuery("FROM Permission perm WHERE perm.g_prmnActive = :p", Permission.class);
+		l_query.setParameter("p", true);
+		return l_query.getResultList();
+		
+	}
 	
 	
 

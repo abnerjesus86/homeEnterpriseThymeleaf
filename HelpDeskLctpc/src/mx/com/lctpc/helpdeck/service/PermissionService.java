@@ -38,4 +38,8 @@ public class PermissionService {
 		permDao.deletePermission(p_perId);
 	}
 	
+	public List<Permission> findAllPermissionsActive(){
+		return permDao.findAllPermissionsActive();
+	}
+	
 }

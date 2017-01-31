@@ -43,7 +43,7 @@ public class PageEntity implements Serializable{
 	@SequenceGenerator( name = "PAEN_ID", sequenceName = "SQ_PAEN_ID", allocationSize = 1 )
 	@Column( name = "PAEN_ID" )
 	private BigDecimal g_paenId;
-	@ManyToOne( cascade = {CascadeType.REFRESH})
+	@ManyToOne( fetch=FetchType.EAGER, cascade = {CascadeType.REFRESH})
 	@JoinColumn(name="PAEN_ENTT_ID")
 	private AEntities g_paenEnttId;
 	@ManyToOne( cascade = {CascadeType.REFRESH})
@@ -81,7 +81,8 @@ public class PageEntity implements Serializable{
 	/**
 	 * @return the paenEnttId
 	 */
-	@JsonIgnore
+	@JsonProperty
+	@JsonUnwrapped
 	public AEntities getPaenEnttId() {
 		return this.g_paenEnttId;
 	}

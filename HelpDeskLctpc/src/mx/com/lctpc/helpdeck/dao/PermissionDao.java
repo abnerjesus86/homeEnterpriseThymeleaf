@@ -11,4 +11,7 @@ public interface PermissionDao {
 	public void updatePermission(Permission p_per);
 	public Permission findPermissionById(BigDecimal p_perId);
 	public void deletePermission(Permission p_per);
+	public List<Permission> findAllPermissionsActive();
+	
+	
 }
