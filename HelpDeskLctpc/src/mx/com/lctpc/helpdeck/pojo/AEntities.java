@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIgnoreProperties(value = { "pageEntities" })
 /*@JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class,
-		  property = "enttId")*/
+		  property = "enttId", scope = AEntities.class)*/
 public class AEntities implements Serializable{
 
 	/*
@@ -69,10 +69,6 @@ public class AEntities implements Serializable{
 	private String		g_enttUpdateBy;
 	@OneToMany(  mappedBy = "g_paenEnttId" )
 	private List<PageEntity> g_pageEntities = new ArrayList<PageEntity>();
-	/*@ManyToMany(fetch = FetchType.EAGER, mappedBy = "g_entities")*/
-	@Transient
-	private List<Page> g_pages =  new ArrayList<Page>();
-	
 	
 	public String getIdAsString() {
 		return this.g_enttId.toString();
@@ -210,20 +206,6 @@ public class AEntities implements Serializable{
 	 */
 	public void setPageEntities( List<PageEntity> p_pageEntities ) {
 		this.g_pageEntities = p_pageEntities;
-	}
-	
-	/**
-	 * @return the pages
-	 */
-	public List<Page> getPages() {
-		return this.g_pages;
-	}
-
-	/**
-	 * @param p_pages the pages to set
-	 */
-	public void setPages( List<Page> p_pages ) {
-		this.g_pages = p_pages;
 	}
 
 	/* (non-Javadoc)

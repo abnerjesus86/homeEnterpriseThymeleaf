@@ -12479,7 +12479,7 @@ td .lbl:only-child {
 .pricing-span {
   margin: 0;
   width: 19%;
-  max-width: 150px !important;
+  max-width: 150px;
   min-width: 110px !important;
   float: left !important;
 }

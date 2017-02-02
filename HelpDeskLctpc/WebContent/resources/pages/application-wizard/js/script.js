@@ -102,12 +102,11 @@ jQuery(function($) {
 				$('#pageDisplay').val(filaActualPage.pageDisplay);
 				$('#pageDescription').val(filaActualPage.pageDescription);
 				$('#pageUrl').val(filaActualPage.pageUrl);
-
+				
 				$.each(filaActualPage.pageEntities != null ? filaActualPage.pageEntities : [], function(i, item) {
-					l_entityOptSel.push(item.enttId);
-					console.log(item.enttId);
+					console.log("Tipo de dato " + item.paenEnttId);
+					l_entityOptSel.push( item.paenEnttId instanceof Object ? item.paenEnttId.enttId : item.paenEnttId );
 				});
-				console.log("Size : " + l_entityOptSel.length);
 
 				getListValuesText({
 					idList : '#pagePageId',
@@ -158,7 +157,7 @@ jQuery(function($) {
 				});
 
 				l_methodType = $('#pageId').val() != '' ? 'PUT' : 'POST';
-
+				console.log(idApp);
 				d = JSON.stringify({
 					pageId : $('#pageId').val() != '' ? new Number($('#pageId').val()) : null,
 					pagePageId : $('#pagePageId').val() != '' ? {
@@ -196,7 +195,12 @@ jQuery(function($) {
 				clearFormPage();
 
 			});
-
+			
+			$('#btn-resetPage').on('click', function() {
+				clearFormPage();
+			});
+			
+			
 			// ----------------------------------------------------------------------------------------------------------
 			// Codigo para tabla de roles appnId
 			var tableRoles = $('#tableRoles').DataTable(
@@ -340,42 +344,12 @@ jQuery(function($) {
 							clearFormPage();
 						}
 						if (item.step == 4) {
-							// var divCol = $("<div class='col-xs-12'>");
-							
 							var divRoles = $('#rolesDiv').empty();
-							var linkStep4 = $(location).attr('origin') + "/HelpDeskLctpc/getJsonRolesApps/" + idApp;
-							var jsonRoles;
-							callAjax(linkStep4, 'GET', function(dJsonRol){
-								jsonRoles = dJsonRol;
-							});
+							var divCol = $("<div class='col-xs-12'>");
 							
-							$.ajax({
-								url : linkStep4,
-								type : 'GET',
-								contentType : "application/json",
-								// data : d,
-								success : function(dataRol) {
-									jsonRoles = dataRol;
-
-									$.each(dataRol.data, function(i, item) {
-										var title = "<h4 class='header smaller lighter blue'><i class='ace-icon fa fa-user bigger-120'></i> " + item.roleName + " <small> [" + item.roleDescription + "]</small></h3>";
-										var divRol = $("<div id='rol_'" + item.roleId + " class='row'>");
-										var divColRol = $("<div class='col-xs-12'>");
-										divColRol.append(title);
-										var jsonPages;
-										
-										buildDivLstPages(divColRol);
-										
-										divRol.append(divColRol);
-										divRoles.append(divRol);
-									});
-
-								},
-								error : function(e) {
-									alert("ERROR: ", e);
-								}
-							});//fin ajax Roles
-
+							buildDivLstPages(divCol);
+							divRoles.append(divCol);
+							
 							// clearFormPage();
 						}
 					}).on('actionclicked.fu.wizard', function(e, item) {
@@ -503,7 +477,7 @@ function getListValuesText(options) {
 				}));
 
 				$.each(options.optionSelect != null ? options.optionSelect : [], function(iOS, itemOptionSelect) {
-					console.log(i + " valor Ws :" + item.value)
+					
 					if (itemOptionSelect == item.value) {
 						var l_x = select.find('option:eq(' + (i + 1) + ')').attr('selected', 'selected');
 					}
@@ -626,62 +600,117 @@ function buildDivLstPages(p_divFather){
 	
 	callAjax($(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp, 'GET', function(dataJson) {
 		//jsonPages = dataJson;
-		var divLstRowPage = $("<div class='row'>");
+		
+		
 		$.each(dataJson.data, function(iPage, itemPage) {
-					var divWidgetMain = $("<div class='widget-main'>");
-					var divLstEnts = $("<div class='profile-user-info'>");
-					$.each(itemPage.pageEntities, function(iEnt, itemEnt) {
-						var divEnt = $("<div class='profile-info-row'>").append("<div class='profile-info-name'> " + itemEnt.enttName + " </div>"); 
-						buildDivLstPermission(divEnt);
-						divLstEnts.append(divEnt);
-					}); //Fin ciclo Entity
+			var titlePage = $("<h3 class='header smaller red'><i class='ace-icon fa fa-list-alt'></i>"+itemPage.pageDisplay+"</h3>");		
+			var divRowPage = $("<div class='row'>");
+			p_divFather.append(titlePage);
+			p_divFather.append(divRowPage);
 
-					divWidgetMain.append(divLstEnts);
-
-					var divColBootStrap = $("<div class='col-sm-4'>");
-					var divWidgetHeaderPage = $("<div class='widget-header'>").append(
-							"<h4 class='widget-title'><i class='ace-icon fa fa-list-alt'></i>Page " + itemPage.pageDisplay + "</h4>");
-					var divWidgetBodyPage = $("<div class='widget-body'>").append(divWidgetMain);
-					var divWidgetBoxPage = $("<div class='widget-box'>");
-
-					divWidgetBoxPage.append(divWidgetHeaderPage);
-					divWidgetBoxPage.append(divWidgetBodyPage);
-
-					divColBootStrap.append(divWidgetBoxPage);
-					
-					if (iPage % 3 === 0)
-						divRowPage = $("<div class='row'>");
-
-					divRowPage.append(divColBootStrap);
-
-					p_divFather.append(divRowPage);
-
-				}); // fin earch Pages
+			p_divFather.append("<div class='space-24'></div>");
+			
+			var divColPage = $("<div class='col-xs-4 col-sm-3 pricing-span-header'>");
+			var divWidgetBoxPage = $("<div class='widget-box transparent'>");
+			var divWidgetHeaderPage = $("<div class='widget-header'>").append(
+					"<h5 class='widget-title'>Permission of Page</h5>");
+			var divWidgetMain = $("<div class='widget-main no-padding'>");
+			var divWidgetBodyPage = $("<div class='widget-body'>").append(divWidgetMain);
+			var ulLstPermission = $("<ul class='list-unstyled list-striped pricing-table-header' id='ul_Permission'>");
+			
+			buildDivLstPermission(ulLstPermission);
+			
+			var divColRoles = $("<div class='col-xs-8 col-sm-9 pricing-span-body'>");
+			buildDivRoles(divColRoles, itemPage.pageEntities);
+	
+			divWidgetMain.append(ulLstPermission);
+			divWidgetBoxPage.append(divWidgetHeaderPage);
+			divWidgetBoxPage.append(divWidgetBodyPage);
+			
+			
+			divColPage.append(divWidgetBoxPage);
+			//divRowPage.append(divColPage);
+			divRowPage.append(divColRoles);
+			
+		}); // fin earch Pages
 	}); // callAjax
 	//return p_divFather;
 }
 
 function buildDivLstPermission(p_divFather){
 	var linkStep4Permission = $(location).attr('origin') + "/HelpDeskLctpc/getJsonPermissionActive/";
-	var jsonPermission;
-	
+
 	callAjax(linkStep4Permission, 'GET', function(dJsonPerm){
-		jsonPermission = dJsonPerm;
+		$.each(dJsonPerm.data, function(iPerm, itemPerm){
+			var li = $("<li id='liPerm_"+itemPerm.prmnId+"'>").text(itemPerm.prmnName);	
+			//li.append("<div class='space-14'></div>");
+			p_divFather.append(li);
+		});//Fin ciclo Permission
 	});
-	
-	var divPermission = $("<div class='profile-info-value'>");
-	$.each(jsonPermission.data, function(iPerm, itemPerm){
-		
-		var inputCboxPermission = $("<input name='form-field-checkbox' type='checkbox' class='ace'>");
-		var labelCboxPermission = $("<label>").append(inputCboxPermission).append("<span class='lbl'>"+itemPerm.prmnName+"</span>");
-		var divCboxPermision = $("<div class='checkbox'>").append(labelCboxPermission);
-		divPermission.append(divCboxPermision);
-		p_divFather.append(divPermission);
-		
-	});//Fin ciclo Permission
 	
 }
 
-function buildDivRoles(p_divFather){
+function buildDivRoles(p_divFather, p_Entities){
+	var idApp = $('#appnId').val();
+	var linkStep4 = $(location).attr('origin') + "/HelpDeskLctpc/getJsonRolesApps/" + idApp;
+	var jsonRoles;
+	var widgetColor = ['blue','green','red','orange','purple','pink','dark','grey',
+		'blue2','green2','red2','blue3','green3','red3'];
+	callAjax(linkStep4, 'GET', function(dJsonRol){
+		jsonRoles = dJsonRol;
+	});
+	var lstTemp = $("<ul class='list-unstyled list-striped pricing-table-header' id='tempPermission'>");
+	buildDivLstPermission(lstTemp);
 	
+	$.each(jsonRoles.data, function(i, itemRol) {
+		var jsonPages;
+		var divSpanRol = $("<div class='pricing-span'>");
+		
+		//((itemRol.roleName.length >10) ? itemRol.roleName.substr(0, 12) + "..." : itemRol.roleName)
+		var titleRol = $("<h5 class='widget-title bigger lighter'><i class='ace-icon fa fa-user bigger-120'></i> "+itemRol.roleName +"</h5>");
+		
+		var divWidgetBoxRol= $("<div class='widget-box pricing-box-small widget-color-"+widgetColor[i]+"'>");
+		var divWidgetHeaderRol = $("<div class='widget-header'>").append(titleRol);
+		var divWidgetMainRol = $("<div class='widget-main no-padding'>");
+		var divWidgetBodyRol = $("<div class='widget-body'>").append(divWidgetMainRol); 
+		var ulLstPermission = $("<ul class='list-unstyled list-striped pricing-table-header' id='ul_Perm"+itemRol.roleId+"' >");
+		
+		$.each(lstTemp.children(), function(iPerm, itemPerm){
+			var li = $("<li>");
+			
+			var liPerm=$(itemPerm);
+			
+			if(p_Entities.length <= 0){
+				console.log(p_Entities.length);
+				var labelCboxEnt = $("<label class='abnerRoles'>");
+				var divCboxEnt = $("<span class='help-inline'>").append(labelCboxEnt);
+				li.append(divCboxEnt);
+			}else{
+				$.each(p_Entities, function(iEnt, itemEntity){
+					li.attr("id","liPagEnt_" + itemEntity.paenId);
+					var inputCboxEnt = $("<input name='form-field-checkbox' type='checkbox' class='ace'>"); 
+					var labelCboxEnt = $("<label class='abnerRoles'>").append(inputCboxEnt).append("<span class='lbl'>"+ ((itemEntity.paenEnttId instanceof Object) ? itemEntity.paenEnttId.enttName : itemEntity.enttName) +"</span>");
+					//var divCboxEnt = $("<div class='checkbox'>").append(labelCboxEnt);
+					var divCboxEnt = $("<span class='help-inline'>").append(labelCboxEnt);
+					
+					li.append(liPerm.text());
+					li.append(divCboxEnt);
+				} );
+			}
+			ulLstPermission.append(li);
+			
+		});
+	
+		divWidgetMainRol.append(ulLstPermission);
+		divWidgetBoxRol.append(divWidgetHeaderRol);
+		divWidgetBoxRol.append(divWidgetBodyRol);
+		divSpanRol.append(divWidgetBoxRol);
+		
+		p_divFather.append(divSpanRol);
+		
+		
+	});
+
+
 }
+

@@ -191,12 +191,12 @@ public class PageController {
 		}
 		
 		List<PageEntity> l_pageEnt = p_page.getPageEntities();
-		
+		System.out.println("valor de entity " + l_pageEnt.size());
 		//for( p_page.getEntities() )
 		
 		p_page.setPageCreatedBy("BEITEZ.ABNER");
 		p_page.setPageUpdateBy("BEITEZ.ABNER");
-		p_page.getPageEntities();
+		//p_page.getPageEntities();
 		pageService.saveOrUpdatePage(p_page);
 		
 		return new ResponseEntity<String>(HttpStatus.OK);

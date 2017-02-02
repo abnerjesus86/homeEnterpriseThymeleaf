@@ -76,3 +76,31 @@ input[type=checkbox].ace.ace-switch.ace-switch-6:checked + input[type=hidden] + 
 .steps li:before{
     display: none;
 }
+
+.pricing-span {
+	width : auto;
+   max-width: none;
+}
+
+.widget-header{
+	padding-right: 12px;
+	border-bottom: initial;
+	/** border-botton: 0px solid #DDD !important;*/
+}
+.pricing-table-header > li{
+	padding: 7px 11px 7px 11px;
+}
+
+ul.pricing-table-header, ol.pricing-table-header {
+	margin-bottom: 0;
+}
+
+li span label.abnerRoles{
+	margin-bottom: 0;
+	font-size: 12px;
+}
+
+label.abnerRoles > input[type=checkbox].ace + .lbl, input[type=radio].ace + .lbl{
+	line-height: 18px;
+}
+

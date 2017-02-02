@@ -28,13 +28,13 @@
                 </bean> 
                  <bean
                     class="mx.com.lctpc.helpdeck.converter.PageEntityToEntityConverter">
-                 </bean>  
+                 </bean>  -->
                 <bean
                 	class="mx.com.lctpc.helpdeck.converter.StringToApplicationConverter">
                 </bean> 
                  <bean
                 	class="mx.com.lctpc.helpdeck.converter.ApplicationToStringConverter">
-                </bean>-->
+                </bean>
                  <bean
                  	class="mx.com.lctpc.helpdeck.converter.StringToPageConverter">
                  </bean>

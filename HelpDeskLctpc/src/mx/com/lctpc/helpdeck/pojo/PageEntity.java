@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table( name="PAGE_ENTITY",  schema="APPLICATION_MANAGER" )
 @JsonIgnoreProperties(value = { "paenPageId"})
 @JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class, property = "paenId")
+		  generator = ObjectIdGenerators.PropertyGenerator.class, property = "paenId", scope = PageEntity.class)
 public class PageEntity implements Serializable{
 	/**
 	 * 
@@ -43,7 +43,7 @@ public class PageEntity implements Serializable{
 	@SequenceGenerator( name = "PAEN_ID", sequenceName = "SQ_PAEN_ID", allocationSize = 1 )
 	@Column( name = "PAEN_ID" )
 	private BigDecimal g_paenId;
-	@ManyToOne( fetch=FetchType.EAGER, cascade = {CascadeType.REFRESH})
+	@ManyToOne( fetch=FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
 	@JoinColumn(name="PAEN_ENTT_ID")
 	private AEntities g_paenEnttId;
 	@ManyToOne( cascade = {CascadeType.REFRESH})
@@ -82,7 +82,7 @@ public class PageEntity implements Serializable{
 	 * @return the paenEnttId
 	 */
 	@JsonProperty
-	@JsonUnwrapped
+	/*@JsonUnwrapped*/
 	public AEntities getPaenEnttId() {
 		return this.g_paenEnttId;
 	}
