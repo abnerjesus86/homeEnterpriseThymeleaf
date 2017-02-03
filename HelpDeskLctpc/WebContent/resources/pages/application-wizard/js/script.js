@@ -629,7 +629,7 @@ function buildDivLstPages(p_divFather){
 			
 			
 			divColPage.append(divWidgetBoxPage);
-			//divRowPage.append(divColPage);
+			divRowPage.append(divColPage);
 			divRowPage.append(divColRoles);
 			
 		}); // fin earch Pages
