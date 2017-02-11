@@ -1,0 +1,18 @@
+@CHARSET "ISO-8859-1";
+/* .pagination {
+	list-style: none !important;
+	list-style-type: none !important;
+    list-style-position: initial !important;
+    list-style-image: initial !important;
+    width: 60%;
+} */
+.wizard > .content > .body ul.pagination {
+    list-style: none !important;
+     width: 100%;
+    display: inline-block; 
+}
+
+.wizard > .content > .body ul.dropdown-menu {
+    list-style: none !important;
+    min-width: inherit;
+}

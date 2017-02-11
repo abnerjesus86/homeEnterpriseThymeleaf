@@ -639,6 +639,7 @@
 											<h3 class="lighter block green">Create Roles for your Application</h3>
 											<div class="row">
 												<div class="col-xs-12 col-sm-6">
+												    
 													<table id="tableRoles" class="table table-striped no-margin-bottom no-border-top">
 														<thead>
 														</thead>
@@ -681,13 +682,18 @@
 											<h3 class="lighter block green">Create Page for your Application</h3>
 											<div class="row">
 												<div class="col-xs-12 col-sm-6">
-
-													<table id="tablePages" class="table table-striped table-hover">
-														<thead>
-														</thead>
-														<tbody>
-														</tbody>
-													</table>
+                                                    <div id="capaLoader" class="col-md-11 text-center hidden" style="margin-top:100px" >
+                                                        <img class='loader-gear' src='../res/assets/images/loading1.gif' />
+                                                    </div>
+                                                    <div id="divTbPages" class="hidden">
+	                                                    <table id="tablePages" class="table table-striped table-hover" >
+	                                                        <thead>
+	                                                        </thead>
+	                                                        <tbody>
+	                                                        </tbody>
+	                                                    </table>
+                                                    </div>
+													
 												</div>
 
 												<div class="col-xs-12 col-sm-6">

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,7 @@ import mx.com.lctpc.helpdeck.service.ApplicationService;
 import mx.com.lctpc.helpdeck.service.EntityService;
 import mx.com.lctpc.helpdeck.service.PageService;
 import mx.com.lctpc.helpdeck.service.PermissionService;
+import mx.com.lctpc.helpdeck.service.PlatformService;
 import mx.com.lctpc.helpdeck.service.RolService;
 import mx.com.lctpc.helpdeck.service.SecretQuestionService;
 import mx.com.lctpc.helpdeck.service.UsersService;
@@ -58,6 +60,9 @@ public class JsonController {
 
 	@Autowired
 	private EntityService entityService;
+	
+	@Autowired
+	private PlatformService platformService;
 
 	@RequestMapping( value = "/getJsonUsers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<List<User>> showListAllUsers() {
@@ -104,7 +109,62 @@ public class JsonController {
 		l_map.put("data", l_apps);
 		return new ResponseEntity<Map<String, List<Application>>>(l_map, HttpStatus.OK);
 	}
+	
+	@RequestMapping( value = "/getJsonAppsForSelect", method = { RequestMethod.POST, RequestMethod.GET }, produces = "application/json" )
+	public ResponseEntity<Map<String, List<SelectList>>> showAppsForSelect() {
+		
+		List<Application> l_apps = appService.findAllApplication();
+		
+		if (l_apps.isEmpty()) {
+			return new ResponseEntity<Map<String, List<SelectList>>>(HttpStatus.NO_CONTENT);// You many decide to
+																								// return
+																								// HttpStatus.NOT_FOUND
+		}
+		List<SelectList> l_lst = new ArrayList<SelectList>();
+		for (Application l_app : l_apps) {			
+			l_lst.add(new SelectList(l_app.getAppnId().toPlainString(), l_app.getAppnName()));
+		}
+		
+		Map<String, List<SelectList>> l_map = new HashMap<String, List<SelectList>>();
+		l_map.put("data", l_lst);
+		return new ResponseEntity<Map<String, List<SelectList>>>(l_map, HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping( value = "/getJsonPlatformForSelect", method = { RequestMethod.GET }, produces = "application/json" )
+	public ResponseEntity<Map<String, List<SelectList>>> showPlatformForSelect() {
+		
+		Map<BigDecimal, String> l_platf = platformService.findAllPlatformActive();
+		
+		if (l_platf.isEmpty()) {
+			return new ResponseEntity<Map<String, List<SelectList>>>(HttpStatus.NO_CONTENT);// You many decide to
+																								// return
+																								// HttpStatus.NOT_FOUND
+		}
+		List<SelectList> l_lst = new ArrayList<SelectList>();
+		
+		for ( Entry<BigDecimal, String> l_plft : l_platf.entrySet()) {			
+			l_lst.add(new SelectList(l_plft.getKey().toPlainString(), l_plft.getValue()));
+		}
+		
+		Map<String, List<SelectList>> l_map = new HashMap<String, List<SelectList>>();
+		l_map.put("data", l_lst);
+		return new ResponseEntity<Map<String, List<SelectList>>>(l_map, HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping( value = { "/getJsonApp/{p_appId}" }, method = { RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<Application> showJsonApp( @PathVariable( "p_appId" ) BigDecimal p_appId ) {
 
+		
+		Application l_app = appService.findApplicationById(p_appId);
+		if (l_app == null) {
+			return new ResponseEntity<Application>(HttpStatus.NO_CONTENT);// You many decide to return HttpStatus.NOT_FOUND
+		}
+		
+		return new ResponseEntity<Application>(l_app, HttpStatus.OK);
+	}
+	
 	@RequestMapping( value = { "/getJsonUserRoles/{p_IdUser}" }, method = { RequestMethod.GET }, produces = "application/json" )
 	public ResponseEntity<Map<String, List<UserRole>>> showJsonUserRoles( @PathVariable( "p_IdUser" ) BigDecimal p_userId ) {
 

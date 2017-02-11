@@ -7,6 +7,7 @@ jQuery(function($) {
 	jQuery.fn.extend({
 		initializeTable : function() {
 			// Codigo para tabla de pagina
+			
 			var tablePages = $('#tablePages').DataTable(
 					{
 						paging : false,
@@ -89,9 +90,13 @@ jQuery(function($) {
 								}
 
 						],
+						
 						initComplete : function() {
+							console.log("entro al iniic");
 						},
 						fnDrawCallback : function() {
+							
+							console.log("entro al drawcallback ");
 						}
 					});
 
@@ -104,7 +109,6 @@ jQuery(function($) {
 				$('#pageUrl').val(filaActualPage.pageUrl);
 				
 				$.each(filaActualPage.pageEntities != null ? filaActualPage.pageEntities : [], function(i, item) {
-					console.log("Tipo de dato " + item.paenEnttId);
 					l_entityOptSel.push( item.paenEnttId instanceof Object ? item.paenEnttId.enttId : item.paenEnttId );
 				});
 
@@ -157,7 +161,7 @@ jQuery(function($) {
 				});
 
 				l_methodType = $('#pageId').val() != '' ? 'PUT' : 'POST';
-				console.log(idApp);
+				
 				d = JSON.stringify({
 					pageId : $('#pageId').val() != '' ? new Number($('#pageId').val()) : null,
 					pagePageId : $('#pagePageId').val() != '' ? {
@@ -177,7 +181,7 @@ jQuery(function($) {
 				if (idApp !== null && idApp !== undefined && idApp != '') {
 					link = link + "/" + idApp;
 				}
-
+				
 				$.ajax({
 					url : link,
 					type : $('#pageId').val() != '' ? 'PUT' : 'POST',
@@ -191,12 +195,15 @@ jQuery(function($) {
 						alert("ERROR: ", e);
 					}
 				});
-
+				
 				clearFormPage();
 
 			});
 			
 			$('#btn-resetPage').on('click', function() {
+				
+				//$('#tablePages').DataTable().clear().draw();
+				//$('#tablePages').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp).load();
 				clearFormPage();
 			});
 			
@@ -337,11 +344,14 @@ jQuery(function($) {
 							}
 						}
 						if (item.step == 3) {
-							if (idApp !== null && idApp !== undefined && idApp != '') {
-								$('#tablePages').DataTable().clear().draw();
-								$('#tablePages').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp).load();
-							}
+							//if (idApp !== null && idApp !== undefined && idApp != '') {
+								//$('#capaLoader').removeClass('hidden');
+								//$('#tablePages').DataTable().clear().draw();
+								//$('#tablePages').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp).load();
+							//}
+							
 							clearFormPage();
+							$('#tablePages').DataTable().draw();
 						}
 						if (item.step == 4) {
 							var divRoles = $('#rolesDiv').empty();
@@ -402,6 +412,21 @@ $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
 }));
 
 function clearFormPage() {
+	var idApp = $('#appnId').val();
+	
+	$('#divTbPages').addClass('hidden');
+	$('#capaLoader').removeClass('hidden');
+	
+	$('#tablePages').DataTable().clear().draw();
+	$('#tablePages').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp).load( function(){
+		
+		$('#divTbPages').removeClass('hidden');
+		$('#capaLoader').addClass('hidden');
+		
+	} );
+	
+	
+	
 	$('#pageId').val("");
 	$('#pageDisplay').val("");
 	$('#pageDescription').val("");
@@ -708,9 +733,7 @@ function buildDivRoles(p_divFather, p_Entities){
 		
 		p_divFather.append(divSpanRol);
 		
-		
 	});
-
 
 }
 

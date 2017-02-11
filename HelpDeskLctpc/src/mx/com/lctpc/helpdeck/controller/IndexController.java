@@ -32,7 +32,20 @@ public class IndexController {
 		System.out.println("Entro....");
 		return "index";
 	}
-
+	
+	
+	@RequestMapping( "/appWizards" )
+	public String showAppWizards( Model p_model ) {
+		
+		return "application-wizards";
+	}
+	
+	@RequestMapping( "/appWizards/{appId}" )
+	public String showAppWizards( Model p_model,  @PathVariable( "appId" ) BigDecimal p_appId ) {
+		
+		return "application-wizards";
+	}
+	
 	@RequestMapping( "/exampleTemplate" )
 	public String showEjemplo( Model model ) {
 		System.out.println("Template....");

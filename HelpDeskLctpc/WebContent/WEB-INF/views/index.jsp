@@ -23,7 +23,7 @@
 	<a href='<c:url value="/getUser"/>'>Usuario</a> <br/>
 	<a href='<c:url value="/catalogManager"/>'>Catalogs</a> <br/>
 	<a href='<c:url value="/applicationWizard"/>'>Setup your application</a> <br/>
-	<a href='<c:url value="/appWizard"/>'>Setup your application 2</a> <br/>
+	<a href='<c:url value="/appWizards/3"/>'>Setup your wizard application </a> <br/>
 	<a href='<c:url value="/appWizard/3"/>'>Setup your application 2</a> <br/>
 	<br/>
 	
