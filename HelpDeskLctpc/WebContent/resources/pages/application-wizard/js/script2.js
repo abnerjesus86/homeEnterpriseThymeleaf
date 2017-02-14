@@ -35,15 +35,30 @@ jQuery(function($) {
                     }
                     if( newIndex === 3){ //paso Permission Page
                     	console.log("entro paso 3...");
-                    	var divPages = $('#divPages').empty();
+                    	//var divPages = $('#divPages').empty();
 						
-                    	var divCol = $("<div class='col-lg-12'>");
+                    	//var divCol = $("<div class='col-lg-12'>");
 						//build panels page
 						//buildDivLstPages(divCol);
 						
-						divPages.append(divCol);
+						//divPages.append(divCol);
 						
-						buildPermissionPageRoles();
+						//buildPermissionPageRoles();
+						//console.log(JSON.stringify(buildPermissionPageRoles()));
+						
+                    	
+                    	//var dataSet  =  JSON.stringify( buildPermissionPageRoles() );
+                    	//var dataSet  =  JSON.parse( buildPermissionPageRoles() );
+                    	//JSON.parse( buildPermissionPageRoles() );
+        				//console.log(dataSet);
+            			
+                    	
+                    	
+                    	
+                    	
+                    	$('#dataTables-Permission').DataTable().clear().draw();
+						$('#dataTables-Permission').DataTable().ajax.url( $(location).attr('origin') +"/HelpDeskLctpc/getJsonPermissionRolPageActive/3").load();
+                    	console.log("entro paso 3 sy...");
 						
 						return true;
                     }
@@ -233,7 +248,91 @@ jQuery(function($) {
 			});
 			
 			// ----------------------------------------------------------------------------------------------------------
-		
+			// Table Permission
+			
+
+			/*$.ajax({
+				  url: "http://10.130.24.29:7001/cts_aduana_v1.0/jsonP.js"
+				}).done(function() {
+				  console.log("siiiiii");
+				});*/
+			//var d = buildPermissionPageRoles();
+			
+			var tablePermission = $('#dataTables-Permission').DataTable(
+					{
+						//paging : false,
+						info : false,
+						autoWidth : true,
+						searching : true,
+						ordering : true,
+						destroy: true,
+						lengthChange: true,
+						pageLength: 10,
+						responsive: true,
+						/*dom: "<'row'<'col-lg-5'f><'col-lg-7 html5buttons'B> lTgt>" 
+							+ "<'row'<'col-md-5'i><'col-md-7 text-right'p>>",*/
+						dom: '<"html5buttons"B>lTfgitp',
+		                buttons: [{
+		                    text: 'Actualizar',
+		                    action: function(e, dt, node, config) {
+		                        dt.ajax.reload();
+		                    }
+		                }, {
+		                    "extend": 'copy',
+		                    "text": 'Copiar'
+		                }, {
+		                    "extend": 'csv'
+		                }, {
+		                    "extend": 'pdf',
+		                    "text": 'Pdf'
+		                }, {
+		                    "extend": 'print',
+		                    "customize": function(win) {
+		                        $(win.document.body).addClass('white-bg');
+		                        $(win.document.body).css('font-size', '10px');
+		                        $(win.document.body).find('table')
+		                            .addClass('compact')
+		                            .css('font-size', 'inherit');
+		                    }
+		                }],
+						columns : [
+								{
+									title : "paenID",
+									data : "paenId"
+									//orderable: true
+								},
+								{
+									title : "Page Name",
+									data : "pageDisplay"
+									//orderable: true
+								},
+								{
+									title : "Entity Name",
+									data : "enttName"
+									//orderable: false
+								},
+								{
+									title : "Rol ID",
+									data : "roleId"
+									//orderable: false
+								},
+								{
+									title : "Rol Name",
+									data : "roleName"
+									//orderable: false
+								}
+						],
+						
+						initComplete : function() {
+							console.log("entro paso 3 initComplete...");
+						},
+						fnDrawCallback : function() {
+							
+							console.log("entro paso 3 drawCall...");
+						}
+					});
+			
+			
 			//-----------------------------------------------------------------------------------------------------
 			var tablePages = $('#tablePages').DataTable(
 					{
@@ -659,24 +758,30 @@ function callAjax(p_url, p_methodType, successFuction) {
 
 }
 
-
 function buildPermissionPageRoles(){
 	var idApp = $('#appnId').val();
+	var idApp = 3;
 	var jsonData = new Object();
 	var arrayData = [];
 	var linkStep4 = $(location).attr('origin') + "/HelpDeskLctpc/getJsonRolesApps/" + idApp;
+	var vData = new Object();
 	
 	callAjax($(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp, 'GET', function(dataJson) {
 		
 		$.each(dataJson.data, function(iPage, itemPage) {
-			jsonData = new Object();
-			jsonData.pageId = itemPage.pageId;
-			jsonData.pageDisplay = itemPage.pageDisplay;
-			
+			/*
 			if(itemPage.pageEntities.length <= 0){
 				callAjax(linkStep4, 'GET', function(dJsonRol) {
 
 					$.each(dJsonRol.data, function(i, itemRol) {
+						jsonData = new Object();
+						jsonData.pageId = itemPage.pageId;
+						jsonData.pageDisplay = itemPage.pageDisplay;
+						
+						jsonData.paenId = '-';
+						jsonData.enttName = '-';
+						jsonData.enttId = '-';
+						
 						jsonData.roleId = itemRol.roleId;
 						jsonData.roleName = itemRol.roleName;
 
@@ -684,34 +789,33 @@ function buildPermissionPageRoles(){
 					});
 
 				});
-			}else{
+			}
+			else{*/
 				$.each(itemPage.pageEntities, function(iEnt, itemEntity) {
-
-					jsonData.paenId = itemEntity.paenId;
-					jsonData.enttName = ((itemEntity.paenEnttId instanceof Object) ? itemEntity.paenEnttId.enttName : itemEntity.enttName);
-					jsonData.enttId = ((itemEntity.paenEnttId instanceof Object) ? itemEntity.paenEnttId.enttId : itemEntity.enttId);
-
-					
 					callAjax(linkStep4, 'GET', function(dJsonRol) {
-
 						$.each(dJsonRol.data, function(i, itemRol) {
+							jsonData = new Object();
+							jsonData.pageId = itemPage.pageId;
+							jsonData.pageDisplay = itemPage.pageDisplay;
+							
+							jsonData.paenId = itemEntity.paenId;
+							jsonData.enttName = ((itemEntity.paenEnttId instanceof Object) ? itemEntity.paenEnttId.enttName : itemEntity.enttName);
+							jsonData.enttId = ((itemEntity.paenEnttId instanceof Object) ? itemEntity.paenEnttId.enttId : itemEntity.enttId);
+							
 							jsonData.roleId = itemRol.roleId;
 							jsonData.roleName = itemRol.roleName;
 
 							arrayData.push(jsonData);
 						});
-
 					});
-
 				});
-			}
-			
-			
+			//}//fin else
 		});
 		
 	});
+	vData.data = arrayData;
+	return vData;
 	
-	console.log(JSON.stringify(arrayData));
 }
 
 

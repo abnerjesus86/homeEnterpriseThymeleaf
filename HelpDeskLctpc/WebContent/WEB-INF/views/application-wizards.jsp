@@ -533,8 +533,18 @@
 							<div class="step-content">
 								<!-- <div class="text-center m-t-md"> -->
 									<h2>Associates permissions to pages</h2>
-									<div id="divPages" class="row"></div>
+									<!-- <div id="divPages" class="row">
 									
+									</div> -->
+									
+									<div class="table-responsive">
+									   <table id="dataTables-Permission" class="table table-striped table-bordered table-hover" >
+									       <thead>
+                                           </thead>
+                                           <tbody>
+                                           </tbody>
+									   </table>
+									</div>
 									
 								<!-- </div> -->
 							</div>
