@@ -386,156 +386,105 @@ public class JsonController {
 	}
 	
 	@RequestMapping( value = "/getJsonPermissionRolPageActive/{p_appId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity<Map<String, List<Perm>>> showJsonPermissionRolPage( @PathVariable( "p_appId" ) BigDecimal p_appId ) {
-		
+	public ResponseEntity<Map<String, List<Map<String, Object>>>> showJsonPermissionRolPage( @PathVariable( "p_appId" ) BigDecimal p_appId ) {
 		
 		List<Permission> l_lstPerm = permService.findAllPermissionsActive();
 		List<Page> l_lstPage = pagService.findPageFromApplicationById(p_appId);
 		List<ApplicationRole> l_roleApps = appService.findRoleFromApplicationById(p_appId);
-		List<Perm> l_lstPermTotal = new ArrayList<Perm>();
-		Map<String, List<Perm>> l_map = new HashMap<String, List<Perm>>();
+		//List<Perm> l_lstPermTotal = new ArrayList<Perm>();
+		//Map<String, List<Perm>> l_map = new HashMap<String, List<Perm>>();
+		List<Map<String, Object>> l_m = new ArrayList<Map<String, Object>>();
+		Map<String, List<Map<String, Object>>> l_map = new HashMap<String, List<Map<String, Object>>>();
+		Map<String, Object> l_mapColum = new HashMap<String, Object>();
+		List<Map<String, Object>> l_lstColums = new ArrayList<Map<String, Object>>();
+		
+		//l_mapColum.put("title","Page Id");
+		//l_mapColum.put("data","pageId");
+		//l_lstColums.add(l_mapColum);
+		//l_mapColum = new HashMap<String, Object>();
+		l_mapColum.put("title","Page Name");
+		l_mapColum.put("data","pageDisplay");
+		l_lstColums.add(l_mapColum);
+		//l_mapColum = new HashMap<String, Object>();
+		//l_mapColum.put("title","Entity Id");
+		//l_mapColum.put("data","enttId");
+		//l_lstColums.add(l_mapColum);
+		l_mapColum = new HashMap<String, Object>();
+		l_mapColum.put("title","Entity Name");
+		l_mapColum.put("data","enttName");
+		l_lstColums.add(l_mapColum);
+		
+		for(ApplicationRole l_rol: l_roleApps){
+			l_mapColum = new HashMap<String, Object>();
+			l_mapColum.put("title", l_rol.getAproRoleId().getRoleName());
+			l_mapColum.put("data", "roleId_"+l_rol.getAproRoleId().getRoleId());
+			l_lstColums.add(l_mapColum);
+		}
+		
 		for(Page l_pag : l_lstPage){
 			
 			if(l_pag.getPageEntities().isEmpty()){
+				Map<String, Object> l_p = new HashMap<String, Object>();
+				l_p.put( "pageId", l_pag.getPageId());
+				l_p.put( "pageDisplay", l_pag.getPageDisplay());
+				l_p.put( "paenId", null);
+				l_p.put( "enttId", null );
+				l_p.put( "enttName", null );
 				
 				for(ApplicationRole l_rol: l_roleApps){
-					Perm l_permiso = new Perm();
-					l_permiso.setPageId(l_pag.getPageId());
-					l_permiso.setPageDisplay(l_pag.getPageDisplay());
-					//l_permiso.setPaenId(l_paen.getPaenId());
-					//l_permiso.setEnttId( l_paen.getPaenEnttId().getEnttId() );
-					//l_permiso.setEnttName( l_paen.getPaenEnttId().getEnttName() );
 					
-					l_permiso.setRoleId(l_rol.getAproRoleId().getRoleId());
-					l_permiso.setRoleName(l_rol.getAproRoleId().getRoleName());
 					
-					l_lstPermTotal.add(l_permiso);
-				}
-				
-			}else{
-				for(PageEntity l_paen : l_pag.getPageEntities()){
-					
-					for(ApplicationRole l_rol: l_roleApps){
-						Perm l_permiso = new Perm();
-						l_permiso.setPageId(l_pag.getPageId());
-						l_permiso.setPageDisplay(l_pag.getPageDisplay());
-						l_permiso.setPaenId(l_paen.getPaenId());
-						l_permiso.setEnttId( l_paen.getPaenEnttId().getEnttId() );
-						l_permiso.setEnttName( l_paen.getPaenEnttId().getEnttName() );
+					for(Permission l_perm : l_lstPerm){
+						Map<String, Object> l_rp = new HashMap<String, Object>();
+						l_rp.put("countPermission", l_lstPerm.size());
+						l_rp.put( "roleId_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleId() );
+						l_rp.put( "roleName_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleName() );
 						
-						l_permiso.setRoleId(l_rol.getAproRoleId().getRoleId());
-						l_permiso.setRoleName(l_rol.getAproRoleId().getRoleName());
-						
-						l_lstPermTotal.add(l_permiso);
+						l_rp.put("prmnId", l_perm.getPrmnId());
+						l_rp.put("prmnName", l_perm.getPrmnName());
+						l_p.put("roleId_"+l_rol.getAproRoleId().getRoleId(), l_rp);
 					}
 					
+					
+				}
+				l_m.add(l_p);
+			}else{
+				for(PageEntity l_paen : l_pag.getPageEntities()){
+					Map<String, Object> l_p = new HashMap<String, Object>();
+					l_p.put( "pageId", l_pag.getPageId());
+					l_p.put( "pageDisplay", l_pag.getPageDisplay());
+					l_p.put( "paenId", l_paen.getPaenId());
+					l_p.put( "enttId", l_paen.getPaenEnttId().getEnttId() );
+					l_p.put( "enttName", l_paen.getPaenEnttId().getEnttName() );
+					
+					for(ApplicationRole l_rol: l_roleApps){
+						
+						for(Permission l_perm : l_lstPerm){
+							Map<String, Object> l_rp = new HashMap<String, Object>();
+							l_rp.put("countPermission", l_lstPerm.size());
+							l_rp.put( "roleId_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleId() );
+							l_rp.put( "roleName_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleName() );
+							
+							l_rp.put("prmnId", l_perm.getPrmnId());
+							l_rp.put("prmnName", l_perm.getPrmnName());
+							l_p.put("roleId_"+l_rol.getAproRoleId().getRoleId(), l_rp);
+						}
+						
+						//l_p.put( "roleId_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleId() );
+						//l_p.put( "roleName_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleName() );	
+						
+					}
+					l_m.add(l_p);
 				}
 			}
 
-			
 		}
-		
-		
-		
-		
-		l_map.put("data", l_lstPermTotal);
-		return new ResponseEntity<Map<String, List<Perm>>>(l_map, HttpStatus.OK);
 
-	}
-	
-	private class Perm{
-		BigDecimal g_pageId;
-		String g_pageDisplay;
-		BigDecimal g_paenId;
-		BigDecimal g_enttId;
-		String g_enttName;
-		BigDecimal g_roleId;
-		String g_roleName;
-		/**
-		 * @return the pageId
-		 */
-		public BigDecimal getPageId() {
-			return this.g_pageId;
-		}
-		/**
-		 * @param p_pageId the pageId to set
-		 */
-		public void setPageId( BigDecimal p_pageId ) {
-			this.g_pageId = p_pageId;
-		}
-		/**
-		 * @return the pageDisplay
-		 */
-		public String getPageDisplay() {
-			return this.g_pageDisplay;
-		}
-		/**
-		 * @param p_pageDisplay the pageDisplay to set
-		 */
-		public void setPageDisplay( String p_pageDisplay ) {
-			this.g_pageDisplay = p_pageDisplay;
-		}
-		/**
-		 * @return the paenId
-		 */
-		public BigDecimal getPaenId() {
-			return this.g_paenId;
-		}
-		/**
-		 * @param p_paenId the paenId to set
-		 */
-		public void setPaenId( BigDecimal p_paenId ) {
-			this.g_paenId = p_paenId;
-		}
-		/**
-		 * @return the enttId
-		 */
-		public BigDecimal getEnttId() {
-			return this.g_enttId;
-		}
-		/**
-		 * @param p_enttId the enttId to set
-		 */
-		public void setEnttId( BigDecimal p_enttId ) {
-			this.g_enttId = p_enttId;
-		}
-		/**
-		 * @return the enttName
-		 */
-		public String getEnttName() {
-			return this.g_enttName;
-		}
-		/**
-		 * @param p_enttName the enttName to set
-		 */
-		public void setEnttName( String p_enttName ) {
-			this.g_enttName = p_enttName;
-		}
-		/**
-		 * @return the roleId
-		 */
-		public BigDecimal getRoleId() {
-			return this.g_roleId;
-		}
-		/**
-		 * @param p_roleId the roleId to set
-		 */
-		public void setRoleId( BigDecimal p_roleId ) {
-			this.g_roleId = p_roleId;
-		}
-		/**
-		 * @return the roleName
-		 */
-		public String getRoleName() {
-			return this.g_roleName;
-		}
-		/**
-		 * @param p_roleName the roleName to set
-		 */
-		public void setRoleName( String p_roleName ) {
-			this.g_roleName = p_roleName;
-		}
+		l_map.put("data", l_m);
+		l_map.put("columns", l_lstColums);
 		
+		return new ResponseEntity<Map<String, List<Map<String, Object>>>>(l_map, HttpStatus.OK);
+
 	}
 	
 	

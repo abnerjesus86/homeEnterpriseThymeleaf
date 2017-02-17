@@ -24,13 +24,12 @@ jQuery(function($) {
 							$('#tableRoles').DataTable().clear().draw();
 							$('#tableRoles').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpc/getJsonRolesApps/" + idApp).load();
 						}
-                    	console.log("entro al index  -> " + currentIndex);
+
                         return true;
                     }
                     if( newIndex === 2){ //paso Pages
                     	clearFormPage();
 						$('#tablePages').DataTable().draw();
-						console.log("entro al index  -> " + currentIndex);
 						return true;
                     }
                     if( newIndex === 3){ //paso Permission Page
@@ -44,20 +43,10 @@ jQuery(function($) {
 						//divPages.append(divCol);
 						
 						//buildPermissionPageRoles();
-						//console.log(JSON.stringify(buildPermissionPageRoles()));
 						
                     	
-                    	//var dataSet  =  JSON.stringify( buildPermissionPageRoles() );
-                    	//var dataSet  =  JSON.parse( buildPermissionPageRoles() );
-                    	//JSON.parse( buildPermissionPageRoles() );
-        				//console.log(dataSet);
-            			
-                    	
-                    	
-                    	
-                    	
-                    	$('#dataTables-Permission').DataTable().clear().draw();
-						$('#dataTables-Permission').DataTable().ajax.url( $(location).attr('origin') +"/HelpDeskLctpc/getJsonPermissionRolPageActive/3").load();
+                    	//$('#dataTables-Permission').DataTable().clear().draw();
+						//$('#dataTables-Permission').DataTable().ajax.url( $(location).attr('origin') +"/HelpDeskLctpc/getJsonPermissionRolPageActive/3").load();
                     	console.log("entro paso 3 sy...");
 						
 						return true;
@@ -113,8 +102,7 @@ jQuery(function($) {
 						chosen : true
 					});
 					
-					//getJsonPlatformForSelect
-					
+					//getJsonPlatformForSelect					
 					getListValuesText({
 						idList : '#appnPlfmId',
 						methodType : 'GET',
@@ -249,14 +237,16 @@ jQuery(function($) {
 			
 			// ----------------------------------------------------------------------------------------------------------
 			// Table Permission
-			
-
-			/*$.ajax({
-				  url: "http://10.130.24.29:7001/cts_aduana_v1.0/jsonP.js"
-				}).done(function() {
-				  console.log("siiiiii");
-				});*/
-			//var d = buildPermissionPageRoles();
+			var v_columns = [];
+			callAjax($(location).attr('origin') + "/HelpDeskLctpc/getJsonPermissionRolPageActive/" + idApp, 'GET', function(dataJson) {
+				$.each(dataJson.columns, function(i, item) {
+					var title = new Object();
+					title.title = item.title;
+					title.data = item.data;
+					console.log(item);
+					v_columns.push(title);
+				});
+			});
 			
 			var tablePermission = $('#dataTables-Permission').DataTable(
 					{
@@ -269,8 +259,8 @@ jQuery(function($) {
 						lengthChange: true,
 						pageLength: 10,
 						responsive: true,
-						/*dom: "<'row'<'col-lg-5'f><'col-lg-7 html5buttons'B> lTgt>" 
-							+ "<'row'<'col-md-5'i><'col-md-7 text-right'p>>",*/
+						dom: "<'row'<'col-lg-5'f><'col-lg-7 html5buttons'B> lTgt>" 
+							+ "<'row'<'col-md-5'i><'col-md-7 text-right'p>>",
 						dom: '<"html5buttons"B>lTfgitp',
 		                buttons: [{
 		                    text: 'Actualizar',
@@ -295,7 +285,16 @@ jQuery(function($) {
 		                            .css('font-size', 'inherit');
 		                    }
 		                }],
-						columns : [
+						ajax : {
+							url : $(location).attr('origin') +"/HelpDeskLctpc/getJsonPermissionRolPageActive/3",
+							type: "GET"
+							//columns : "columns",
+							//contentType: "application/json",
+							//data : "data"
+						},
+		                columns : v_columns,
+		                /*
+		                columns : [
 								{
 									title : "paenID",
 									data : "paenId"
@@ -322,7 +321,7 @@ jQuery(function($) {
 									//orderable: false
 								}
 						],
-						
+						*/
 						initComplete : function() {
 							console.log("entro paso 3 initComplete...");
 						},
@@ -376,7 +375,6 @@ jQuery(function($) {
 									data : "pageId",
 									orderable: true
 								},
-								
 								{
 									title : "Name",
 									data : "pageDisplay",
