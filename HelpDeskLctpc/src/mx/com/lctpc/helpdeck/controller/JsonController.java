@@ -404,6 +404,9 @@ public class JsonController {
 		//l_mapColum = new HashMap<String, Object>();
 		l_mapColum.put("title","Page Name");
 		l_mapColum.put("data","pageDisplay");
+		l_mapColum.put("rowspan",2);
+		l_mapColum.put("colspan",1);
+		l_mapColum.put("nivel",0);
 		l_lstColums.add(l_mapColum);
 		//l_mapColum = new HashMap<String, Object>();
 		//l_mapColum.put("title","Entity Id");
@@ -412,15 +415,45 @@ public class JsonController {
 		l_mapColum = new HashMap<String, Object>();
 		l_mapColum.put("title","Entity Name");
 		l_mapColum.put("data","enttName");
+		l_mapColum.put("rowspan",2);
+		l_mapColum.put("colspan",1);
+		l_mapColum.put("nivel",0);
 		l_lstColums.add(l_mapColum);
 		
 		for(ApplicationRole l_rol: l_roleApps){
+			
 			l_mapColum = new HashMap<String, Object>();
 			l_mapColum.put("title", l_rol.getAproRoleId().getRoleName());
 			l_mapColum.put("data", "roleId_"+l_rol.getAproRoleId().getRoleId());
+			//l_mapColum.put("data", "roleId_"+l_rol.getAproRoleId().getRoleId()+"."+"roleId_"+l_rol.getAproRoleId().getRoleId());
+			l_mapColum.put("rowspan",1);
+			l_mapColum.put("colspan",l_lstPerm.size());
+			l_mapColum.put("nivel",0);
+			l_mapColum.put("render",true);
 			l_lstColums.add(l_mapColum);
+			
+			/*
+			for(Permission l_perm : l_lstPerm ){
+				l_mapColum = new HashMap<String, Object>();
+				l_mapColum.put("title", "Prmn Id");
+				l_mapColum.put("data", "roleId_"+l_rol.getAproRoleId().getRoleId()+".prmnId_"+l_perm.getPrmnId() );
+				l_mapColum.put("rowspan",1);
+				l_mapColum.put("colspan",1);
+				l_mapColum.put("nivel",1);
+				l_lstColums.add(l_mapColum);
+				
+				l_mapColum = new HashMap<String, Object>();
+				l_mapColum.put("title", l_perm.getPrmnName());
+				l_mapColum.put("data", "roleId_"+l_rol.getAproRoleId().getRoleId()+".prmnName_"+l_perm.getPrmnId() );
+				l_mapColum.put("rowspan",1);
+				l_mapColum.put("colspan",1);
+				l_mapColum.put("nivel",1);
+				l_lstColums.add(l_mapColum);
+			}
+			*/
 		}
 		
+		//Armado del data
 		for(Page l_pag : l_lstPage){
 			
 			if(l_pag.getPageEntities().isEmpty()){
@@ -432,19 +465,15 @@ public class JsonController {
 				l_p.put( "enttName", null );
 				
 				for(ApplicationRole l_rol: l_roleApps){
-					
-					
+					Map<String, Object> l_rp = new HashMap<String, Object>();
 					for(Permission l_perm : l_lstPerm){
-						Map<String, Object> l_rp = new HashMap<String, Object>();
-						l_rp.put("countPermission", l_lstPerm.size());
-						l_rp.put( "roleId_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleId() );
-						l_rp.put( "roleName_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleName() );
-						
-						l_rp.put("prmnId", l_perm.getPrmnId());
-						l_rp.put("prmnName", l_perm.getPrmnName());
-						l_p.put("roleId_"+l_rol.getAproRoleId().getRoleId(), l_rp);
+						l_rp.put("prmnId_"+l_perm.getPrmnId(), l_perm.getPrmnId());
+						l_rp.put("prmnName_"+l_perm.getPrmnId(), l_perm.getPrmnName());
 					}
-					
+					l_rp.put("countPermission", l_lstPerm.size());
+					l_rp.put( "roleId_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleId() );
+					l_rp.put( "roleName_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleName() );
+					l_p.put("roleId_"+l_rol.getAproRoleId().getRoleId(), l_rp);
 					
 				}
 				l_m.add(l_p);
@@ -458,21 +487,17 @@ public class JsonController {
 					l_p.put( "enttName", l_paen.getPaenEnttId().getEnttName() );
 					
 					for(ApplicationRole l_rol: l_roleApps){
-						
+						Map<String, Object> l_rp = new HashMap<String, Object>();
 						for(Permission l_perm : l_lstPerm){
-							Map<String, Object> l_rp = new HashMap<String, Object>();
-							l_rp.put("countPermission", l_lstPerm.size());
-							l_rp.put( "roleId_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleId() );
-							l_rp.put( "roleName_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleName() );
+							l_rp.put("prmnId_"+l_perm.getPrmnId(), l_perm.getPrmnId());
+							l_rp.put("prmnName_"+l_perm.getPrmnId(), l_perm.getPrmnName());
 							
-							l_rp.put("prmnId", l_perm.getPrmnId());
-							l_rp.put("prmnName", l_perm.getPrmnName());
-							l_p.put("roleId_"+l_rol.getAproRoleId().getRoleId(), l_rp);
 						}
+						l_rp.put("countPermission", l_lstPerm.size());
+						l_rp.put( "roleId_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleId() );
+						l_rp.put( "roleName_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleName() );
 						
-						//l_p.put( "roleId_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleId() );
-						//l_p.put( "roleName_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleName() );	
-						
+						l_p.put("roleId_"+l_rol.getAproRoleId().getRoleId(), l_rp);
 					}
 					l_m.add(l_p);
 				}

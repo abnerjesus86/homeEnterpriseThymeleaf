@@ -10,7 +10,7 @@ jQuery(function($) {
 			$("#wizard").steps({
 				onStepChanging: function (event, currentIndex, newIndex)
                 {
-					console.log("entro al index  -> " + currentIndex + " Nuevo indice "+newIndex);
+					
 					// Always allow going backward even if the current step contains invalid fields!
                     /*if (currentIndex > newIndex)
                     {
@@ -33,7 +33,7 @@ jQuery(function($) {
 						return true;
                     }
                     if( newIndex === 3){ //paso Permission Page
-                    	console.log("entro paso 3...");
+                    	
                     	//var divPages = $('#divPages').empty();
 						
                     	//var divCol = $("<div class='col-lg-12'>");
@@ -47,7 +47,8 @@ jQuery(function($) {
                     	
                     	//$('#dataTables-Permission').DataTable().clear().draw();
 						//$('#dataTables-Permission').DataTable().ajax.url( $(location).attr('origin') +"/HelpDeskLctpc/getJsonPermissionRolPageActive/3").load();
-                    	console.log("entro paso 3 sy...");
+                    	
+						buildStep3RolesPage();
 						
 						return true;
                     }
@@ -236,100 +237,7 @@ jQuery(function($) {
 			});
 			
 			// ----------------------------------------------------------------------------------------------------------
-			// Table Permission
-			var v_columns = [];
-			callAjax($(location).attr('origin') + "/HelpDeskLctpc/getJsonPermissionRolPageActive/" + idApp, 'GET', function(dataJson) {
-				$.each(dataJson.columns, function(i, item) {
-					var title = new Object();
-					title.title = item.title;
-					title.data = item.data;
-					console.log(item);
-					v_columns.push(title);
-				});
-			});
 			
-			var tablePermission = $('#dataTables-Permission').DataTable(
-					{
-						//paging : false,
-						info : false,
-						autoWidth : true,
-						searching : true,
-						ordering : true,
-						destroy: true,
-						lengthChange: true,
-						pageLength: 10,
-						responsive: true,
-						dom: "<'row'<'col-lg-5'f><'col-lg-7 html5buttons'B> lTgt>" 
-							+ "<'row'<'col-md-5'i><'col-md-7 text-right'p>>",
-						dom: '<"html5buttons"B>lTfgitp',
-		                buttons: [{
-		                    text: 'Actualizar',
-		                    action: function(e, dt, node, config) {
-		                        dt.ajax.reload();
-		                    }
-		                }, {
-		                    "extend": 'copy',
-		                    "text": 'Copiar'
-		                }, {
-		                    "extend": 'csv'
-		                }, {
-		                    "extend": 'pdf',
-		                    "text": 'Pdf'
-		                }, {
-		                    "extend": 'print',
-		                    "customize": function(win) {
-		                        $(win.document.body).addClass('white-bg');
-		                        $(win.document.body).css('font-size', '10px');
-		                        $(win.document.body).find('table')
-		                            .addClass('compact')
-		                            .css('font-size', 'inherit');
-		                    }
-		                }],
-						ajax : {
-							url : $(location).attr('origin') +"/HelpDeskLctpc/getJsonPermissionRolPageActive/3",
-							type: "GET"
-							//columns : "columns",
-							//contentType: "application/json",
-							//data : "data"
-						},
-		                columns : v_columns,
-		                /*
-		                columns : [
-								{
-									title : "paenID",
-									data : "paenId"
-									//orderable: true
-								},
-								{
-									title : "Page Name",
-									data : "pageDisplay"
-									//orderable: true
-								},
-								{
-									title : "Entity Name",
-									data : "enttName"
-									//orderable: false
-								},
-								{
-									title : "Rol ID",
-									data : "roleId"
-									//orderable: false
-								},
-								{
-									title : "Rol Name",
-									data : "roleName"
-									//orderable: false
-								}
-						],
-						*/
-						initComplete : function() {
-							console.log("entro paso 3 initComplete...");
-						},
-						fnDrawCallback : function() {
-							
-							console.log("entro paso 3 drawCall...");
-						}
-					});
 			
 			
 			//-----------------------------------------------------------------------------------------------------
@@ -610,8 +518,6 @@ function clearFormPage() {
 		$('#capaLoader').addClass('hidden');
 		
 	} );
-	
-	
 	
 	$('#pageId').val("");
 	$('#pageDisplay').val("");
@@ -951,4 +857,112 @@ function buildDivRoles(p_divFather, p_Entities){
 	});
 
 }
+
+
+function buildStep3RolesPage(){
+	var idApp = $('#appnId').val();
+	// Table Permission
+	var v_columns = [];
+	callAjax($(location).attr('origin') + "/HelpDeskLctpc/getJsonPermissionRolPageActive/" + idApp, 'GET', function(dataJson) {
+		$.each(dataJson.columns, function(i, item) {
+			var title = new Object();
+			title.title = item.title;
+			
+			if(item.render === true){
+				title.data = null;
+				title.render = function(data, type, row) {
+					return "<div><label class='checkbox-inline'> <input type='checkbox' value='option1' id='inlineCheckbox1'>"+ item.data +"</label> </div>";
+				};
+			}else{
+				title.data = item.data;
+			}
+			
+			v_columns.push(title);
+			
+		});
+	});
+	
+	var tablePermission = $('#dataTables-Permission').DataTable(
+			{
+				//paging : false,
+				info : false,
+				autoWidth : true,
+				searching : true,
+				ordering : true,
+				destroy: true,
+				lengthChange: true,
+				pageLength: 10,
+				responsive: true,
+				dom: "<'row'<'col-lg-5'f><'col-lg-7 html5buttons'B> lTgt>" 
+					+ "<'row'<'col-md-5'i><'col-md-7 text-right'p>>",
+				dom: '<"html5buttons"B>lTfgitp',
+                buttons: [{
+                    text: 'Actualizar',
+                    action: function(e, dt, node, config) {
+                        dt.ajax.reload();
+                    }
+                }, {
+                    "extend": 'copy',
+                    "text": 'Copiar'
+                }, {
+                    "extend": 'csv'
+                }, {
+                    "extend": 'pdf',
+                    "text": 'Pdf'
+                }, {
+                    "extend": 'print',
+                    "customize": function(win) {
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }],
+				ajax : {
+					url : $(location).attr('origin') +"/HelpDeskLctpc/getJsonPermissionRolPageActive/3",
+					type: "GET"
+					
+				},
+                columns : v_columns,
+                /*
+                columns : [
+						{
+							title : "paenID",
+							data : "paenId"
+							//orderable: true
+						},
+						{
+							title : "Page Name",
+							data : "pageDisplay"
+							//orderable: true
+						},
+						{
+							title : "Entity Name",
+							data : "enttName"
+							//orderable: false
+						},
+						{
+							title : "Rol ID",
+							data : "roleId"
+							//orderable: false
+						},
+						{
+							title : "Rol Name",
+							data : "roleName"
+							//orderable: false
+						}
+				],
+				*/
+				initComplete : function() {
+					
+				},
+				fnDrawCallback : function() {
+					
+				}
+			});
+}
+
+
+
 

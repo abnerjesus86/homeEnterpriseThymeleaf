@@ -540,6 +540,15 @@
 									<div class="table-responsive">
 									   <table id="dataTables-Permission" class="table table-striped table-bordered table-hover" >
 									       <thead>
+                                          <!--  <tr>
+                                                <th rowspan="2" colspan="1">Page Name</th>
+                                                <th rowspan="2" colspan="1">Entity Name</th>
+								                <th colspan="5">Rol 1</th>
+								                <th colspan="5">Rol 2</th>
+								                <th colspan="5">Rol 3</th>
+								                <th colspan="5">Rol 4</th>
+                                                
+                                           </tr>  -->
                                            </thead>
                                            <tbody>
                                            </tbody>
