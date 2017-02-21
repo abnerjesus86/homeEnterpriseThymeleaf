@@ -424,7 +424,7 @@ public class JsonController {
 			
 			l_mapColum = new HashMap<String, Object>();
 			l_mapColum.put("title", l_rol.getAproRoleId().getRoleName());
-			l_mapColum.put("data", "roleId_"+l_rol.getAproRoleId().getRoleId());
+			l_mapColum.put("data", "roleId_"+l_rol.getAproRoleId().getRoleId()+"."+"permission");
 			//l_mapColum.put("data", "roleId_"+l_rol.getAproRoleId().getRoleId()+"."+"roleId_"+l_rol.getAproRoleId().getRoleId());
 			l_mapColum.put("rowspan",1);
 			l_mapColum.put("colspan",l_lstPerm.size());
@@ -466,10 +466,16 @@ public class JsonController {
 				
 				for(ApplicationRole l_rol: l_roleApps){
 					Map<String, Object> l_rp = new HashMap<String, Object>();
+					List<Map<String, Object>> l_permsss = new ArrayList<Map<String, Object>>();
 					for(Permission l_perm : l_lstPerm){
-						l_rp.put("prmnId_"+l_perm.getPrmnId(), l_perm.getPrmnId());
-						l_rp.put("prmnName_"+l_perm.getPrmnId(), l_perm.getPrmnName());
+						Map<String, Object> l_pms = new HashMap<String, Object>();
+						l_pms.put("prmnId", l_perm.getPrmnId());
+						l_pms.put("prmnName", l_perm.getPrmnName());
+						
+						l_permsss.add(l_pms);
 					}
+					l_rp.put("permission", l_permsss);
+					
 					l_rp.put("countPermission", l_lstPerm.size());
 					l_rp.put( "roleId_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleId() );
 					l_rp.put( "roleName_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleName() );
@@ -488,11 +494,16 @@ public class JsonController {
 					
 					for(ApplicationRole l_rol: l_roleApps){
 						Map<String, Object> l_rp = new HashMap<String, Object>();
+						List<Map<String, Object>> l_permsss = new ArrayList<Map<String, Object>>();
 						for(Permission l_perm : l_lstPerm){
-							l_rp.put("prmnId_"+l_perm.getPrmnId(), l_perm.getPrmnId());
-							l_rp.put("prmnName_"+l_perm.getPrmnId(), l_perm.getPrmnName());
+							Map<String, Object> l_pms = new HashMap<String, Object>();
+							l_pms.put("prmnId", l_perm.getPrmnId());
+							l_pms.put("prmnName", l_perm.getPrmnName());
 							
+							l_permsss.add(l_pms);
 						}
+						l_rp.put("permission", l_permsss);
+						
 						l_rp.put("countPermission", l_lstPerm.size());
 						l_rp.put( "roleId_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleId() );
 						l_rp.put( "roleName_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleName() );

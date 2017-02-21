@@ -7,7 +7,9 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -32,7 +34,7 @@ public class RolePage implements Serializable {
 		ROPA_CREATED_DATE DATE
 		ROPA_CREATED_BY VARCHAR2 (150 BYTE)
 		ROPA_UPDATE_DATE DATE
-		ROPA_UPDATE_BY VARCHAR2 (150 BYTE)
+		ROPA_UPDATE_BY VARCHAR2 (150 BYTE) 
 	 */
 	/**
 	 * 
@@ -40,7 +42,8 @@ public class RolePage implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "ROPA_ID" )
+	@SequenceGenerator( name = "ROPA_ID", sequenceName = "SQ_ROPA_ID", allocationSize = 1 )
 	@Column( name = "ROPA_ID" )
 	private BigDecimal	g_ropaId;
 	/*@Column( name = "ROPA_ROLE_ID" )*/
