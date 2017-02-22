@@ -331,237 +331,265 @@
 						<li class="active"><strong>Breadcrumb</strong></li>
 					</ol>
 				</div>
-				<div class="col-lg-2">
-					
-				</div>
+				<div class="col-lg-2"></div>
 			</div>
 
 			<div class="wrapper wrapper-content">
 				<!-- <div class="middle-box text-center animated fadeInRightBig"> -->
 				<!-- <div class="animated fadeInRightBig"> -->
 
-					<div class="row">
-						<!-- Configuracion del wizard... -->
-						<div id="wizard" class="wizard-big wizard">
-							<h1>Application</h1>
-							<div class="step-content">
-								<!-- <div class="text-center m-t-md"> -->
-								<h2>Create your application</h2>
-								<form class="form-horizontal">
-									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="appnId"> ID </label>
-										<div class="col-sm-9">
-											<input type="text" placeholder="ID" class="form-control" id="appnId" readonly="true" />
-										</div>
+				<div class="row">
+					<!-- Configuracion del wizard... -->
+					<div id="wizard" class="wizard-big wizard">
+						<h1>Application</h1>
+						<div class="step-content">
+							<!-- <div class="text-center m-t-md"> -->
+							<h2>Create your application</h2>
+							<form class="form-horizontal">
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right" for="appnId"> ID </label>
+									<div class="col-sm-9">
+										<input type="text" placeholder="ID" class="form-control" id="appnId" readonly="true" />
 									</div>
-									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="appnAppnId"> Application Father </label>
-										<div class="col-sm-9">
-											<select id="appnAppnId" class="chosen-select" size="5" data-placeholder="Choose a Application Father o Master...">
-											</select>
-										</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right" for="appnAppnId"> Application Father </label>
+									<div class="col-sm-9">
+										<select id="appnAppnId" class="chosen-select" size="5" data-placeholder="Choose a Application Father o Master...">
+										</select>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right" for="appnPlfmId"> Platform </label>
+									<div class="col-sm-9">
+										<select id="appnPlfmId" class="chosen-select" data-placeholder="Choose a Platform...">
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right" for="appnName"> Name </label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" id="appnName" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right" for="appnDescription"> Description </label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" id="appnDescription" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right" for="appnUrl"> Url </label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" id="appnUrl" />
+									</div>
+								</div>
+
+							</form>
+
+						</div>
+
+						<h1>Roles</h1>
+						<div class="step-content">
+							<!-- <div class="text-center m-t-md"> -->
+							<h2>Create Roles for your Application</h2>
+							<div class="row">
+								<div class="col-xs-12 col-sm-6">
+									<div class="table-responsive">
+										<table id="tableRoles" class="table table-striped table-bordered table-hover dataTables-example">
+											<thead>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
 									</div>
 
-									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="appnPlfmId"> Platform </label>
-										<div class="col-sm-9">
-											<select id="appnPlfmId" class="chosen-select" data-placeholder="Choose a Platform...">
-											</select>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="appnName"> Name </label>
-										<div class="col-sm-9">
-											<input type="text" class="form-control" id="appnName" />
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="appnDescription"> Description </label>
-										<div class="col-sm-9">
-											<input type="text" class="form-control" id="appnDescription" />
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="appnUrl"> Url </label>
-										<div class="col-sm-9">
-											<input type="text" class="form-control" id="appnUrl" />
-										</div>
-									</div>
-
-								</form>
-
-							</div>
-
-							<h1>Roles</h1>
-							<div class="step-content">
-								<!-- <div class="text-center m-t-md"> -->
-									<h2>Create Roles for your Application</h2>
-									<div class="row">
-										<div class="col-xs-12 col-sm-6">
-											<div class="table-responsive">
-												<table id="tableRoles" class="table table-striped table-bordered table-hover dataTables-example">
-													<thead>
-													</thead>
-													<tbody>
-													</tbody>
-												</table>
+								</div>
+								<div class="col-xs-12 col-sm-6">
+									<form class="form-horizontal">
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="userId"> ID </label>
+											<div class="col-sm-9">
+												<input type="text" placeholder="ID" class="form-control" id="roleId" readonly="true" />
 											</div>
-
 										</div>
-										<div class="col-xs-12 col-sm-6">
-											<form class="form-horizontal">
-												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="userId"> ID </label>
-													<div class="col-sm-9">
-														<input type="text" placeholder="ID" class="form-control" id="roleId" readonly="true" />
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="roleName"> Name </label>
-													<div class="col-sm-9">
-														<input type="text" class="form-control" id="roleName" />
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="roleDescription"> Description </label>
-													<div class="col-sm-9">
-														<input type="text" class="form-control" id="roleDescription" />
-													</div>
-												</div>
-												
-												<div class="hr-line-dashed"></div>
-                                                <div>
-                                                    <div class="btn-group col-sm-offset-3">
-                                                        <button class="btn btn-success btn-sm" type="button" id="btn-addRole">
-                                                            <i class="fa fa-floppy-o bigger-110"></i> New
-                                                        </button>
-                                                        
-                                                        <button class="btn btn-sm" type="reset" id="btn-resetRole">
-                                                            <i class="fa fa-undo bigger-110"></i> Reset
-                                                        </button>
-                                                    </div>
-                                                </div>
-												
-												
-												
-											</form>
-										</div>
-
-									</div>
-								<!-- </div> -->
-							</div>
-
-							<h1>Pages</h1>
-							<div class="step-content">
-								<!-- <div class="text-center m-t-md"> -->
-									<h2>Create Page for your Application</h2>
-									<div class="row">
-										<div class="col-xs-12 col-sm-7">
-											<div id="capaLoader" class="text-center hidden" style="margin-top: 100px">
-												<img class='loader-gear' src='../res/assets/images/loading1.gif' />
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="roleName"> Name </label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="roleName" />
 											</div>
-											<div id="divTbPages" class="table-responsive hidden"><!-- dataTables-example -->
-                                                <table id="tablePages" class="table table-striped table-bordered table-hover ">
-                                                </table>
-                                            </div>
-
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="roleDescription"> Description </label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="roleDescription" />
+											</div>
 										</div>
 
-										<div class="col-xs-12 col-sm-5">
-											<form class="form-horizontal">
-												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="pageId"> ID </label>
-													<div class="col-sm-9">
-														<input type="text" placeholder="ID" class="form-control" id="pageId" readonly="true" />
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="pagePageId"> Page Father </label>
-													<div class="col-sm-9">
-														<select id="pagePageId" class="chosen-select" data-placeholder="Choose a Page Father o Master...">
-														</select>
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="pageDisplay"> Name </label>
-													<div class="col-sm-9">
-														<input type="text" class="form-control" id="pageDisplay" />
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="pageDescription"> Descripcion </label>
-													<div class="col-sm-9">
-														<input type="text" class="form-control" id="pageDescription" />
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="pageUrl"> Url </label>
-													<div class="col-sm-9">
-														<input type="text" class="form-control" id="pageUrl" />
-													</div>
-												</div>
-												<!-- <div class="hr hr-18 dotted hr-double"></div> -->
-												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-top" for="duallist"> Select Entities </label>
+										<div class="hr-line-dashed"></div>
+										<div>
+											<div class="btn-group col-sm-offset-3">
+												<button class="btn btn-success btn-sm" type="button" id="btn-addRole">
+													<i class="fa fa-floppy-o bigger-110"></i> New
+												</button>
 
-													<div class="col-sm-9">
-														<!-- #section:plugins/input.duallist -->
-														<select multiple="multiple" size="6" class="form-control dual_select" name="duallistbox_demo1[]" id="duallist">
-														</select>
-
-														<!-- /section:plugins/input.duallist -->
-													</div>
-												</div>
-												<div class="hr-line-dashed"></div>
-												<div>
-												    <div class="btn-group col-sm-offset-3">
-														<button class="btn btn-success btn-sm" type="button" id="btn-addPage">
-                                                            <i class="fa fa-floppy-o bigger-110"></i> New
-                                                        </button>
-														<button class="btn btn-sm" type="reset" id="btn-resetPage">
-															<i class="fa fa-undo bigger-110"></i> Reset
-														</button>
-													</div>
-												</div>
-											</form>
+												<button class="btn btn-sm" type="reset" id="btn-resetRole">
+													<i class="fa fa-undo bigger-110"></i> Reset
+												</button>
+											</div>
 										</div>
-									</div>
-								<!-- </div> -->
+
+
+
+									</form>
+								</div>
+
 							</div>
+							<!-- </div> -->
+						</div>
 
-							<h1>Assign page to roles</h1>
-							<div class="step-content">
-								<!-- <div class="text-center m-t-md"> -->
-									<h2>Associates permissions to pages</h2>
-									<!-- <div id="divPages" class="row">
+						<h1>Pages</h1>
+						<div class="step-content">
+							<!-- <div class="text-center m-t-md"> -->
+							<h2>Create Page for your Application</h2>
+							<div class="row">
+								<div class="col-xs-12 col-sm-7">
+									<div id="capaLoader" class="text-center hidden" style="margin-top: 100px">
+										<img class='loader-gear' src='../res/assets/images/loading1.gif' />
+									</div>
+									<div id="divTbPages" class="table-responsive hidden">
+										<!-- dataTables-example -->
+										<table id="tablePages" class="table table-striped table-bordered table-hover ">
+										</table>
+									</div>
+
+								</div>
+
+								<div class="col-xs-12 col-sm-5">
+									<form class="form-horizontal">
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="pageId"> ID </label>
+											<div class="col-sm-9">
+												<input type="text" placeholder="ID" class="form-control" id="pageId" readonly="true" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="pagePageId"> Page Father </label>
+											<div class="col-sm-9">
+												<select id="pagePageId" class="chosen-select" data-placeholder="Choose a Page Father o Master...">
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="pageDisplay"> Name </label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="pageDisplay" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="pageDescription"> Descripcion </label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="pageDescription" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="pageUrl"> Url </label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="pageUrl" />
+											</div>
+										</div>
+										<!-- <div class="hr hr-18 dotted hr-double"></div> -->
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-top" for="duallist"> Select Entities </label>
+
+											<div class="col-sm-9">
+												<!-- #section:plugins/input.duallist -->
+												<select multiple="multiple" size="6" class="form-control dual_select" name="duallistbox_demo1[]" id="duallist">
+												</select>
+
+												<!-- /section:plugins/input.duallist -->
+											</div>
+										</div>
+										<div class="hr-line-dashed"></div>
+										<div>
+											<div class="btn-group col-sm-offset-3">
+												<button class="btn btn-success btn-sm" type="button" id="btn-addPage">
+													<i class="fa fa-floppy-o bigger-110"></i> New
+												</button>
+												<button class="btn btn-sm" type="reset" id="btn-resetPage">
+													<i class="fa fa-undo bigger-110"></i> Reset
+												</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+							<!-- </div> -->
+						</div>
+
+						<h1>Assign page to roles</h1>
+						<div class="step-content">
+							<!-- <div class="text-center m-t-md"> -->
+							<h2>Associates permissions to pages</h2>
+							<!-- <div id="divPages" class="row">
 									
 									</div> -->
-									
-									<div class="table-responsive">
-									   <table id="dataTables-Permission" class="table table-striped table-bordered table-hover" >
-									       <thead>
-                                          <!--  <tr>
-                                                <th rowspan="2" colspan="1">Page Name</th>
-                                                <th rowspan="2" colspan="1">Entity Name</th>
-								                <th colspan="5">Rol 1</th>
-								                <th colspan="5">Rol 2</th>
-								                <th colspan="5">Rol 3</th>
-								                <th colspan="5">Rol 4</th>
-                                                
-                                           </tr>  -->
-                                           </thead>
-                                           <tbody>
-                                           </tbody>
-									   </table>
+                            <a data-toggle="modal" class="btn btn-primary" href="#modal-form">New Permission</a>
+							<!-- <div class="table-responsive">
+								<table id="dataTables-Permission" class="table table-striped table-bordered table-hover">
+									<thead>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div> -->
+                            
+                            
+                            
+							<div id="modal-form" class="modal fade" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-body">
+											<div class="row">
+												<div class="col-md-12 b-r">
+													<h3 class="m-t-none m-b">Sign in</h3>
+
+													<p>Sign in today for more expirience.</p>
+
+													<form role="form">
+													
+														<div class="form-group">
+															<label for="ropaId"> ID </label>
+															<input type="text" placeholder="ID" class="form-control" id="ropaId" readonly="true" />
+														</div>
+														<div class="form-group">
+															<label>Email</label> <input type="email" placeholder="Enter email" class="form-control">
+														</div>
+														<div class="form-group">
+															<label>Password</label> <input type="password" placeholder="Password" class="form-control">
+														</div>
+														<div>
+															<button class="btn btn-sm btn-primary pull-right m-t-n-xs" >
+																<strong>Log in</strong>
+															</button>
+														</div>
+													</form>
+												</div>
+												
+											</div>
+										</div>
 									</div>
-									
-								<!-- </div> -->
+								</div>
 							</div>
-							<!-- fin div wizard -->
+
+							<!-- </div> -->
 						</div>
-						<!-- Fin div row -->
+						<!-- fin div wizard -->
 					</div>
-					<!-- middle-box text-center animated fadeInRightBig... -->
+					<!-- Fin div row -->
+				</div>
+				<!-- middle-box text-center animated fadeInRightBig... -->
 				<!-- </div> -->
 			</div>
 			<div class="footer">
@@ -593,8 +621,8 @@
 	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/dualListbox/jquery.bootstrap-duallistbox.js"></script>
 	<!-- Steps -->
 	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/steps/jquery.steps.min.js"></script>
-    <!-- Sweet alert -->
-    <script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/sweetalert/sweetalert.min.js"></script>
+	<!-- Sweet alert -->
+	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/sweetalert/sweetalert.min.js"></script>
 
 	<!-- Jquery Validate -->
 	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/validate/jquery.validate.min.js"></script>
