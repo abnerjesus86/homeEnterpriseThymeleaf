@@ -28,6 +28,7 @@
 <link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/css/animate.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/css/style.css" rel="stylesheet">
 
+<link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
 
 </head>
 
@@ -532,57 +533,11 @@
 						<div class="step-content">
 							<!-- <div class="text-center m-t-md"> -->
 							<h2>Associates permissions to pages</h2>
-							<!-- <div id="divPages" class="row">
-									
-									</div> -->
-                            <a data-toggle="modal" class="btn btn-primary" href="#modal-form">New Permission</a>
-							<!-- <div class="table-responsive">
-								<table id="dataTables-Permission" class="table table-striped table-bordered table-hover">
-									<thead>
-									</thead>
-									<tbody>
-									</tbody>
-								</table>
-							</div> -->
-                            
-                            
-                            
-							<div id="modal-form" class="modal fade" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-body">
-											<div class="row">
-												<div class="col-md-12 b-r">
-													<h3 class="m-t-none m-b">Sign in</h3>
-
-													<p>Sign in today for more expirience.</p>
-
-													<form role="form">
-													
-														<div class="form-group">
-															<label for="ropaId"> ID </label>
-															<input type="text" placeholder="ID" class="form-control" id="ropaId" readonly="true" />
-														</div>
-														<div class="form-group">
-															<label>Email</label> <input type="email" placeholder="Enter email" class="form-control">
-														</div>
-														<div class="form-group">
-															<label>Password</label> <input type="password" placeholder="Password" class="form-control">
-														</div>
-														<div>
-															<button class="btn btn-sm btn-primary pull-right m-t-n-xs" >
-																<strong>Log in</strong>
-															</button>
-														</div>
-													</form>
-												</div>
-												
-											</div>
-										</div>
-									</div>
+							<div id="divPages" class="row">
+								<div class="col-lg-12" id="divColPrincipalPages">
 								</div>
 							</div>
-
+                           
 							<!-- </div> -->
 						</div>
 						<!-- fin div wizard -->
@@ -623,11 +578,15 @@
 	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/steps/jquery.steps.min.js"></script>
 	<!-- Sweet alert -->
 	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/sweetalert/sweetalert.min.js"></script>
-
+    <!-- iCheck -->
+    <script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/iCheck/icheck.min.js"></script>
+    
 	<!-- Jquery Validate -->
 	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/validate/jquery.validate.min.js"></script>
 
 	<script src="${pageContext.request.contextPath}/res/pages/application-wizard/js/script2.js"></script>
+	
+	
 </body>
 
 </html>

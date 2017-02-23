@@ -33,9 +33,9 @@ jQuery(function($) {
 						return true;
 					}
 					if (newIndex === 3) { // paso Permission Page
-
-						buildStep3RolesPage();
-
+						buildDivLstPages($('#divColPrincipalPages'));
+						//buildStep3RolesPage();
+						
 						return true;
 					}
 				},
@@ -100,7 +100,7 @@ jQuery(function($) {
 					alert("ERROR: ", e);
 				}
 			});
-
+			
 			// ----------------------------------------------------------------------------------------------------------
 			// Codigo para tabla de roles appnId
 			var tableRoles = $('#tableRoles').DataTable(
@@ -218,7 +218,7 @@ jQuery(function($) {
 				tableRoles.row($(this).parents('tr')).remove().draw(false);
 			});
 
-
+			
 		} // fin funcion de initializeTable
 
 	});
@@ -450,19 +450,26 @@ function buildDivLstPages(p_divFather) {
 		var divRowPage = $("<div class='row'>");
 		$.each(dataJson.data, function(iPage, itemPage) {
 
-			if (iPage % 3 === 0)
+			//if (iPage % 2 === 0)
 				divRowPage = $("<div class='row'>");
 
-			var divColPage = $("<div class='col-lg-4'>");
-			var divPanel = $("<div class='panel panel-success'>");
-			var divPanelHeading = $("<div class='panel-heading'>").append(itemPage.pageDisplay);
-			var divPanelBody = $("<div class='panel-body'>");
-
-			divPanel.append(divPanelHeading);
-			divPanel.append(divPanelBody);
-			divColPage.append(divPanel);
+			var divColPage = $("<div class='col-lg-12'>");
+			
+			var divIbox = $("<div class='ibox float-e-margins'>");
+			
+			var divIboxTitle = $("<div class='ibox-title'>").append("<h5> ["+itemPage.pageId+"] "+itemPage.pageDisplay+"</h5>");
+			var divIboxContent = $("<div class='ibox-content'>");
+			
+			var divPanelBody = $("<div class='panel-body' id='panel"+itemPage.pageId+"'>");
+			divIboxContent.append(divPanelBody);
+			
+			divIbox.append(divIboxTitle);
+			divIbox.append(divIboxContent);
+			divColPage.append(divIbox);
 			divRowPage.append(divColPage);
-
+			
+			buildDivRoles(divPanelBody, itemPage.pageEntities);
+			
 			p_divFather.append(divRowPage);
 
 			// -------------------------------------------------------------------
@@ -498,75 +505,80 @@ function buildDivLstPermission(p_divFather) {
 	var linkStep4Permission = $(location).attr('origin') + "/HelpDeskLctpc/getJsonPermissionActive/";
 
 	callAjax(linkStep4Permission, 'GET', function(dJsonPerm) {
+		
+		var divFormGroup = $("<div class='form-group'>");
 		$.each(dJsonPerm.data, function(iPerm, itemPerm) {
-			var li = $("<li id='liPerm_" + itemPerm.prmnId + "'>").text(itemPerm.prmnName);
-			// li.append("<div class='space-14'></div>");
-			p_divFather.append(li);
+			//var div = $("<div>"); i-checks
+			var divLabelPermission = $("<label class='checkbox-inline '>");
+			var inputCheckBox = $('<input>', {
+			    type:"checkbox",
+			    id : "cbx_"+itemPerm.prmnId,
+			    //"checked":"checked"
+			}).val(itemPerm.prmnId);
+			
+			
+			divLabelPermission.append(inputCheckBox);
+			divLabelPermission.append(itemPerm.prmnName);
+			//div.append(divLabelPermission);
+			//divFormGroup.append(div);
+			divFormGroup.append(divLabelPermission);
+			p_divFather.append(divFormGroup);
 		});// Fin ciclo Permission
+		
 	});
+	
+	$('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green',
+    });
 
 }
 
 function buildDivRoles(p_divFather, p_Entities) {
+	
 	var idApp = $('#appnId').val();
 	var linkStep4 = $(location).attr('origin') + "/HelpDeskLctpc/getJsonRolesApps/" + idApp;
 	var jsonRoles;
-	var widgetColor = [ 'blue', 'green', 'red', 'orange', 'purple', 'pink', 'dark', 'grey', 'blue2', 'green2', 'red2', 'blue3', 'green3', 'red3' ];
+	var widgetColor = [ 'danger', 'primary', 'success', 'info', 'warning', 'default' ];
 	callAjax(linkStep4, 'GET', function(dJsonRol) {
 		jsonRoles = dJsonRol;
 	});
-	var lstTemp = $("<ul class='list-unstyled list-striped pricing-table-header' id='tempPermission'>");
-	buildDivLstPermission(lstTemp);
-
+	//var lstTemp = $("<ul class='list-unstyled list-striped pricing-table-header' id='tempPermission'>");
+	//buildDivLstPermission(lstTemp);
+	 var divPanelGroupAccordion = $("<div class='panel-group' id='accordion'>");
 	$.each(jsonRoles.data, function(i, itemRol) {
 		var jsonPages;
-		var divSpanRol = $("<div class='pricing-span'>");
-
-		// ((itemRol.roleName.length >10) ? itemRol.roleName.substr(0, 12) + "..." : itemRol.roleName)
-		var titleRol = $("<h5 class='widget-title bigger lighter'><i class='ace-icon fa fa-user bigger-120'></i> " + itemRol.roleName + "</h5>");
-
-		var divWidgetBoxRol = $("<div class='widget-box pricing-box-small widget-color-" + widgetColor[i] + "'>");
-		var divWidgetHeaderRol = $("<div class='widget-header'>").append(titleRol);
-		var divWidgetMainRol = $("<div class='widget-main no-padding'>");
-		var divWidgetBodyRol = $("<div class='widget-body'>").append(divWidgetMainRol);
-		var ulLstPermission = $("<ul class='list-unstyled list-striped pricing-table-header' id='ul_Perm" + itemRol.roleId + "' >");
-
-		$.each(lstTemp.children(), function(iPerm, itemPerm) {
-			var li = $("<li>");
-
-			var liPerm = $(itemPerm);
-
-			if (p_Entities.length <= 0) {
-				console.log(p_Entities.length);
-				var labelCboxEnt = $("<label class='abnerRoles'>");
-				var divCboxEnt = $("<span class='help-inline'>").append(labelCboxEnt);
-				li.append(divCboxEnt);
-			} else {
-				$.each(p_Entities, function(iEnt, itemEntity) {
-					li.attr("id", "liPagEnt_" + itemEntity.paenId);
-					var inputCboxEnt = $("<input name='form-field-checkbox' type='checkbox' class='ace'>");
-					var labelCboxEnt = $("<label class='abnerRoles'>").append(inputCboxEnt).append(
-							"<span class='lbl'>" + ((itemEntity.paenEnttId instanceof Object) ? itemEntity.paenEnttId.enttName : itemEntity.enttName) + "</span>");
-					// var divCboxEnt = $("<div class='checkbox'>").append(labelCboxEnt);
-					var divCboxEnt = $("<span class='help-inline'>").append(labelCboxEnt);
-
-					li.append(liPerm.text());
-					li.append(divCboxEnt);
-				});
-			}
-			ulLstPermission.append(li);
-
+		var divPanelRol = $("<div class='panel panel-"+widgetColor[i]+"'>");
+		var divPanelRolHeading = $("<div class='panel-heading'>").append("<h5 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapse_"+p_divFather.attr("id")+"_"+itemRol.roleId+"'>"+itemRol.roleName+"</a></h5>");
+		
+		var divPanelCollapse =$("<div id='collapse_"+p_divFather.attr("id")+"_"+itemRol.roleId+"' class='panel-collapse collapse'>");
+		//var divPanelBody = $("<div class='panel-body'>").text("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+		var divPanelBody = $("<div class='panel-body'>");
+		
+		var divTableEntity = $("<table class='table small m-b-xs'>");
+		var divTableBodyEntity = $("<tbody>");
+		$.each(p_Entities, function(iEnt, itemEntity){
+			var divRowEntity = $('<tr>');
+			divRowEntity.append("<td><strong>"+ ((itemEntity.paenEnttId instanceof Object) ? itemEntity.paenEnttId.enttName : itemEntity.enttName)+"</strong></td>" );
+			var divColEntity = $('<td>');
+			buildDivLstPermission(divColEntity);
+			divRowEntity.append(divColEntity);
+			divTableBodyEntity.append(divRowEntity);
 		});
-
-		divWidgetMainRol.append(ulLstPermission);
-		divWidgetBoxRol.append(divWidgetHeaderRol);
-		divWidgetBoxRol.append(divWidgetBodyRol);
-		divSpanRol.append(divWidgetBoxRol);
-
-		p_divFather.append(divSpanRol);
-
+		
+		divTableEntity.append(divTableBodyEntity);
+		divPanelBody.append(divTableEntity);
+		
+		
+		divPanelCollapse.append(divPanelBody);
+		divPanelRol.append(divPanelRolHeading);
+		divPanelRol.append(divPanelCollapse);
+		divPanelGroupAccordion.append(divPanelRol);
+		
+		
+		
 	});
-
+	p_divFather.append(divPanelGroupAccordion);
 }
 
 function buildStep2Page() {
@@ -883,4 +895,7 @@ function buildStep3RolPages(){
 		});
 	});
 }
+
+
+
 
