@@ -389,58 +389,6 @@ function callAjax(p_url, p_methodType, successFuction) {
 
 }
 
-function buildPermissionPageRoles() {
-	var idApp = $('#appnId').val();
-	var idApp = 3;
-	var jsonData = new Object();
-	var arrayData = [];
-	var linkStep4 = $(location).attr('origin') + "/HelpDeskLctpc/getJsonRolesApps/" + idApp;
-	var vData = new Object();
-
-	callAjax($(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp, 'GET', function(dataJson) {
-
-		$.each(dataJson.data, function(iPage, itemPage) {
-			/*
-			 * if(itemPage.pageEntities.length <= 0){ callAjax(linkStep4, 'GET', function(dJsonRol) {
-			 * 
-			 * $.each(dJsonRol.data, function(i, itemRol) { jsonData = new Object(); jsonData.pageId = itemPage.pageId;
-			 * jsonData.pageDisplay = itemPage.pageDisplay;
-			 * 
-			 * jsonData.paenId = '-'; jsonData.enttName = '-'; jsonData.enttId = '-';
-			 * 
-			 * jsonData.roleId = itemRol.roleId; jsonData.roleName = itemRol.roleName;
-			 * 
-			 * arrayData.push(jsonData); });
-			 * 
-			 * }); } else{
-			 */
-			$.each(itemPage.pageEntities, function(iEnt, itemEntity) {
-				callAjax(linkStep4, 'GET', function(dJsonRol) {
-					$.each(dJsonRol.data, function(i, itemRol) {
-						jsonData = new Object();
-						jsonData.pageId = itemPage.pageId;
-						jsonData.pageDisplay = itemPage.pageDisplay;
-
-						jsonData.paenId = itemEntity.paenId;
-						jsonData.enttName = ((itemEntity.paenEnttId instanceof Object) ? itemEntity.paenEnttId.enttName : itemEntity.enttName);
-						jsonData.enttId = ((itemEntity.paenEnttId instanceof Object) ? itemEntity.paenEnttId.enttId : itemEntity.enttId);
-
-						jsonData.roleId = itemRol.roleId;
-						jsonData.roleName = itemRol.roleName;
-
-						arrayData.push(jsonData);
-					});
-				});
-			});
-			// }//fin else
-		});
-
-	});
-	vData.data = arrayData;
-	return vData;
-
-}
-
 function buildDivLstPages(p_divFather) {
 	var idApp = $('#appnId').val();
 
@@ -450,14 +398,18 @@ function buildDivLstPages(p_divFather) {
 		var divRowPage = $("<div class='row'>");
 		$.each(dataJson.data, function(iPage, itemPage) {
 
-			//if (iPage % 2 === 0)
+			if (iPage % 2 === 0)
 				divRowPage = $("<div class='row'>");
 
-			var divColPage = $("<div class='col-lg-12'>");
+			var divColPage = $("<div class='col-lg-6'>");
 			
 			var divIbox = $("<div class='ibox float-e-margins'>");
 			
 			var divIboxTitle = $("<div class='ibox-title'>").append("<h5> ["+itemPage.pageId+"] "+itemPage.pageDisplay+"</h5>");
+			var divIboxTitleTool = $("<div class='ibox-tools'>");//.append("<a class='collapse-link'><i class='fa fa-chevron-down'></i></a>");
+			var divIboxCollapse = $("<a class='collapse-link' ><i class='fa fa-chevron-down'></i></a>");
+			divIboxTitleTool.append(divIboxCollapse);
+			divIboxTitle.append(divIboxTitleTool);
 			var divIboxContent = $("<div class='ibox-content'>");
 			
 			var divPanelBody = $("<div class='panel-body' id='panel"+itemPage.pageId+"'>");
@@ -472,30 +424,6 @@ function buildDivLstPages(p_divFather) {
 			
 			p_divFather.append(divRowPage);
 
-			// -------------------------------------------------------------------
-			/*
-			 * var titlePage = $("<h3 class='header smaller red'><i class='ace-icon fa fa-list-alt'></i>"+itemPage.pageDisplay+"</h3>");
-			 * 
-			 * p_divFather.append(titlePage); p_divFather.append(divRowPage);
-			 * 
-			 * p_divFather.append("<div class='space-24'></div>");
-			 * 
-			 * var divColPage = $("<div class='col-xs-4 col-sm-3 pricing-span-header'>"); var divWidgetBoxPage = $("<div
-			 * class='widget-box transparent'>"); var divWidgetHeaderPage = $("<div class='widget-header'>").append( "<h5 class='widget-title'>Permission
-			 * of Page</h5>"); var divWidgetMain = $("<div class='widget-main no-padding'>"); var divWidgetBodyPage =
-			 * $("<div class='widget-body'>").append(divWidgetMain); var ulLstPermission = $("<ul class='list-unstyled list-striped pricing-table-header' id='ul_Permission'>");
-			 * 
-			 * buildDivLstPermission(ulLstPermission);
-			 * 
-			 * var divColRoles = $("<div class='col-xs-8 col-sm-9 pricing-span-body'>"); buildDivRoles(divColRoles,
-			 * itemPage.pageEntities);
-			 * 
-			 * divWidgetMain.append(ulLstPermission); divWidgetBoxPage.append(divWidgetHeaderPage);
-			 * divWidgetBoxPage.append(divWidgetBodyPage);
-			 * 
-			 * 
-			 * divColPage.append(divWidgetBoxPage); divRowPage.append(divColPage); divRowPage.append(divColRoles);
-			 */
 		}); // fin earch Pages
 	}); // callAjax
 	// return p_divFather;
@@ -548,7 +476,8 @@ function buildDivRoles(p_divFather, p_Entities) {
 	 var divPanelGroupAccordion = $("<div class='panel-group' id='accordion'>");
 	$.each(jsonRoles.data, function(i, itemRol) {
 		var jsonPages;
-		var divPanelRol = $("<div class='panel panel-"+widgetColor[i]+"'>");
+		//var divPanelRol = $("<div class='panel panel-"+widgetColor[i]+"'>");
+		var divPanelRol = $("<div class='panel panel-success'>");
 		var divPanelRolHeading = $("<div class='panel-heading'>").append("<h5 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapse_"+p_divFather.attr("id")+"_"+itemRol.roleId+"'>"+itemRol.roleName+"</a></h5>");
 		
 		var divPanelCollapse =$("<div id='collapse_"+p_divFather.attr("id")+"_"+itemRol.roleId+"' class='panel-collapse collapse'>");
