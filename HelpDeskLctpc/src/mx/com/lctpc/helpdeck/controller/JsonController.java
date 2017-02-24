@@ -524,4 +524,54 @@ public class JsonController {
 	}
 	
 	
+	@RequestMapping( value = "/getJsonPermissionRolPageActive2/{p_appId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<Map<String, List<Map<String, Object>>>> showJsonPermissionRolPage2( @PathVariable( "p_appId" ) BigDecimal p_appId ) {
+		
+		List<Permission> l_lstPerm = permService.findAllPermissionsActive();
+		List<Page> l_lstPage = pagService.findPageFromApplicationById(p_appId);
+		List<ApplicationRole> l_roleApps = appService.findRoleFromApplicationById(p_appId);
+		//List<Perm> l_lstPermTotal = new ArrayList<Perm>();
+		//Map<String, List<Perm>> l_map = new HashMap<String, List<Perm>>();
+		List<Map<String, Object>> l_m = new ArrayList<Map<String, Object>>();
+		Map<String, List<Map<String, Object>>> l_map = new HashMap<String, List<Map<String, Object>>>();
+		
+		//Armado del data
+		for(Page l_pag : l_lstPage){
+			Map<String, Object> l_p = new HashMap<String, Object>();
+			l_p.put( "pageId", l_pag.getPageId());
+			l_p.put( "pageDisplay", l_pag.getPageDisplay());
+			List<Map<String, Object>> l_roles = new ArrayList<Map<String, Object>>();
+			for(ApplicationRole l_rol: l_roleApps){
+				Map<String, Object> l_mRol = new HashMap<String, Object>();
+				l_mRol.put( "roleId", l_rol.getAproRoleId().getRoleId() );
+				l_mRol.put( "roleName", l_rol.getAproRoleId().getRoleName() );
+				
+				List<Map<String, Object>> l_paEs = new ArrayList<Map<String, Object>>();
+				for(PageEntity l_paen : l_pag.getPageEntities()){
+					Map<String, Object> l_paE = new HashMap<String, Object>();
+					l_paE.put( "paenId", l_paen.getPaenId());
+					l_paE.put( "enttId", l_paen.getPaenEnttId().getEnttId() );
+					l_paE.put( "enttName", l_paen.getPaenEnttId().getEnttName() );
+					l_paE.put( "permission", l_lstPerm );
+					l_paEs.add(l_paE);
+				}
+				
+				l_mRol.put("entity", l_paEs);
+				
+				l_roles.add(l_mRol);
+				
+			}
+			l_p.put("roles", l_roles);
+			l_m.add(l_p);
+			
+			
+		}
+
+		l_map.put("data", l_m);
+		
+		
+		return new ResponseEntity<Map<String, List<Map<String, Object>>>>(l_map, HttpStatus.OK);
+
+	}
+	
 }
