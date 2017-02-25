@@ -552,10 +552,20 @@ public class JsonController {
 					l_paE.put( "paenId", l_paen.getPaenId());
 					l_paE.put( "enttId", l_paen.getPaenEnttId().getEnttId() );
 					l_paE.put( "enttName", l_paen.getPaenEnttId().getEnttName() );
-					l_paE.put( "permission", l_lstPerm );
+					//l_paE.put( "permission", l_lstPerm );
+					
+					List<Map<String, Object>> l_permsss = new ArrayList<Map<String, Object>>();
+					for(Permission l_perm : l_lstPerm){
+						Map<String, Object> l_pms = new HashMap<String, Object>();
+						l_pms.put("prmnId", l_perm.getPrmnId());
+						l_pms.put("prmnName", l_perm.getPrmnName());
+						
+						l_permsss.add(l_pms);
+					}
+					l_paE.put("permission", l_permsss);
+					
 					l_paEs.add(l_paE);
 				}
-				
 				l_mRol.put("entity", l_paEs);
 				
 				l_roles.add(l_mRol);
@@ -564,11 +574,9 @@ public class JsonController {
 			l_p.put("roles", l_roles);
 			l_m.add(l_p);
 			
-			
 		}
 
 		l_map.put("data", l_m);
-		
 		
 		return new ResponseEntity<Map<String, List<Map<String, Object>>>>(l_map, HttpStatus.OK);
 

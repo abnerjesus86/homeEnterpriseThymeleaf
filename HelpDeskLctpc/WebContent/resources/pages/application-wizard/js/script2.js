@@ -392,7 +392,7 @@ function callAjax(p_url, p_methodType, successFuction) {
 function buildDivLstPages(p_divFather) {
 	var idApp = $('#appnId').val();
 
-	callAjax($(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp, 'GET', function(dataJson) {
+	callAjax($(location).attr('origin') + "/HelpDeskLctpc/getJsonPermissionRolPageActive2/" + idApp, 'GET', function(dataJson) {
 		// jsonPages = dataJson;
 
 		var divRowPage = $("<div class='row'>");
@@ -420,7 +420,7 @@ function buildDivLstPages(p_divFather) {
 			divColPage.append(divIbox);
 			divRowPage.append(divColPage);
 			
-			buildDivRoles(divPanelBody, itemPage.pageEntities);
+			buildDivRoles(divPanelBody, itemPage.roles);
 			
 			p_divFather.append(divRowPage);
 
@@ -429,53 +429,19 @@ function buildDivLstPages(p_divFather) {
 	// return p_divFather;
 }
 
-function buildDivLstPermission(p_divFather) {
-	var linkStep4Permission = $(location).attr('origin') + "/HelpDeskLctpc/getJsonPermissionActive/";
-
-	callAjax(linkStep4Permission, 'GET', function(dJsonPerm) {
-		
-		var divFormGroup = $("<div class='form-group'>");
-		$.each(dJsonPerm.data, function(iPerm, itemPerm) {
-			//var div = $("<div>"); i-checks
-			var divLabelPermission = $("<label class='checkbox-inline '>");
-			var inputCheckBox = $('<input>', {
-			    type:"checkbox",
-			    id : "cbx_"+itemPerm.prmnId,
-			    //"checked":"checked"
-			}).val(itemPerm.prmnId);
-			
-			
-			divLabelPermission.append(inputCheckBox);
-			divLabelPermission.append(itemPerm.prmnName);
-			//div.append(divLabelPermission);
-			//divFormGroup.append(div);
-			divFormGroup.append(divLabelPermission);
-			p_divFather.append(divFormGroup);
-		});// Fin ciclo Permission
-		
-	});
+function buildDivRoles(p_divFather, p_Roles) {
 	
-	$('.i-checks').iCheck({
-        checkboxClass: 'icheckbox_square-green',
-        radioClass: 'iradio_square-green',
-    });
-
-}
-
-function buildDivRoles(p_divFather, p_Entities) {
-	
-	var idApp = $('#appnId').val();
-	var linkStep4 = $(location).attr('origin') + "/HelpDeskLctpc/getJsonRolesApps/" + idApp;
-	var jsonRoles;
+	//var idApp = $('#appnId').val();
+	//var linkStep4 = $(location).attr('origin') + "/HelpDeskLctpc/getJsonRolesApps/" + idApp;
+	//var jsonRoles;
 	var widgetColor = [ 'danger', 'primary', 'success', 'info', 'warning', 'default' ];
-	callAjax(linkStep4, 'GET', function(dJsonRol) {
+	/*callAjax(linkStep4, 'GET', function(dJsonRol) {
 		jsonRoles = dJsonRol;
-	});
+	});*/
 	//var lstTemp = $("<ul class='list-unstyled list-striped pricing-table-header' id='tempPermission'>");
-	//buildDivLstPermission(lstTemp);
 	 var divPanelGroupAccordion = $("<div class='panel-group' id='accordion'>");
-	$.each(jsonRoles.data, function(i, itemRol) {
-		var jsonPages;
+	$.each(p_Roles, function(i, itemRol) {
+		//var jsonPages;
 		//var divPanelRol = $("<div class='panel panel-"+widgetColor[i]+"'>");
 		var divPanelRol = $("<div class='panel panel-success'>");
 		var divPanelRolHeading = $("<div class='panel-heading'>").append("<h5 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapse_"+p_divFather.attr("id")+"_"+itemRol.roleId+"'>"+itemRol.roleName+"</a></h5>");
@@ -486,11 +452,11 @@ function buildDivRoles(p_divFather, p_Entities) {
 		
 		var divTableEntity = $("<table class='table small m-b-xs'>");
 		var divTableBodyEntity = $("<tbody>");
-		$.each(p_Entities, function(iEnt, itemEntity){
+		$.each(itemRol.entity, function(iEnt, itemEntity){
 			var divRowEntity = $('<tr>');
 			divRowEntity.append("<td><strong>"+ ((itemEntity.paenEnttId instanceof Object) ? itemEntity.paenEnttId.enttName : itemEntity.enttName)+"</strong></td>" );
 			var divColEntity = $('<td>');
-			buildDivLstPermission(divColEntity);
+			buildDivLstPermission(divColEntity, itemEntity.permission);
 			divRowEntity.append(divColEntity);
 			divTableBodyEntity.append(divRowEntity);
 		});
@@ -509,6 +475,41 @@ function buildDivRoles(p_divFather, p_Entities) {
 	});
 	p_divFather.append(divPanelGroupAccordion);
 }
+
+function buildDivLstPermission(p_divFather, p_Perm) {
+	//var linkStep4Permission = $(location).attr('origin') + "/HelpDeskLctpc/getJsonPermissionActive/";
+
+	//callAjax(linkStep4Permission, 'GET', function(dJsonPerm) {
+		
+		var divFormGroup = $("<div class='form-group'>");
+		$.each(p_Perm, function(iPerm, itemPerm) {
+			//var div = $("<div>"); i-checks
+			var divLabelPermission = $("<label class='checkbox-inline '>");
+			var inputCheckBox = $('<input>', {
+			    type:"checkbox",
+			    id : "cbx_"+itemPerm.prmnId,
+			    //"checked":"checked"
+			}).val(itemPerm.prmnId);
+			
+			
+			divLabelPermission.append(inputCheckBox);
+			divLabelPermission.append(itemPerm.prmnName);
+			//div.append(divLabelPermission);
+			//divFormGroup.append(div);
+			divFormGroup.append(divLabelPermission);
+			p_divFather.append(divFormGroup);
+		});// Fin ciclo Permission
+		
+	//});
+	
+	$('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green',
+    });
+
+}
+
+
 
 function buildStep2Page() {
 	
