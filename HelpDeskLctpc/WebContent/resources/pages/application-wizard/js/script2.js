@@ -427,6 +427,9 @@ function buildDivLstPages(p_divFather) {
 
 		}); // fin earch Pages
 	}); // callAjax
+	$('input:checkbox').on('click', function(){
+		console.log("Hola Mundo " + $(this).data('page').pageId );
+	});
 	// return p_divFather;
 }
 
@@ -483,13 +486,15 @@ function buildDivLstPermission(p_divFather, p_Perm, obj) {
 		var divFormGroup = $("<div class='form-group'>");
 		$.each(p_Perm, function(iPerm, itemPerm) {
 			//var div = $("<div>"); i-checks
+			var objEnt = obj;
 			var divLabelPermission = $("<label class='checkbox-inline '>");
 			var inputCheckBox = $('<input>', {
 			    type:"checkbox",
 			    id : "cbx_"+itemPerm.prmnId,
 			    //"checked":"checked"
 			}).val(itemPerm.prmnId);
-			
+			objEnt.prmnId = itemPerm.prmnId;
+			inputCheckBox.data('page', objEnt);
 			divLabelPermission.append(inputCheckBox);
 			divLabelPermission.append(itemPerm.prmnName);
 			//div.append(divLabelPermission);
@@ -497,7 +502,7 @@ function buildDivLstPermission(p_divFather, p_Perm, obj) {
 			divFormGroup.append(divLabelPermission);
 			p_divFather.append(divFormGroup);
 		});// Fin ciclo Permission
-	
+		
 	$('.i-checks').iCheck({
         checkboxClass: 'icheckbox_square-green',
         radioClass: 'iradio_square-green',
