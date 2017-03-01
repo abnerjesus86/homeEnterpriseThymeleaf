@@ -552,7 +552,6 @@ public class JsonController {
 					l_paE.put( "paenId", l_paen.getPaenId());
 					l_paE.put( "enttId", l_paen.getPaenEnttId().getEnttId() );
 					l_paE.put( "enttName", l_paen.getPaenEnttId().getEnttName() );
-					//l_paE.put( "permission", l_lstPerm );
 					
 					List<Map<String, Object>> l_permsss = new ArrayList<Map<String, Object>>();
 					for(Permission l_perm : l_lstPerm){

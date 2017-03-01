@@ -391,16 +391,17 @@ function callAjax(p_url, p_methodType, successFuction) {
 
 function buildDivLstPages(p_divFather) {
 	var idApp = $('#appnId').val();
-
+	var obj = null;
+	
 	callAjax($(location).attr('origin') + "/HelpDeskLctpc/getJsonPermissionRolPageActive2/" + idApp, 'GET', function(dataJson) {
-		// jsonPages = dataJson;
 
 		var divRowPage = $("<div class='row'>");
 		$.each(dataJson.data, function(iPage, itemPage) {
-
+			obj = new Object();
+			
 			if (iPage % 2 === 0)
 				divRowPage = $("<div class='row'>");
-
+			
 			var divColPage = $("<div class='col-lg-6'>");
 			
 			var divIbox = $("<div class='ibox float-e-margins'>");
@@ -419,8 +420,8 @@ function buildDivLstPages(p_divFather) {
 			divIbox.append(divIboxContent);
 			divColPage.append(divIbox);
 			divRowPage.append(divColPage);
-			
-			buildDivRoles(divPanelBody, itemPage.roles);
+			obj.pageId = itemPage.pageId;
+			buildDivRoles(divPanelBody, itemPage.roles, obj);
 			
 			p_divFather.append(divRowPage);
 
@@ -429,19 +430,13 @@ function buildDivLstPages(p_divFather) {
 	// return p_divFather;
 }
 
-function buildDivRoles(p_divFather, p_Roles) {
+function buildDivRoles(p_divFather, p_Roles, obj) {
 	
-	//var idApp = $('#appnId').val();
-	//var linkStep4 = $(location).attr('origin') + "/HelpDeskLctpc/getJsonRolesApps/" + idApp;
-	//var jsonRoles;
+	
 	var widgetColor = [ 'danger', 'primary', 'success', 'info', 'warning', 'default' ];
-	/*callAjax(linkStep4, 'GET', function(dJsonRol) {
-		jsonRoles = dJsonRol;
-	});*/
-	//var lstTemp = $("<ul class='list-unstyled list-striped pricing-table-header' id='tempPermission'>");
-	 var divPanelGroupAccordion = $("<div class='panel-group' id='accordion'>");
+	
+	var divPanelGroupAccordion = $("<div class='panel-group' id='accordion'>");
 	$.each(p_Roles, function(i, itemRol) {
-		//var jsonPages;
 		//var divPanelRol = $("<div class='panel panel-"+widgetColor[i]+"'>");
 		var divPanelRol = $("<div class='panel panel-success'>");
 		var divPanelRolHeading = $("<div class='panel-heading'>").append("<h5 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapse_"+p_divFather.attr("id")+"_"+itemRol.roleId+"'>"+itemRol.roleName+"</a></h5>");
@@ -452,18 +447,25 @@ function buildDivRoles(p_divFather, p_Roles) {
 		
 		var divTableEntity = $("<table class='table small m-b-xs'>");
 		var divTableBodyEntity = $("<tbody>");
+		
+		
 		$.each(itemRol.entity, function(iEnt, itemEntity){
+			var objRol = obj;
+			objRol.roleId = itemRol.roleId;
+			objRol.paenEnttId = itemEntity.paenEnttId;
+			objRol.enttId = ((itemEntity.paenEnttId instanceof Object) ? itemEntity.paenEnttId.enttId : itemEntity.enttId);
+			
 			var divRowEntity = $('<tr>');
 			divRowEntity.append("<td><strong>"+ ((itemEntity.paenEnttId instanceof Object) ? itemEntity.paenEnttId.enttName : itemEntity.enttName)+"</strong></td>" );
 			var divColEntity = $('<td>');
-			buildDivLstPermission(divColEntity, itemEntity.permission);
+			buildDivLstPermission(divColEntity, itemEntity.permission, objRol);
 			divRowEntity.append(divColEntity);
 			divTableBodyEntity.append(divRowEntity);
+			
 		});
 		
 		divTableEntity.append(divTableBodyEntity);
 		divPanelBody.append(divTableEntity);
-		
 		
 		divPanelCollapse.append(divPanelBody);
 		divPanelRol.append(divPanelRolHeading);
@@ -476,10 +478,7 @@ function buildDivRoles(p_divFather, p_Roles) {
 	p_divFather.append(divPanelGroupAccordion);
 }
 
-function buildDivLstPermission(p_divFather, p_Perm) {
-	//var linkStep4Permission = $(location).attr('origin') + "/HelpDeskLctpc/getJsonPermissionActive/";
-
-	//callAjax(linkStep4Permission, 'GET', function(dJsonPerm) {
+function buildDivLstPermission(p_divFather, p_Perm, obj) {
 		
 		var divFormGroup = $("<div class='form-group'>");
 		$.each(p_Perm, function(iPerm, itemPerm) {
@@ -491,7 +490,6 @@ function buildDivLstPermission(p_divFather, p_Perm) {
 			    //"checked":"checked"
 			}).val(itemPerm.prmnId);
 			
-			
 			divLabelPermission.append(inputCheckBox);
 			divLabelPermission.append(itemPerm.prmnName);
 			//div.append(divLabelPermission);
@@ -499,8 +497,6 @@ function buildDivLstPermission(p_divFather, p_Perm) {
 			divFormGroup.append(divLabelPermission);
 			p_divFather.append(divFormGroup);
 		});// Fin ciclo Permission
-		
-	//});
 	
 	$('.i-checks').iCheck({
         checkboxClass: 'icheckbox_square-green',
