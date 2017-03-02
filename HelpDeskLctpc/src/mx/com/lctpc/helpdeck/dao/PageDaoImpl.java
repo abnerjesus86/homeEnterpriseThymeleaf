@@ -31,26 +31,22 @@ public class PageDaoImpl implements PageDao {
 
 	@Override
 	public List<Page> findAllPage() {
-		// TODO Auto-generated method stub
 		Query<Page> l_query = getSession().createQuery("FROM Page", Page.class);
 		return l_query.getResultList();
 	}
 
 	@Override
 	public void savePage( Page p_page ) {
-		// TODO Auto-generated method stub
 		getSession().saveOrUpdate(p_page);
 	}
 
 	@Override
 	public void updatePage( Page p_page ) {
-		// TODO Auto-generated method stub
 		getSession().update(p_page);
 	}
 
 	@Override
 	public Page findPageById( BigDecimal p_pageId ) {
-		// TODO Auto-generated method stub
 		CriteriaBuilder l_builder = getSession().getCriteriaBuilder();
 		CriteriaQuery<Page> l_crtQuery = l_builder.createQuery(Page.class);
 		Root<Page> l_rootUser = l_crtQuery.from(Page.class);
@@ -63,13 +59,11 @@ public class PageDaoImpl implements PageDao {
 
 	@Override
 	public void deletePage( Page p_page ) {
-		// TODO Auto-generated method stub
 		getSession().update(p_page);
 	}
 	
 	@Override
 	public void deletePageFromApplicationById( Page p_page, Application p_appnId ) {
-		// TODO Auto-generated method stub
 		//getSession().remove(p_page.getApplications());
 		p_page.getApplications().remove(p_appnId);
 		getSession().update(p_page);
@@ -77,7 +71,6 @@ public class PageDaoImpl implements PageDao {
 	
 	@Override
 	public List<PageEntity> findEntitiesFromPage( BigDecimal p_pageId ) {
-		// TODO Auto-generated method stub
 		Query<PageEntity> l_queryPageEntity = getSession().createQuery("SELECT pagEnt FROM PageEntity pagEnt where pagEnt.g_paenPageId.g_pageId = :p_pageId ", PageEntity.class).setParameter("p_pageId",
 				p_pageId);
 		return l_queryPageEntity.getResultList();
@@ -85,7 +78,6 @@ public class PageDaoImpl implements PageDao {
 	
 	@Override
 	public List<PageEntity> findEntitiesActiveFromPage( BigDecimal p_pageId ) {
-		// TODO Auto-generated method stub
 		Query<PageEntity> l_queryPageEntity = getSession().createQuery("SELECT pagEnt FROM PageEntity pagEnt where pagEnt.g_paenPageId.g_pageId = :p_pageId and pagEnt.g_paenActive = :p", PageEntity.class)
 				.setParameter("p_pageId", p_pageId)
 				.setParameter("p", true)
@@ -149,11 +141,11 @@ public class PageDaoImpl implements PageDao {
 	 * }
 	 * @Override
 	 * public List<Page> findAllPage() {
-	 * // TODO Auto-generated method stub
+	 * // 
 	 * return jdbcTemplate.query("SELECT * FROM application_manager.APPLICATIONS", new RowMapper<Page>() {
 	 * @Override
 	 * public Page mapRow( ResultSet rs, int rowNum ) throws SQLException {
-	 * // TODO Auto-generated method stub
+	 * // 
 	 * Page l_pag = new Page();
 	 * l_pag.setPageId(rs.getBigDecimal("PAGE_ID"));
 	 * //l_pag.setPagePageId(rs.getBigDecimal("PAGE_PAGE_ID"));
@@ -172,7 +164,7 @@ public class PageDaoImpl implements PageDao {
 	 * }
 	 * @Override
 	 * public boolean savePage( Page p_page ) {
-	 * // TODO Auto-generated method stub
+	 * // 
 	 * MapSqlParameterSource l_paramMap = new MapSqlParameterSource();
 	 * l_paramMap.addValue("v0", p_page.getPageId());
 	 * l_paramMap.addValue("v1", p_page.getPagePageId().getPageId());
@@ -190,7 +182,7 @@ public class PageDaoImpl implements PageDao {
 	 * }
 	 * @Override
 	 * public boolean updatePage( Page p_page ) {
-	 * // TODO Auto-generated method stub
+	 * // 
 	 * return false;
 	 * }
 	 */

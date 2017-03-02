@@ -23,6 +23,7 @@ import mx.com.lctpc.helpdeck.pojo.Page;
 import mx.com.lctpc.helpdeck.pojo.PageEntity;
 import mx.com.lctpc.helpdeck.pojo.Permission;
 import mx.com.lctpc.helpdeck.pojo.Rol;
+import mx.com.lctpc.helpdeck.pojo.RolePage;
 import mx.com.lctpc.helpdeck.pojo.SecretQuestion;
 import mx.com.lctpc.helpdeck.pojo.User;
 import mx.com.lctpc.helpdeck.pojo.UserApplication;
@@ -34,6 +35,7 @@ import mx.com.lctpc.helpdeck.service.PageService;
 import mx.com.lctpc.helpdeck.service.PermissionService;
 import mx.com.lctpc.helpdeck.service.PlatformService;
 import mx.com.lctpc.helpdeck.service.RolService;
+import mx.com.lctpc.helpdeck.service.RolePageService;
 import mx.com.lctpc.helpdeck.service.SecretQuestionService;
 import mx.com.lctpc.helpdeck.service.UsersService;
 
@@ -63,6 +65,9 @@ public class JsonController {
 	
 	@Autowired
 	private PlatformService platformService;
+	
+	@Autowired
+	private RolePageService rolPagService;
 
 	@RequestMapping( value = "/getJsonUsers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<List<User>> showListAllUsers() {
@@ -580,5 +585,23 @@ public class JsonController {
 		return new ResponseEntity<Map<String, List<Map<String, Object>>>>(l_map, HttpStatus.OK);
 
 	}
+	
+	@RequestMapping( value = "/getJsonAssignedPermissionRolPage/{p_appId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<Map<String, List<RolePage>>> showJsonAssignedPermissionRolPage( @PathVariable( "p_appId" ) BigDecimal p_appId ) {
+		/*List<RolePage> l_lstPerm = permService.findAllPermissionsActive();
+		Map<String, List<Permission>> l_map = new HashMap<String, List<Permission>>();
+		if (l_lstPerm.isEmpty()) {
+			return new ResponseEntity<Map<String, List<Permission>>>(HttpStatus.NO_CONTENT);// You many decide to return
+																							// HttpStatus.NOT_FOUND
+		}
+
+		l_map.put("data", l_lstPerm);
+		return new ResponseEntity<Map<String, List<Permission>>>(l_map, HttpStatus.OK);*/
+
+		
+		return null;
+	}
+	
+	
 	
 }

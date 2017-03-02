@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -46,14 +49,17 @@ public class RolePage implements Serializable {
 	@SequenceGenerator( name = "ROPA_ID", sequenceName = "SQ_ROPA_ID", allocationSize = 1 )
 	@Column( name = "ROPA_ID" )
 	private BigDecimal	g_ropaId;
-	/*@Column( name = "ROPA_ROLE_ID" )*/
-	@Transient
+//	@Column( name = "ROPA_ROLE_ID" )
+	@ManyToOne( cascade = {CascadeType.REFRESH})
+	@JoinColumn(name="ROPA_ROLE_ID")
 	private Rol			g_ropaRoleId;
-	/*@Column( name = "ROPA_PRMN_ID" )*/
-	@Transient
+//	@Column( name = "ROPA_PRMN_ID" )
+	@ManyToOne( cascade = {CascadeType.REFRESH})
+	@JoinColumn(name="ROPA_PRMN_ID")
 	private Permission	g_ropaPrmnId;
-	/*@Column ( name = "ROPA_PAEN_ID" )*/
-	@Transient
+//	@Column ( name = "ROPA_PAEN_ID" )
+	@ManyToOne( cascade = {CascadeType.REFRESH})
+	@JoinColumn(name="ROPA_PAEN_ID")
 	private PageEntity g_ropaPaenId;
 	@Column( name = "ROPA_ACTIVE" )
 	private boolean		g_ropaActive;

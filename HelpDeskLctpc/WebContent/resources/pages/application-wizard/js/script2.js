@@ -435,7 +435,6 @@ function buildDivLstPages(p_divFather) {
 
 function buildDivRoles(p_divFather, p_Roles, obj) {
 	
-	
 	var widgetColor = [ 'danger', 'primary', 'success', 'info', 'warning', 'default' ];
 	
 	var divPanelGroupAccordion = $("<div class='panel-group' id='accordion'>");
