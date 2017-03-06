@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import mx.com.lctpc.helpdeck.pojo.AEntities;
 import mx.com.lctpc.helpdeck.pojo.Application;
-import mx.com.lctpc.helpdeck.pojo.ApplicationRole;
 import mx.com.lctpc.helpdeck.pojo.Page;
 import mx.com.lctpc.helpdeck.pojo.PageEntity;
 import mx.com.lctpc.helpdeck.pojo.Permission;
@@ -330,20 +329,20 @@ public class JsonController {
 	}
 
 	@RequestMapping( value = { "/getJsonRolesApps/{p_appId}" }, method = { RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity<Map<String, List<ApplicationRole>>> showJsonRolesApps( @PathVariable( "p_appId" ) BigDecimal p_appId ) {
+	public ResponseEntity<Map<String, List<Rol>>> showJsonRolesApps( @PathVariable( "p_appId" ) BigDecimal p_appId ) {
 
-		List<ApplicationRole> l_roleApps = appService.findRoleFromApplicationById(p_appId);
+		List<Rol> l_roleApps = appService.findRoleFromApplicationById(p_appId);
 
-		Map<String, List<ApplicationRole>> l_map = new HashMap<String, List<ApplicationRole>>();
+		Map<String, List<Rol>> l_map = new HashMap<String, List<Rol>>();
 
 		if (l_roleApps.isEmpty()) {
-			return new ResponseEntity<Map<String, List<ApplicationRole>>>(HttpStatus.NO_CONTENT);// You many decide to
+			return new ResponseEntity<Map<String, List<Rol>>>(HttpStatus.NO_CONTENT);// You many decide to
 																									// return
 																									// HttpStatus.NOT_FOUND
 		}
 
 		l_map.put("data", l_roleApps);
-		return new ResponseEntity<Map<String, List<ApplicationRole>>>(l_map, HttpStatus.OK);
+		return new ResponseEntity<Map<String, List<Rol>>>(l_map, HttpStatus.OK);
 	}
 	
 	@RequestMapping( value = { "/getJsonPagesApps/{p_appId}" }, method = { RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_VALUE )
@@ -395,7 +394,7 @@ public class JsonController {
 		
 		List<Permission> l_lstPerm = permService.findAllPermissionsActive();
 		List<Page> l_lstPage = pagService.findPageFromApplicationById(p_appId);
-		List<ApplicationRole> l_roleApps = appService.findRoleFromApplicationById(p_appId);
+		List<Rol> l_roleApps = appService.findRoleFromApplicationById(p_appId);
 		//List<Perm> l_lstPermTotal = new ArrayList<Perm>();
 		//Map<String, List<Perm>> l_map = new HashMap<String, List<Perm>>();
 		List<Map<String, Object>> l_m = new ArrayList<Map<String, Object>>();
@@ -425,11 +424,11 @@ public class JsonController {
 		l_mapColum.put("nivel",0);
 		l_lstColums.add(l_mapColum);
 		
-		for(ApplicationRole l_rol: l_roleApps){
+		for(Rol l_rol: l_roleApps){
 			
 			l_mapColum = new HashMap<String, Object>();
-			l_mapColum.put("title", l_rol.getAproRoleId().getRoleName());
-			l_mapColum.put("data", "roleId_"+l_rol.getAproRoleId().getRoleId()+"."+"permission");
+			l_mapColum.put("title", l_rol.getRoleName());
+			l_mapColum.put("data", "roleId_"+l_rol.getRoleId()+"."+"permission");
 			//l_mapColum.put("data", "roleId_"+l_rol.getAproRoleId().getRoleId()+"."+"roleId_"+l_rol.getAproRoleId().getRoleId());
 			l_mapColum.put("rowspan",1);
 			l_mapColum.put("colspan",l_lstPerm.size());
@@ -469,7 +468,7 @@ public class JsonController {
 				l_p.put( "enttId", null );
 				l_p.put( "enttName", null );
 				
-				for(ApplicationRole l_rol: l_roleApps){
+				for(Rol l_rol: l_roleApps){
 					Map<String, Object> l_rp = new HashMap<String, Object>();
 					List<Map<String, Object>> l_permsss = new ArrayList<Map<String, Object>>();
 					for(Permission l_perm : l_lstPerm){
@@ -482,9 +481,9 @@ public class JsonController {
 					l_rp.put("permission", l_permsss);
 					
 					l_rp.put("countPermission", l_lstPerm.size());
-					l_rp.put( "roleId_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleId() );
-					l_rp.put( "roleName_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleName() );
-					l_p.put("roleId_"+l_rol.getAproRoleId().getRoleId(), l_rp);
+					l_rp.put( "roleId_"+l_rol.getRoleId(), l_rol.getRoleId() );
+					l_rp.put( "roleName_"+l_rol.getRoleId(), l_rol.getRoleName() );
+					l_p.put("roleId_"+l_rol.getRoleId(), l_rp);
 					
 				}
 				l_m.add(l_p);
@@ -497,7 +496,7 @@ public class JsonController {
 					l_p.put( "enttId", l_paen.getPaenEnttId().getEnttId() );
 					l_p.put( "enttName", l_paen.getPaenEnttId().getEnttName() );
 					
-					for(ApplicationRole l_rol: l_roleApps){
+					for(Rol l_rol: l_roleApps){
 						Map<String, Object> l_rp = new HashMap<String, Object>();
 						List<Map<String, Object>> l_permsss = new ArrayList<Map<String, Object>>();
 						for(Permission l_perm : l_lstPerm){
@@ -510,10 +509,10 @@ public class JsonController {
 						l_rp.put("permission", l_permsss);
 						
 						l_rp.put("countPermission", l_lstPerm.size());
-						l_rp.put( "roleId_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleId() );
-						l_rp.put( "roleName_"+l_rol.getAproRoleId().getRoleId(), l_rol.getAproRoleId().getRoleName() );
+						l_rp.put( "roleId_"+l_rol.getRoleId(), l_rol.getRoleId() );
+						l_rp.put( "roleName_"+l_rol.getRoleId(), l_rol.getRoleName() );
 						
-						l_p.put("roleId_"+l_rol.getAproRoleId().getRoleId(), l_rp);
+						l_p.put("roleId_"+l_rol.getRoleId(), l_rp);
 					}
 					l_m.add(l_p);
 				}
@@ -534,7 +533,7 @@ public class JsonController {
 		
 		List<Permission> l_lstPerm = permService.findAllPermissionsActive();
 		List<Page> l_lstPage = pagService.findPageFromApplicationById(p_appId);
-		List<ApplicationRole> l_roleApps = appService.findRoleFromApplicationById(p_appId);
+		List<Rol> l_roleApps = appService.findRoleFromApplicationById(p_appId);
 		//List<Perm> l_lstPermTotal = new ArrayList<Perm>();
 		//Map<String, List<Perm>> l_map = new HashMap<String, List<Perm>>();
 		List<Map<String, Object>> l_m = new ArrayList<Map<String, Object>>();
@@ -546,10 +545,10 @@ public class JsonController {
 			l_p.put( "pageId", l_pag.getPageId());
 			l_p.put( "pageDisplay", l_pag.getPageDisplay());
 			List<Map<String, Object>> l_roles = new ArrayList<Map<String, Object>>();
-			for(ApplicationRole l_rol: l_roleApps){
+			for(Rol l_rol: l_roleApps){
 				Map<String, Object> l_mRol = new HashMap<String, Object>();
-				l_mRol.put( "roleId", l_rol.getAproRoleId().getRoleId() );
-				l_mRol.put( "roleName", l_rol.getAproRoleId().getRoleName() );
+				l_mRol.put( "roleId", l_rol.getRoleId() );
+				l_mRol.put( "roleName", l_rol.getRoleName() );
 				
 				List<Map<String, Object>> l_paEs = new ArrayList<Map<String, Object>>();
 				for(PageEntity l_paen : l_pag.getPageEntities()){

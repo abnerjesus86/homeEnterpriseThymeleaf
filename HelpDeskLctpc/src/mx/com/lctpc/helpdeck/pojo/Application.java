@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table( name = "APPLICATION", schema = "APPLICATION_MANAGER" )
-@JsonIgnoreProperties(value = { "userApplications", "appnRoles", "applicationsMaster", "appnAppnId", "pages" })
+@JsonIgnoreProperties(value = { "userApplications", "applicationsMaster", "appnAppnId", "pages" })
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class,
 		  property = "appnId")
@@ -81,12 +81,14 @@ public class Application implements Serializable {
 	private String					g_appnUpdateBy;
 	@OneToMany( mappedBy = "g_usapAppnId" )
 	private List<UserApplication>	g_userApplications;
-	@OneToMany( mappedBy = "g_aproAppnId" )
-	private List<ApplicationRole>	g_appnRoles;
+	/*@OneToMany( mappedBy = "g_aproAppnId" )
+	private List<ApplicationRole>	g_appnRoles;*/
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "g_appnAppnId")
 	private List<Application> g_applicationsMaster = new ArrayList<Application>();
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "g_applications" )
 	private List<Page> g_pages =  new ArrayList<Page>();
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "g_roleAppnId")
+	private List<Rol> g_roles = new ArrayList<Rol>();
 	
 	/**
 	 * @return the appnId
@@ -251,22 +253,22 @@ public class Application implements Serializable {
 	public void setUserApplications( List<UserApplication> p_userApplications ) {
 		this.g_userApplications = p_userApplications;
 	}
-
-	/**
+/*
+	*//**
 	 * @return the appnRoles
-	 */
+	 *//*
 	public List<ApplicationRole> getAppnRoles() {
 		return this.g_appnRoles;
 	}
 
-	/**
+	*//**
 	 * @param p_appnRoles
 	 *            the appnRoles to set
-	 */
+	 *//*
 	public void setAppnRoles( List<ApplicationRole> p_appnRoles ) {
 		this.g_appnRoles = p_appnRoles;
 	}
-
+*/
 	/**
 	 * @return the appnPlfmId
 	 */
@@ -307,6 +309,20 @@ public class Application implements Serializable {
 	 */
 	public void setPages( List<Page> p_pages ) {
 		this.g_pages = p_pages;
+	}
+	
+	/**
+	 * @return the roles
+	 */
+	public List<Rol> getRoles() {
+		return this.g_roles;
+	}
+
+	/**
+	 * @param p_roles the roles to set
+	 */
+	public void setRoles( List<Rol> p_roles ) {
+		this.g_roles = p_roles;
 	}
 	
 	/* (non-Javadoc)

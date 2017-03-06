@@ -81,10 +81,10 @@ public class RolController {
 		if(p_appId == null){
 			return new ResponseEntity<String>("Not exist application",HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
 		}
-				
+		
 		Application l_app = appService.findApplicationById(p_appId);
 		ApplicationRole l_appRol = new ApplicationRole();
-
+		
 		p_rol.setRoleCreatedBy("BENITEZ.ABNER");
 		p_rol.setRoleUpdateBy("BENITEZ.ABNER");
 		rolService.saveOrUpdateRol(p_rol);

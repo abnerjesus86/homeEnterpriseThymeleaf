@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.lctpc.helpdeck.pojo.Application;
-import mx.com.lctpc.helpdeck.pojo.ApplicationRole;
+import mx.com.lctpc.helpdeck.pojo.Rol;
 import mx.com.lctpc.helpdeck.pojo.UserApplication;
 
 @Transactional
@@ -61,15 +61,25 @@ public class ApplicationDaoImpl implements ApplicationDao {
 
 	}
 
-	@Override
+/*	@Override
 	public List<ApplicationRole> findRoleFromApplicationById( BigDecimal p_appId ) {
 		Query<ApplicationRole> l_queryUserRole = getSession().createQuery(
 				"select appRoles from Application app join app.g_appnRoles appRoles where app.g_appnId = :p_appId",
 				ApplicationRole.class).setParameter("p_appId", p_appId);
 
 		return l_queryUserRole.getResultList();
-	}
+	}*/
+	
+	@Override
+	public List<Rol> findRoleFromApplicationById( BigDecimal p_appId ) {
+		Query<Rol> l_queryUserRole = getSession().createQuery(
+				"select rol from Rol rol join rol.g_roleAppnId app where app.g_appnId = :p_appId",
+				Rol.class).setParameter("p_appId", p_appId);
 
+		return l_queryUserRole.getResultList();
+	}
+	
+	
 	@Override
 	public List<UserApplication> findUserFromApplicationById( BigDecimal p_appId ) {
 		Query<UserApplication> l_queryUserRole = getSession().createQuery(

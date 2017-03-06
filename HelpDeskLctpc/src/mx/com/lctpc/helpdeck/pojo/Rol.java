@@ -6,9 +6,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -39,6 +42,9 @@ public class Rol {
 	@GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "PAGE_SEQ" )
 	@SequenceGenerator( name = "PAGE_SEQ", sequenceName = "SQ_ROLE_ID", allocationSize = 1 )
 	BigDecimal				g_roleId;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn( name = "ROLE_APPN_ID" )
+	private Application g_roleAppnId;
 	@Column( name = "ROLE_NAME" )
 	String					g_roleName;
 	@Column( name = "ROLE_DESCRIPTION" )
@@ -59,8 +65,8 @@ public class Rol {
 	String					g_roleUpdateBy;
 	@OneToMany( mappedBy = "g_usroRolId" )
 	List<UserRole>			g_roleUsers;
-	@OneToMany( mappedBy = "g_aproRoleId" )
-	List<ApplicationRole>	g_roleApplication;
+	/*@OneToMany( mappedBy = "g_aproRoleId" )
+	List<ApplicationRole>	g_roleApplication;*/
 
 	/**
 	 * @return the roleId
@@ -196,22 +202,37 @@ public class Rol {
 	public void setRoleUsers( List<UserRole> p_roleUsers ) {
 		this.g_roleUsers = p_roleUsers;
 	}
-
-	/**
+/*
+	*//**
 	 * @return the roleApplication
-	 */
+	 *//*
 	public List<ApplicationRole> getRoleApplication() {
 		return this.g_roleApplication;
 	}
 
-	/**
+	*//**
 	 * @param p_roleApplication
 	 *            the roleApplication to set
-	 */
+	 *//*
 	public void setRoleApplication( List<ApplicationRole> p_roleApplication ) {
 		this.g_roleApplication = p_roleApplication;
 	}
+*/
+	
+	/**
+	 * @return the roleAppnId
+	 */
+	public Application getRoleAppnId() {
+		return this.g_roleAppnId;
+	}
 
+	/**
+	 * @param p_roleAppnId the roleAppnId to set
+	 */
+	public void setRoleAppnId( Application p_roleAppnId ) {
+		this.g_roleAppnId = p_roleAppnId;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -225,4 +246,5 @@ public class Rol {
 				+ this.g_roleUdpateDate + ", g_roleUpdateBy=" + this.g_roleUpdateBy + "]";
 	}
 
+	
 }

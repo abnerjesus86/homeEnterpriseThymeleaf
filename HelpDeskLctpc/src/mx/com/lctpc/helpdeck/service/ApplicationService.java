@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import mx.com.lctpc.helpdeck.dao.ApplicationDao;
 import mx.com.lctpc.helpdeck.pojo.Application;
-import mx.com.lctpc.helpdeck.pojo.ApplicationRole;
+import mx.com.lctpc.helpdeck.pojo.Rol;
 import mx.com.lctpc.helpdeck.pojo.UserApplication;
 
 @Service
@@ -37,7 +37,11 @@ public class ApplicationService {
 		return appDao.findApplicationById(p_appId);
 	}
 	
-	public List<ApplicationRole> findRoleFromApplicationById(BigDecimal p_appId){
+	/*public List<ApplicationRole> findRoleFromApplicationById(BigDecimal p_appId){
+		return appDao.findRoleFromApplicationById(p_appId);
+	}*/
+	
+	public List<Rol> findRoleFromApplicationById(BigDecimal p_appId){
 		return appDao.findRoleFromApplicationById(p_appId);
 	}
 	
