@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table( name = "APPLICATION", schema = "APPLICATION_MANAGER" )
-@JsonIgnoreProperties(value = { "userApplications", "applicationsMaster", "appnAppnId", "pages" })
+@JsonIgnoreProperties(value = { "userApplications", "applicationsMaster", "appnAppnId", "pages", "roles" })
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class,
 		  property = "appnId")

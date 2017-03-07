@@ -509,10 +509,8 @@ function buildDivLstPermission(p_divFather, p_Perm, obj) {
 
 }
 
-
-
 function buildStep2Page() {
-	
+	var idApp = $('#appnId').val();
 	var tablePages = $('#tablePages').DataTable(
 			{
 				// paging : false,
@@ -617,7 +615,7 @@ function buildStep2Page() {
 			urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesForSelect/",
 			optionSelect : [ (filaActualPage.pagePageId instanceof Object ? filaActualPage.pagePageId.pageId : filaActualPage.pagePageId) ],
 			parameters : null,
-			errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
+			errorMessage : "Ha ocurrido un error al cargar el listado de Paginas padres",
 			chosen : true
 		});
 
@@ -629,7 +627,7 @@ function buildStep2Page() {
 			urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonEntitiesForSelect/",
 			optionSelect : l_entityOptSel.length !== 0 ? l_entityOptSel : null,
 			parameters : null,
-			errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
+			errorMessage : "Ha ocurrido un error al cargar el listado de entidades para pagina",
 			chosen : false,
 			dualList : true
 		});

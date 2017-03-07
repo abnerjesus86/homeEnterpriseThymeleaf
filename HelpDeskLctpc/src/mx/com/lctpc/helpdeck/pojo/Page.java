@@ -308,8 +308,6 @@ public class Page implements Serializable{
 	public void setPageMaster( List<Page> p_pageMaster ) {
 		this.g_pageMaster = p_pageMaster;
 	}
-
-	
 	
 
 	/**

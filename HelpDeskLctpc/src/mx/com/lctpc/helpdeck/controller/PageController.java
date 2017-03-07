@@ -176,10 +176,7 @@ public class PageController {
 	@RequestMapping( value = "/appWizard/page/save/{appId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<String> jsonUpdatePage(@RequestBody Page p_page, @PathVariable( "appId" ) BigDecimal p_appId ){
-		//@RequestParam("entities") List<String> p_entities
-		//System.out.println("Entities: [ "+p_entities+" ]");
-		//System.out.println("APgina "+p_page.getE);
-		
+
 		if(p_appId == null){
 			return new ResponseEntity<>("not exit Applicacion", HttpStatus.NO_CONTENT);
 		}
@@ -192,11 +189,10 @@ public class PageController {
 		
 		List<PageEntity> l_pageEnt = p_page.getPageEntities();
 		System.out.println("valor de entity " + l_pageEnt.size());
-		//for( p_page.getEntities() )
 		
-		p_page.setPageCreatedBy("BEITEZ.ABNER");
-		p_page.setPageUpdateBy("BEITEZ.ABNER");
-		//p_page.getPageEntities();
+		p_page.setPageCreatedBy("BENITEZ.ABNER");
+		p_page.setPageUpdateBy("BENITEZ.ABNER");
+		
 		pageService.saveOrUpdatePage(p_page);
 		
 		return new ResponseEntity<String>(HttpStatus.OK);
@@ -209,17 +205,6 @@ public class PageController {
 		List<PageEntity> l_lst = p_page.getPageEntities();
 		p_page.setPageEntities(null);
 		
-		/*if(p_appId == null){
-			return new ResponseEntity<>("not exit Applicacion", HttpStatus.NO_CONTENT);
-		}
-		
-		Application l_app = appService.findApplicationById(p_appId);
-		
-		if(l_app == null){
-			return new ResponseEntity<>("not exit Applicacion", HttpStatus.NO_CONTENT);
-		}*/
-		
-		//p_page.setPageActive(true);
 		p_page.setPageCreatedBy("BEITEZ.ABNER");
 		p_page.setPageUpdateBy("BEITEZ.ABNER");
 		

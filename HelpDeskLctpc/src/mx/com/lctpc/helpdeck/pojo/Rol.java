@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table( name = "ROLE", schema = "APPLICATION_MANAGER" )
-@JsonIgnoreProperties(value = { "roleUsers","roleApplication" })
+@JsonIgnoreProperties(value = { "roleUsers" })
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class,
 		  property = "roleId")
