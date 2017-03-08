@@ -151,7 +151,7 @@ public class PageController {
 		return "pageForm";
 	}
 
-	@RequestMapping( value = { "/pageForm/{pageId}/delete"} )
+	@RequestMapping( value = { "/pageForm/{pageId}/delete" } )
 	@ResponseBody
 	public ResponseEntity<String> showDeletePage( Model model, @PathVariable( "pageId" ) BigDecimal p_pageId ) {
 		Page l_page = pageService.findPageById(p_pageId);
@@ -159,70 +159,119 @@ public class PageController {
 
 		return new ResponseEntity<String>("ok", HttpStatus.OK); // ResponseEntity<String>
 	}
-	
+
 	@RequestMapping( value = { "/appWizard/page/delete/{pageId}/{appId}" } )
 	@ResponseBody
 	public ResponseEntity<String> jsonDeletePageFromApplication( Model model, @PathVariable( "pageId" ) BigDecimal p_pageId, @PathVariable( "appId" ) BigDecimal p_appId ) {
 		Page l_page = pageService.findPageById(p_pageId);
-		Application l_appn =  appService.findApplicationById(p_appId);
-		
-		//l_page.getApplications().add(l_appn);
+		Application l_appn = appService.findApplicationById(p_appId);
+
+		// l_page.getApplications().add(l_appn);
 		pageService.deletePageFromApplicationById(l_page, l_appn);
 
 		return new ResponseEntity<String>("ok", HttpStatus.OK); // ResponseEntity<String>
 	}
-	
 
-	@RequestMapping( value = "/appWizard/page/save/{appId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping( value = "/appWizard/page/save/{appId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE )
 	@ResponseBody
-	public ResponseEntity<String> jsonUpdatePage(@RequestBody Page p_page, @PathVariable( "appId" ) BigDecimal p_appId ){
+	public ResponseEntity<String> jsonUpdatePage( @RequestBody Page p_page, @PathVariable( "appId" ) BigDecimal p_appId ) {
 
-		if(p_appId == null){
+		/*
+		 * for(PageEntity l_pg : p_page.getPageEntities()){
+		 * PageEntity l_pgNew = pageService.findPageEntityById(l_pg.getPaenId());
+		 * //quitar condicion cuando se obtengan solo los pageEntity activos
+		 * if(l_pgNew.isPaenActive())
+		 * l_lstNew.add(l_pgNew);
+		 * //l_lstNew.add( pageService.findPageEntityById(l_pg.getPaenId()) );
+		 * }
+		 */
+
+		// l_lstNew.con
+		Page l_pagCurrent = pageService.findPageById(p_page.getPageId());
+		List<PageEntity> l_lstCurrent = l_pagCurrent.getPageEntities(); // Cambiar por el metodo de obtener los
+																		// pageEntity activas y no todas.
+
+		if (p_appId == null) {
 			return new ResponseEntity<>("not exit Applicacion", HttpStatus.NO_CONTENT);
 		}
-		
+
 		Application l_pag = appService.findApplicationById(p_appId);
-		
-		if(l_pag == null){
+
+		if (l_pag == null) {
 			return new ResponseEntity<>("not exit Applicacion", HttpStatus.NO_CONTENT);
 		}
-		
-		List<PageEntity> l_pageEnt = p_page.getPageEntities();
-		System.out.println("valor de entity " + l_pageEnt.size());
-		
+
 		p_page.setPageCreatedBy("BENITEZ.ABNER");
 		p_page.setPageUpdateBy("BENITEZ.ABNER");
-		
+
 		pageService.saveOrUpdatePage(p_page);
-		
+
+		// Proceso de actualizacion de pageEntity
+		List<PageEntity> l_lstNew = new ArrayList<PageEntity>();
+
+		if (l_lstCurrent.isEmpty()) {
+
+			for (PageEntity l_pE : p_page.getPageEntities()) {
+
+				l_pE.setPaenPageId(p_page);
+				l_pE.setPaenActive(true);
+				l_pE.setPaenCreatedBy("BENITEZ.ABNER");
+				l_pE.setPaenUpdateBy("BENITEZ.ABNER");
+
+				// pageService.savePageEntity(l_pE);
+			}
+
+		} else {
+			System.out.println("Entro por que hay datos en la pagina");
+
+			System.out.println("contine los nuevos en el actual = " + l_lstCurrent.containsAll(p_page.getPageEntities()));
+
+			for (PageEntity l_pg : p_page.getPageEntities()) {
+				PageEntity l_pgNew = pageService.findPageEntityById(l_pg.getPaenId());
+				if (l_pgNew == null) {
+					l_pg.setPaenPageId(p_page);
+					l_pg.setPaenActive(true);
+					l_pg.setPaenCreatedBy("BENITEZ.ABNER");
+					l_pg.setPaenUpdateBy("BENITEZ.ABNER");
+					// pageService.savePageEntity(l_pE);
+				}
+				
+				// quitar condicion cuando se obtengan solo los pageEntity activos
+				if (l_pgNew.isPaenActive())
+					l_lstNew.add(l_pgNew);
+				// l_lstNew.add( pageService.findPageEntityById(l_pg.getPaenId()) );
+			}
+
+		}
+
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
-	
-	@RequestMapping( value = "/appWizard/page/save/{appId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping( value = "/appWizard/page/save/{appId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE )
 	@ResponseBody
-	public ResponseEntity<String> jsonCreatePage(@RequestBody Page p_page, @PathVariable( "appId" ) BigDecimal p_appId ){
-		
+	public ResponseEntity<String> jsonCreatePage( @RequestBody Page p_page, @PathVariable( "appId" ) BigDecimal p_appId ) {
+
 		List<PageEntity> l_lst = p_page.getPageEntities();
 		p_page.setPageEntities(null);
-		
+
 		p_page.setPageCreatedBy("BEITEZ.ABNER");
 		p_page.setPageUpdateBy("BEITEZ.ABNER");
-		
+
 		pageService.saveOrUpdatePage(p_page);
-		
-		for(PageEntity l_pE : l_lst){
-			
+
+		for (PageEntity l_pE : l_lst) {
+
 			l_pE.setPaenPageId(p_page);
 			l_pE.setPaenActive(true);
 			l_pE.setPaenCreatedBy("BENITEZ.ABNER");
 			l_pE.setPaenUpdateBy("BENITEZ.ABNER");
-			
+
 			pageService.savePageEntity(l_pE);
 		}
-		
+
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
-	
+
 	@RequestMapping( value = "/appWizard/pageEntity/save/{pageId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE )
 	@ResponseBody
 	public ResponseEntity<String> jsonCreatePageEntity( @RequestBody PageEntity p_pagEnt, @PathVariable( "pageId" ) BigDecimal p_pageId ) {

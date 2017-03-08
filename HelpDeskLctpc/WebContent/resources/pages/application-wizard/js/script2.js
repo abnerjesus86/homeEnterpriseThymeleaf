@@ -273,7 +273,9 @@ function clearFormPage() {
 		chosen : false,
 		dualList : true
 	});
-
+	
+	
+	
 }
 
 function getListValuesText(options) {
@@ -297,7 +299,9 @@ function getListValuesText(options) {
 
 	select.empty();
 	select.val(null);
-
+	select.removeData('datosEnt');
+	var SelectValues = []; 
+	
 	$.ajax({
 		headers : {
 			'Content-Type' : "application/json; charset=utf-8"
@@ -319,17 +323,43 @@ function getListValuesText(options) {
 					value : item.value,
 					text : item.label
 				}));
-
+				
+				//console.log("Cantidad de option "+options.optionSelect.length);
+				
 				$.each(options.optionSelect != null ? options.optionSelect : [], function(iOS, itemOptionSelect) {
-
+					/* Para normal sin utilizar el data
 					if (itemOptionSelect == item.value) {
 						var l_x = select.find('option:eq(' + (i + 1) + ')').attr('selected', 'selected');
 					}
-
+					*/
+					var objValue = (itemOptionSelect instanceof Object ? (itemOptionSelect.paenEnttId instanceof Object ? itemOptionSelect.paenEnttId.enttId : itemOptionSelect.paenEnttId) : itemOptionSelect);
+					
+					if (  objValue == item.value ) {
+						var l_x = select.find('option:eq(' + (i + 1) + ')').attr('selected', 'selected');
+						//var l_x = select.find('option:eq(' + item.value + ')').attr('selected', 'selected');
+						
+						var objEntity = {
+								enttId : itemOptionSelect.paenEnttId instanceof Object ? itemOptionSelect.paenEnttId.enttId : itemOptionSelect.paenEnttId, 
+								paenId : itemOptionSelect.paenId
+						};
+						
+						//select.data('enttId_'+objEntity.enttId, objEntity);
+						
+						SelectValues.push(item.value);
+					}
+					
 				});
 
 			});
-			select.val(options.optionSelect);
+			//select.val(options.optionSelect);
+			select.val(SelectValues);
+			
+			if( options.optionSelect instanceof Object ){
+				//options.optionSelect.paenEnttId instanceof Object ?	options.optionSelect.paenEnttId.enttId : options.optionSelect.paenEnttId;
+				select.data('datosEnt', options.optionSelect);
+			}
+			
+			
 			if (options.chosen)
 				select.trigger("chosen:updated");
 
@@ -604,11 +634,14 @@ function buildStep2Page() {
 		$('#pageDisplay').val(filaActualPage.pageDisplay);
 		$('#pageDescription').val(filaActualPage.pageDescription);
 		$('#pageUrl').val(filaActualPage.pageUrl);
-
+		
+		
 		$.each(filaActualPage.pageEntities != null ? filaActualPage.pageEntities : [], function(i, item) {
-			l_entityOptSel.push(item.paenEnttId instanceof Object ? item.paenEnttId.enttId : item.paenEnttId);
+			//l_entityOptSel.push(item.paenEnttId instanceof Object ? item.paenEnttId.enttId : item.paenEnttId);
+			l_entityOptSel.push(item);
 		});
-
+		
+		console.log("Cantidad "+ l_entityOptSel.length );
 		getListValuesText({
 			idList : '#pagePageId',
 			methodType : 'GET',
@@ -673,13 +706,22 @@ function buildStep2Page() {
 		var l_methodType = 'POST';
 
 		$.each($('#duallist').val() != null ? $('#duallist').val() : [], function(i, item) {
+			
+			var objNew = $('#duallist').data('datosEnt').filter(function(item2){
+				return item2.paenEnttId.enttId == item;
+			} );
+			console.log(objNew.length);
 			l_a.push({
+				paenId : (objNew.length > 0 ?  objNew[0].paenId : null),
 				paenEnttId : {
-					enttId : new Number(item)
+					enttId : new Number(item),
 				}
 			});
+			
 		});
-
+		
+		console.log(l_a);
+		
 		l_methodType = $('#pageId').val() != '' ? 'PUT' : 'POST';
 
 		d = JSON.stringify({
