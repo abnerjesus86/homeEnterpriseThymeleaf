@@ -123,9 +123,16 @@ public class PageDaoImpl implements PageDao {
 
 	@Override
 	public List<Page> findPageFromApplicationById( BigDecimal p_appnId ) {
-		Query<Page> l_queryPageEntity = getSession().createQuery("SELECT pag FROM Page pag JOIN pag.g_applications apps where apps.g_appnId = :p_appId and pag.g_pageActive = :p", Page.class)
+		Query<Page> l_queryPageEntity = getSession().createQuery("SELECT pag "
+				+ " FROM Page pag JOIN pag.g_applications apps "
+				//+ " JOIN pag.g_pageEntities pagEnt "
+				+ " WHERE apps.g_appnId = :p_appId "
+				+ " and pag.g_pageActive = :p "
+				//+ " and pag.g_pageEntities.g_paenActive = :p2"
+				, Page.class)
 				.setParameter("p_appId", p_appnId)
 				.setParameter("p", true)
+				//.setParameter("p2", true)
 				;
 		return l_queryPageEntity.getResultList();
 	}

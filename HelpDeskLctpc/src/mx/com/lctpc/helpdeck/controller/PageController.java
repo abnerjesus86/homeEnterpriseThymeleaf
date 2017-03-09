@@ -175,21 +175,8 @@ public class PageController {
 	@RequestMapping( value = "/appWizard/page/save/{appId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE )
 	@ResponseBody
 	public ResponseEntity<String> jsonUpdatePage( @RequestBody Page p_page, @PathVariable( "appId" ) BigDecimal p_appId ) {
-
-		/*
-		 * for(PageEntity l_pg : p_page.getPageEntities()){
-		 * PageEntity l_pgNew = pageService.findPageEntityById(l_pg.getPaenId());
-		 * //quitar condicion cuando se obtengan solo los pageEntity activos
-		 * if(l_pgNew.isPaenActive())
-		 * l_lstNew.add(l_pgNew);
-		 * //l_lstNew.add( pageService.findPageEntityById(l_pg.getPaenId()) );
-		 * }
-		 */
-
-		// l_lstNew.con
 		Page l_pagCurrent = pageService.findPageById(p_page.getPageId());
-		List<PageEntity> l_lstCurrent = l_pagCurrent.getPageEntities(); // Cambiar por el metodo de obtener los
-																		// pageEntity activas y no todas.
+		List<PageEntity> l_lstCurrent = l_pagCurrent.getPageEntities(); // Cambiar por el metodo de obtener los pageEntity activas y no todas.
 
 		if (p_appId == null) {
 			return new ResponseEntity<>("not exit Applicacion", HttpStatus.NO_CONTENT);
@@ -206,11 +193,10 @@ public class PageController {
 
 		pageService.saveOrUpdatePage(p_page);
 
-		// Proceso de actualizacion de pageEntity
+		// Proceso de actualizacion de pageEntity cuando todavia no exite ninguna entidad relacionada a la pagina
 		List<PageEntity> l_lstNew = new ArrayList<PageEntity>();
-
 		if (l_lstCurrent.isEmpty()) {
-
+			
 			for (PageEntity l_pE : p_page.getPageEntities()) {
 
 				l_pE.setPaenPageId(p_page);
@@ -218,30 +204,38 @@ public class PageController {
 				l_pE.setPaenCreatedBy("BENITEZ.ABNER");
 				l_pE.setPaenUpdateBy("BENITEZ.ABNER");
 
-				// pageService.savePageEntity(l_pE);
+				pageService.savePageEntity(l_pE);
 			}
 
-		} else {
-			System.out.println("Entro por que hay datos en la pagina");
+		} else {// proceso para cuando ya existen entidades asociadas a la pagina
 
-			System.out.println("contine los nuevos en el actual = " + l_lstCurrent.containsAll(p_page.getPageEntities()));
-
-			for (PageEntity l_pg : p_page.getPageEntities()) {
-				PageEntity l_pgNew = pageService.findPageEntityById(l_pg.getPaenId());
-				if (l_pgNew == null) {
+			for (PageEntity l_pg : p_page.getPageEntities()) { //Recore PageEntity enviados desde el front-End para su revision.
+				PageEntity l_pgNew = l_pg.getPaenId() != null ? pageService.findPageEntityById(l_pg.getPaenId()) : null;
+				
+				//Caso cuando existen entidad ya relaccionadas y se agrega una nueva.
+				if (l_pgNew == null) { 
 					l_pg.setPaenPageId(p_page);
 					l_pg.setPaenActive(true);
 					l_pg.setPaenCreatedBy("BENITEZ.ABNER");
 					l_pg.setPaenUpdateBy("BENITEZ.ABNER");
-					// pageService.savePageEntity(l_pE);
-				}
-				
-				// quitar condicion cuando se obtengan solo los pageEntity activos
-				if (l_pgNew.isPaenActive())
+					
+					pageService.savePageEntity(l_pg);
+					
+					l_lstNew.add(l_pg);
+				} else
 					l_lstNew.add(l_pgNew);
-				// l_lstNew.add( pageService.findPageEntityById(l_pg.getPaenId()) );
 			}
-
+			
+			//Proceso para obtener las entidades a borrar o desactivar
+			l_lstCurrent.removeAll(l_lstNew);
+			
+			//Desactivar o borrar entidades del array actual
+			for(PageEntity l_pE : l_lstCurrent){
+				l_pE.setPaenActive(false);
+				l_pE.setPaenUpdateBy("BENITEZ.ABNER");
+				pageService.deletePageEntity(l_pE);
+			}
+			
 		}
 
 		return new ResponseEntity<String>(HttpStatus.OK);

@@ -252,6 +252,7 @@ public class JsonController {
 		return new ResponseEntity<Map<String, List<SelectList>>>(l_map, HttpStatus.OK);
 
 	}
+	
 	@RequestMapping( value = "/getJsonPermisisons", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<Map<String, List<Permission>>> showJsonPermission() {
 		List<Permission> l_permissions = permService.findAllPermisions();
@@ -368,9 +369,11 @@ public class JsonController {
 		}
 		Map<String, List<Page>> l_map = new HashMap<String, List<Page>>();
 		List<Page> l_lst = pagService.findPageFromApplicationById(p_appId);
+		
 		if(l_lst.isEmpty()){
 			return new ResponseEntity<Map<String, List<Page>>>(HttpStatus.NO_CONTENT);// You many decide to return HttpStatus.NOT_FOUND
 		}
+		
 		l_map.put("data", l_lst);
 		return new ResponseEntity<Map<String, List<Page>>>(l_map, HttpStatus.OK);
 	}

@@ -1,1 +1,0 @@
-{"data":[{"pageId":52,"pageDisplay":"Pagina26","paenId":100,"enttName":"Entidad1","enttId":1,"roleId":3,"roleName":"ROL_SUPERVIDOR"},{"pageId":52,"pageDisplay":"Pagina26","paenId":100,"enttName":"Entidad1","enttId":1,"roleId":2,"roleName":"ROL_CAPTURISTA"}]}

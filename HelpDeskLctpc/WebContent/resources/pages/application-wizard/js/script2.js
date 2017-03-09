@@ -18,11 +18,9 @@ jQuery(function($) {
 					// Forbid suppressing "Warning" step if the user is to young
 					if (newIndex === 1) // paso roles
 					{
-						if (idApp !== null && idApp !== undefined && idApp != '') {
-							$('#tableRoles').DataTable().clear().draw();
-							$('#tableRoles').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpc/getJsonRolesApps/" + idApp).load();
-						}
-
+						buildStep1Rol();
+						clearFormRol();
+						
 						return true;
 					}
 					if (newIndex === 2) { // paso Pages
@@ -34,7 +32,6 @@ jQuery(function($) {
 					}
 					if (newIndex === 3) { // paso Permission Page
 						buildDivLstPages($('#divColPrincipalPages'));
-						//buildStep3RolesPage();
 						
 						return true;
 					}
@@ -59,7 +56,7 @@ jQuery(function($) {
 
 			var idApp = 3;
 
-			var linkApp = $(location).attr('origin') + "/HelpDeskLctpc/getJsonApp/";
+			var linkApp = $(location).attr('origin') + "/HelpDeskLctpc/getJsonApp";
 			if (idApp !== null && idApp !== undefined && idApp != '') {
 				linkApp = linkApp + "/" + idApp;
 			}
@@ -102,121 +99,7 @@ jQuery(function($) {
 			});
 			
 			// ----------------------------------------------------------------------------------------------------------
-			// Codigo para tabla de roles appnId
-			var tableRoles = $('#tableRoles').DataTable(
-					{
-						deferRender : false,
-						paging : false,
-						info : false,
-						autoWidth : true,
-						select : false,
-						searching : false,
-						ordering : false,
-						stateSave : true,
-						scrollY : '25vh',
-						scrollCollapse : false,
-						columns : [
-								{
-									title : "Consecutivo",
-									data : "roleId"
-								},
-								{
-									title : "Account User",
-									data : "roleName"
-								},
-								{
-									title : "Description",
-									data : "roleDescription"
-								},
-								{
-									title : "Actions",
-									data : null,
-									render : function(data, type, row) {
-										return "<div class='hidden-sm hidden-xs action-buttons'>" + "<a class='green' id='id-btn-edit' href='#' role='button'><i class='ace-icon fa fa-pencil bigger-130'></i></a>"
-												+ "<a class='red' id='id-btn-delete' href='"
-												+ $(location).attr('origin')
-												+ "/HelpDeskLctpc/appForm/"
-												+ data.roleId
-												+ "/delete'><i class='ace-icon fa fa-trash-o bigger-130'></i></a>"
-												+ "</div> "
-												+ "<div class='hidden-md hidden-lg'>"
-												+ "<div class='inline pos-rel'>"
-												+ "<button class='btn btn-minier btn-primary dropdown-toggle' data-toggle='dropdown' data-position='auto'>"
-												+ "<i class='ace-icon fa fa-cog icon-only bigger-110'></i>"
-												+ "</button>"
-												+ "<ul class='dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close'>"
-												+ "<li>"
-												+ "<a href='#' id='id-btn-edit' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
-												+ "<span class='green'>"
-												+ "<i class='ace-icon fa fa-pencil-square-o bigger-120'></i></span></a>"
-												+ "</li>"
-												+ "<li>"
-												+ "<a href='"
-												+ $(location).attr('origin')
-												+ "/HelpDeskLctpc/appForm/"
-												+ data.roleId
-												+ "/delete' id='id-btn-dialog2' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
-												+ "<span class='red'> <i class='ace-icon fa fa-trash-o bigger-120'></i></span></a>" + "</li>"
-
-												+ "</ul>" + "</div>" + "</div>";
-									},
-									className : "gridSystemModal center"
-								} ],
-						initComplete : function() {
-						},
-						fnDrawCallback : function() {
-						}
-					});
-
-			var counterRoles = 0;
-			var isEditRoles = false;
-
-			var RowRoles = null;
-			$('#btn-addRole').on('click', function() {
-				var d = JSON.stringify({
-					roleId : $('#roleId').val() != '' ? new Number($('#roleId').val()) : null,
-					roleName : $('#roleName').val(),
-					roleDescription : $('#roleDescription').val()
-				});
-
-				var link = $(location).attr('origin') + "/HelpDeskLctpc/appWizard/roles/save";
-				if (idApp !== null && idApp !== undefined && idApp != '') {
-					link = link + "/" + idApp;
-				}
-
-				$.ajax({
-					url : link,
-					type : $('#roleId').val() != '' ? 'PUT' : 'POST',
-					contentType : "application/json",
-					data : d,
-					success : function(data) {
-						tableRoles.clear().draw();
-						tableRoles.ajax.reload();
-					},
-					error : function(e) {
-						alert("ERROR: ", e);
-					}
-				});
-
-				$('#roleId').val("");
-				$('#roleName').val("");
-				$('#roleDescription').val("");
-				var row = "";
-			});
-
-			$('#tableRoles tbody').on("click", ".gridSystemModal a#id-btn-edit", function() {
-				RowRoles = tableRoles.row($(this).parents('tr'));
-				FilaActualRoles = RowRoles.data();
-				$('#roleId').val(FilaActualRoles.roleId);
-				$('#roleName').val(FilaActualRoles.roleName);
-				$('#roleDescription').val(FilaActualRoles.roleDescription);
-
-				isEditRoles = true;
-			});
-
-			$('#tableRoles tbody').on("click", ".gridSystemModal a#id-btn-delete", function() {
-				tableRoles.row($(this).parents('tr')).remove().draw(false);
-			});
+			
 
 			
 		} // fin funcion de initializeTable
@@ -231,6 +114,19 @@ jQuery(function($) {
  * $(document).on('click', 'table .dropdown-toggle', function(e) { e.stopImmediatePropagation(); e.stopPropagation();
  * e.preventDefault(); });
  */
+
+function clearFormRol(){
+	var idApp = $('#appnId').val();
+	
+	$('#roleId').val("");
+	$('#roleName').val("");
+	$('#roleDescription').val("");
+		
+	if (idApp !== null && idApp !== undefined && idApp != '') {
+		$('#tableRoles').DataTable().clear().draw();
+		$('#tableRoles').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpc/getJsonRolesApps/" + idApp).load();
+	}
+}
 
 function clearFormPage() {
 	var idApp = $('#appnId').val();
@@ -332,19 +228,14 @@ function getListValuesText(options) {
 						var l_x = select.find('option:eq(' + (i + 1) + ')').attr('selected', 'selected');
 					}
 					*/
-					var objValue = (itemOptionSelect instanceof Object ? (itemOptionSelect.paenEnttId instanceof Object ? itemOptionSelect.paenEnttId.enttId : itemOptionSelect.paenEnttId) : itemOptionSelect);
+					var objValue = ( itemOptionSelect instanceof Object ? 
+									( itemOptionSelect.paenEnttId instanceof Object && itemOptionSelect.paenActive  ? 
+											itemOptionSelect.paenEnttId.enttId : itemOptionSelect.paenEnttId ) 
+									: itemOptionSelect );
 					
 					if (  objValue == item.value ) {
 						var l_x = select.find('option:eq(' + (i + 1) + ')').attr('selected', 'selected');
-						//var l_x = select.find('option:eq(' + item.value + ')').attr('selected', 'selected');
-						
-						var objEntity = {
-								enttId : itemOptionSelect.paenEnttId instanceof Object ? itemOptionSelect.paenEnttId.enttId : itemOptionSelect.paenEnttId, 
-								paenId : itemOptionSelect.paenId
-						};
-						
-						//select.data('enttId_'+objEntity.enttId, objEntity);
-						
+
 						SelectValues.push(item.value);
 					}
 					
@@ -539,6 +430,122 @@ function buildDivLstPermission(p_divFather, p_Perm, obj) {
 
 }
 
+function buildStep1Rol(){
+	var idApp = $('#appnId').val();
+	
+	// Codigo para tabla de roles appnId
+	var tableRoles = $('#tableRoles').DataTable(
+			{
+				deferRender : false,
+				paging : false,
+				info : false,
+				autoWidth : true,
+				select : false,
+				searching : false,
+				ordering : false,
+				stateSave : true,
+				scrollY : '25vh',
+				scrollCollapse : false,
+				columns : [
+						{
+							title : "Consecutivo",
+							data : "roleId"
+						},
+						{
+							title : "Account User",
+							data : "roleName"
+						},
+						{
+							title : "Description",
+							data : "roleDescription"
+						},
+						{
+							title : "Actions",
+							data : null,
+							render : function(data, type, row) {
+								return "<div class='hidden-sm hidden-xs action-buttons'>" + "<a class='green' id='id-btn-edit' href='#' role='button'><i class='ace-icon fa fa-pencil bigger-130'></i></a>"
+										+ "<a class='red' id='id-btn-delete' href='"
+										+ $(location).attr('origin')
+										+ "/HelpDeskLctpc/appForm/"
+										+ data.roleId
+										+ "/delete'><i class='ace-icon fa fa-trash-o bigger-130'></i></a>"
+										+ "</div> "
+										+ "<div class='hidden-md hidden-lg'>"
+										+ "<div class='inline pos-rel'>"
+										+ "<button class='btn btn-minier btn-primary dropdown-toggle' data-toggle='dropdown' data-position='auto'>"
+										+ "<i class='ace-icon fa fa-cog icon-only bigger-110'></i>"
+										+ "</button>"
+										+ "<ul class='dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close'>"
+										+ "<li>"
+										+ "<a href='#' id='id-btn-edit' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
+										+ "<span class='green'>"
+										+ "<i class='ace-icon fa fa-pencil-square-o bigger-120'></i></span></a>"
+										+ "</li>"
+										+ "<li>"
+										+ "<a href='"
+										+ $(location).attr('origin')
+										+ "/HelpDeskLctpc/appForm/"
+										+ data.roleId
+										+ "/delete' id='id-btn-dialog2' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
+										+ "<span class='red'> <i class='ace-icon fa fa-trash-o bigger-120'></i></span></a>" + "</li>"
+
+										+ "</ul>" + "</div>" + "</div>";
+							},
+							className : "gridSystemModal center"
+						} ],
+				initComplete : function() {
+				},
+				fnDrawCallback : function() {
+				}
+			});
+
+	$('#btn-addRole').on('click', function() {
+		var d = JSON.stringify({
+			roleId : $('#roleId').val() != '' ? new Number($('#roleId').val()) : null,
+			roleName : $('#roleName').val(),
+			roleDescription : $('#roleDescription').val(),
+			roleAppnId : $('#appnId').val()
+		});
+
+		var link = $(location).attr('origin') + "/HelpDeskLctpc/appWizard/roles/save";
+		if (idApp !== null && idApp !== undefined && idApp != '') {
+			link = link + "/" + idApp;
+		}
+
+		$.ajax({
+			url : link,
+			type : $('#roleId').val() != '' ? 'PUT' : 'POST',
+			contentType : "application/json",
+			data : d,
+			success : function(data) {
+				tableRoles.clear().draw();
+				tableRoles.ajax.reload();
+			},
+			error : function(e) {
+				alert("ERROR: ", e);
+			}
+		});
+
+		$('#roleId').val("");
+		$('#roleName').val("");
+		$('#roleDescription').val("");
+		var row = "";
+	});
+
+	$('#tableRoles tbody').on("click", ".gridSystemModal a#id-btn-edit", function() {
+		RowRoles = tableRoles.row($(this).parents('tr'));
+		FilaActualRoles = RowRoles.data();
+		$('#roleId').val(FilaActualRoles.roleId);
+		$('#roleName').val(FilaActualRoles.roleName);
+		$('#roleDescription').val(FilaActualRoles.roleDescription);
+
+	});
+
+	$('#tableRoles tbody').on("click", ".gridSystemModal a#id-btn-delete", function() {
+		tableRoles.row($(this).parents('tr')).remove().draw(false);
+	});
+}
+
 function buildStep2Page() {
 	var idApp = $('#appnId').val();
 	var tablePages = $('#tablePages').DataTable(
@@ -637,11 +644,10 @@ function buildStep2Page() {
 		
 		
 		$.each(filaActualPage.pageEntities != null ? filaActualPage.pageEntities : [], function(i, item) {
-			//l_entityOptSel.push(item.paenEnttId instanceof Object ? item.paenEnttId.enttId : item.paenEnttId);
-			l_entityOptSel.push(item);
+			if(item.paenActive)
+				l_entityOptSel.push(item);
 		});
 		
-		console.log("Cantidad "+ l_entityOptSel.length );
 		getListValuesText({
 			idList : '#pagePageId',
 			methodType : 'GET',
@@ -708,7 +714,7 @@ function buildStep2Page() {
 		$.each($('#duallist').val() != null ? $('#duallist').val() : [], function(i, item) {
 			
 			var objNew = $('#duallist').data('datosEnt').filter(function(item2){
-				return item2.paenEnttId.enttId == item;
+				return item2.paenEnttId.enttId == item && item2.paenActive;
 			} );
 			console.log(objNew.length);
 			l_a.push({
@@ -766,106 +772,6 @@ function buildStep2Page() {
 		clearFormPage();
 	});
 }
-
-function buildStep3RolesPage() {
-	var idApp = $('#appnId').val();
-	// Table Permission
-	var v_columns = [];
-	callAjax($(location).attr('origin') + "/HelpDeskLctpc/getJsonPermissionRolPageActive/" + idApp, 'GET', function(dataJson) {
-		$.each(dataJson.columns, function(i, item) {
-			var title = new Object();
-			title.title = item.title;
-
-			if (item.render === true) {
-				title.data = null;
-				title.render = function(data, type, row) {
-					$.each(item.data, function(i, itemPerm){
-						console.log(itemPerm);
-					});
-					return "<div><label class='checkbox-inline'> <input type='checkbox' value='option1' id='inlineCheckbox1'>" + item.data + "</label> </div>";
-				};
-			} else {
-				title.data = item.data;
-			}
-
-			v_columns.push(title);
-
-		});
-	});
-
-	var tablePermission = $('#dataTables-Permission').DataTable({
-		// paging : false,
-		info : false,
-		autoWidth : true,
-		searching : true,
-		ordering : true,
-		destroy : true,
-		lengthChange : true,
-		pageLength : 10,
-		responsive : true,
-		dom : "<'row'<'col-lg-5'f><'col-lg-7 html5buttons'B> lTgt>" + "<'row'<'col-md-5'i><'col-md-7 text-right'p>>",
-		dom : '<"html5buttons"B>lTfgitp',
-		buttons : [ {
-			text : 'Actualizar',
-			action : function(e, dt, node, config) {
-				dt.ajax.reload();
-			}
-		}, {
-			"extend" : 'copy',
-			"text" : 'Copiar'
-		}, {
-			"extend" : 'csv'
-		}, {
-			"extend" : 'pdf',
-			"text" : 'Pdf'
-		}, {
-			"extend" : 'print',
-			"customize" : function(win) {
-				$(win.document.body).addClass('white-bg');
-				$(win.document.body).css('font-size', '10px');
-				$(win.document.body).find('table').addClass('compact').css('font-size', 'inherit');
-			}
-		} ],
-		ajax : {
-			url : $(location).attr('origin') + "/HelpDeskLctpc/getJsonPermissionRolPageActive/3",
-			type : "GET"
-
-		},
-		columns : v_columns,
-		initComplete : function() {
-
-		},
-		fnDrawCallback : function() {
-
-		}
-	});
-}
-
-function buildStep3RolPages(){
-	var v_columns = [];
-	callAjax($(location).attr('origin') + "/HelpDeskLctpc/getJsonPermissionRolPageActive/" + idApp, 'GET', function(dataJson) {
-		$.each(dataJson.columns, function(i, item) {
-			var title = new Object();
-			title.title = item.title;
-
-			if (item.render === true) {
-				title.data = null;
-				title.render = function(data, type, row) {
-					$.each(item.data, function(i, itemPerm){
-						console.log(itemPerm);
-					});
-					return "<div><label class='checkbox-inline'> <input type='checkbox' value='option1' id='inlineCheckbox1'>" + item.data + "</label> </div>";
-				};
-			} else {
-				title.data = item.data;
-			}
-
-			v_columns.push(title);
-
-		});
-	});
-}
-
 
 
 

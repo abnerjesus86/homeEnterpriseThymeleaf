@@ -26,6 +26,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
+import org.hibernate.annotations.WhereJoinTable;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -63,8 +65,6 @@ public class Page implements Serializable{
 	private Page		g_pagePageId;
 	@Column( name = "PAGE_DISPLAY" )
 	private String		g_pageDisplay;
-	/*@Column( name = "PAGE_NOMENCLATURE" )
-	private String		g_pageNomenclature;*/
 	@Column( name = "PAGE_DESCRIPTION" )
 	private String		g_pageDescription;
 	@Column( name = "PAGE_URL" )
@@ -86,7 +86,8 @@ public class Page implements Serializable{
 	@Column( name = "PAGE_UPDATE_BY", insertable = true, updatable = true )
 	private String		g_pageUpdateBy;
 	@OneToMany(  fetch = FetchType.EAGER, mappedBy = "g_paenPageId", cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
-	@Fetch(value = FetchMode.SUBSELECT)
+	@Fetch( value = FetchMode.SUBSELECT )
+	@Where(clause = "PAEN_ACTIVE = true")
 	private List<PageEntity> g_pageEntities = new ArrayList<PageEntity>();
 	@OneToMany(  mappedBy = "g_pagePageId")
 	private List<Page> g_pageMaster = new ArrayList<Page>();
@@ -145,20 +146,6 @@ public class Page implements Serializable{
 		this.g_pageDisplay = p_pageDisplay;
 	}
 
-	/**
-	 * @return the pageNomenclature
-	 *//*
-	public String getPageNomenclature() {
-		return this.g_pageNomenclature;
-	}
-
-	*//**
-	 * @param p_pageNomenclature the pageNomenclature to set
-	 *//*
-	public void setPageNomenclature( String p_pageNomenclature ) {
-		this.g_pageNomenclature = p_pageNomenclature;
-	}
-*/
 	/**
 	 * @return the pageDescription
 	 */
