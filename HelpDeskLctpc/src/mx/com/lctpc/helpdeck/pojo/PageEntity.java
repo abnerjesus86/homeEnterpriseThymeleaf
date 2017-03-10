@@ -219,8 +219,4 @@ public class PageEntity implements Serializable{
 	}
 	
 	
-	
-	
-	
-	
 }

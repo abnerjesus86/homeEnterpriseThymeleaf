@@ -16,6 +16,9 @@ jQuery(function($) {
 					 */
 
 					// Forbid suppressing "Warning" step if the user is to young
+					if(newIndex === 0){
+						return true;
+					}
 					if (newIndex === 1) // paso roles
 					{
 						buildStep1Rol();
@@ -115,64 +118,6 @@ jQuery(function($) {
  * e.preventDefault(); });
  */
 
-function clearFormRol(){
-	var idApp = $('#appnId').val();
-	
-	$('#roleId').val("");
-	$('#roleName').val("");
-	$('#roleDescription').val("");
-		
-	if (idApp !== null && idApp !== undefined && idApp != '') {
-		$('#tableRoles').DataTable().clear().draw();
-		$('#tableRoles').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpc/getJsonRolesApps/" + idApp).load();
-	}
-}
-
-function clearFormPage() {
-	var idApp = $('#appnId').val();
-
-	$('#divTbPages').addClass('hidden');
-	$('#capaLoader').removeClass('hidden');
-
-	$('#tablePages').DataTable().clear().draw();
-	$('#tablePages').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp).load(function() {
-
-		$('#divTbPages').removeClass('hidden');
-		$('#capaLoader').addClass('hidden');
-
-	});
-
-	$('#pageId').val("");
-	$('#pageDisplay').val("");
-	$('#pageDescription').val("");
-	$('#pageUrl').val("");
-
-	getListValuesText({
-		idList : '#pagePageId',
-		methodType : 'GET',
-		urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesForSelect/",
-		optionSelect : null,
-		parameters : null,
-		errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
-		chosen : true
-	});
-
-	$('#duallist').trigger('bootstrapDualListbox.refresh', true);
-
-	getListValuesText({
-		idList : '#duallist',
-		methodType : 'GET',
-		urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonEntitiesForSelect/",
-		optionSelect : null,
-		parameters : null,
-		errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
-		chosen : false,
-		dualList : true
-	});
-	
-	
-	
-}
 
 function getListValuesText(options) {
 	// Funcion: Devolvemos la lista de valores correspondiente
@@ -349,7 +294,7 @@ function buildDivLstPages(p_divFather) {
 		}); // fin earch Pages
 	}); // callAjax
 	$('input:checkbox').on('click', function(){
-		console.log("Hola Mundo " + $(this).data('page').pageId );
+		console.log("Hola Mundo " + $(this).data('page') );
 	});
 	// return p_divFather;
 }
@@ -405,7 +350,6 @@ function buildDivLstPermission(p_divFather, p_Perm, obj) {
 		
 		var divFormGroup = $("<div class='form-group'>");
 		$.each(p_Perm, function(iPerm, itemPerm) {
-			//var div = $("<div>"); i-checks
 			var objEnt = obj;
 			var divLabelPermission = $("<label class='checkbox-inline '>");
 			var inputCheckBox = $('<input>', {
@@ -417,8 +361,6 @@ function buildDivLstPermission(p_divFather, p_Perm, obj) {
 			inputCheckBox.data('page', objEnt);
 			divLabelPermission.append(inputCheckBox);
 			divLabelPermission.append(itemPerm.prmnName);
-			//div.append(divLabelPermission);
-			//divFormGroup.append(div);
 			divFormGroup.append(divLabelPermission);
 			p_divFather.append(divFormGroup);
 		});// Fin ciclo Permission
@@ -436,19 +378,41 @@ function buildStep1Rol(){
 	// Codigo para tabla de roles appnId
 	var tableRoles = $('#tableRoles').DataTable(
 			{
-				deferRender : false,
-				paging : false,
-				info : false,
+				//deferRender : false,
+				//paging : false,
+				//info : false,
 				autoWidth : true,
-				select : false,
-				searching : false,
+				searching : true,
 				ordering : false,
-				stateSave : true,
-				scrollY : '25vh',
-				scrollCollapse : false,
+				destroy : true,
+				lengthChange : false,
+				pageLength : 6,
+				responsive : true,
+				dom : "<'row'<'col-lg-5'f><'col-lg-7 html5buttons'B> lTgt>" + "<'row'<'col-md-5'i><'col-md-7 text-right'p>>",
+				buttons : [ {
+					text : 'Actualizar',
+					action : function(e, dt, node, config) {
+						dt.ajax.reload();
+					}
+				}, {
+					"extend" : 'copy',
+					"text" : 'Copiar'
+				}, {
+					"extend" : 'csv'
+				}, {
+					"extend" : 'pdf',
+					"text" : 'Pdf'
+				}, {
+					"extend" : 'print',
+					"customize" : function(win) {
+						$(win.document.body).addClass('white-bg');
+						$(win.document.body).css('font-size', '10px');
+						$(win.document.body).find('table').addClass('compact').css('font-size', 'inherit');
+					}
+				} ],
 				columns : [
 						{
-							title : "Consecutivo",
+							title : "Id",
 							data : "roleId"
 						},
 						{
@@ -504,14 +468,15 @@ function buildStep1Rol(){
 			roleId : $('#roleId').val() != '' ? new Number($('#roleId').val()) : null,
 			roleName : $('#roleName').val(),
 			roleDescription : $('#roleDescription').val(),
-			roleAppnId : $('#appnId').val()
+			roleAppnId : { appnId:$('#appnId').val()}
 		});
 
 		var link = $(location).attr('origin') + "/HelpDeskLctpc/appWizard/roles/save";
+		/*
 		if (idApp !== null && idApp !== undefined && idApp != '') {
 			link = link + "/" + idApp;
 		}
-
+		 */
 		$.ajax({
 			url : link,
 			type : $('#roleId').val() != '' ? 'PUT' : 'POST',
@@ -529,7 +494,7 @@ function buildStep1Rol(){
 		$('#roleId').val("");
 		$('#roleName').val("");
 		$('#roleDescription').val("");
-		var row = "";
+
 	});
 
 	$('#tableRoles tbody').on("click", ".gridSystemModal a#id-btn-edit", function() {
@@ -773,5 +738,61 @@ function buildStep2Page() {
 	});
 }
 
+function clearFormRol(){
+	var idApp = $('#appnId').val();
+	
+	$('#roleId').val("");
+	$('#roleName').val("");
+	$('#roleDescription').val("");
+		
+	if (idApp !== null && idApp !== undefined && idApp != '') {
+		$('#tableRoles').DataTable().clear().draw();
+		$('#tableRoles').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpc/getJsonRolesApps/" + idApp).load();
+	}
+}
+
+function clearFormPage() {
+	var idApp = $('#appnId').val();
+
+	$('#divTbPages').addClass('hidden');
+	$('#capaLoader').removeClass('hidden');
+
+	$('#tablePages').DataTable().clear().draw();
+	$('#tablePages').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp).load(function() {
+
+		$('#divTbPages').removeClass('hidden');
+		$('#capaLoader').addClass('hidden');
+
+	});
+
+	$('#pageId').val("");
+	$('#pageDisplay').val("");
+	$('#pageDescription').val("");
+	$('#pageUrl').val("");
+
+	getListValuesText({
+		idList : '#pagePageId',
+		methodType : 'GET',
+		urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesForSelect/",
+		optionSelect : null,
+		parameters : null,
+		errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
+		chosen : true
+	});
+
+	$('#duallist').trigger('bootstrapDualListbox.refresh', true);
+
+	getListValuesText({
+		idList : '#duallist',
+		methodType : 'GET',
+		urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonEntitiesForSelect/",
+		optionSelect : null,
+		parameters : null,
+		errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
+		chosen : false,
+		dualList : true
+	});
+	
+}
 
 
