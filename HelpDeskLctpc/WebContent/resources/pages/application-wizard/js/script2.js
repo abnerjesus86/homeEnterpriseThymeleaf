@@ -273,17 +273,34 @@ function buildDivLstPages(p_divFather) {
 			var divIbox = $("<div class='ibox float-e-margins'>");
 			
 			var divIboxTitle = $("<div class='ibox-title'>").append("<h5> ["+itemPage.pageId+"] "+itemPage.pageDisplay+"</h5>");
-			var divIboxTitleTool = $("<div class='ibox-tools'>");//.append("<a class='collapse-link'><i class='fa fa-chevron-down'></i></a>");
+			var divIboxTitleTool = $("<div class='ibox-tools'>");
 			var divIboxCollapse = $("<a class='collapse-link' ><i class='fa fa-chevron-down'></i></a>");
 			divIboxTitleTool.append(divIboxCollapse);
 			divIboxTitle.append(divIboxTitleTool);
 			var divIboxContent = $("<div class='ibox-content'>");
+			var divIboxFooter = $("<div class='ibox-footer'>").text("Permission select");
+			var spanRightFooter = $("<span class='pull-right'>");
+			//var buttonSavePermission = $("<button class='btn btn-success btn-sm' type='button' id='btn-addPage'><i class='fa fa-floppy-o bigger-110'></i> Save </button>")
+			var buttonSavePermission = $("<button>",{
+				text : "Save Permission",
+				id : "btn_"+itemPage.pageId,
+				
+				click : function(){
+					;
+				}
+			}).addClass("btn btn-success btn-xs");//.append("<i class='fa fa-floppy-o'>");
+			
+			spanRightFooter.append(buttonSavePermission);
+			divIboxFooter.append(spanRightFooter);
+			//divIboxFooter.append("Permission select");
 			
 			var divPanelBody = $("<div class='panel-body' id='panel"+itemPage.pageId+"'>");
 			divIboxContent.append(divPanelBody);
 			
 			divIbox.append(divIboxTitle);
 			divIbox.append(divIboxContent);
+			divIbox.append( divIboxFooter );
+			
 			divColPage.append(divIbox);
 			divRowPage.append(divColPage);
 			obj.pageId = itemPage.pageId;
@@ -353,9 +370,9 @@ function buildDivLstPermission(p_divFather, p_Perm, obj) {
 			var objEnt = obj;
 			var divLabelPermission = $("<label class='checkbox-inline '>");
 			var inputCheckBox = $('<input>', {
-			    type:"checkbox",
-			    id : "cbx_"+itemPerm.prmnId,
-			    //"checked":"checked"
+			    type : "checkbox",
+			    id : "cbx_"+itemPerm.prmnId
+			    //"checked" : "checked"
 			}).val(itemPerm.prmnId);
 			objEnt.prmnId = itemPerm.prmnId;
 			inputCheckBox.data('page', objEnt);

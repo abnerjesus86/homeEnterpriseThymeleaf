@@ -16,3 +16,7 @@
     list-style: none !important;
     min-width: inherit;
 }
+.ibox-footer {
+    border-left: 1px solid #e7eaec;
+    border-right: 1px solid #e7eaec;
+}
