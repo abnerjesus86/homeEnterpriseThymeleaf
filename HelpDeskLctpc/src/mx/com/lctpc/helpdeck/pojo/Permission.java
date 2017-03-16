@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table( name = "PERMISSION", schema = "APPLICATION_MANAGER" )
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class,
-		  property = "prmnId")
+		  property = "prmnId",scope = Permission.class)
 public class Permission implements Serializable{
 	/**
 	 * 
@@ -178,6 +178,43 @@ public class Permission implements Serializable{
 	 */
 	public void setPrmnUpdateBy( String p_prmnUpdateBy ) {
 		this.g_prmnUpdateBy = p_prmnUpdateBy;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((this.g_prmnId == null) ? 0 : this.g_prmnId.hashCode());
+		result = prime * result + ((this.g_prmnName == null) ? 0 : this.g_prmnName.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals( Object obj ) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Permission))
+			return false;
+		Permission other = (Permission) obj;
+		if (this.g_prmnId == null) {
+			if (other.g_prmnId != null)
+				return false;
+		} else if (!this.g_prmnId.equals(other.g_prmnId))
+			return false;
+		if (this.g_prmnName == null) {
+			if (other.g_prmnName != null)
+				return false;
+		} else if (!this.g_prmnName.equals(other.g_prmnName))
+			return false;
+		return true;
 	}
 
 	/*

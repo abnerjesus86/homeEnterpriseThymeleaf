@@ -10,5 +10,6 @@ public interface RolePageDao {
 	public void update(RolePage p_rolePage);
 	public List<RolePage> findAllRolePage();
 	public RolePage findRolePageById(BigDecimal p_ropaId);
+	public List<RolePage> findRolesPagesActiveFromApplicationById( BigDecimal p_appId );
 	public void delete(RolePage p_rolePage);
 }

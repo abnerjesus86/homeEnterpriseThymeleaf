@@ -4,9 +4,14 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.taglibs.standard.lang.jstl.ArraySuffix;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -537,10 +542,29 @@ public class JsonController {
 		List<Permission> l_lstPerm = permService.findAllPermissionsActive();
 		List<Page> l_lstPage = pagService.findPageFromApplicationById(p_appId);
 		List<Rol> l_roleApps = appService.findRoleFromApplicationById(p_appId);
-		//List<Perm> l_lstPermTotal = new ArrayList<Perm>();
-		//Map<String, List<Perm>> l_map = new HashMap<String, List<Perm>>();
 		List<Map<String, Object>> l_m = new ArrayList<Map<String, Object>>();
 		Map<String, List<Map<String, Object>>> l_map = new HashMap<String, List<Map<String, Object>>>();
+		
+		List<RolePage> l_lstAssignedPermissions = rolPagService.findRolesPagesActiveFromApplicationById(p_appId);
+		
+		Collections.sort(l_lstAssignedPermissions, RolePage.g_rolePageComparator);
+		
+		
+		RolePage l_x = new RolePage();
+		PageEntity l_pE1 = new PageEntity();
+		Permission l_pm = new Permission();
+		Rol l_r = new Rol();
+		l_pm.setPrmnId(new BigDecimal(2));
+		l_pE1.setPaenId(new BigDecimal(2));
+		l_r.setRoleId(new BigDecimal(1));
+		l_x.setRopaPaenId( l_pE1 );
+		l_x.setRopaPrmnId( l_pm );
+		l_x.setRopaRoleId( l_r );
+		
+		int indice = Collections.binarySearch( l_lstAssignedPermissions, l_x, RolePage.g_rolePageComparator );
+		
+		System.out.println("Dato encontrado... " + l_lstAssignedPermissions.get(indice));
+		System.out.println("Dato encontrado... " + indice );
 		
 		//Armado del data
 		for(Page l_pag : l_lstPage){
@@ -581,8 +605,20 @@ public class JsonController {
 			l_m.add(l_p);
 			
 		}
-
+		List<Map<String, Object>> l_mAssignedPermissions = new ArrayList<Map<String, Object>>();
+		for(RolePage l_assigPerm : l_lstAssignedPermissions){
+			Map<String, Object> l_aP = new HashMap<String, Object>();
+			l_aP.put("ropaId", l_assigPerm.getRopaId());
+			l_aP.put("ropaPaenId", l_assigPerm.getRopaPaenId().getPaenId());
+			l_aP.put("ropaPrmnId", l_assigPerm.getRopaPrmnId().getPrmnId());
+			l_aP.put("ropaRoleId", l_assigPerm.getRopaRoleId().getRoleId());
+			l_aP.put("ropaActive", l_assigPerm.isRopaActive());
+			l_mAssignedPermissions.add(l_aP);
+		}
+		
+		
 		l_map.put("data", l_m);
+		l_map.put("assignedPermission", l_mAssignedPermissions);
 		
 		return new ResponseEntity<Map<String, List<Map<String, Object>>>>(l_map, HttpStatus.OK);
 

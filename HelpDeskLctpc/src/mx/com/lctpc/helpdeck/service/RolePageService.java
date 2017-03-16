@@ -19,10 +19,10 @@ public class RolePageService {
 	public void saveOrUpdate( RolePage p_rolePage ){
 		
 		if(p_rolePage.getRopaId() == null || findRolePageById(p_rolePage.getRopaId() )==null){
-			System.out.println("ENTRO A SAVE PAGE ");
+			System.out.println("ENTRO A SAVE ROLE PAGE ");
 			rolePageDao.save(p_rolePage);
 		}else{
-			System.out.println("ENTRO A UPDATE PAGE ");
+			System.out.println("ENTRO A UPDATE ROLE PAGE ");
 			rolePageDao.update(p_rolePage);
 		}
 		
@@ -40,8 +40,12 @@ public class RolePageService {
 		return rolePageDao.findRolePageById(p_ropaId);
 	}
 
+	public List<RolePage> findRolesPagesActiveFromApplicationById( BigDecimal p_appId ){
+		return rolePageDao.findRolesPagesActiveFromApplicationById(p_appId);
+	}
+	
 	public void delete( RolePage p_rolePage ) {
-		rolePageDao.update(p_rolePage);
+		rolePageDao.delete(p_rolePage);
 	}
 	
 }

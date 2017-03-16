@@ -3,10 +3,12 @@ package mx.com.lctpc.helpdeck.pojo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Comparator;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -50,15 +52,15 @@ public class RolePage implements Serializable {
 	@Column( name = "ROPA_ID" )
 	private BigDecimal	g_ropaId;
 //	@Column( name = "ROPA_ROLE_ID" )
-	@ManyToOne( cascade = {CascadeType.REFRESH})
+	@ManyToOne
 	@JoinColumn(name="ROPA_ROLE_ID")
 	private Rol			g_ropaRoleId;
 //	@Column( name = "ROPA_PRMN_ID" )
-	@ManyToOne( cascade = {CascadeType.REFRESH})
+	@ManyToOne
 	@JoinColumn(name="ROPA_PRMN_ID")
 	private Permission	g_ropaPrmnId;
 //	@Column ( name = "ROPA_PAEN_ID" )
-	@ManyToOne( cascade = {CascadeType.REFRESH})
+	@ManyToOne//(cascade = {CascadeType.MERGE} ) 
 	@JoinColumn(name="ROPA_PAEN_ID")
 	private PageEntity g_ropaPaenId;
 	@Column( name = "ROPA_ACTIVE" )
@@ -185,7 +187,79 @@ public class RolePage implements Serializable {
 		this.g_ropaUpdateBy = p_ropaUpdateBy;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((this.g_ropaId == null) ? 0 : this.g_ropaId.hashCode());
+		result = prime * result + ((this.g_ropaPaenId == null) ? 0 : this.g_ropaPaenId.hashCode());
+		result = prime * result + ((this.g_ropaPrmnId == null) ? 0 : this.g_ropaPrmnId.hashCode());
+		result = prime * result + ((this.g_ropaRoleId == null) ? 0 : this.g_ropaRoleId.hashCode());
+		return result;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals( Object obj ) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof RolePage))
+			return false;
+		RolePage other = (RolePage) obj;
+		if (this.g_ropaId == null) {
+			if (other.g_ropaId != null)
+				return false;
+		} else if (!this.g_ropaId.equals(other.g_ropaId))
+			return false;
+		if (this.g_ropaPaenId == null) {
+			if (other.g_ropaPaenId != null)
+				return false;
+		} else if (!this.g_ropaPaenId.equals(other.g_ropaPaenId))
+			return false;
+		if (this.g_ropaPrmnId == null) {
+			if (other.g_ropaPrmnId != null)
+				return false;
+		} else if (!this.g_ropaPrmnId.equals(other.g_ropaPrmnId))
+			return false;
+		if (this.g_ropaRoleId == null) {
+			if (other.g_ropaRoleId != null)
+				return false;
+		} else if (!this.g_ropaRoleId.equals(other.g_ropaRoleId))
+			return false;
+		return true;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "RolePage [g_ropaId=" + this.g_ropaId + ", g_ropaRoleId=" + this.g_ropaRoleId.g_roleId + ", g_ropaPrmnId=" + this.g_ropaPrmnId.getPrmnId() + ", g_ropaPaenId=" + this.g_ropaPaenId.getPaenId() + ", g_ropaActive=" + this.g_ropaActive
+				+ ", g_ropaCreatedDate=" + this.g_ropaCreatedDate + ", g_ropaCreatedBy=" + this.g_ropaCreatedBy + ", g_ropaUpdateDate=" + this.g_ropaUpdateDate + ", g_ropaUpdateBy=" + this.g_ropaUpdateBy + "]";
+	}
+	
+	public static Comparator<RolePage> g_rolePageComparator = new Comparator<RolePage>(){
 
+		@Override
+		public int compare(RolePage p1, RolePage p2) {
+			int res = p1.getRopaPaenId().getPaenId().compareTo(p2.g_ropaPaenId.getPaenId());
+			if(res != 0 ) return res;
+			res  = p1.getRopaRoleId().getRoleId().compareTo( p2.getRopaRoleId().getRoleId() );
+			if(res != 0 ) return res;
+			res  = p1.getRopaPrmnId().getPrmnId().compareTo( p2.getRopaPrmnId().getPrmnId() );
+			
+			return res;
+			
+		}
+		
+		
+	};
 	
 
 }

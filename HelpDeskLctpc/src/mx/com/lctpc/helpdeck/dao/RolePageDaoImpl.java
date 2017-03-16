@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.lctpc.helpdeck.pojo.RolePage;
+import mx.com.lctpc.helpdeck.pojo.UserApplication;
 
 @Transactional
 @Repository
@@ -55,6 +56,17 @@ public class RolePageDaoImpl implements RolePageDao {
 		return (RolePage) getSession().createQuery( l_crtQuery ).getSingleResult();
 	}
 
+	@Override
+	public List<RolePage> findRolesPagesActiveFromApplicationById( BigDecimal p_appId ) {
+		Query<RolePage> l_queryRolesPages = getSession().createQuery(
+				"select perm from RolePage perm JOIN perm.g_ropaRoleId rol where rol.g_roleAppnId.g_appnId = :p_appId and perm.g_ropaActive = :isActive",
+				RolePage.class).
+				setParameter("p_appId", p_appId).
+				setParameter("isActive", true);
+		
+		return l_queryRolesPages.getResultList();
+	}
+	
 	@Override
 	public void delete( RolePage p_rolePage ) {
 		getSession().update(p_rolePage);

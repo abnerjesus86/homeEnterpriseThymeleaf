@@ -142,7 +142,7 @@ public class PageController {
 		 * l_ent.getPaenEnttId()); }
 		 * l_page.setEntities(l_lstEnt);
 		 */
-		System.out.println("Page desde pagEntity con ID " + l_page.getPageEntities());
+		
 		p_model.addAttribute("page", l_page);
 		p_model.addAttribute("pagesMasterList", pageService.findAllPage());
 		p_model.addAttribute("entitiesList", entityService.findAllEntity());

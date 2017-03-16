@@ -29,7 +29,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIgnoreProperties(value = { "roleUsers" })
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class,
-		  property = "roleId")
+		  property = "roleId",
+		  scope = Rol.class)
 public class Rol {
 	/*
 	 * ROLE_ID NOT NULL NUMBER ROLE_NAME NOT NULL VARCHAR2(150) ROLE_DESCRIPTION
@@ -233,6 +234,43 @@ public class Rol {
 		this.g_roleAppnId = p_roleAppnId;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((this.g_roleId == null) ? 0 : this.g_roleId.hashCode());
+		result = prime * result + ((this.g_roleName == null) ? 0 : this.g_roleName.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals( Object obj ) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Rol))
+			return false;
+		Rol other = (Rol) obj;
+		if (this.g_roleId == null) {
+			if (other.g_roleId != null)
+				return false;
+		} else if (!this.g_roleId.equals(other.g_roleId))
+			return false;
+		if (this.g_roleName == null) {
+			if (other.g_roleName != null)
+				return false;
+		} else if (!this.g_roleName.equals(other.g_roleName))
+			return false;
+		return true;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -3,6 +3,7 @@ package mx.com.lctpc.helpdeck.pojo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -29,7 +31,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table( name="PAGE_ENTITY",  schema="APPLICATION_MANAGER" )
-@JsonIgnoreProperties(value = { "paenPageId"})
+@JsonIgnoreProperties(value = { "paenPageId","rolePages"})
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class, property = "paenId", scope = PageEntity.class)
 public class PageEntity implements Serializable{
@@ -63,6 +65,8 @@ public class PageEntity implements Serializable{
 	private Timestamp	g_paenUpdateDate;
 	@Column( name = "PAEN_UPDATE_BY", insertable = true, updatable = true )
 	private String		g_paenUpdateBy;
+	/*@OneToMany( mappedBy = "g_ropaPaenId")
+	private List<RolePage> g_rolePages;*/
 	
 	/**
 	 * @return the paenId
@@ -167,6 +171,20 @@ public class PageEntity implements Serializable{
 		this.g_paenUpdateBy = p_paenUpdateBy;
 	}
 	
+	/**
+	 * @return the rolePages
+	 *//*
+	public List<RolePage> getRolePages() {
+		return this.g_rolePages;
+	}
+
+	*//**
+	 * @param p_rolePages the rolePages to set
+	 *//*
+	public void setRolePages( List<RolePage> p_rolePages ) {
+		this.g_rolePages = p_rolePages;
+	}*/
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
