@@ -20,8 +20,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
@@ -68,7 +70,7 @@ public class Rol {
 	List<UserRole>			g_roleUsers;
 	/*@OneToMany( mappedBy = "g_aproRoleId" )
 	List<ApplicationRole>	g_roleApplication;*/
-
+	
 	/**
 	 * @return the roleId
 	 */
@@ -233,7 +235,7 @@ public class Rol {
 	public void setRoleAppnId( Application p_roleAppnId ) {
 		this.g_roleAppnId = p_roleAppnId;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */

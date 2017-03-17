@@ -22,13 +22,18 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @Entity
 @Table( name = "ROLE_PAGE" )
 @JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class, property = "ropaId")
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "ropaId",
+		  scope = RolePage.class)
 public class RolePage implements Serializable {
 	/*
 	 	ROPA_ID NUMBER
@@ -51,16 +56,14 @@ public class RolePage implements Serializable {
 	@SequenceGenerator( name = "ROPA_ID", sequenceName = "SQ_ROPA_ID", allocationSize = 1 )
 	@Column( name = "ROPA_ID" )
 	private BigDecimal	g_ropaId;
-//	@Column( name = "ROPA_ROLE_ID" )
 	@ManyToOne
 	@JoinColumn(name="ROPA_ROLE_ID")
+	@JsonDeserialize(using = CustomRolDeserializer.class)
 	private Rol			g_ropaRoleId;
-//	@Column( name = "ROPA_PRMN_ID" )
 	@ManyToOne
 	@JoinColumn(name="ROPA_PRMN_ID")
 	private Permission	g_ropaPrmnId;
-//	@Column ( name = "ROPA_PAEN_ID" )
-	@ManyToOne//(cascade = {CascadeType.MERGE} ) 
+	@ManyToOne
 	@JoinColumn(name="ROPA_PAEN_ID")
 	private PageEntity g_ropaPaenId;
 	@Column( name = "ROPA_ACTIVE" )

@@ -1,6 +1,7 @@
 package mx.com.lctpc.helpdeck.controller;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +42,12 @@ public class RolePageController {
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
-	@RequestMapping( value = "/appWizard/assignedPermission/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE )
+	@RequestMapping( value = "/appWizard/assignedPermission/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
 	@ResponseBody
 	public ResponseEntity<String> jsonAssignedPermissionSave( @RequestBody List<RolePage> p_rolePage ){
 		
-		if(p_rolePage.isEmpty())
-			return new ResponseEntity<String>("not exit entity on page", HttpStatus.NO_CONTENT);
+		/*if(p_rolePage.isEmpty())
+			return new ResponseEntity<String>("not exit entity on page", HttpStatus.NO_CONTENT);*/
 		
 		for(RolePage l_perm : p_rolePage){
 			System.out.println(l_perm);
@@ -82,3 +83,26 @@ public class RolePageController {
 	
 	
 }
+
+class RolePageWrapper {
+
+    private List<RolePage> g_rolePage;
+
+	/**
+	 * @return the rolePage
+	 */
+	public List<RolePage> getRolePage() {
+		return this.g_rolePage;
+	}
+
+	/**
+	 * @param p_rolePage the rolePage to set
+	 */
+	public void setRolePage( List<RolePage> p_rolePage ) {
+		this.g_rolePage = p_rolePage;
+	}
+    
+}
+
+
+

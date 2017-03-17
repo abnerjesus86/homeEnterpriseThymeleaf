@@ -289,11 +289,15 @@ function buildDivLstPages(p_divFather) {
 						var checkBoxData = $(this).data('assignedPermision');
 						var l_objPerm = new Object();
 						l_objPerm = {
-							'ropaId' : checkBoxData.ropaId,
-							'ropaRoleId' : { 'roleId' : new Number(checkBoxData.roleId ) },
-							'ropaPrmnId' : { 'prmnId' : new Number(checkBoxData.prmnId ) },
-							'ropaPaenId' : { 'paenId' : new Number(checkBoxData.paenId ) },
-							'ropaActive' : checkBoxData.ropaActive
+							ropaId : checkBoxData.ropaId,
+							
+							ropaRoleId : new Number(checkBoxData.roleId) ,
+							ropaPrmnId : new Number(checkBoxData.prmnId ) ,
+							ropaPaenId : new Number(checkBoxData.paenId ) ,
+							/*ropaRoleId : { roleId : new Number(checkBoxData.roleId ) },
+							ropaPrmnId : { prmnId : new Number(checkBoxData.prmnId ) },
+							ropaPaenId : { paenId : new Number(checkBoxData.paenId ) },*/
+							ropaActive : checkBoxData.ropaActive
 						};
 						
 						//caso para nuevos permisos
