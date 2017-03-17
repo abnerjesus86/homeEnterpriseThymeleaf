@@ -34,6 +34,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 
 		  property = "ropaId",
 		  scope = RolePage.class)
+@JsonDeserialize(using = CustomRolePageDeserializer.class)
 public class RolePage implements Serializable {
 	/*
 	 	ROPA_ID NUMBER
@@ -58,7 +59,6 @@ public class RolePage implements Serializable {
 	private BigDecimal	g_ropaId;
 	@ManyToOne
 	@JoinColumn(name="ROPA_ROLE_ID")
-	@JsonDeserialize(using = CustomRolDeserializer.class)
 	private Rol			g_ropaRoleId;
 	@ManyToOne
 	@JoinColumn(name="ROPA_PRMN_ID")

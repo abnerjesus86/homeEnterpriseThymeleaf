@@ -1,7 +1,6 @@
 package mx.com.lctpc.helpdeck.controller;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import mx.com.lctpc.helpdeck.pojo.PageEntity;
 import mx.com.lctpc.helpdeck.pojo.RolePage;
-import mx.com.lctpc.helpdeck.service.PageService;
 import mx.com.lctpc.helpdeck.service.RolePageService;
 
 @Controller
@@ -25,10 +22,6 @@ public class RolePageController {
 	
 	@Autowired
 	private RolePageService rolPagService;
-	
-	@Autowired
-	private PageService pagEntService;
-	
 	
 	@RequestMapping( value = "/appWizard/assignedPermissions/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE )
 	@ResponseBody
@@ -46,14 +39,12 @@ public class RolePageController {
 	@ResponseBody
 	public ResponseEntity<String> jsonAssignedPermissionSave( @RequestBody List<RolePage> p_rolePage ){
 		
-		/*if(p_rolePage.isEmpty())
-			return new ResponseEntity<String>("not exit entity on page", HttpStatus.NO_CONTENT);*/
+		if(p_rolePage.isEmpty())
+			return new ResponseEntity<String>("not exit entity on page", HttpStatus.NO_CONTENT);
 		
 		for(RolePage l_perm : p_rolePage){
-			System.out.println(l_perm);
+			
 			if(l_perm.getRopaId() == null){
-				
-				//l_perm.setRopaPaenId(pagEntService.findPageEntityById(l_perm.getRopaPaenId().getPaenId()));
 				l_perm.setRopaCreatedBy("BENITEZ.ABNER");
 				l_perm.setRopaUpdateBy("BENITEZ.ABNER");
 				rolPagService.saveOrUpdate(l_perm);

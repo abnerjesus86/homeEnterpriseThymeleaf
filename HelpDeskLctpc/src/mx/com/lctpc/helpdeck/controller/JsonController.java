@@ -4,14 +4,9 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.taglibs.standard.lang.jstl.ArraySuffix;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -547,25 +542,6 @@ public class JsonController {
 		
 		List<RolePage> l_lstAssignedPermissions = rolPagService.findRolesPagesActiveFromApplicationById(p_appId);
 		
-		Collections.sort(l_lstAssignedPermissions, RolePage.g_rolePageComparator);
-		
-		
-		RolePage l_x = new RolePage();
-		PageEntity l_pE1 = new PageEntity();
-		Permission l_pm = new Permission();
-		Rol l_r = new Rol();
-		l_pm.setPrmnId(new BigDecimal(2));
-		l_pE1.setPaenId(new BigDecimal(2));
-		l_r.setRoleId(new BigDecimal(1));
-		l_x.setRopaPaenId( l_pE1 );
-		l_x.setRopaPrmnId( l_pm );
-		l_x.setRopaRoleId( l_r );
-		
-		int indice = Collections.binarySearch( l_lstAssignedPermissions, l_x, RolePage.g_rolePageComparator );
-		
-		System.out.println("Dato encontrado... " + l_lstAssignedPermissions.get(indice));
-		System.out.println("Dato encontrado... " + indice );
-		
 		//Armado del data
 		for(Page l_pag : l_lstPage){
 			Map<String, Object> l_p = new HashMap<String, Object>();
@@ -616,30 +592,11 @@ public class JsonController {
 			l_mAssignedPermissions.add(l_aP);
 		}
 		
-		
 		l_map.put("data", l_m);
 		l_map.put("assignedPermission", l_mAssignedPermissions);
 		
 		return new ResponseEntity<Map<String, List<Map<String, Object>>>>(l_map, HttpStatus.OK);
 
 	}
-	
-	@RequestMapping( value = "/getJsonAssignedPermissionRolPage/{p_appId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity<Map<String, List<RolePage>>> showJsonAssignedPermissionRolPage( @PathVariable( "p_appId" ) BigDecimal p_appId ) {
-		/*List<RolePage> l_lstPerm = permService.findAllPermissionsActive();
-		Map<String, List<Permission>> l_map = new HashMap<String, List<Permission>>();
-		if (l_lstPerm.isEmpty()) {
-			return new ResponseEntity<Map<String, List<Permission>>>(HttpStatus.NO_CONTENT);// You many decide to return
-																							// HttpStatus.NOT_FOUND
-		}
-
-		l_map.put("data", l_lstPerm);
-		return new ResponseEntity<Map<String, List<Permission>>>(l_map, HttpStatus.OK);*/
-
-		
-		return null;
-	}
-	
-	
 	
 }

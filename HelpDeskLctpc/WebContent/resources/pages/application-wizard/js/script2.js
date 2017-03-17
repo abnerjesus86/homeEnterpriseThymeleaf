@@ -34,6 +34,7 @@ jQuery(function($) {
 						return true;
 					}
 					if (newIndex === 3) { // paso Permission Page
+						clearFormAssignedPermission();
 						buildStep3AssignedPermission();
 
 						return true;
@@ -281,9 +282,7 @@ function buildDivLstPages(p_divFather) {
 				id : "btn_" + itemPage.pageId,
 				click : function() {
 					var l_lstPermAssi = [];
-					
 					var d = '';
-					
 					
 					$("#boxPage_"+itemPage.pageId+" input:checkbox").each(function(i, item) {
 						var checkBoxData = $(this).data('assignedPermision');
@@ -333,7 +332,7 @@ function buildDivLstPages(p_divFather) {
 				                text: "All Permission Assigned!",
 				                type: "success"
 				            });
-							
+							clearFormAssignedPermission();
 						},
 						error : function(e) {
 							swal({
@@ -342,6 +341,7 @@ function buildDivLstPages(p_divFather) {
 				                type: "error"
 				            });
 							console.log("ERROR: ", e);
+							clearFormAssignedPermission();
 						}
 					});
 					
@@ -363,8 +363,6 @@ function buildDivLstPages(p_divFather) {
 			divColPage.append(divIbox);
 			divRowPage.append(divColPage);
 			obj.pageId = itemPage.pageId;
-			
-			
 			
 			buildDivRoles(divPanelBody, itemPage.roles, obj, dataJson.assignedPermission);
 
@@ -897,4 +895,8 @@ function clearFormPage() {
 		dualList : true
 	});
 
+}
+
+function clearFormAssignedPermission(){
+	$('#divColPrincipalPages').empty();
 }

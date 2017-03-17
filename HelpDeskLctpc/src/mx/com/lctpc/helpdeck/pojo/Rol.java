@@ -1,5 +1,6 @@
 package mx.com.lctpc.helpdeck.pojo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +34,11 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 		  generator = ObjectIdGenerators.PropertyGenerator.class,
 		  property = "roleId",
 		  scope = Rol.class)
-public class Rol {
+public class Rol implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/*
 	 * ROLE_ID NOT NULL NUMBER ROLE_NAME NOT NULL VARCHAR2(150) ROLE_DESCRIPTION
 	 * NOT NULL VARCHAR2(250) ROLE_ACTIVE NOT NULL NUMBER(1) ROLE_CREATED_DATE
