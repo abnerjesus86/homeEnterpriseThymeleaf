@@ -8,8 +8,8 @@
 } */
 .wizard > .content > .body ul.pagination {
     list-style: none !important;
-     width: 100%;
-    display: inline-block; 
+     /*width: 100%;*/
+    display: block; 
 }
 
 .wizard > .content > .body ul.dropdown-menu {

@@ -30,10 +30,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table( name = "APPLICATION", schema = "APPLICATION_MANAGER" )
-@JsonIgnoreProperties(value = { "userApplications", "applicationsMaster", "appnAppnId", "pages", "roles" })
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class,
-		  property = "appnId")
+@JsonIgnoreProperties( value = { "userApplications", "applicationsMaster", "appnAppnId", "pages", "roles" } )
+@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, property = "appnId" )
 public class Application implements Serializable {
 	/**
 	 * 
@@ -50,15 +48,14 @@ public class Application implements Serializable {
 	@GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "APPS_SEQ" )
 	@SequenceGenerator( name = "APPS_SEQ", sequenceName = "SQ_APNS_ID", allocationSize = 1 )
 	private BigDecimal				g_appnId;
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-	@JoinColumn( name="APPN_APPN_ID")
-	private Application g_appnAppnId;
-	/*@Column(name="APPN_APPN_ID")
-	private BigDecimal g_appnAppnId;*/
-	/*@ManyToOne
-	@JoinColumn(name = "APPN_PLFM_ID")*/
+	@ManyToOne
+	@JoinColumn( name = "APPN_OWNR_ID" )
+	private Owner					g_appnOwnrId;
+	@ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.REFRESH )
+	@JoinColumn( name = "APPN_APPN_ID" )
+	private Application				g_appnAppnId;
 	@Column( name = "APPN_PLFM_ID" )
-	private BigDecimal g_appnPlfmId;
+	private BigDecimal				g_appnPlfmId;
 	@Column( name = "APPN_NAME" )
 	private String					g_appnName;
 	@Column( name = "APPN_DESCRIPTION" )
@@ -81,15 +78,13 @@ public class Application implements Serializable {
 	private String					g_appnUpdateBy;
 	@OneToMany( mappedBy = "g_usapAppnId" )
 	private List<UserApplication>	g_userApplications;
-	/*@OneToMany( mappedBy = "g_aproAppnId" )
-	private List<ApplicationRole>	g_appnRoles;*/
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "g_appnAppnId")
-	private List<Application> g_applicationsMaster = new ArrayList<Application>();
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "g_applications" )
-	private List<Page> g_pages =  new ArrayList<Page>();
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "g_roleAppnId")
-	private List<Rol> g_roles = new ArrayList<Rol>();
-	
+	@OneToMany( fetch = FetchType.EAGER, mappedBy = "g_appnAppnId" )
+	private List<Application>		g_applicationsMaster	= new ArrayList<Application>();
+	@ManyToMany( fetch = FetchType.EAGER, mappedBy = "g_applications" )
+	private List<Page>				g_pages					= new ArrayList<Page>();
+	@OneToMany( fetch = FetchType.EAGER, mappedBy = "g_roleAppnId" )
+	private List<Rol>				g_roles					= new ArrayList<Rol>();
+
 	/**
 	 * @return the appnId
 	 */
@@ -104,7 +99,7 @@ public class Application implements Serializable {
 	public void setAppnId( BigDecimal p_appnId ) {
 		this.g_appnId = p_appnId;
 	}
-	
+
 	/**
 	 * @return the appnAppnId
 	 */
@@ -113,7 +108,8 @@ public class Application implements Serializable {
 	}
 
 	/**
-	 * @param p_appnAppnId the appnAppnId to set
+	 * @param p_appnAppnId
+	 *            the appnAppnId to set
 	 */
 	public void setAppnAppnId( Application p_appnAppnId ) {
 		this.g_appnAppnId = p_appnAppnId;
@@ -253,22 +249,21 @@ public class Application implements Serializable {
 	public void setUserApplications( List<UserApplication> p_userApplications ) {
 		this.g_userApplications = p_userApplications;
 	}
-/*
-	*//**
-	 * @return the appnRoles
-	 *//*
-	public List<ApplicationRole> getAppnRoles() {
-		return this.g_appnRoles;
-	}
+	/*
+		*//**
+			 * @return the appnRoles
+			 */
+	/*
+	 * public List<ApplicationRole> getAppnRoles() { return this.g_appnRoles; }
+	 * 
+	 *//**
+		 * @param p_appnRoles
+		 *            the appnRoles to set
+		 *//*
+		 * public void setAppnRoles( List<ApplicationRole> p_appnRoles ) {
+		 * this.g_appnRoles = p_appnRoles; }
+		 */
 
-	*//**
-	 * @param p_appnRoles
-	 *            the appnRoles to set
-	 *//*
-	public void setAppnRoles( List<ApplicationRole> p_appnRoles ) {
-		this.g_appnRoles = p_appnRoles;
-	}
-*/
 	/**
 	 * @return the appnPlfmId
 	 */
@@ -277,7 +272,8 @@ public class Application implements Serializable {
 	}
 
 	/**
-	 * @param p_appnPlfmId the appnPlfmId to set
+	 * @param p_appnPlfmId
+	 *            the appnPlfmId to set
 	 */
 	public void setAppnPlfmId( BigDecimal p_appnPlfmId ) {
 		this.g_appnPlfmId = p_appnPlfmId;
@@ -291,7 +287,8 @@ public class Application implements Serializable {
 	}
 
 	/**
-	 * @param p_applicationsMaster the applicationsMaster to set
+	 * @param p_applicationsMaster
+	 *            the applicationsMaster to set
 	 */
 	public void setApplicationsMaster( List<Application> p_applicationsMaster ) {
 		this.g_applicationsMaster = p_applicationsMaster;
@@ -305,12 +302,13 @@ public class Application implements Serializable {
 	}
 
 	/**
-	 * @param p_pages the pages to set
+	 * @param p_pages
+	 *            the pages to set
 	 */
 	public void setPages( List<Page> p_pages ) {
 		this.g_pages = p_pages;
 	}
-	
+
 	/**
 	 * @return the roles
 	 */
@@ -319,13 +317,16 @@ public class Application implements Serializable {
 	}
 
 	/**
-	 * @param p_roles the roles to set
+	 * @param p_roles
+	 *            the roles to set
 	 */
 	public void setRoles( List<Rol> p_roles ) {
 		this.g_roles = p_roles;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -337,7 +338,9 @@ public class Application implements Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -361,6 +364,5 @@ public class Application implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
+
 }

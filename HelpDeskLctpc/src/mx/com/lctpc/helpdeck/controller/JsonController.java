@@ -1,3 +1,4 @@
+
 package mx.com.lctpc.helpdeck.controller;
 
 import java.math.BigDecimal;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import mx.com.lctpc.helpdeck.pojo.AEntities;
 import mx.com.lctpc.helpdeck.pojo.Application;
+import mx.com.lctpc.helpdeck.pojo.Owner;
 import mx.com.lctpc.helpdeck.pojo.Page;
 import mx.com.lctpc.helpdeck.pojo.PageEntity;
 import mx.com.lctpc.helpdeck.pojo.Permission;
@@ -30,6 +32,7 @@ import mx.com.lctpc.helpdeck.pojo.UserRole;
 import mx.com.lctpc.helpdeck.pojo.SelectList;
 import mx.com.lctpc.helpdeck.service.ApplicationService;
 import mx.com.lctpc.helpdeck.service.EntityService;
+import mx.com.lctpc.helpdeck.service.OwnerService;
 import mx.com.lctpc.helpdeck.service.PageService;
 import mx.com.lctpc.helpdeck.service.PermissionService;
 import mx.com.lctpc.helpdeck.service.PlatformService;
@@ -67,6 +70,9 @@ public class JsonController {
 	
 	@Autowired
 	private RolePageService rolPagService;
+	
+	@Autowired
+	private OwnerService ownerService;
 
 	@RequestMapping( value = "/getJsonUsers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<List<User>> showListAllUsers() {
@@ -596,6 +602,24 @@ public class JsonController {
 		l_map.put("assignedPermission", l_mAssignedPermissions);
 		
 		return new ResponseEntity<Map<String, List<Map<String, Object>>>>(l_map, HttpStatus.OK);
+
+	}
+	
+	@RequestMapping( value = "/getJsonOwnerForSelect", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<Map<String, List<SelectList>>> showJsonOwnerForSelect() {
+		List<Owner> l_lstOw = ownerService.findOwnerActive();
+		if (l_lstOw.isEmpty()) {
+			return new ResponseEntity<Map<String, List<SelectList>>>(HttpStatus.NO_CONTENT);// You many decide to return
+																						// HttpStatus.NOT_FOUND
+		}
+		List<SelectList> l_lst = new ArrayList<SelectList>();
+		for (Owner l_ow : l_lstOw) {			
+			l_lst.add(new SelectList(l_ow.getOwnrId().toPlainString(), l_ow.getOwnrName()));
+		}
+		
+		Map<String, List<SelectList>> l_map = new HashMap<String, List<SelectList>>();
+		l_map.put("data", l_lst);
+		return new ResponseEntity<Map<String, List<SelectList>>>(l_map, HttpStatus.OK);
 
 	}
 	

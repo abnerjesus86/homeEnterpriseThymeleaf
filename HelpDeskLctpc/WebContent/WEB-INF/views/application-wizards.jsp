@@ -453,14 +453,19 @@
 							<h2>Create Page for your Application</h2>
 							<div class="row">
 								<div class="col-xs-12 col-sm-7">
-									<div id="capaLoader" class="text-center hidden" style="margin-top: 100px">
+								    <div id="divTbPages" class="table-responsive">
+                                        
+                                        <table id="tablePages" class="table table-striped table-bordered table-hover ">
+                                        </table>
+                                    </div>
+									<!-- <div id="capaLoader" class="text-center hidden" style="margin-top: 100px">
 										<img class='loader-gear' src='../res/assets/images/loading1.gif' />
 									</div>
 									<div id="divTbPages" class="table-responsive hidden">
-										<!-- dataTables-example -->
+										dataTables-example
 										<table id="tablePages" class="table table-striped table-bordered table-hover ">
 										</table>
-									</div>
+									</div> -->
 
 								</div>
 
@@ -469,7 +474,7 @@
 										<div class="form-group">
 											<label class="col-sm-3 control-label no-padding-right" for="pageId"> ID </label>
 											<div class="col-sm-9">
-												<input type="text" placeholder="ID" class="form-control" id="pageId" readonly="true" />
+												<input type="text" placeholder="ID" class="form-control" id="pageId" readonly />
 											</div>
 										</div>
 										<div class="form-group">

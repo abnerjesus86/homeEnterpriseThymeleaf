@@ -623,9 +623,10 @@ function buildStep2Page() {
 				ordering : true,
 				destroy : true,
 				lengthChange : false,
-				pageLength : 6,
+				pageLength : 1,
 				responsive : true,
-				dom : "<'row'<'col-lg-5'f><'col-lg-7 html5buttons'B> lTgt>" + "<'row'<'col-md-5'i><'col-md-7 text-right'p>>",
+				dom : "<'row' <'col-md-6 'B> <'col-md-6'f>> tr" + "<'row'<'col-md-6'i><'col-md-6 text-right'p>>",
+				//dom : "<'top'fB><tr>" + "<'row'<'col-md-5'i><'col-md-7 text-right'p>>",
 				buttons : [ {
 					text : 'Actualizar',
 					action : function(e, dt, node, config) {
@@ -636,7 +637,7 @@ function buildStep2Page() {
 					"text" : 'Copiar'
 				}, {
 					"extend" : 'csv'
-				}, {
+				}/*, {
 					"extend" : 'pdf',
 					"text" : 'Pdf'
 				}, {
@@ -646,7 +647,7 @@ function buildStep2Page() {
 						$(win.document.body).css('font-size', '10px');
 						$(win.document.body).find('table').addClass('compact').css('font-size', 'inherit');
 					}
-				} ],
+				}*/ ],
 				columns : [
 						{
 							title : "ID",
@@ -691,13 +692,17 @@ function buildStep2Page() {
 						}
 
 				],
-
+				language: {
+					
+				     loadingRecords: "<img class='loader-gear' src='loading1.gif' />"
+				},
 				initComplete : function() {
-
+					
 				},
 				fnDrawCallback : function() {
 
 				}
+				
 			});
 
 	$('#tablePages tbody').on("click", ".gridSystemModal a#id-btn-edit", function() {
@@ -856,17 +861,23 @@ function clearFormRol() {
 function clearFormPage() {
 	var idApp = $('#appnId').val();
 
-	$('#divTbPages').addClass('hidden');
+	/*$('#divTbPages').addClass('hidden');
 	$('#capaLoader').removeClass('hidden');
 
 	$('#tablePages').DataTable().clear().draw();
-	$('#tablePages').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp).load(function() {
-
+	$('#tablePages').DataTable().ajax.url(
+			$(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp).
+			load(function() {
+				
 		$('#divTbPages').removeClass('hidden');
 		$('#capaLoader').addClass('hidden');
 
-	});
-
+	});*/
+	
+	$('#tablePages').DataTable().clear().draw();
+	$('#tablePages').DataTable().ajax.url(
+			$(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp).load();
+	
 	$('#pageId').val("");
 	$('#pageDisplay').val("");
 	$('#pageDescription').val("");
