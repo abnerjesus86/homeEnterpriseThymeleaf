@@ -48,7 +48,7 @@ public class Application implements Serializable {
 	@GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "APPS_SEQ" )
 	@SequenceGenerator( name = "APPS_SEQ", sequenceName = "SQ_APNS_ID", allocationSize = 1 )
 	private BigDecimal				g_appnId;
-	@ManyToOne
+	@ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.REFRESH )
 	@JoinColumn( name = "APPN_OWNR_ID" )
 	private Owner					g_appnOwnrId;
 	@ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.REFRESH )
@@ -113,6 +113,20 @@ public class Application implements Serializable {
 	 */
 	public void setAppnAppnId( Application p_appnAppnId ) {
 		this.g_appnAppnId = p_appnAppnId;
+	}
+
+	/**
+	 * @return the appnOwnrId
+	 */
+	public Owner getAppnOwnrId() {
+		return this.g_appnOwnrId;
+	}
+
+	/**
+	 * @param p_appnOwnrId the appnOwnrId to set
+	 */
+	public void setAppnOwnrId( Owner p_appnOwnrId ) {
+		this.g_appnOwnrId = p_appnOwnrId;
 	}
 
 	/**

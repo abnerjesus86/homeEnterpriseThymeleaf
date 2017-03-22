@@ -607,7 +607,7 @@ public class JsonController {
 	
 	@RequestMapping( value = "/getJsonOwnerForSelect", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<Map<String, List<SelectList>>> showJsonOwnerForSelect() {
-		List<Owner> l_lstOw = ownerService.findOwnerActive();
+		List<Owner> l_lstOw = ownerService.findOwnersActive();
 		if (l_lstOw.isEmpty()) {
 			return new ResponseEntity<Map<String, List<SelectList>>>(HttpStatus.NO_CONTENT);// You many decide to return
 																						// HttpStatus.NOT_FOUND
@@ -619,8 +619,9 @@ public class JsonController {
 		
 		Map<String, List<SelectList>> l_map = new HashMap<String, List<SelectList>>();
 		l_map.put("data", l_lst);
+		
 		return new ResponseEntity<Map<String, List<SelectList>>>(l_map, HttpStatus.OK);
-
+		
 	}
 	
 }

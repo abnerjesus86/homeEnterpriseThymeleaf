@@ -1,4 +1,4 @@
-package mx.com.lctpc.helpdeck.dao;
+package mx.com.lctpc.helpdeck.repo;
 
 import java.math.BigDecimal;
 import java.util.List;

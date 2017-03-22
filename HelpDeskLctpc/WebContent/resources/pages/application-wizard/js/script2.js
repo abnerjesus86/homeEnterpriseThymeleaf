@@ -293,9 +293,6 @@ function buildDivLstPages(p_divFather) {
 							ropaRoleId : new Number(checkBoxData.roleId) ,
 							ropaPrmnId : new Number(checkBoxData.prmnId ) ,
 							ropaPaenId : new Number(checkBoxData.paenId ) ,
-							/*ropaRoleId : { roleId : new Number(checkBoxData.roleId ) },
-							ropaPrmnId : { prmnId : new Number(checkBoxData.prmnId ) },
-							ropaPaenId : { paenId : new Number(checkBoxData.paenId ) },*/
 							ropaActive : checkBoxData.ropaActive
 						};
 						
