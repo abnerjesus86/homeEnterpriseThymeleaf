@@ -30,8 +30,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table( name = "APPLICATION", schema = "APPLICATION_MANAGER" )
-@JsonIgnoreProperties( value = { "userApplications", "applicationsMaster", "appnAppnId", "pages", "roles" } )
-@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, property = "appnId" )
+@JsonIgnoreProperties( value = { "userApplications", "applicationsMaster", /*"appnAppnId",*/ "pages", "roles" } )
+//@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, property = "appnId", scope=Application.class )
 public class Application implements Serializable {
 	/**
 	 * 

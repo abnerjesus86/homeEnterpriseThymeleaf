@@ -360,7 +360,6 @@
 										</select>
 									</div>
 								</div>
-
 								<div class="form-group">
 									<label class="col-sm-3 control-label no-padding-right" for="appnPlfmId"> Platform </label>
 									<div class="col-sm-9">
@@ -368,6 +367,13 @@
 										</select>
 									</div>
 								</div>
+								<div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="appnOwnrId"> Owner </label>
+                                    <div class="col-sm-9">
+                                        <select id="appnOwnrId" class="chosen-select" data-placeholder="Choose a Owner...">
+                                        </select>
+                                    </div>
+                                </div>
 								<div class="form-group">
 									<label class="col-sm-3 control-label no-padding-right" for="appnName"> Name </label>
 									<div class="col-sm-9">

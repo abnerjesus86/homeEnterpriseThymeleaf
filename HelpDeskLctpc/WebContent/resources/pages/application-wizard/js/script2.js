@@ -96,6 +96,16 @@ jQuery(function($) {
 						errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
 						chosen : true
 					});
+					
+					getListValuesText({
+						idList : '#appnOwnrId',
+						methodType : 'GET',
+						urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonOwnerForSelect",
+						optionSelect : [ data.appnOwnrId.ownrId ],
+						parameters : null,
+						errorMessage : "Ha ocurrido un error al cargar el listado de Owner",
+						chosen : true
+					});
 				},
 				error : function(e) {
 					alert("ERROR: ", e);

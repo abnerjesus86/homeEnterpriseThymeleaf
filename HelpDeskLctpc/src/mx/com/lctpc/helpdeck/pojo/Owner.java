@@ -20,8 +20,14 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table( name = "OWNER", schema = "APPLICATION_MANAGER" )
+//@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, property = "ownrId" )
+@JsonIgnoreProperties( value = { "appns" } )
 public class Owner implements Serializable {
 
 	/**
@@ -38,8 +44,8 @@ public class Owner implements Serializable {
 	 */
 	@Id
 	@Column( name = "OWNR_ID" )
-	@GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "APPS_SEQ" )
-	@SequenceGenerator( name = "APPS_SEQ", sequenceName = "SQ_APNS_ID", allocationSize = 1 )
+	@GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "OWNR_SEQ" )
+	@SequenceGenerator( name = "OWNR_SEQ", sequenceName = "SQ_OWNR_ID", allocationSize = 1 )
 	private BigDecimal	g_ownrId;
 	@Column( name = "OWNR_NAME" )
 	private String		g_ownrName;
@@ -59,8 +65,8 @@ public class Owner implements Serializable {
 	private Date		g_ownrUpdateDate;
 	@Column( name = "OWNR_UPDATE_BY", insertable = true, updatable = true )
 	private String		g_ownrUpdateBy;
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "g_appnOwnrId")
-	private List<Application> g_appns = new ArrayList<Application>();
+	@OneToMany( mappedBy = "g_appnOwnrId")
+	private List<Application> g_appns ;//= new ArrayList<Application>();
 	
 	/**
 	 * @return the ownrId
