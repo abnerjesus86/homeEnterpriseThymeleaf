@@ -80,7 +80,7 @@ jQuery(function($) {
 						idList : '#appnAppnId',
 						methodType : 'GET',
 						urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonAppsForSelect",
-						optionSelect : [ data.appnAppnId ],
+						optionSelect : [ data.appnAppnId != null ? data.appnAppnId.appnId : null],
 						parameters : null,
 						errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
 						chosen : true
