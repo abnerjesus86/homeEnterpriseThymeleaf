@@ -58,8 +58,9 @@ jQuery(function($) {
 
 			});
 
-			var idApp = 3;
-
+			var idApp = $.urlParam('id');
+			//var idApp = 3;
+			//console.log( JSON.stringify( $(location) ) );
 			var linkApp = $(location).attr('origin') + "/HelpDeskLctpc/getJsonApp";
 			if (idApp !== null && idApp !== undefined && idApp != '') {
 				linkApp = linkApp + "/" + idApp;
@@ -86,7 +87,6 @@ jQuery(function($) {
 						chosen : true
 					});
 
-					// getJsonPlatformForSelect
 					getListValuesText({
 						idList : '#appnPlfmId',
 						methodType : 'GET',
@@ -630,7 +630,7 @@ function buildStep2Page() {
 				ordering : true,
 				destroy : true,
 				lengthChange : false,
-				pageLength : 1,
+				pageLength : 6,
 				responsive : true,
 				dom : "<'row' <'col-md-6 'B> <'col-md-6'f>> tr" + "<'row'<'col-md-6'i><'col-md-6 text-right'p>>",
 				//dom : "<'top'fB><tr>" + "<'row'<'col-md-5'i><'col-md-7 text-right'p>>",
@@ -917,4 +917,14 @@ function clearFormPage() {
 
 function clearFormAssignedPermission(){
 	$('#divColPrincipalPages').empty();
+}
+
+$.urlParam = function(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results==null){
+       return null;
+    }
+    else{
+       return results[1] || 0;
+    }
 }

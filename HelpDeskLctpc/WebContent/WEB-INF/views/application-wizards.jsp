@@ -11,7 +11,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>INSPINIA | Empty Page</title>
+<title>Application Manager | Wizard</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/res/pages/application-wizard/css/style2.css" />
 <link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/css/bootstrap.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -368,12 +368,12 @@
 									</div>
 								</div>
 								<div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right" for="appnOwnrId"> Owner </label>
-                                    <div class="col-sm-9">
-                                        <select id="appnOwnrId" class="chosen-select" data-placeholder="Choose a Owner...">
-                                        </select>
-                                    </div>
-                                </div>
+									<label class="col-sm-3 control-label no-padding-right" for="appnOwnrId"> Owner </label>
+									<div class="col-sm-9">
+										<select id="appnOwnrId" class="chosen-select" data-placeholder="Choose a Owner...">
+										</select>
+									</div>
+								</div>
 								<div class="form-group">
 									<label class="col-sm-3 control-label no-padding-right" for="appnName"> Name </label>
 									<div class="col-sm-9">
@@ -459,11 +459,11 @@
 							<h2>Create Page for your Application</h2>
 							<div class="row">
 								<div class="col-xs-12 col-sm-7">
-								    <div id="divTbPages" class="table-responsive">
-                                        
-                                        <table id="tablePages" class="table table-striped table-bordered table-hover ">
-                                        </table>
-                                    </div>
+									<div id="divTbPages" class="table-responsive">
+
+										<table id="tablePages" class="table table-striped table-bordered table-hover ">
+										</table>
+									</div>
 									<!-- <div id="capaLoader" class="text-center hidden" style="margin-top: 100px">
 										<img class='loader-gear' src='../res/assets/images/loading1.gif' />
 									</div>
@@ -542,10 +542,9 @@
 							<!-- <div class="text-center m-t-md"> -->
 							<h2>Associates permissions to pages</h2>
 							<div id="divPages" class="row">
-								<div class="col-lg-12" id="divColPrincipalPages">
-								</div>
+								<div class="col-lg-12" id="divColPrincipalPages"></div>
 							</div>
-                           
+
 							<!-- </div> -->
 						</div>
 						<!-- fin div wizard -->
@@ -556,11 +555,11 @@
 				<!-- </div> -->
 			</div>
 			<div class="footer">
-				<div class="pull-right">
-					10GB of <strong>250GB</strong> Free.
-				</div>
+				<!-- <div class="pull-right">
+                10GB of <strong>250GB</strong> Free.
+            </div> -->
 				<div>
-					<strong>Copyright</strong> Example Company &copy; 2014-2017
+					<strong>Copyright</strong> Hutchison Ports LCT &copy; 2017
 				</div>
 			</div>
 
@@ -586,15 +585,15 @@
 	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/steps/jquery.steps.min.js"></script>
 	<!-- Sweet alert -->
 	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/sweetalert/sweetalert.min.js"></script>
-    <!-- iCheck -->
-    <script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/iCheck/icheck.min.js"></script>
-    
+	<!-- iCheck -->
+	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/iCheck/icheck.min.js"></script>
+
 	<!-- Jquery Validate -->
 	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/validate/jquery.validate.min.js"></script>
 
 	<script src="${pageContext.request.contextPath}/res/pages/application-wizard/js/script2.js"></script>
-	
-	
+
+
 </body>
 
 </html>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import mx.com.lctpc.helpdeck.pojo.AccountInformation;
@@ -29,13 +30,13 @@ public class IndexController {
 
 	@RequestMapping( "/" )
 	public String showIndex() {
-		System.out.println("Entro....");
-		return "index";
+		//return "index";
+		
+		return "indexAppMan";
 	}
 	
-	
 	@RequestMapping( "/appWizards" )
-	public String showAppWizards( Model p_model ) {
+	public String showAppWizards1( Model p_model, @RequestParam("id") BigDecimal p_id ) {
 		
 		return "application-wizards";
 	}
@@ -48,8 +49,6 @@ public class IndexController {
 	
 	@RequestMapping( "/exampleTemplate" )
 	public String showEjemplo( Model model ) {
-		System.out.println("Template....");
-
 		User l_user = new User();
 		AccountInformation l_accInf = new AccountInformation();
 
