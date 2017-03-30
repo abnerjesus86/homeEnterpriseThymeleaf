@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.8.1.201607290748-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.8.3.201612191259-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -10,6 +10,7 @@
 		<config>WebContent/WEB-INF/dispatcher-servlet.xml</config>
 		<config>src/mx/com/lctpc/helpdeck/config/persistence-config.xml</config>
 		<config>src/mx/com/lctpc/helpdeck/config/service-context.xml</config>
+		<config>src/mx/com/lctpc/helpdeck/config/security-context.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
