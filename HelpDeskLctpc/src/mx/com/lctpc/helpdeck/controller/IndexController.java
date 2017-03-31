@@ -35,6 +35,12 @@ public class IndexController {
 		return "indexAppMan";
 	}
 	
+	@RequestMapping( "/login" )
+	public String login(){
+		
+		return "login";
+	}
+	
 	@RequestMapping( "/appWizards" )
 	public String showAppWizards1( Model p_model, @RequestParam("id") BigDecimal p_id ) {
 		

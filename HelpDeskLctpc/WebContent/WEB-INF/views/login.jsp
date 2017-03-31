@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 
@@ -8,11 +12,11 @@
 
     <title>INSPINIA | Login 2</title>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/font-awesome/css/font-awesome.css" rel="stylesheet">
 
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/css/animate.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/css/style.css" rel="stylesheet">
 
 </head>
 
@@ -43,12 +47,12 @@
             </div>
             <div class="col-md-6">
                 <div class="ibox-content">
-                    <form class="m-t" role="form" action="index.html">
+                    <form class="m-t" role="form" name="f" action="j_spring_security_check" method="POST">
                         <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Username" required="">
+                            <input type="text" class="form-control" name="j_username" placeholder="Username" required>
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" placeholder="Password" required="">
+                            <input type="password" class="form-control" name="j_password" placeholder="Password" required>
                         </div>
                         <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
 
@@ -56,24 +60,23 @@
                             <small>Forgot password?</small>
                         </a>
 
-                        <p class="text-muted text-center">
-                            <small>Do not have an account?</small>
-                        </p>
-                        <a class="btn btn-sm btn-white btn-block" href="register.html">Create an account</a>
                     </form>
-                    <p class="m-t">
-                        <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small>
-                    </p>
+                   
+                    <c:if test="${param.failed}">
+                        <hr/>
+						<div class="alert alert-danger">Error de autentificacion!!</div>
+					</c:if>
+                    
                 </div>
             </div>
         </div>
         <hr/>
         <div class="row">
             <div class="col-md-6">
-                Copyright Example Company
+                <strong>Copyright</strong> Hutchison Ports LCT 
             </div>
             <div class="col-md-6 text-right">
-               <small>© 2014-2015</small>
+               <small>© 2017</small>
             </div>
         </div>
     </div>

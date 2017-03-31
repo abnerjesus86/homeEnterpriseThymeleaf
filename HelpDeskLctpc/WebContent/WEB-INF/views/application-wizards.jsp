@@ -52,7 +52,7 @@
 								<li><a href="contacts.html">Contacts</a></li>
 								<li><a href="mailbox.html">Mailbox</a></li>
 								<li class="divider"></li>
-								<li><a href="login.html">Logout</a></li>
+								<li><a href="<c:url value="/j_spring_security_logout"/>">Logout</a></li>
 							</ul>
 						</div>
 						<div class="logo-element">IN+</div>
@@ -318,7 +318,7 @@
 							</ul></li>
 
 
-						<li><a href="login.html"> <i class="fa fa-sign-out"></i> Log out
+						<li><a href="<c:url value="/j_spring_security_logout"/>"> <i class="fa fa-sign-out"></i> Log out
 						</a></li>
 					</ul>
 
