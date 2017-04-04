@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import mx.com.lctpc.helpdeck.dao.SecurityLctDao;
 import mx.com.lctpc.helpdeck.pojo.RolePage;
+import mx.com.lctpc.helpdeck.pojo.UrlRolesBean;
 import mx.com.lctpc.helpdeck.pojo.User;
 import mx.com.lctpc.helpdeck.pojo.UserRole;
 
@@ -32,11 +33,11 @@ public class SecurityLctService {
 	public void getPageRoles(BigDecimal p_appnId) {
 		
 		
-		List<RolePage> l_lst = secLctDao.getPageRoles(p_appnId);
+		List<UrlRolesBean> l_lst = secLctDao.getPageRoles(p_appnId);
 		
-		for(RolePage l_rp : l_lst ){
-			System.out.println("Url "+ l_rp.getRopaPaenId().getPaenPageId().getPageUrl());
-			System.out.println("Role "+ l_rp.getRopaRoleId().getRoleName());
+		for(UrlRolesBean l_rp : l_lst ){
+			System.out.println("Url "+ l_rp.getUrl());
+			System.out.println("Role "+ l_rp.getRole());
 		}
 		
 		urlCache.mapUrlToRole(l_lst);

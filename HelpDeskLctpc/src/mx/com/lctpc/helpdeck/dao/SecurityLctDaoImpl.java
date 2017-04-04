@@ -6,12 +6,14 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.lctpc.helpdeck.pojo.Application;
 import mx.com.lctpc.helpdeck.pojo.RolePage;
+import mx.com.lctpc.helpdeck.pojo.UrlRolesBean;
 import mx.com.lctpc.helpdeck.pojo.User;
 import mx.com.lctpc.helpdeck.pojo.UserRole;
 
@@ -57,17 +59,21 @@ public class SecurityLctDaoImpl implements SecurityLctDao{
 	}
 
 	@Override
-	public List<RolePage> getPageRoles(BigDecimal p_appnId) {
+	public List<UrlRolesBean> getPageRoles(BigDecimal p_appnId) {
 		// TODO Auto-generated method stub
 		
-		Query<RolePage> l_queryRolesPages = getSession().createQuery(
-				"select perm from RolePage perm JOIN perm.g_ropaRoleId rol where rol.g_roleAppnId.g_appnId = :p_appId and perm.g_ropaActive = :isActive",
-				RolePage.class).
-				setParameter("p_appId", p_appnId).
-				setParameter("isActive", true);
-		
-		return l_queryRolesPages.getResultList();
-
+		Query l_queryRolesPages = getSession().createQuery(
+						"select 	distinct roles.g_roleName AS role, page.g_pageUrl AS url"
+						+ " from 	RolePage perm" 
+						+ " JOIN perm.g_ropaRoleId roles"
+						+ " JOIN perm.g_ropaPaenId paen"
+						+ " JOIN paen.g_paenPageId page"
+						+ " where 	roles.g_roleAppnId.g_appnId = :p_appId" 
+						+ " and perm.g_ropaActive = :isActive").						
+				setParameter("p_appId", p_appnId).setParameter("isActive", true);
+		l_queryRolesPages.setResultTransformer(Transformers.aliasToBean(UrlRolesBean.class));
+		//return l_queryRolesPages.getResultList();
+		return l_queryRolesPages.list();
 	}
 	
 }

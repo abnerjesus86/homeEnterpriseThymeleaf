@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import mx.com.lctpc.helpdeck.pojo.RolePage;
+import mx.com.lctpc.helpdeck.pojo.UrlRolesBean;
 
 @Component
 public class UrlCache {
@@ -25,22 +26,22 @@ public class UrlCache {
 		return urlRoles.get(key);
 	}
 	
-	public void mapUrlToRole(List<RolePage> roleActions){
+	public void mapUrlToRole(List<UrlRolesBean> roleActions){
 		String dbUrl=null;
-		for (RolePage rolesPage : roleActions) {
+		for (UrlRolesBean rolesPage : roleActions) {
 			
-			dbUrl=rolesPage.getRopaPaenId().getPaenPageId().getPageUrl();
+			dbUrl=rolesPage.getUrl();
 			
 			if(this.urlRoles.containsKey(dbUrl)){
 				
 				List<String> roles=this.urlRoles.get(dbUrl);
 				
-				roles.add(rolesPage.getRopaRoleId().getRoleName() );
+				roles.add(rolesPage.getRole() );
 				
 			}else{
 				
 				List<String> roles=new ArrayList<String>();
-				roles.add(rolesPage.getRopaRoleId().getRoleName());
+				roles.add(rolesPage.getRole());
 				this.urlRoles.put(dbUrl, roles);
 				
 			}
