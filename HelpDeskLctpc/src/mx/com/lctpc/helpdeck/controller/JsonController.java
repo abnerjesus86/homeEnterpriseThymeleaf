@@ -77,6 +77,7 @@ public class JsonController {
 	@RequestMapping( value = "/getJsonUsers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<List<User>> showListAllUsers() {
 		List<User> users = userService.findAll();
+		
 		if (users.isEmpty()) {
 			return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);// You many decide to return
 																			// HttpStatus.NOT_FOUND

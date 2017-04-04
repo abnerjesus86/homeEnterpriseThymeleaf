@@ -41,12 +41,16 @@ public class AccountInformation {
 	private BigDecimal	g_acinUserId;
 	@Column( name = "ACIN_PROFILE_PICTURE" )
 	private String		g_acinProfilePicture;
-	@Column( name = "ACIN_TELEPHONE" )
-	private long		g_acinTelephone;
-	@Column( name = "ACIN_LAST_ACCESS" )
-	private Timestamp	g_acinLastAccess;
+	@Column( name = "ACIN_NAME" )
+	private String	g_acinName;
+	@Column( name = "ACIN_LAST_NAME" )
+	private String	g_acinLastName;
+	@Column( name = "ACIN_EMAIL" )
+	private String	g_acinEmail;
 	@Column( name = "ACIN_ALTERNATE_EMAIL" )
 	private String		g_acinAlternateEmail;
+	@Column( name = "ACIN_GENDER" )
+	private String g_acinGender;
 	@CreationTimestamp
 	@DateTimeFormat( pattern = "dd/MM/yyyy hh:mm" )
 	@Column( name = "ACIN_CREATED_DATE", insertable = true, updatable = false )
@@ -92,36 +96,6 @@ public class AccountInformation {
 	 */
 	public void setAcinProfilePicture( String p_acinProfilePicture ) {
 		this.g_acinProfilePicture = p_acinProfilePicture;
-	}
-
-	/**
-	 * @return the acinTelephone
-	 */
-	public long getAcinTelephone() {
-		return this.g_acinTelephone;
-	}
-
-	/**
-	 * @param p_acinTelephone
-	 *            the acinTelephone to set
-	 */
-	public void setAcinTelephone( long p_acinTelephone ) {
-		this.g_acinTelephone = p_acinTelephone;
-	}
-
-	/**
-	 * @return the acinLastAccess
-	 */
-	public Timestamp getAcinLastAccess() {
-		return this.g_acinLastAccess;
-	}
-
-	/**
-	 * @param p_acinLastAccess
-	 *            the acinLastAccess to set
-	 */
-	public void setAcinLastAccess( Timestamp p_acinLastAccess ) {
-		this.g_acinLastAccess = p_acinLastAccess;
 	}
 
 	/**
@@ -214,18 +188,62 @@ public class AccountInformation {
 		this.g_user = p_user;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
+	/**
+	 * @return the acinName
 	 */
-	@Override
-	public String toString() {
-		return "AccountInformation [g_acinUserId=" + this.g_acinUserId + ", g_acinProfilePicture="
-				+ this.g_acinProfilePicture + ", g_acinTelephone=" + this.g_acinTelephone + ", g_acinLastAccess="
-				+ this.g_acinLastAccess + ", g_acinAlternateEmail=" + this.g_acinAlternateEmail + ", g_acinCreatedDate="
-				+ this.g_acinCreatedDate + ", g_acinCreatedBy=" + this.g_acinCreatedBy + ", g_acinUpdateDate="
-				+ this.g_acinUpdateDate + ", g_acinUpdateBy=" + this.g_acinUpdateBy + "]";
+	public String getAcinName() {
+		return this.g_acinName;
 	}
+
+	/**
+	 * @param p_acinName the acinName to set
+	 */
+	public void setAcinName( String p_acinName ) {
+		this.g_acinName = p_acinName;
+	}
+
+	/**
+	 * @return the acinLastName
+	 */
+	public String getAcinLastName() {
+		return this.g_acinLastName;
+	}
+
+	/**
+	 * @param p_acinLastName the acinLastName to set
+	 */
+	public void setAcinLastName( String p_acinLastName ) {
+		this.g_acinLastName = p_acinLastName;
+	}
+
+	/**
+	 * @return the acinEmail
+	 */
+	public String getAcinEmail() {
+		return this.g_acinEmail;
+	}
+
+	/**
+	 * @param p_acinEmail the acinEmail to set
+	 */
+	public void setAcinEmail( String p_acinEmail ) {
+		this.g_acinEmail = p_acinEmail;
+	}
+
+	/**
+	 * @return the acinGender
+	 */
+	public String getAcinGender() {
+		return this.g_acinGender;
+	}
+
+	/**
+	 * @param p_acinGender the acinGender to set
+	 */
+	public void setAcinGender( String p_acinGender ) {
+		this.g_acinGender = p_acinGender;
+	}
+
+	
 
 }

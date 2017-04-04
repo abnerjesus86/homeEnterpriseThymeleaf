@@ -2,12 +2,14 @@ package mx.com.lctpc.helpdeck.pojo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-@Table( name = "USERG", schema = "APPLICATION_MANAGER" )
+@Table( name = "\"USER\"", schema = "APPLICATION_MANAGER" )
 @JsonIgnoreProperties(value = {"userRoles","userApplications" })
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -57,7 +59,7 @@ public class User implements Serializable{
 	@Column( name = "USER_EMES_COMPANY" )
 	private String					g_userEmesCompany;
 	@Column( name = "USER_EMES_ID" )
-	private int						g_userEmesId;
+	private BigDecimal						g_userEmesId;
 	@Column( name = "USER_USERNAME" )
 	private String					g_userUsername;
 	@Column( name = "USER_ACTIVE" )
@@ -78,8 +80,8 @@ public class User implements Serializable{
 	@JsonUnwrapped
 	private AccountInformation		g_accountInf;
 	@OneToMany( mappedBy = "g_usroUserId" )
-	private List<UserRole>			g_userRoles;
-	@OneToMany( mappedBy = "g_usapUserId" )
+	private List<UserRole>			g_userRoles = new ArrayList<UserRole>();
+	@OneToMany(  mappedBy = "g_usapUserId" )
 	private List<UserApplication>	g_userApplications;
 
 	/**
@@ -115,7 +117,7 @@ public class User implements Serializable{
 	/**
 	 * @return the userEmesId
 	 */
-	public int getUserEmesId() {
+	public BigDecimal getUserEmesId() {
 		return this.g_userEmesId;
 	}
 
@@ -123,7 +125,7 @@ public class User implements Serializable{
 	 * @param p_userEmesId
 	 *            the userEmesId to set
 	 */
-	public void setUserEmesId( int p_userEmesId ) {
+	public void setUserEmesId( BigDecimal p_userEmesId ) {
 		this.g_userEmesId = p_userEmesId;
 	}
 

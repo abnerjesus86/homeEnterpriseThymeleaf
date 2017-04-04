@@ -5,56 +5,57 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<!-- <security:http use-expressions="true"> <security:form-login login-page="/login" 
+		authentication-failure-url="/login?failed=true" /> <security:intercept-url 
+		pattern="/" access="permitAll" /> <security:intercept-url pattern="/login" 
+		access="permitAll" /> <security:intercept-url pattern="/appWizards/**" access="hasRole('ROLE_PROGRAMMER')" 
+		/> <security:intercept-url pattern="/users/**" access="hasRole('ROL_PRUEBA')" 
+		/> <security:logout invalidate-session="true" logout-success-url="/login" 
+		/> </security:http> <security:authentication-manager alias="authenticationManager"> 
+		<security:authentication-provider> user-service-ref="authenticationService" 
+		> <security:user-service> <security:user name="person01" authorities="ROLE_PROGRAMMER" 
+		password="12345" /> <security:user name="person02" authorities="ROLE_SOPORTE" 
+		password="12345" /> </security:user-service> </security:authentication-provider> 
+		</security:authentication-manager> -->
 
-    <security:http use-expressions="true">
-        <security:form-login login-page="/login"
-        	authentication-failure-url="/login?failed=true" />
-        <!-- <security:form-login/> -->
-        <security:intercept-url pattern="/" access="permitAll" />
-        <security:intercept-url pattern="/login" access="permitAll" />
-        <security:intercept-url pattern="/appWizards/**" access="hasRole('ROLE_PROGRAMMER')" />
-        <security:logout invalidate-session="true"
-            logout-success-url="/login" />
-    </security:http>
 
-    <!-- <security:http access-denied-page="/denied">
+	<security:http >
 		<security:form-login login-page="/login"
-			authentication-failure-url="/login?failed=true" 
-			default-target-url="/index"
+			authentication-failure-url="/login?failed=true" default-target-url="/index"
 			always-use-default-target="true" />
 		<security:custom-filter ref="filter"
 			before="FILTER_SECURITY_INTERCEPTOR" />
 		<security:logout invalidate-session="true"
 			logout-success-url="/login" />
-	</security:http> -->
+	</security:http>
     
-	<!-- <bean id="filter" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
-		<property name="authenticationManager" ref="authenticationManager">
-		</property>
+    <bean id="dbFilterInvocationSecurityMetadataSource"
+        class="mx.com.lctpc.helpdeck.service.DbFilterInvocationSecurityMetadataSource">
+    </bean>
+    
+	<bean id="filter"
+		class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManager" />
 		<property name="accessDecisionManager">
-		  <bean class="org.springframework.security.access.vote.AffirmativeBased">
-            <property name="decisionVoters" >
-            <bean class="org.springframework.security.access.vote.RoleVoter">
-                <property name="rolePrefix" value="ROLE_"/>
-            </bean>
-            </property>
-         </bean>
+			<bean class="org.springframework.security.access.vote.AffirmativeBased">
+				<property name="decisionVoters">
+					<bean class="org.springframework.security.access.vote.RoleVoter">
+					</bean>
+				</property>
+			</bean>
 		</property>
-		
 		<property name="securityMetadataSource" ref="dbFilterInvocationSecurityMetadataSource">
 		</property>
-		
-	</bean> -->
-	
+	</bean>
+
+
+
+
 	<security:authentication-manager alias="authenticationManager">
-		<security:authentication-provider>
-			<!-- user-service-ref="authenticationService"  >-->
-		<security:user-service>
-			<security:user name="person01" authorities="ROLE_PROGRAMMER"
-				password="12345" />
-			<security:user name="person02" authorities="ROLE_SOPORTE"
-               password="12345" />
-		</security:user-service>
+		<security:authentication-provider
+			user-service-ref="authenticationService">
 		</security:authentication-provider>
 	</security:authentication-manager>
+	
+	
 </beans>
