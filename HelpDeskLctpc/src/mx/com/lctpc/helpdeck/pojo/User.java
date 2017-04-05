@@ -19,7 +19,10 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -83,7 +86,11 @@ public class User implements Serializable{
 	private List<UserRole>			g_userRoles = new ArrayList<UserRole>();
 	@OneToMany(  mappedBy = "g_usapUserId" )
 	private List<UserApplication>	g_userApplications;
-
+	@OneToMany( fetch = FetchType.EAGER, mappedBy = "g_pswdUserId" )
+	@Fetch( value = FetchMode.SUBSELECT )
+	@Where(clause = "PSWD_ACTIVE = true")
+	private List<Password> g_passwords = new ArrayList<Password>();
+	
 	/**
 	 * @return the userId
 	 */
@@ -262,6 +269,21 @@ public class User implements Serializable{
 	 */
 	public void setUserApplications( List<UserApplication> p_userApplications ) {
 		this.g_userApplications = p_userApplications;
+	}
+
+	
+	/**
+	 * @return the passwords
+	 */
+	public List<Password> getPasswords() {
+		return this.g_passwords;
+	}
+
+	/**
+	 * @param p_passwords the passwords to set
+	 */
+	public void setPasswords( List<Password> p_passwords ) {
+		this.g_passwords = p_passwords;
 	}
 
 	@Override

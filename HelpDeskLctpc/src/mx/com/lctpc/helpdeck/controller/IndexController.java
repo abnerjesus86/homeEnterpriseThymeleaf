@@ -41,6 +41,12 @@ public class IndexController {
 		return "login";
 	}
 	
+	@RequestMapping( "/denied" )
+	public String denied(){
+		
+		return "404";
+	}
+	
 	@RequestMapping( "/appWizards" )
 	public String showAppWizards1( Model p_model, @RequestParam("id") BigDecimal p_id ) {
 		

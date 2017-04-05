@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mx.com.lctpc.helpdeck.dao.SecurityLctDao;
-import mx.com.lctpc.helpdeck.pojo.RolePage;
 import mx.com.lctpc.helpdeck.pojo.UrlRolesBean;
 import mx.com.lctpc.helpdeck.pojo.User;
 import mx.com.lctpc.helpdeck.pojo.UserRole;

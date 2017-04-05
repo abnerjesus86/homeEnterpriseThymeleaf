@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import mx.com.lctpc.helpdeck.pojo.RolePage;
 import mx.com.lctpc.helpdeck.pojo.UrlRolesBean;
 
 @Component

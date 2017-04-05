@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import mx.com.lctpc.helpdeck.pojo.Application;
-import mx.com.lctpc.helpdeck.pojo.RolePage;
 import mx.com.lctpc.helpdeck.pojo.UrlRolesBean;
 import mx.com.lctpc.helpdeck.pojo.User;
 import mx.com.lctpc.helpdeck.pojo.UserRole;
@@ -33,7 +31,7 @@ public class SecurityLctDaoImpl implements SecurityLctDao{
 		// TODO Auto-generated method stub
 		Query<User> l_query = getSession().createQuery("FROM User usr "
 				+ " WHERE usr.g_userUsername = :p_userName AND usr.g_userActive = :isActive", User.class)
-				.setParameter(":p_userName", p_userName)
+				.setParameter("p_userName", p_userName)
 				.setParameter("isActive", true);
 		List<User> l_lstUser = l_query.getResultList();
 		

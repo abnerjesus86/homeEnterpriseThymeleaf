@@ -5,15 +5,16 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	 <security:http use-expressions="true"> 
+	 <!-- <security:http use-expressions="true"
+	 	access-denied-page="/denied"> 
 	       <security:form-login login-page="/login" authentication-failure-url="/login?failed=true" /> 
-	       <security:intercept-url pattern="/" access="permitAll" /> 
+	       <security:intercept-url pattern="/" access="isAuthenticated()" />
 	       <security:intercept-url pattern="/login" access="permitAll" /> 
 	       <security:intercept-url pattern="/appWizards/**" access="hasRole('ROL_CAPTURISTA')" /> 
 		   <security:intercept-url pattern="/users/**" access="hasRole('ROL_CAPTURISTA')" /> 
 		   <security:logout invalidate-session="true" logout-success-url="/login" /> 
-    </security:http> 
-		  <!--
+    </security:http> -->
+	 <!--
 		 <security:authentication-manager alias="authenticationManager"> 
 		<security:authentication-provider> user-service-ref="authenticationService" 
 		> <security:user-service> <security:user name="person01" authorities="ROLE_PROGRAMMER" 
@@ -22,17 +23,15 @@
 		</security:authentication-manager> -->
 
 
-	<!-- <security:http >
-		<security:form-login login-page="/login"
-			authentication-failure-url="/login?failed=true"
+	 <security:http access-denied-page="/denied">
+		<security:form-login login-page="/login" 
+		authentication-failure-url="/login?failed=true"
 			always-use-default-target="true"/>
-		<security:custom-filter ref="filter"
-			before="FILTER_SECURITY_INTERCEPTOR" />
-		<security:logout invalidate-session="true"
-			logout-success-url="/login" />
+		<security:custom-filter ref="filter" before="FILTER_SECURITY_INTERCEPTOR" />
+		<security:logout invalidate-session="true" logout-success-url="/login" />
 	</security:http>
-    
-    <bean id="dbFilterInvocationSecurityMetadataSource"
+
+	 <bean id="dbFilterInvocationSecurityMetadataSource"
         class="mx.com.lctpc.helpdeck.service.DbFilterInvocationSecurityMetadataSource">
     </bean>
     
@@ -42,24 +41,27 @@
 		<property name="accessDecisionManager">
 			<bean class="org.springframework.security.access.vote.AffirmativeBased">
 				<property name="decisionVoters">
-					<bean class="org.springframework.security.access.vote.RoleVoter">
-					</bean>
+					<list>
+						<bean
+							class="org.springframework.security.access.vote.RoleVoter">
+							<property name="rolePrefix" value="ROL_"/>
+						</bean>
+						<!-- <bean
+							class="org.springframework.security.access.vote.AuthenticatedVoter">
+						</bean> -->
+					</list>
 				</property>
 			</bean>
 		</property>
 		<property name="securityMetadataSource" ref="dbFilterInvocationSecurityMetadataSource">
 		</property>
-	</bean> -->
-
-
-
+	</bean>
 
 	<security:authentication-manager alias="authenticationManager">
 		<security:authentication-provider
 			user-service-ref="authenticationService">
 		</security:authentication-provider>
 	</security:authentication-manager>
-	
 	
 	<bean id="authenticationService"
 		class="mx.com.lctpc.helpdeck.service.AuthenticationService">

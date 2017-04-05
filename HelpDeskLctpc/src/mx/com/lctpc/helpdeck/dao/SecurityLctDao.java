@@ -3,7 +3,6 @@ package mx.com.lctpc.helpdeck.dao;
 import java.math.BigDecimal;
 import java.util.List;
 
-import mx.com.lctpc.helpdeck.pojo.RolePage;
 import mx.com.lctpc.helpdeck.pojo.UrlRolesBean;
 import mx.com.lctpc.helpdeck.pojo.User;
 import mx.com.lctpc.helpdeck.pojo.UserRole;

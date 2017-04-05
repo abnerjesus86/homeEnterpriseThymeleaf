@@ -39,7 +39,7 @@ public class AuthenticationService implements UserDetailsService {
 		
 		System.out.println("Roles of: "+ p_username + " is " +l_dbRoles);
 		
-		User l_userAuth = new User(l_user.getUserUsername(),"", l_lstAuthorities);
+		User l_userAuth = new User(l_user.getUserUsername(),l_user.getPasswords().get(0).getPswdPassword(), l_dbRoles);
 		
 		return l_userAuth;
 		

@@ -24,9 +24,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table( name = "APPLICATION", schema = "APPLICATION_MANAGER" )
@@ -84,7 +82,7 @@ public class Application implements Serializable {
 	private List<Page>				g_pages					= new ArrayList<Page>();
 	@OneToMany( fetch = FetchType.EAGER, mappedBy = "g_roleAppnId" )
 	private List<Rol>				g_roles					= new ArrayList<Rol>();
-
+	
 	/**
 	 * @return the appnId
 	 */
