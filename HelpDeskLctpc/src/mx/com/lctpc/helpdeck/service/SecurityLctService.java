@@ -31,14 +31,7 @@ public class SecurityLctService {
 
 	public void getPageRoles(BigDecimal p_appnId) {
 		
-		
 		List<UrlRolesBean> l_lst = secLctDao.getPageRoles(p_appnId);
-		
-		for(UrlRolesBean l_rp : l_lst ){
-			System.out.println("Url "+ l_rp.getUrl());
-			System.out.println("Role "+ l_rp.getRole());
-		}
-		
 		urlCache.mapUrlToRole(l_lst);
 		
 		return ;

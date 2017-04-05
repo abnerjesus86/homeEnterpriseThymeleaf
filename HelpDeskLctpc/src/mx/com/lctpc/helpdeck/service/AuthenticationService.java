@@ -1,6 +1,7 @@
 package mx.com.lctpc.helpdeck.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class AuthenticationService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername( String p_username ) throws UsernameNotFoundException {
 		
-		List<GrantedAuthority> l_lstAuthorities = new ArrayList<GrantedAuthority>();
+		//List<GrantedAuthority> l_lstAuthorities = new ArrayList<GrantedAuthority>();
 		mx.com.lctpc.helpdeck.pojo.User l_user =  secService.getUser(p_username);
 		
 		if(l_user == null){
@@ -36,8 +37,6 @@ public class AuthenticationService implements UserDetailsService {
 			
 			l_dbRoles.add( new SimpleGrantedAuthority( l_roles.getUsroRolId().getRoleName() ) );
 		}
-		
-		System.out.println("Roles of: "+ p_username + " is " +l_dbRoles);
 		
 		User l_userAuth = new User(l_user.getUserUsername(),l_user.getPasswords().get(0).getPswdPassword(), l_dbRoles);
 		
