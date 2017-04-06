@@ -47,12 +47,13 @@
             </div>
             <div class="col-md-6">
                 <div class="ibox-content">
-                    <form class="m-t" role="form" name="f" action="j_spring_security_check" method="POST">
+                    <c:url var="loginUrl" value="/appLogin"/>
+                    <form class="m-t" role="form" name="f" action="${loginUrl}" method="POST">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="j_username" placeholder="Username" required>
+                            <input type="text" class="form-control" name="username" placeholder="Username" required>
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" name="j_password" placeholder="Password" required>
+                            <input type="password" class="form-control" name=password placeholder="Password" required>
                         </div>
                         <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
 
@@ -62,7 +63,7 @@
 
                     </form>
                    
-                    <c:if test="${param.failed}">
+                    <c:if test="${param.error != null}">
                         <hr/>
 						<div class="alert alert-danger">Error de autentificacion!!</div>
 					</c:if>

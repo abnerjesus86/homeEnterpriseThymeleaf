@@ -33,7 +33,7 @@
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
                              </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a href="<c:url value="/j_spring_security_logout"/>">Logout</a></li>
+                                <li><a href="<c:url value="/logout"/>">Logout</a></li>
                             </ul>
                     </div>
                     <div class="logo-element">
@@ -70,7 +70,7 @@
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
-                        <a href="<c:url value="/j_spring_security_logout"/>">
+                        <a href="<c:url value="/logout"/>">
                             <i class="fa fa-sign-out"></i> Log out
                         </a>
                     </li>

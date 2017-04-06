@@ -32,14 +32,12 @@ public class AuthenticationService implements UserDetailsService {
 		}
 		
 		List<UserRole> l_rolesAssignad = secService.getRoleAssigned(l_user.getUserId());
-		List<GrantedAuthority> l_dbRoles = new ArrayList<GrantedAuthority>();
+		Collection<GrantedAuthority> l_dbRoles = new ArrayList<GrantedAuthority>();
 		for( UserRole l_roles : l_rolesAssignad ){
 			
 			l_dbRoles.add( new SimpleGrantedAuthority( l_roles.getUsroRolId().getRoleName() ) );
 		}
-		
 		User l_userAuth = new User(l_user.getUserUsername(),l_user.getPasswords().get(0).getPswdPassword(), l_dbRoles);
-		
 		return l_userAuth;
 		
 	}
