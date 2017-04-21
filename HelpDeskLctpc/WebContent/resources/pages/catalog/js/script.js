@@ -13,16 +13,33 @@ jQuery( function( $ ) {
 							.DataTable(
 									{
 										autoWidth : true,
-										searching : false,
-										ordering : false,
-										stateSave : true,
-										/* scrollY : '25vh', */
-										scrollCollapse : true,
-										fixedColumns : {
-											heightMatch : 'auto'
-										},
-										iDisplayLength : 10,
-										lengthMenu : [ [ 10, 25, 50, 100, 500, 1000, 2000 ], [ 10, 25, 50, 100, 500, 1000, 2000 ] ],
+										searching : true,
+										ordering : true,
+										destroy : true,
+										lengthChange : false,
+										responsive : true,
+										dom : "<'row' <'col-md-6 'B> <'col-md-6'f>> tr" + "<'row'<'col-md-6'i><'col-md-6 text-right'p>>",
+										buttons : [ {
+											text : 'Actualizar',
+											action : function(e, dt, node, config) {
+												dt.ajax.reload();
+											}
+										}, {
+											"extend" : 'copy',
+											"text" : 'Copiar'
+										}, {
+											"extend" : 'csv'
+										}, {
+											"extend" : 'pdf',
+											"text" : 'Pdf'
+										}, {
+											"extend" : 'print',
+											"customize" : function(win) {
+												$(win.document.body).addClass('white-bg');
+												$(win.document.body).css('font-size', '10px');
+												$(win.document.body).find('table').addClass('compact').css('font-size', 'inherit');
+											}
+										} ],
 										ajax : {
 											url : "./getJsonApps",
 											type : "GET",
@@ -34,7 +51,7 @@ jQuery( function( $ ) {
 													title : "ID",
 													data : null,
 													render : function( data, type, row ) {
-														return "<div class='action-buttons center'><a href='#formularioModal' role='button' data-toggle='modal'><b>"
+														return "<div class='action-buttons center'><a href='#myModalApplication' role='button' data-toggle='modal'><b>"
 																+ data.appnId + "</b></a></div>";
 													},
 													className : "colApplicationModal center"
@@ -73,27 +90,27 @@ jQuery( function( $ ) {
 													data : null,
 													render : function( data, type, row ) {
 														return "<div class='hidden-sm hidden-xs action-buttons'>"
-																+ "<a class='green' id='btn-editApplication' href='#formularioModal' role='button' data-toggle='modal'><i class='ace-icon fa fa-pencil bigger-130'></i></a>"
-																+ "<a class='red' id='id-btn-dialog2' href='./appForm/"
+																+ "<a class='' id='btn-editApplication' href='#myModalApplication' role='button' data-toggle='modal'><i class='fa fa-pencil'></i></a>"
+																+ "<a class='' id='id-btn-dialog2' href='./appForm/"
 																+ data.appnId
-																+ "/delete'><i class='ace-icon fa fa-trash-o bigger-130'></i></a>"
+																+ "/delete'><i class='fa fa-trash-o'></i></a>"
 																+ "</div> "
 																+ "<div class='hidden-md hidden-lg'>"
 																+ "<div class='inline pos-rel'>"
 																+ "<button class='btn btn-minier btn-primary dropdown-toggle' data-toggle='dropdown' data-position='auto'>"
-																+ "<i class='ace-icon fa fa-cog icon-only bigger-110'></i>"
+																+ "<i class='fa fa-cog icon-only'></i>"
 																+ "</button>"
 																+ "<ul class='dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close'>"
 																+ "<li>"
-																+ "<a href='#formularioModal' id='btn-editApplication' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
-																+ "<span class='green'>"
-																+ "<i class='ace-icon fa fa-pencil-square-o bigger-120'></i></span></a>"
+																+ "<a href='#myModalApplication' id='btn-editApplication' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
+																+ "<span class=''>"
+																+ "<i class='fa fa-pencil-square-o'></i></span></a>"
 																+ "</li>"
 																+ "<li>"
 																+ "<a href='./appForm/"
 																+ data.appnId
 																+ "/delete' id='id-btn-dialog2' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
-																+ "<span class='red'> <i class='ace-icon fa fa-trash-o bigger-120'></i></span></a>"
+																+ "<span class=''> <i class='fa fa-trash-o'></i></span></a>"
 																+ "</li>"
 
 																+ "</ul>" + "</div>" + "</div>";
@@ -105,7 +122,7 @@ jQuery( function( $ ) {
 
 					$( '#tableApplications tbody' ).on( "click", ".colLinkApplicationModal a#btn-editApplication", function() {
 						var FilaActual = tableApps.row( $( this ).parents( 'tr' ) ).data();
-						var link = "./appForm/" + FilaActual.appnId + "/update";
+						var link = $(location).attr('origin') + "/HelpDeskLctpc/appForm/" + FilaActual.appnId + "/update";
 						$( this ).callAjax( link, "#appn" );
 						$( "#formularioModal .modal-header h4" ).text( FilaActual.appnName );
 						
@@ -230,7 +247,7 @@ jQuery( function( $ ) {
 
 					$( '#tablePages tbody' ).on( "click", ".colLinkPageModal a#btn-editPage", function() {
 						var FilaActual = tablePages.row( $( this ).parents( 'tr' ) ).data();
-						var link = "./pageForm/" + FilaActual.pageId + "/update";
+						var link = $(location).attr('origin') + "/HelpDeskLctpc/pageForm/" + FilaActual.pageId + "/update";
 						$( this ).callAjax( link, "#page" );
 						$( "#formularioModal .modal-header h4" ).text( FilaActual.pageNomenclature );
 					} );
@@ -322,7 +339,7 @@ jQuery( function( $ ) {
 
 					$( '#tablePermission tbody' ).on( "click", ".colLinkPermissionModal a#btn-editPermission", function() {
 						var FilaActual = tablePermission.row( $( this ).parents( 'tr' ) ).data();
-						var link = "./permForm/" + FilaActual.prmnId + "/update";
+						var link = $(location).attr('origin') + "/HelpDeskLctpc/permForm/" + FilaActual.prmnId + "/update";
 						$( this ).callAjax( "permForm" + link, "#perm" );
 						$( "#formularioModal .modal-header h4" ).text( FilaActual.pageNomenclature );
 					} );
@@ -408,7 +425,7 @@ jQuery( function( $ ) {
 
 					$( '#tableSecretQuestion tbody' ).on( "click", ".colLinkSecretQuestionModal a#btn-editSecQuest", function() {
 						var FilaActual = tableSecQues.row( $( this ).parents( 'tr' ) ).data();
-						var link = "./secretQuestionForm/" + FilaActual.sequId + "/update";
+						var link = $(location).attr('origin') + "/HelpDeskLctpc/secretQuestionForm/" + FilaActual.sequId + "/update";
 						$( this ).callAjax( link, "#sctQ" );
 						$( "#formularioModal .modal-header h4" ).text( FilaActual.sequId );
 					} );
@@ -498,7 +515,7 @@ jQuery( function( $ ) {
 
 					$( '#tableEntity tbody' ).on( "click", ".colLinkEntityModal a#btn-editEntity", function() {
 						var FilaActual = tableEntity.row( $( this ).parents( 'tr' ) ).data();
-						var link = "./entityForm/" + FilaActual.enttId + "/update";
+						var link = $(location).attr('origin') + "/HelpDeskLctpc/entityForm/" + FilaActual.enttId + "/update";
 						$( this ).callAjax( link, "#entt" );
 						$( "#formularioModal .modal-header h4" ).text( FilaActual.enttName );
 					} );
@@ -618,20 +635,20 @@ jQuery( function( $ ) {
 					} );
 					
 					$( '#myTab a[data-toggle="tab"]' ).on( 'shown.bs.tab', function( e ) {
-						if ( $( e.target ).attr( 'href' ) == "#faq-tab-1" ) {
+						if ( $( e.target ).attr( 'href' ) == "#tab-1" ) {
 							// doSomethingNow();
 							tableApps.clear().draw();
 							tableApps.ajax.url( "./getJsonApps" ).load();
-						} else if ( $( e.target ).attr( 'href' ) == "#faq-tab-2" ) {
+						} else if ( $( e.target ).attr( 'href' ) == "#tab-2" ) {
 							tablePages.clear().draw();
 							tablePages.ajax.url( "./getJsonPages" ).load();
-						} else if ( $( e.target ).attr( 'href' ) == "#faq-tab-3" ) {
+						} else if ( $( e.target ).attr( 'href' ) == "#tab-3" ) {
 							tablePermission.clear().draw();
 							tablePermission.ajax.url( "./getJsonPermisisons" ).load();
-						} else if ( $( e.target ).attr( 'href' ) == "#faq-tab-4" ) {
+						} else if ( $( e.target ).attr( 'href' ) == "#tab-4" ) {
 							tableSecQues.clear().draw();
 							tableSecQues.ajax.url( "./getJsonSecretQuestions" ).load();
-						} else if ( $( e.target ).attr( 'href' ) == "#faq-tab-5" ) {
+						} else if ( $( e.target ).attr( 'href' ) == "#tab-5" ) {
 							tableEntity.clear().draw();
 							tableEntity.ajax.url( "./getJsonEntities" ).load();
 						}
@@ -643,27 +660,10 @@ jQuery( function( $ ) {
 
 } );
 
-$( document ).on( 'click', 'table .dropdown-toggle', function( e ) {
-	console.log( "Entro al clic de la tabla.." );
-	e.stopImmediatePropagation();
-	e.stopPropagation();
-	e.preventDefault();
-} );
-
-// override dialog's title function to allow for HTML titles
-$.widget( "ui.dialog", $.extend( {}, $.ui.dialog.prototype, {
-	_title : function( title ) {
-		var $title = this.options.title || '&nbsp;'
-		if ( ( "title_html" in this.options ) && this.options.title_html == true )
-			title.html( $title );
-		else
-			title.text( $title );
-	}
-} ) );
 
 function showModal( p_url, p_form ) {
 	$( this ).callAjax( p_url, p_form );
-	$( "#formularioModal .modal-header h4" ).text( "New " );
+	$( "#myModalApplication .modal-header h4" ).text( "New " );
 }
 
 function showModalConfirmation( p_url, p_table ) {
@@ -724,3 +724,8 @@ $.fn.callAjax = function( p_url, p_form ) {
 		}
 	} );
 }
+
+
+
+
+

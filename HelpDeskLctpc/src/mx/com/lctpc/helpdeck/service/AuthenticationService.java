@@ -23,8 +23,7 @@ public class AuthenticationService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername( String p_username ) throws UsernameNotFoundException {
-		
-		//List<GrantedAuthority> l_lstAuthorities = new ArrayList<GrantedAuthority>();
+
 		mx.com.lctpc.helpdeck.pojo.User l_user =  secService.getUser(p_username);
 		
 		if(l_user == null){
@@ -33,8 +32,7 @@ public class AuthenticationService implements UserDetailsService {
 		
 		List<UserRole> l_rolesAssignad = secService.getRoleAssigned(l_user.getUserId());
 		Collection<GrantedAuthority> l_dbRoles = new ArrayList<GrantedAuthority>();
-		for( UserRole l_roles : l_rolesAssignad ){
-			
+		for( UserRole l_roles : l_rolesAssignad ){			
 			l_dbRoles.add( new SimpleGrantedAuthority( l_roles.getUsroRolId().getRoleName() ) );
 		}
 		User l_userAuth = new User(l_user.getUserUsername(),l_user.getPasswords().get(0).getPswdPassword(), l_dbRoles);

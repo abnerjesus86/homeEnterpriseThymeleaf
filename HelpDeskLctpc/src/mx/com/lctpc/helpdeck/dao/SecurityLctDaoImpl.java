@@ -60,18 +60,21 @@ public class SecurityLctDaoImpl implements SecurityLctDao{
 	public List<UrlRolesBean> getPageRoles(BigDecimal p_appnId) {
 		// TODO Auto-generated method stub
 		
-		Query l_queryRolesPages = getSession().createQuery(
-						"select 	distinct roles.g_roleName AS role, page.g_pageUrl AS url"
-						+ " from 	RolePage perm" 
-						+ " JOIN perm.g_ropaRoleId roles"
-						+ " JOIN perm.g_ropaPaenId paen"
-						+ " JOIN paen.g_paenPageId page"
-						+ " where 	roles.g_roleAppnId.g_appnId = :p_appId" 
-						+ " and perm.g_ropaActive = :isActive").						
-				setParameter("p_appId", p_appnId).setParameter("isActive", true);
-		l_queryRolesPages.setResultTransformer(Transformers.aliasToBean(UrlRolesBean.class));
-		//return l_queryRolesPages.getResultList();
-		return l_queryRolesPages.list();
+		@SuppressWarnings( { "unchecked", "deprecation" } )
+		List<UrlRolesBean> l_queryRolesPages = getSession().createQuery(
+						"SELECT 	distinct roles.g_roleName AS role, page.g_pageUrl AS url"
+						+ " FROM 	RolePage perm" 
+						+ " JOIN 	perm.g_ropaRoleId roles"
+						+ " JOIN 	perm.g_ropaPaenId paen"
+						+ " JOIN 	paen.g_paenPageId page"
+						+ " WHERE 	roles.g_roleAppnId.g_appnId = :p_appId" 
+						+ " 		AND perm.g_ropaActive = :isActive")						
+				.setParameter("p_appId", p_appnId)
+				.setParameter("isActive", true)
+				.setResultTransformer(Transformers.aliasToBean(UrlRolesBean.class))
+				.getResultList();
+
+		return l_queryRolesPages;
 	}
 	
 }

@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import mx.com.lctpc.helpdeck.pojo.Rol;
-import mx.com.lctpc.helpdeck.service.ApplicationRoleService;
-import mx.com.lctpc.helpdeck.service.ApplicationService;
 import mx.com.lctpc.helpdeck.service.RolService;
 
 @Controller
@@ -25,12 +23,6 @@ public class RolController {
 	
 	@Autowired
 	private RolService rolService;
-	
-	@Autowired
-	private ApplicationService appService;
-	
-	@Autowired
-	private ApplicationRoleService appRolService;
 	
 	@RequestMapping("/roles")
 	public String showRoles(Model model, @ModelAttribute("resultado") String p_resultado ){

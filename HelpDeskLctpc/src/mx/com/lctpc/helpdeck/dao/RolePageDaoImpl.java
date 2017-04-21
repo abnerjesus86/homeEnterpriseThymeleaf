@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.lctpc.helpdeck.pojo.RolePage;
-import mx.com.lctpc.helpdeck.pojo.UserApplication;
 
 @Transactional
 @Repository

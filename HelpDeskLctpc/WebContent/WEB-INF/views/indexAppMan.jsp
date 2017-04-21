@@ -69,6 +69,7 @@
                     </form>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
+                    <li><span class="m-r-sm text-muted welcome-message">Welcome to INSPINIA+ Admin Theme.</span></li>
                     <li>
                         <a href="<c:url value="/logout"/>">
                             <i class="fa fa-sign-out"></i> Log out
@@ -107,9 +108,6 @@
             </div>
         </div>
         <div class="footer">
-            <!-- <div class="pull-right">
-                10GB of <strong>250GB</strong> Free.
-            </div> -->
             <div>
                 <strong>Copyright</strong> Hutchison Ports LCT &copy; 2017
             </div>

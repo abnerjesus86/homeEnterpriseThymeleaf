@@ -8,25 +8,25 @@
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="appnId"> ID </label>
 		<div class="col-sm-9">
-			<sf:input type="text" placeholder="ID" class="col-xs-11" path="appnId" readonly="true" />
+			<sf:input type="text" placeholder="ID" class="form-control" path="appnId" readonly="true" />
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="appnName"> NAME </label>
 		<div class="col-sm-9">
-			<sf:input type="text" class="col-xs-11" path="appnName" />
+			<sf:input type="text" class="form-control" path="appnName" />
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="appnDescription"> DESCRIPTION </label>
 		<div class="col-sm-9">
-			<sf:input type="text" class="col-xs-11" path="appnDescription" />
+			<sf:textarea class="form-control" path="appnDescription" rows="3" />
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="appnUrl"> URL </label>
 		<div class="col-sm-9">
-			<sf:input type="text" class="col-xs-11" path="appnUrl" />
+			<sf:input type="text" class="form-control" path="appnUrl" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -47,62 +47,39 @@
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="appnActive"> ACTIVE </label>
 		<div class="col-sm-9">
-			<label class="middle"> <sf:checkbox path="appnActive" class="ace ace-switch ace-switch-6" value="true" /> <span class="lbl"></span>
-			</label>
+		      <div class="i-checks">
+			      <label> 
+			          <sf:checkbox path="appnActive" value="true" />
+			          <i></i>
+			      </label>
+		      </div>
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="appnCreatedBy"> CREATED BY </label>
 		<div class="col-sm-9">
-			<sf:input type="text" class="col-xs-11" path="appnCreatedBy" />
+			<sf:input type="text" class="form-control" path="appnCreatedBy" />
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="appnUpdateBy"> UPDATE BY </label>
 		<div class="col-sm-9">
-			<sf:input type="text" class="col-xs-11" path="appnUpdateBy" />
+			<sf:input type="text" class="form-control" path="appnUpdateBy" />
 		</div>
 	</div>
 </sf:form>
 
 <script type="text/javascript">
 jQuery(function($) {
-    if(!ace.vars['touch']) {
-        $('.chosen-select').chosen({allow_single_deselect:true}); 
-        //resize the chosen on window resize
-
-        $(window)
-        .off('resize.chosen')
-        .on('resize.chosen', function() {
-            $('.chosen-select').each(function() {
-                 var $this = $(this);
-                 $this.next().css({'width': $this.parent().width()});
-            })
-        }).trigger('resize.chosen');
-        //resize chosen on sidebar collapse/expand
-        $(document).on('settings.ace.chosen', function(e, event_name, event_val) {
-            if(event_name != 'sidebar_collapsed') return;
-            $('.chosen-select').each(function() {
-                 var $this = $(this);
-                 $this.next().css({'width': $this.parent().width()});
-            })
-        });
-
-    }
-    
-    //chosen plugin inside a modal will have a zero width because the select element is originally hidden
-    //and its width cannot be determined.
-    //so we set the width after modal is show
-    $('#formularioModal').on('shown.bs.modal', function () {
-        if(!ace.vars['touch']) {
-            $(this).find('.chosen-container').each(function(){
-                $(this).find('a:first-child').css('width' , '210px');
-                $(this).find('.chosen-drop').css('width' , '210px');
-                $(this).find('.chosen-search input').css('width' , '200px');
-            });
-        }
-    })
-    
+	
+	$('.chosen-select').chosen({
+        allow_single_deselect : true,
+        width : "100%"
+    });
+	$('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green',
+    });
 });
 </script>
 

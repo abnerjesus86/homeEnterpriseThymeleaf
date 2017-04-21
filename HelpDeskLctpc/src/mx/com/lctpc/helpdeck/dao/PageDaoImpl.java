@@ -88,11 +88,11 @@ public class PageDaoImpl implements PageDao {
 	@Override
 	public List<PageEntity> findEntitiesActiveLeftJoinFromPage( BigDecimal p_pageId ) {
 
-		Query<PageEntity> l_queryPageEntity = getSession().createSQLQuery("select  * "
+		Query<PageEntity> l_queryPageEntity = getSession().createNativeQuery("select  * "
 				+" FROM    PAGE_ENTITY PAGENT"
 				+" RIGHT JOIN ENTITY ENT"
 				+" ON ENT.ENTT_ID = PAGENT.PAEN_ENTT_ID AND PAGENT.PAEN_PAGE_ID = :p_pageId"
-				+" WHERE   ENT.ENTT_ACTIVE = :p")
+				+" WHERE   ENT.ENTT_ACTIVE = :p", PageEntity.class)
 				.setParameter("p_pageId", p_pageId)
 				.setParameter("p", true)
 				;

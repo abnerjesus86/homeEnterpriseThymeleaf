@@ -1,0 +1,49 @@
+@CHARSET "ISO-8859-1";
+
+.lctpc-login {
+  background: #dfe0e2 url('/HelpDeskLctpc/res/plantilla/INSPINIA/img/background_login.jpg') repeat;
+}
+.ects-box .toolbar {
+  background: #6FB3E0;
+  border-top: 2px solid #46A3E0;
+  padding: 9px 18px;
+}
+.ects-box .back-to-login-link {
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  text-shadow: 1px 0px 1px rgba(0, 0, 0, 0.25);
+}
+/* Login Styles */  
+.lctpc-01{
+  background: #8CBEE4 url('/HelpDeskLctpc/res/plantilla/INSPINIA/img/background_login.jpg') repeat;
+}
+.lctpc-01 .top-bar{
+    background-color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+.login-layout .widget-box {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 5px;
+}
+
+/* enable absolute positioning */
+.inner-addon { 
+    position: relative; 
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
