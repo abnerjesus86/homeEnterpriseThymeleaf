@@ -16,6 +16,7 @@
 <link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/css/plugins/chosen/bootstrap-chosen.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/css/plugins/iCheck/custom.css" rel="stylesheet">
 
+<link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/css/animate.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/css/style.css" rel="stylesheet">
 
@@ -89,12 +90,12 @@
 								<div id="tab-1" class="tab-pane active">
 									<div class="panel-body">
 										
-										<p>
+										<!-- <p>
 											<a href="#formularioModal" class="btn btn-primary" id="btn-addApplication" role="button" data-toggle="modal"> <i
 												class="glyphicon glyphicon-plus"></i> New
 											</a>
 
-										</p>
+										</p> -->
 										<div id="divTbApplications" class="table-responsive">
 											<table id="tableApplications" class="table table-striped table-hover">
 												<thead>
