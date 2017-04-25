@@ -14,12 +14,13 @@ jQuery(function($) {
 						searching : true,
 						ordering : true,
 						destroy : true,
-						//lengthChange : false,
-						pageLength: 25,
+						// lengthChange : false,
+						pageLength : 25,
 						responsive : true,
-						/*dom : "<'row' <'col-md-6'f> <'col-md-6 text-right'B>>" + 
-						"<'row' <'col-md-12'tr>>" + 
-						"<'row'<'col-md-6'i><'col-md-6 text-right'p>>",*/
+						/*
+						 * dom : "<'row' <'col-md-6'f> <'col-md-6 text-right'B>>" + "<'row' <'col-md-12'tr>>" + "<'row'<'col-md-6'i><'col-md-6
+						 * text-right'p>>",
+						 */
 						dom : '<"html5buttons"B>lTfgtrip',
 						buttons : {
 							dom : {
@@ -29,13 +30,12 @@ jQuery(function($) {
 								}
 							},
 							buttons : [ {
-								text : 'Actualizar',
+								text : 'Refresh',
 								action : function(e, dt, node, config) {
 									dt.ajax.reload();
 								}
 							}, {
 								"extend" : 'copy',
-								"text" : 'Copiar'
 							}, {
 								"extend" : 'csv'
 							}, {
@@ -55,7 +55,6 @@ jQuery(function($) {
 									showModal("./appForm/", "#appn");
 								},
 								init : function(dt, node, config) {
-									console.log('Entro a init');
 									node.attr("href", "#myModalApplication");
 									node.attr("data-toggle", "modal");
 									node.attr("role", "modal");
@@ -71,11 +70,7 @@ jQuery(function($) {
 						columns : [
 								{
 									title : "ID",
-									data : null,
-									render : function(data, type, row) {
-										return "<div class='action-buttons center'><a href='#myModalApplication' role='button' data-toggle='modal'><b>" + data.appnId + "</b></a></div>";
-									},
-									className : "colApplicationModal center"
+									data : "appnId"
 								},
 								{
 									title : "Name",
@@ -151,30 +146,66 @@ jQuery(function($) {
 			var tablePages = $('#tablePages').DataTable(
 					{
 						autoWidth : true,
-						searching : false,
-						ordering : false,
+						searching : true,
+						ordering : true,
+						destroy : true,
 						stateSave : true,
-						// scrollY : '25vh',
-						scrollCollapse : true,
-						iDisplayLength : 10,
-						lengthMenu : [ [ 10, 25, 50, 100, 500, 1000, 2000 ], [ 10, 25, 50, 100, 500, 1000, 2000 ] ],
+						pageLength : 25,
+						responsive : true,
+						// iDisplayLength : 10,
+						// lengthMenu : [ [ 10, 25, 50, 100, 500, 1000, 2000 ], [ 10, 25, 50, 100, 500, 1000, 2000 ] ],
 						/*
 						 * ajax : { url : "./getJsonPages", type : "GET", contentType : "application/json;
 						 * charset=utf-8", dataType : "json" },
 						 */
+						dom : '<"html5buttons"B>lTfgtrip',
+						buttons : {
+							dom : {
+								button : {
+									tag : 'a',
+									className : 'btn btn-sm btn-default'
+								}
+							},
+							buttons : [ {
+								text : 'Refresh',
+								action : function(e, dt, node, config) {
+									dt.ajax.reload();
+								}
+							}, {
+								"extend" : 'copy',
+							}, {
+								"extend" : 'csv'
+							}, {
+								"extend" : 'pdf',
+								"text" : 'Pdf'
+							}, {
+								"extend" : 'print',
+								"customize" : function(win) {
+									$(win.document.body).addClass('white-bg');
+									$(win.document.body).css('font-size', '10px');
+									$(win.document.body).find('table').addClass('compact').css('font-size', 'inherit');
+								}
+							}, {
+								text : "<i class='glyphicon glyphicon-plus'></i>",
+								action : function(e, dt, node, config) {
+									showModal("./pageForm/", "#page");
+								},
+								init : function(dt, node, config) {
+									node.attr("href", "#myModalApplication");
+									node.attr("data-toggle", "modal");
+									node.attr("role", "modal");
+								}
+							} ]
+						},
 						columns : [
 								{
 									title : "ID",
-									data : null,
-									render : function(data, type, row) {
-										return "<div class='action-buttons center'><a href='#' role='button'><b>" + data.pageId + "</b></a></div>";
-									},
-									className : "details-control center"
+									data : "pageId"
 								},
-								/*
-								 * { title : "Page Father", data : "pagePageId" }, { title : "Nomenclature", data :
-								 * "pageNomenclature" },
-								 */
+								{
+									title : "Page Father",
+									data : "pagePageId"
+								},
 								{
 									title : "Display",
 									data : "pageDisplay"
@@ -187,18 +218,6 @@ jQuery(function($) {
 									title : "Url",
 									data : "pageUrl"
 								},
-								/*
-								 * { title : "Entities", data : null, render : function( data, type, row ) { var l_check =
-								 * data.pageActive == false ? "" : " checked";
-								 * 
-								 * <select id="food" class="multiselect" multiple=""> <option value="cheese">Cheese</option>
-								 * <option value="tomatoes">Tomatoes</option> <option value="mozarella">Mozzarella</option>
-								 * <option value="mushrooms">Mushrooms</option> <option value="pepperoni">Pepperoni</option>
-								 * </select>
-								 * 
-								 * return "<label><input type='checkbox' onclick='return false' class='ace ace-switch
-								 * ace-switch-6' value='" + data.pageActive + "' " + l_check + "/><span class='lbl'></span></label>"; } },
-								 */
 								{
 									title : "Created By",
 									data : "pageCreatedBy"
@@ -221,8 +240,8 @@ jQuery(function($) {
 									data : null,
 									render : function(data, type, row) {
 										return "<div class='hidden-sm hidden-xs action-buttons'>"
-												+ "<a class='green' id='btn-editPage' href='#formularioModal' role='button' data-toggle='modal'><i class='ace-icon fa fa-pencil bigger-130'></i></a>"
-												+ "<a class='red' id='id-btn-dialog2' href='./pageForm/"
+												+ "<a class='' id='btn-editPage' href='#myModalApplication' role='button' data-toggle='modal'><i class='fa fa-pencil'></i></a>"
+												+ "<a class='' id='id-btn-dialog2' href='./pageForm/"
 												+ data.pageId
 												+ "/delete'><i class='ace-icon fa fa-trash-o bigger-130'></i></a>"
 												+ "</div> "
@@ -233,15 +252,15 @@ jQuery(function($) {
 												+ "</button>"
 												+ "<ul class='dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close'>"
 												+ "<li>"
-												+ "<a href='#formularioModal' id='btn-editPage' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
+												+ "<a href='#myModalApplication' id='btn-editPage' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
 												+ "<span class='green'>"
-												+ "<i class='ace-icon fa fa-pencil-square-o bigger-120'></i></span></a>"
+												+ "<i class='fa fa-pencil-square-o'></i></span></a>"
 												+ "</li>"
 												+ "<li>"
 												+ "<a href='./pageForm/"
 												+ data.pageId
 												+ "/delete' id='id-btn-dialog2' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
-												+ "<span class='red'> <i class='ace-icon fa fa-trash-o bigger-120'></i></span></a>" + "</li>"
+												+ "<span class='red'> <i class='fa fa-trash-o'></i></span></a>" + "</li>"
 
 												+ "</ul>" + "</div>" + "</div>";
 									},
@@ -261,26 +280,56 @@ jQuery(function($) {
 
 			var tablePermission = $('#tablePermission').DataTable(
 					{
-						deferRender : false,
-						paging : false,
-						info : false,
 						autoWidth : true,
-						searching : false,
-						ordering : false,
+						searching : true,
+						ordering : true,
+						destroy : true,
 						stateSave : true,
-						// scrollY : '25vh',
-						scrollCollapse : true,
-						fixedColumns : {
-							heightMatch : 'auto'
+						pageLength : 25,
+						responsive : true,
+						dom : '<"html5buttons"B>lTfgtrip',
+						buttons : {
+							dom : {
+								button : {
+									tag : 'a',
+									className : 'btn btn-sm btn-default'
+								}
+							},
+							buttons : [ {
+								text : 'Refresh',
+								action : function(e, dt, node, config) {
+									dt.ajax.reload();
+								}
+							}, {
+								"extend" : 'copy',
+							}, {
+								"extend" : 'csv'
+							}, {
+								"extend" : 'pdf',
+								"text" : 'Pdf'
+							}, {
+								"extend" : 'print',
+								"customize" : function(win) {
+									$(win.document.body).addClass('white-bg');
+									$(win.document.body).css('font-size', '10px');
+									$(win.document.body).find('table').addClass('compact').css('font-size', 'inherit');
+								}
+							}, {
+								text : "<i class='glyphicon glyphicon-plus'></i>",
+								action : function(e, dt, node, config) {
+									showModal("./permForm/", "#perm");
+								},
+								init : function(dt, node, config) {
+									node.attr("href", "#myModalApplication");
+									node.attr("data-toggle", "modal");
+									node.attr("role", "modal");
+								}
+							} ]
 						},
 						columns : [
 								{
 									title : "ID",
-									data : null,
-									render : function(data, type, row) {
-										return "<div class='action-buttons center'><a href='#formularioModal' role='button' data-toggle='modal'><b>" + data.prmnId + "</b></a></div>";
-									},
-									className : "colPermissionModal center"
+									data : "prmnId"
 								},
 								{
 									title : "Name",
@@ -312,10 +361,10 @@ jQuery(function($) {
 									data : null,
 									render : function(data, type, row) {
 										return "<div class='hidden-sm hidden-xs action-buttons'>"
-												+ "<a class='green' id='btn-editPermission' href='#formularioModal' role='button' data-toggle='modal'><i class='ace-icon fa fa-pencil bigger-130'></i></a>"
+												+ "<a class='green' id='btn-editPermission' href='#formularioModal' role='button' data-toggle='modal'><i class='fa fa-pencil'></i></a>"
 												+ "<a class='red' id='id-btn-dialog2' href='./permForm/"
 												+ data.prmnId
-												+ "/delete'><i class='ace-icon fa fa-trash-o bigger-130'></i></a>"
+												+ "/delete'><i class='fa fa-trash-o bigger-130'></i></a>"
 												+ "</div> "
 												+ "<div class='hidden-md hidden-lg'>"
 												+ "<div class='inline pos-rel'>"
@@ -326,13 +375,13 @@ jQuery(function($) {
 												+ "<li>"
 												+ "<a href='#formularioModal' id='btn-editPermission' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
 												+ "<span class='green'>"
-												+ "<i class='ace-icon fa fa-pencil-square-o bigger-120'></i></span></a>"
+												+ "<i class='fa fa-pencil-square-o'></i></span></a>"
 												+ "</li>"
 												+ "<li>"
 												+ "<a href='./permForm/"
 												+ data.prmnId
 												+ "/delete' id='id-btn-dialog2' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
-												+ "<span class='red'> <i class='ace-icon fa fa-trash-o bigger-120'></i></span></a>" + "</li>"
+												+ "<span class='red'> <i class='fa fa-trash-o'></i></span></a>" + "</li>"
 
 												+ "</ul>" + "</div>" + "</div>";
 									},
@@ -351,21 +400,55 @@ jQuery(function($) {
 			var tableSecQues = $('#tableSecretQuestion').DataTable(
 					{
 						autoWidth : true,
-						searching : false,
-						ordering : false,
+						searching : true,
+						ordering : true,
+						destroy : true,
 						stateSave : true,
-						// scrollY : '25vh',
-						scrollCollapse : true,
-						iDisplayLength : 10,
-						lengthMenu : [ [ 10, 25, 50, 100, 500, 1000, 2000 ], [ 10, 25, 50, 100, 500, 1000, 2000 ] ],
+						pageLength : 25,
+						responsive : true,
+						dom : '<"html5buttons"B>lTfgtrip',
+						buttons : {
+							dom : {
+								button : {
+									tag : 'a',
+									className : 'btn btn-sm btn-default'
+								}
+							},
+							buttons : [ {
+								text : 'Refresh',
+								action : function(e, dt, node, config) {
+									dt.ajax.reload();
+								}
+							}, {
+								"extend" : 'copy',
+							}, {
+								"extend" : 'csv'
+							}, {
+								"extend" : 'pdf',
+								"text" : 'Pdf'
+							}, {
+								"extend" : 'print',
+								"customize" : function(win) {
+									$(win.document.body).addClass('white-bg');
+									$(win.document.body).css('font-size', '10px');
+									$(win.document.body).find('table').addClass('compact').css('font-size', 'inherit');
+								}
+							}, {
+								text : "<i class='glyphicon glyphicon-plus'></i>",
+								action : function(e, dt, node, config) {
+									showModal("./secretQuestionForm/", "#sctQ");
+								},
+								init : function(dt, node, config) {
+									node.attr("href", "#myModalApplication");
+									node.attr("data-toggle", "modal");
+									node.attr("role", "modal");
+								}
+							} ]
+						},
 						columns : [
 								{
 									title : "ID",
-									data : null,
-									render : function(data, type, row) {
-										return "<div class='action-buttons center'><a href='#formularioModal' role='button' data-toggle='modal'><b>" + data.sequId + "</b></a></div>";
-									},
-									className : "colSecretQuestionModal center"
+									data : "sequId"
 								},
 								{
 									title : "Secret Question",
@@ -393,27 +476,27 @@ jQuery(function($) {
 									data : null,
 									render : function(data, type, row) {
 										return "<div class='hidden-sm hidden-xs action-buttons'>"
-												+ "<a class='green' id='btn-editSecQuest' href='#formularioModal' role='button' data-toggle='modal'><i class='ace-icon fa fa-pencil bigger-130'></i></a>"
-												+ "<a class='red' id='id-btn-dialog2' href='./secretQuestionForm/"
+												+ "<a class='' id='btn-editSecQuest' href='#myModalApplication' role='button' data-toggle='modal'><i class='fa fa-pencil'></i></a>"
+												+ "<a class='' id='id-btn-dialog2' href='./secretQuestionForm/"
 												+ data.sequId
-												+ "/delete'><i class='ace-icon fa fa-trash-o bigger-130'></i></a>"
+												+ "/delete'><i class='fa fa-trash-o'></i></a>"
 												+ "</div> "
 												+ "<div class='hidden-md hidden-lg'>"
 												+ "<div class='inline pos-rel'>"
 												+ "<button class='btn btn-minier btn-primary dropdown-toggle' data-toggle='dropdown' data-position='auto'>"
-												+ "<i class='ace-icon fa fa-cog icon-only bigger-110'></i>"
+												+ "<i class='fa fa-cog icon-only'></i>"
 												+ "</button>"
 												+ "<ul class='dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close'>"
 												+ "<li>"
-												+ "<a href='#formularioModal' id='btn-editSecQuest' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
+												+ "<a href='#myModalApplication' id='btn-editSecQuest' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
 												+ "<span class='green'>"
-												+ "<i class='ace-icon fa fa-pencil-square-o bigger-120'></i></span></a>"
+												+ "<i class='fa fa-pencil-square-o'></i></span></a>"
 												+ "</li>"
 												+ "<li>"
 												+ "<a href='./secretQuestionForm/"
 												+ data.sequId
 												+ "/delete' id='id-btn-dialog2' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
-												+ "<span class='red'> <i class='ace-icon fa fa-trash-o bigger-120'></i></span></a>" + "</li>"
+												+ "<span class='red'> <i class='fa fa-trash-o'></i></span></a>" + "</li>"
 
 												+ "</ul>" + "</div>" + "</div>";
 									},
@@ -434,21 +517,55 @@ jQuery(function($) {
 			var tableEntity = $('#tableEntity').DataTable(
 					{
 						autoWidth : true,
-						searching : false,
-						ordering : false,
+						searching : true,
+						ordering : true,
+						destroy : true,
 						stateSave : true,
-						// scrollY : '25vh',
-						scrollCollapse : true,
-						iDisplayLength : 10,
-						lengthMenu : [ [ 10, 25, 50, 100, 500, 1000, 2000 ], [ 10, 25, 50, 100, 500, 1000, 2000 ] ],
+						pageLength : 25,
+						responsive : true,
+						dom : '<"html5buttons"B>lTfgtrip',
+						buttons : {
+							dom : {
+								button : {
+									tag : 'a',
+									className : 'btn btn-sm btn-default'
+								}
+							},
+							buttons : [ {
+								text : 'Refresh',
+								action : function(e, dt, node, config) {
+									dt.ajax.reload();
+								}
+							}, {
+								"extend" : 'copy',
+							}, {
+								"extend" : 'csv'
+							}, {
+								"extend" : 'pdf',
+								"text" : 'Pdf'
+							}, {
+								"extend" : 'print',
+								"customize" : function(win) {
+									$(win.document.body).addClass('white-bg');
+									$(win.document.body).css('font-size', '10px');
+									$(win.document.body).find('table').addClass('compact').css('font-size', 'inherit');
+								}
+							}, {
+								text : "<i class='glyphicon glyphicon-plus'></i>",
+								action : function(e, dt, node, config) {
+									showModal("./entityForm/", "#entt");
+								},
+								init : function(dt, node, config) {
+									node.attr("href", "#myModalApplication");
+									node.attr("data-toggle", "modal");
+									node.attr("role", "modal");
+								}
+							} ]
+						},
 						columns : [
 								{
 									title : "ID",
-									data : null,
-									render : function(data, type, row) {
-										return "<div class='action-buttons center'><a href='#formularioModal' role='button' data-toggle='modal'><b>" + data.enttId + "</b></a></div>";
-									},
-									className : "colEntityModal center"
+									data : "enttId"
 								},
 								{
 									title : "Name",
@@ -480,27 +597,27 @@ jQuery(function($) {
 									data : null,
 									render : function(data, type, row) {
 										return "<div class='hidden-sm hidden-xs action-buttons'>"
-												+ "<a class='green' id='btn-editEntity' href='#formularioModal' role='button' data-toggle='modal'><i class='ace-icon fa fa-pencil bigger-130'></i></a>"
-												+ "<a class='red' id='id-btn-dialog2' href='./entityForm/"
+												+ "<a class='' id='btn-editEntity' href='#myModalApplication' role='button' data-toggle='modal'><i class='fa fa-pencil'></i></a>"
+												+ "<a class='' id='id-btn-dialog2' href='./entityForm/"
 												+ data.enttId
-												+ "/delete'><i class='ace-icon fa fa-trash-o bigger-130'></i></a>"
+												+ "/delete' role='button'><i class='fa fa-trash-o'></i></a>"
 												+ "</div> "
 												+ "<div class='hidden-md hidden-lg'>"
 												+ "<div class='inline pos-rel'>"
 												+ "<button class='btn btn-minier btn-primary dropdown-toggle' data-toggle='dropdown' data-position='auto'>"
-												+ "<i class='ace-icon fa fa-cog icon-only bigger-110'></i>"
+												+ "<i class='fa fa-cog icon-only'></i>"
 												+ "</button>"
 												+ "<ul class='dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close'>"
 												+ "<li>"
-												+ "<a href='#formularioModal' id='btn-editEntity' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
+												+ "<a href='#myModalApplication' id='btn-editEntity' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
 												+ "<span class='green'>"
-												+ "<i class='ace-icon fa fa-pencil-square-o bigger-120'></i></span></a>"
+												+ "<i class='fa fa-pencil-square-o'></i></span></a>"
 												+ "</li>"
 												+ "<li>"
 												+ "<a href='./entityForm/"
 												+ data.enttId
-												+ "/delete' id='id-btn-dialog2' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
-												+ "<span class='red'> <i class='ace-icon fa fa-trash-o bigger-120'></i></span></a>" + "</li>"
+												+ "/delete' role='button' id='id-btn-dialog2' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
+												+ "<span class='red'> <i class='fa fa-trash-o'></i></span></a>" + "</li>"
 
 												+ "</ul>" + "</div>" + "</div>";
 									},
@@ -522,10 +639,36 @@ jQuery(function($) {
 				var FilaActual = tableApps.row($(this).parents('tr')).data();
 				var linkDelete = this;
 				e.preventDefault(); // elimina el evento del link.
+				
 				if (FilaActual.appnActive) { // Verifica si el registro se encuentra activo.
-					showModalConfirmation(linkDelete, tableApps);
+					swal({
+						title : "Are you sure?",
+						text : "Do you want to delete the application ?, The page will not be deleted!",
+						type : "warning",
+						showCancelButton : true,
+						confirmButtonColor : "#DD6B55",
+						confirmButtonText : "Yes, delete it!",
+						cancelButtonText : "No, cancel plx!",
+						closeOnConfirm : false,
+						closeOnCancel : false
+					}, function(isConfirm) {
+						if (isConfirm) {
+							$.ajax({
+								url : linkDelete,
+								success : function(result) {
+									tableApps.clear().draw();
+									tableApps.ajax.url("./getJsonApps").load();
+								}
+							});
+							swal("Deleted!", "The application of page has been disassociated.", "success");
+						} else {
+							swal("Cancelled", "The application of page has not been disassociated :)", "error");
+						}
+					});
+					
 				}// Fin del If para revisar si esta activo el registro
-
+				
+				
 			});
 
 			$('#tablePages tbody').on("click", ".colLinkPageModal a#id-btn-dialog2", function(e) {
@@ -533,7 +676,30 @@ jQuery(function($) {
 				var linkDelete = this;
 				e.preventDefault(); // elimina el evento del link.
 				if (FilaActual.pageActive) { // Verifica si el registro se encuentra activo.
-					showModalConfirmation(linkDelete, tablePages);
+					swal({
+						title : "Are you sure?",
+						text : "Do you want to delete the application ?, The page will not be deleted!",
+						type : "warning",
+						showCancelButton : true,
+						confirmButtonColor : "#DD6B55",
+						confirmButtonText : "Yes, delete it!",
+						cancelButtonText : "No, cancel plx!",
+						closeOnConfirm : false,
+						closeOnCancel : false
+					}, function(isConfirm) {
+						if (isConfirm) {
+							$.ajax({
+								url : linkDelete,
+								success : function(result) {
+									tablePages.clear().draw();
+									tablePages.ajax.url("./getJsonPages").load();
+								}
+							});
+							swal("Deleted!", "The application of page has been disassociated.", "success");
+						} else {
+							swal("Cancelled", "The application of page has not been disassociated :)", "error");
+						}
+					});
 				}// Fin del If para revisar si esta activo el registro
 
 			});
@@ -543,7 +709,30 @@ jQuery(function($) {
 				var linkDelete = this;
 				e.preventDefault(); // elimina el evento del link.
 				if (FilaActual.prmnActive) { // Verifica si el registro se encuentra activo.
-					showModalConfirmation(linkDelete, tablePermission);
+					swal({
+						title : "Are you sure?",
+						text : "Do you want to delete the application ?, The page will not be deleted!",
+						type : "warning",
+						showCancelButton : true,
+						confirmButtonColor : "#DD6B55",
+						confirmButtonText : "Yes, delete it!",
+						cancelButtonText : "No, cancel plx!",
+						closeOnConfirm : false,
+						closeOnCancel : false
+					}, function(isConfirm) {
+						if (isConfirm) {
+							$.ajax({
+								url : linkDelete,
+								success : function(result) {
+									tablePermission.clear().draw();
+									tablePermission.ajax.url("./getJsonPermisisons").load();
+								}
+							});
+							swal("Deleted!", "The application of page has been disassociated.", "success");
+						} else {
+							swal("Cancelled", "The application of page has not been disassociated :)", "error");
+						}
+					});
 				}// Fin del If para revisar si esta activo el registro
 
 			});
@@ -553,7 +742,30 @@ jQuery(function($) {
 				var linkDelete = this;
 				e.preventDefault(); // elimina el evento del link.
 				if (FilaActual.sequActive) { // Verifica si el registro se encuentra activo.
-					showModalConfirmation(linkDelete, tableSecQues);
+					swal({
+						title : "Are you sure?",
+						text : "Do you want to delete the application ?, The page will not be deleted!",
+						type : "warning",
+						showCancelButton : true,
+						confirmButtonColor : "#DD6B55",
+						confirmButtonText : "Yes, delete it!",
+						cancelButtonText : "No, cancel plx!",
+						closeOnConfirm : false,
+						closeOnCancel : false
+					}, function(isConfirm) {
+						if (isConfirm) {
+							$.ajax({
+								url : linkDelete,
+								success : function(result) {
+									tableSecQues.clear().draw();
+									tableSecQues.ajax.url("./getJsonSecretQuestions").load();
+								}
+							});
+							swal("Deleted!", "The application of page has been disassociated.", "success");
+						} else {
+							swal("Cancelled", "The application of page has not been disassociated :)", "error");
+						}
+					});
 				}// Fin del If para revisar si esta activo el registro
 
 			});
@@ -563,7 +775,30 @@ jQuery(function($) {
 				var linkDelete = this;
 				e.preventDefault(); // elimina el evento del link.
 				if (FilaActual.enttActive) { // Verifica si el registro se encuentra activo.
-					showModalConfirmation(linkDelete, tableEntity);
+					swal({
+						title : "Are you sure?",
+						text : "Do you want to delete the application ?, The page will not be deleted!",
+						type : "warning",
+						showCancelButton : true,
+						confirmButtonColor : "#DD6B55",
+						confirmButtonText : "Yes, delete it!",
+						cancelButtonText : "No, cancel plx!",
+						closeOnConfirm : false,
+						closeOnCancel : false
+					}, function(isConfirm) {
+						if (isConfirm) {
+							$.ajax({
+								url : linkDelete,
+								success : function(result) {
+									tableEntity.clear().draw();
+									tableEntity.ajax.url("./getJsonEntities").load();
+								}
+							});
+							swal("Deleted!", "The application of page has been disassociated.", "success");
+						} else {
+							swal("Cancelled", "The application of page has not been disassociated :)", "error");
+						}
+					});
 				}// Fin del If para revisar si esta activo el registro
 
 			});
@@ -591,30 +826,9 @@ jQuery(function($) {
 				}
 			});
 
-			// $( '#btn-addApplication' ).on( "click", showModal( "./appForm/", "#appn" ) );
-			// $( '#btn-addPage' ).on( "click", showModal( "./pageForm/", "#page" ) );
-			// $( '#btn-addPermission' ).on( "click", showModal( "./permForm/", "#perm" ) );
-			// $( '#btn-addSecretQuestion' ).on( "click", showModal( "./secretQuestionForm/", "#sctQ" ) );
-			// $( '#btn-addEntities' ).on( "click", showModal( "./entityForm/", "#entt" ) );
-
-			$('#btn-addApplication').on("click", function() {
-				showModal("./appForm/", "#appn");
-			});
-
+			
 			$('#btn-addPage').on("click", function() {
 				showModal("./pageForm/", "#page");
-			});
-
-			$('#btn-addPermission').on("click", function() {
-				showModal("./permForm/", "#perm");
-			});
-
-			$('#btn-addSecretQuestion').on("click", function() {
-				showModal("./secretQuestionForm/", "#sctQ");
-			});
-
-			$('#btn-addEntities').on("click", function() {
-				showModal("./entityForm/", "#entt");
 			});
 
 			$('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
@@ -646,40 +860,6 @@ jQuery(function($) {
 function showModal(p_url, p_form) {
 	$(this).callAjax(p_url, p_form);
 	$("#myModalApplication .modal-header h4").text("New ");
-}
-
-function showModalConfirmation(p_url, p_table) {
-	$("#dialog-confirm").removeClass('hide').dialog({ // Abrir div del modal
-		resizable : false,
-		width : '320',
-		modal : true,
-		title : "<div class='widget-header'><h4 class='smaller'><i class='ace-icon fa fa-exclamation-triangle red'></i> Empty the recycle bin?</h4></div>",
-		title_html : true,
-		buttons : [ {
-			html : "<i class='ace-icon fa fa-trash-o bigger-110'></i>&nbsp; Delete",
-			"class" : "btn btn-danger btn-minier",
-			click : function() {
-				$.ajax({
-					url : p_url,
-					success : function(result) {
-						if (!(result === null)) {
-							p_table.clear().draw();
-							p_table.ajax.reload();
-						}
-					}
-				});
-				$(this).dialog("close");
-			}
-		}, {
-			html : "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; Cancel",
-			"class" : "btn btn-minier",
-			click : function() {
-				$(this).dialog("close");
-
-			}
-		} ]
-	// Cierre de botones del modal
-	});// Fin del bloque para activar el cuadro de dialogo le remueve la clase oculta
 }
 
 $.fn.callAjax = function(p_url, p_form) {

@@ -681,21 +681,32 @@ function buildStep2Page() {
 							data : null,
 							orderable : false,
 							render : function(data, type, row) {
-								return "<div class='hidden-sm hidden-xs action-buttons'>" + "<a class='' id='id-btn-edit' href='#' ><i class='fa fa-pencil'></i></a>" + "<a class='' id='id-btn-deleteAssoc' href='"
-										+ $(location).attr('origin') + "/HelpDeskLctpc/appWizard/page/delete/" + data.pageId + "' role='button'> <i class='fa fa-chain-broken'></i></a>"
+								return "<div class='hidden-sm hidden-xs action-buttons'>" 
+										+ "<a class='' id='id-btn-edit' href='#' ><i class='fa fa-pencil'></i></a>" 
+										+ "<a class='' id='id-btn-deleteAssoc' href='" + $(location).attr('origin') + "/HelpDeskLctpc/appWizard/page/delete/" + data.pageId 
+										+ "' role='button'> <i class='fa fa-chain-broken'></i></a>"
 										+ "<a class='' id='id-btn-delete' href='" + $(location).attr('origin') + "/HelpDeskLctpc/appWizard/page/delete/" + data.pageId + "'><i class='fa fa-trash-o'></i></a>" + "</div> "
-										+ "<div class='hidden-md hidden-lg'>" + "<div class='btn-group'>" + "<button class='btn btn-primary dropdown-toggle' data-toggle='dropdown'>"
-										+ "<i class='fa fa-cog icon-only'></i>" + "</button>" + "<ul class='dropdown-menu'>" + "<li>"
+										+ "<div class='hidden-md hidden-lg'>" 
+										+ "<div class='btn-group'>" 
+										+ "<button class='btn btn-primary dropdown-toggle' data-toggle='dropdown'>"
+										+ "<i class='fa fa-cog icon-only'></i>" 
+										+ "</button>" 
+										+ "<ul class='dropdown-menu'>" 
+										+ "<li>"
 										+ "<a href='#' id='id-btn-edit' role='button' data-toggle='modal' class='btn-circle tooltip-success' data-rel='tooltip' title='Edit'>"
-										+ "<i class='fa fa-pencil-square-o'></i></a>" + "</li>" + "<li>" + "<a href='" + $(location).attr('origin') + "/HelpDeskLctpc/appWizard/page/delete/" + data.pageId
-										+ "' id='id-btn-deleteAssoc' class='btn-circle tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>" + "<i class='fa fa-chain-broken'></i>" + "</a>" + "</li>"
+										+ "<i class='fa fa-pencil-square-o'></i></a>" 
+										+ "</li>" 
 										+ "<li>" + "<a href='" + $(location).attr('origin') + "/HelpDeskLctpc/appWizard/page/delete/" + data.pageId
-										+ "' id='id-btn-delete' class='btn-circle tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>" + "<i class='fa fa-trash-o'></i></a>" + "</li>"
+										+ "' id='id-btn-deleteAssoc' class='btn-circle tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>" + "<i class='fa fa-chain-broken'></i>" + "</a>" 
+										+ "</li>"
+										+ "<li>" 
+										+ "<a href='" + $(location).attr('origin') + "/HelpDeskLctpc/appWizard/page/delete/" + data.pageId
+										+ "' id='id-btn-delete' class='btn-circle tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>" + "<i class='fa fa-trash-o'></i></a>" 
+										+ "</li>"
 
 										+ "</ul>" + "</div>" + "</div>";
 							},
 							className : "gridSystemModal center"
-						// width : '70px'
 						}
 
 				],
