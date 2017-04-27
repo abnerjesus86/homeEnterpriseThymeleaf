@@ -140,7 +140,6 @@ jQuery(function($) {
 				var link = $(location).attr('origin') + "/HelpDeskLctpc/appForm/" + FilaActual.appnId + "/update";
 				$(this).callAjax(link, "#appn");
 				$("#formularioModal .modal-header h4").text(FilaActual.appnName);
-
 			});
 
 			var tablePages = $('#tablePages').DataTable(
@@ -641,30 +640,7 @@ jQuery(function($) {
 				e.preventDefault(); // elimina el evento del link.
 				
 				if (FilaActual.appnActive) { // Verifica si el registro se encuentra activo.
-					swal({
-						title : "Are you sure?",
-						text : "Do you want to delete the application ?, The page will not be deleted!",
-						type : "warning",
-						showCancelButton : true,
-						confirmButtonColor : "#DD6B55",
-						confirmButtonText : "Yes, delete it!",
-						cancelButtonText : "No, cancel plx!",
-						closeOnConfirm : false,
-						closeOnCancel : false
-					}, function(isConfirm) {
-						if (isConfirm) {
-							$.ajax({
-								url : linkDelete,
-								success : function(result) {
-									tableApps.clear().draw();
-									tableApps.ajax.url("./getJsonApps").load();
-								}
-							});
-							swal("Deleted!", "The application of page has been disassociated.", "success");
-						} else {
-							swal("Cancelled", "The application of page has not been disassociated :)", "error");
-						}
-					});
+					shoModalConfirmation(linkDelete, tableApps);
 					
 				}// Fin del If para revisar si esta activo el registro
 				
@@ -676,30 +652,8 @@ jQuery(function($) {
 				var linkDelete = this;
 				e.preventDefault(); // elimina el evento del link.
 				if (FilaActual.pageActive) { // Verifica si el registro se encuentra activo.
-					swal({
-						title : "Are you sure?",
-						text : "Do you want to delete the application ?, The page will not be deleted!",
-						type : "warning",
-						showCancelButton : true,
-						confirmButtonColor : "#DD6B55",
-						confirmButtonText : "Yes, delete it!",
-						cancelButtonText : "No, cancel plx!",
-						closeOnConfirm : false,
-						closeOnCancel : false
-					}, function(isConfirm) {
-						if (isConfirm) {
-							$.ajax({
-								url : linkDelete,
-								success : function(result) {
-									tablePages.clear().draw();
-									tablePages.ajax.url("./getJsonPages").load();
-								}
-							});
-							swal("Deleted!", "The application of page has been disassociated.", "success");
-						} else {
-							swal("Cancelled", "The application of page has not been disassociated :)", "error");
-						}
-					});
+					shoModalConfirmation(linkDelete, tablePages);
+					
 				}// Fin del If para revisar si esta activo el registro
 
 			});
@@ -709,30 +663,8 @@ jQuery(function($) {
 				var linkDelete = this;
 				e.preventDefault(); // elimina el evento del link.
 				if (FilaActual.prmnActive) { // Verifica si el registro se encuentra activo.
-					swal({
-						title : "Are you sure?",
-						text : "Do you want to delete the application ?, The page will not be deleted!",
-						type : "warning",
-						showCancelButton : true,
-						confirmButtonColor : "#DD6B55",
-						confirmButtonText : "Yes, delete it!",
-						cancelButtonText : "No, cancel plx!",
-						closeOnConfirm : false,
-						closeOnCancel : false
-					}, function(isConfirm) {
-						if (isConfirm) {
-							$.ajax({
-								url : linkDelete,
-								success : function(result) {
-									tablePermission.clear().draw();
-									tablePermission.ajax.url("./getJsonPermisisons").load();
-								}
-							});
-							swal("Deleted!", "The application of page has been disassociated.", "success");
-						} else {
-							swal("Cancelled", "The application of page has not been disassociated :)", "error");
-						}
-					});
+					shoModalConfirmation(linkDelete, tablePermission);
+					
 				}// Fin del If para revisar si esta activo el registro
 
 			});
@@ -742,30 +674,8 @@ jQuery(function($) {
 				var linkDelete = this;
 				e.preventDefault(); // elimina el evento del link.
 				if (FilaActual.sequActive) { // Verifica si el registro se encuentra activo.
-					swal({
-						title : "Are you sure?",
-						text : "Do you want to delete the application ?, The page will not be deleted!",
-						type : "warning",
-						showCancelButton : true,
-						confirmButtonColor : "#DD6B55",
-						confirmButtonText : "Yes, delete it!",
-						cancelButtonText : "No, cancel plx!",
-						closeOnConfirm : false,
-						closeOnCancel : false
-					}, function(isConfirm) {
-						if (isConfirm) {
-							$.ajax({
-								url : linkDelete,
-								success : function(result) {
-									tableSecQues.clear().draw();
-									tableSecQues.ajax.url("./getJsonSecretQuestions").load();
-								}
-							});
-							swal("Deleted!", "The application of page has been disassociated.", "success");
-						} else {
-							swal("Cancelled", "The application of page has not been disassociated :)", "error");
-						}
-					});
+					shoModalConfirmation(linkDelete, tableSecQues);
+					
 				}// Fin del If para revisar si esta activo el registro
 
 			});
@@ -775,30 +685,8 @@ jQuery(function($) {
 				var linkDelete = this;
 				e.preventDefault(); // elimina el evento del link.
 				if (FilaActual.enttActive) { // Verifica si el registro se encuentra activo.
-					swal({
-						title : "Are you sure?",
-						text : "Do you want to delete the application ?, The page will not be deleted!",
-						type : "warning",
-						showCancelButton : true,
-						confirmButtonColor : "#DD6B55",
-						confirmButtonText : "Yes, delete it!",
-						cancelButtonText : "No, cancel plx!",
-						closeOnConfirm : false,
-						closeOnCancel : false
-					}, function(isConfirm) {
-						if (isConfirm) {
-							$.ajax({
-								url : linkDelete,
-								success : function(result) {
-									tableEntity.clear().draw();
-									tableEntity.ajax.url("./getJsonEntities").load();
-								}
-							});
-							swal("Deleted!", "The application of page has been disassociated.", "success");
-						} else {
-							swal("Cancelled", "The application of page has not been disassociated :)", "error");
-						}
-					});
+					shoModalConfirmation(linkDelete, tableEntity);
+					
 				}// Fin del If para revisar si esta activo el registro
 
 			});
@@ -860,6 +748,33 @@ jQuery(function($) {
 function showModal(p_url, p_form) {
 	$(this).callAjax(p_url, p_form);
 	$("#myModalApplication .modal-header h4").text("New ");
+}
+
+function shoModalConfirmation(p_url, p_table){
+	swal({
+		title : "Are you sure?",
+		text : "Do you want to disable the record?, The entity will not be deleted!",
+		type : "warning",
+		showCancelButton : true,
+		confirmButtonColor : "#DD6B55",
+		confirmButtonText : "Yes, delete it!",
+		cancelButtonText : "No, cancel plx!",
+		closeOnConfirm : false,
+		closeOnCancel : false
+	}, function(isConfirm) {
+		if (isConfirm) {
+			$.ajax({
+				url : p_url,
+				success : function(result) {
+					p_table.clear().draw();
+					p_table.ajax.reload();
+				}
+			});
+			swal("Deleted!", "The record has been desable.", "success");
+		} else {
+			swal("Cancelled", "The record has not been disable :)", "error");
+		}
+	});
 }
 
 $.fn.callAjax = function(p_url, p_form) {
