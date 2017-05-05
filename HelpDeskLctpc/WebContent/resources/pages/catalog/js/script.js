@@ -139,7 +139,7 @@ jQuery(function($) {
 				var FilaActual = tableApps.row($(this).parents('tr')).data();
 				var link = $(location).attr('origin') + "/HelpDeskLctpc/appForm/" + FilaActual.appnId + "/update";
 				$(this).callAjax(link, "#appn");
-				$("#formularioModal .modal-header h4").text(FilaActual.appnName);
+				$("#formularioModal .modal-header h4").text("Form Application [" + FilaActual.appnName + "]");
 			});
 
 			var tablePages = $('#tablePages').DataTable(
@@ -239,7 +239,7 @@ jQuery(function($) {
 									data : null,
 									render : function(data, type, row) {
 										return "<div class='hidden-sm hidden-xs action-buttons'>"
-												+ "<a class='' id='btn-editPage' href='#myModalApplication' role='button' data-toggle='modal'><i class='fa fa-pencil'></i></a>"
+												+ "<a class='' id='btn-editPage' href='#myModalApplication' data-toggle='modal'><i class='fa fa-pencil'></i></a>"
 												+ "<a class='' id='id-btn-dialog2' href='./pageForm/"
 												+ data.pageId
 												+ "/delete'><i class='ace-icon fa fa-trash-o bigger-130'></i></a>"
@@ -274,7 +274,8 @@ jQuery(function($) {
 				var FilaActual = tablePages.row($(this).parents('tr')).data();
 				var link = $(location).attr('origin') + "/HelpDeskLctpc/pageForm/" + FilaActual.pageId + "/update";
 				$(this).callAjax(link, "#page");
-				$("#formularioModal .modal-header h4").text(FilaActual.pageNomenclature);
+				$("#myModalApplication .modal-header h4").text("Form Page [" + FilaActual.pageDisplay + "]");
+				
 			});
 
 			var tablePermission = $('#tablePermission').DataTable(
@@ -393,7 +394,7 @@ jQuery(function($) {
 				var FilaActual = tablePermission.row($(this).parents('tr')).data();
 				var link = $(location).attr('origin') + "/HelpDeskLctpc/permForm/" + FilaActual.prmnId + "/update";
 				$(this).callAjax("permForm" + link, "#perm");
-				$("#formularioModal .modal-header h4").text(FilaActual.pageNomenclature);
+				$("#myModalApplication .modal-header h4").text("Form Permission [" + FilaActual.prmnName + "]");
 			});
 
 			var tableSecQues = $('#tableSecretQuestion').DataTable(
@@ -510,7 +511,7 @@ jQuery(function($) {
 				var FilaActual = tableSecQues.row($(this).parents('tr')).data();
 				var link = $(location).attr('origin') + "/HelpDeskLctpc/secretQuestionForm/" + FilaActual.sequId + "/update";
 				$(this).callAjax(link, "#sctQ");
-				$("#formularioModal .modal-header h4").text(FilaActual.sequId);
+				$("#myModalApplication .modal-header h4").text("Form Secret Question [" + FilaActual.sequId + "]");
 			});
 
 			var tableEntity = $('#tableEntity').DataTable(
@@ -631,7 +632,7 @@ jQuery(function($) {
 				var FilaActual = tableEntity.row($(this).parents('tr')).data();
 				var link = $(location).attr('origin') + "/HelpDeskLctpc/entityForm/" + FilaActual.enttId + "/update";
 				$(this).callAjax(link, "#entt");
-				$("#formularioModal .modal-header h4").text(FilaActual.enttName);
+				$("#myModalApplication .modal-header h4").text("Form Entity [" + FilaActual.enttName + "]");
 			});
 
 			$('#tableApplications tbody').on("click", ".colLinkApplicationModal a#id-btn-dialog2", function(e) {
@@ -748,6 +749,9 @@ jQuery(function($) {
 function showModal(p_url, p_form) {
 	$(this).callAjax(p_url, p_form);
 	$("#myModalApplication .modal-header h4").text("New ");
+	
+	
+	
 }
 
 function shoModalConfirmation(p_url, p_table){
@@ -777,6 +781,46 @@ function shoModalConfirmation(p_url, p_table){
 	});
 }
 
+
+function getListValuesText(p_form){
+	
+	$('.chosen-select').chosen({
+        allow_single_deselect : true,
+        width : "100%"
+    });
+    
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green',
+    });
+
+    var demo1 = $('.dual_select').bootstrapDualListbox({
+        infoTextFiltered : '<span class="label label-purple label-lg">Filtered</span>',
+        // preserveSelectionOnMove : 'moved',
+        moveOnSelect : false,
+        eventMoveOverride : true, // boolean, allows user to unbind default event behaviour
+        // and run their own instead
+        eventMoveAllOverride : true, // boolean, allows user to unbind default event
+        // behaviour and run their own instead
+        eventRemoveOverride : true, // boolean, allows user to unbind default event behaviour
+        // and run their own instead
+        eventRemoveAllOverride : true
+    });
+
+    var container1 = demo1.bootstrapDualListbox('getContainer');
+    container1.find('.btn').addClass('btn-white btn-info btn-bold');
+
+    demo1.trigger('bootstrapDualListbox.refresh', true);
+    
+    $('#btnSaveConfiguration').on('click', function() {
+		console.log("hola mundo...");
+		$(p_form).submit();
+		// p_table.clear().draw();
+		// p_table.ajax.reload();
+	});
+    
+}
+
 $.fn.callAjax = function(p_url, p_form) {
 	$.ajax({
 		type : "POST",
@@ -784,13 +828,15 @@ $.fn.callAjax = function(p_url, p_form) {
 		// dataType: "json",
 		timeout : 100000,
 		success : function(result) {
+			console.log(p_form + " 0");
 			if (!(result === null)) {
 				$(".modal-body .row").html(result);
-				$("#btnSaveConfiguration").on("click", function() {
-					$(p_form).submit();
-					// p_table.clear().draw();
-					// p_table.ajax.reload();
-				});
+				
+				console.log(p_form + " 1");
+				getListValuesText();
+				
+				
+				
 			}
 		},
 		error : function(e) {

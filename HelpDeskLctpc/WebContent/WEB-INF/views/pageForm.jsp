@@ -7,13 +7,13 @@
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="pageId"> ID </label>
 		<div class="col-sm-9">
-			<sf:input type="text" placeholder="ID" class="col-xs-11" path="pageId" readonly="true" />
+			<sf:input type="text" placeholder="ID" class="form-control" path="pageId" readonly="true" />
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="pagePageId"> PAGE FATHER </label>
 		<div class="col-sm-9">
-			<sf:select path="pagePageId" cssClass="chosen-select col-xs-11" data-placeholder="Choose a Page Father o Master...">
+			<sf:select path="pagePageId" class="chosen-select col-xs-11" data-placeholder="Choose a Page Father o Master...">
 				<sf:option value="NONE" label="---- Select ----" />
 				<sf:options items="${pagesMasterList}" itemLabel="pageDisplay" itemValue="pageId" />
 			</sf:select>
@@ -22,7 +22,7 @@
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="pageDisplay"> Name </label>
 		<div class="col-sm-9">
-			<sf:input type="text" class="col-xs-11" path="pageDisplay" />
+			<sf:input type="text" class="form-control" path="pageDisplay" />
 		</div>
 	</div>
 	<%-- <div class="form-group">
@@ -34,22 +34,22 @@
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="pageDescription"> Descripcion </label>
 		<div class="col-sm-9">
-			<sf:input type="text" class="col-xs-11" path="pageDescription" />
+			<sf:textarea class="form-control" path="pageDescription" rows="3" />
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="pageUrl"> Url </label>
 		<div class="col-sm-9">
-			<sf:input type="text" class="col-xs-11" path="pageUrl" />
+			<sf:input type="text" class="form-control" path="pageUrl" />
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label no-padding-right" for="food">Entities</label>
+		<label class="col-sm-3 control-label no-padding-right" for="pageEntities">Entities</label>
 
 		<div class="col-sm-9">
 			<!-- #section:plugins/input.multiselect -->
-			<sf:select path="pageEntities" class="multiselect" multiple="true"  >
+			<sf:select path="pageEntities" class="form-control dual_select" multiple="true" name="duallistbox_demo1[]" >
 				<c:forEach items="${entitiesList}" var="ent">
 					<c:set var="isSelected" value="false" />
 					<c:forEach items="${page.pageEntities}" var="pagEnt">
@@ -88,87 +88,65 @@
     </div> --%>
 
 	<div class="form-group">
-		<label class="col-sm-3 col-xs-3 control-label no-padding-right" for="pageActive"> ACTIVE </label>
-		<div>
-			<label class="middle col-sm-9 col-xs-9"> <sf:checkbox path="pageActive" class="ace ace-switch ace-switch-6" value="true" /> <span
-				class="lbl"></span>
-			</label>
+		<label class="col-sm-3 control-label no-padding-right" for="pageActive"> ACTIVE </label>
+		<div class="col-sm-9">
+		  <div class="i-checks">
+                  <label> 
+                      <sf:checkbox path="pageActive" value="true" />
+                      <i></i>
+                  </label>
+              </div>
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="pageCreatedBy"> CREATED BY </label>
 		<div class="col-sm-9">
-			<sf:input type="text" class="col-xs-11" path="pageCreatedBy" />
+			<sf:input type="text" class="form-control" path="pageCreatedBy" />
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="pageUpdateBy"> UPDATE BY </label>
 		<div class="col-sm-9">
-			<sf:input type="text" class="col-xs-11" path="pageUpdateBy" />
+			<sf:input type="text" class="form-control" path="pageUpdateBy" />
 		</div>
 	</div>
 </sf:form>
 
 
 <script type="text/javascript">
+
 	jQuery(function($) {
-		$('.multiselect')
-				.multiselect(
-						{
-							enableFiltering : true,
-							enableHTML : true,
-							buttonClass : 'btn btn-white btn-primary',
-							templates : {
-								button : '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
-								ul : '<ul class="multiselect-container dropdown-menu"></ul>',
-								filter : '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
-								filterClearBtn : '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
-								li : '<li><a tabindex="0"><label></label></a></li>',
-								divider : '<li class="multiselect-item divider"></li>',
-								liGroup : '<li class="multiselect-item multiselect-group"><label></label></li>'
-							}
-						});
+		/* $('.chosen-select').chosen({
+            allow_single_deselect : true,
+            width : "100%"
+        });
+        
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+        console.log("Entro al script ...");
+        var demo1 = $('#pageEntities').bootstrapDualListbox({
+            infoTextFiltered : '<span class="label label-purple label-lg">Filtered</span>',
+            // preserveSelectionOnMove : 'moved',
+            moveOnSelect : false,
+            eventMoveOverride : true, // boolean, allows user to unbind default event behaviour
+            // and run their own instead
+            eventMoveAllOverride : true, // boolean, allows user to unbind default event
+            // behaviour and run their own instead
+            eventRemoveOverride : true, // boolean, allows user to unbind default event behaviour
+            // and run their own instead
+            eventRemoveAllOverride : true
+        });
 
-		if (!ace.vars['touch']) {
-			$('.chosen-select').chosen({
-				allow_single_deselect : true
-			});
-			//resize the chosen on window resize
+        var container1 = demo1.bootstrapDualListbox('getContainer');
+        container1.find('.btn').addClass('btn-white btn-info btn-bold');
 
-			$(window).off('resize.chosen').on('resize.chosen', function() {
-				$('.chosen-select').each(function() {
-					var $this = $(this);
-					$this.next().css({
-						'width' : $this.parent().width()
-					});
-				})
-			}).trigger('resize.chosen');
-			//resize chosen on sidebar collapse/expand
-			$(document).on('settings.ace.chosen', function(e, event_name, event_val) {
-				if (event_name != 'sidebar_collapsed')
-					return;
-				$('.chosen-select').each(function() {
-					var $this = $(this);
-					$this.next().css({
-						'width' : $this.parent().width()
-					});
-				})
-			});
-
-		}
-
-		//chosen plugin inside a modal will have a zero width because the select element is originally hidden
-		//and its width cannot be determined.
-		//so we set the width after modal is show
-		$('#formularioModal').on('shown.bs.modal', function() {
-			if (!ace.vars['touch']) {
-				$(this).find('.chosen-container').each(function() {
-					$(this).find('a:first-child').css('width', '210px');
-					$(this).find('.chosen-drop').css('width', '210px');
-					$(this).find('.chosen-search input').css('width', '200px');
-				});
-			}
-		})
-
+        demo1.trigger('bootstrapDualList box.refresh', true); 
+        
+        */
+        
 	});
+	
+	
 </script>

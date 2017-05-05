@@ -5,6 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <sf:form action="${pageContext.request.contextPath}/appForm/save" method="post" commandName="appn" cssClass="form-horizontal" role="form">
+	
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="appnId"> ID </label>
 		<div class="col-sm-9">
@@ -72,14 +73,14 @@
 <script type="text/javascript">
 jQuery(function($) {
 	
-	$('.chosen-select').chosen({
+	/* $('.chosen-select').chosen({
         allow_single_deselect : true,
         width : "100%"
     });
 	$('.i-checks').iCheck({
         checkboxClass: 'icheckbox_square-green',
         radioClass: 'iradio_square-green',
-    });
+    }); */
 });
 </script>
 

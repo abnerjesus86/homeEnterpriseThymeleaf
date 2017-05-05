@@ -407,9 +407,6 @@
 	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-	<!-- Custom and plugin javascript -->
-	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/inspinia.js"></script>
-	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/pace/pace.min.js"></script>
 	<!-- Chosen -->
 	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/chosen/chosen.jquery.js"></script>
 	<!-- DataTable -->
@@ -425,7 +422,10 @@
 
 	<!-- Jquery Validate -->
 	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/validate/jquery.validate.min.js"></script>
-
+    
+    <!-- Custom and plugin javascript -->
+    <script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/inspinia.js"></script>
+    <script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/pace/pace.min.js"></script>
 	<script src="${pageContext.request.contextPath}/res/pages/application-wizard/js/script2.js"></script>
 
 

@@ -24,7 +24,10 @@
 
 <link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
 	rel="stylesheet">
+<!-- Dual Listbox -->
+<link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
 </head>
+
 
 <body>
 
@@ -86,7 +89,7 @@
 										<button type="button" class="close" data-dismiss="modal">
 											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 										</button>
-										<h4 class="modal-title">Form User</h4>
+										<h4 class="modal-title">Form </h4>
 									</div>
 									<div class="modal-body">
 										<div class="row"></div>
@@ -125,9 +128,6 @@
 								</div>
 								<div id="tab-2" class="tab-pane">
 									<div class="panel-body">
-										<p>
-											<a href="#formularioModal" class="btn btn-primary" id="btn-addPage" role="button" data-toggle="modal"> New </a>
-										</p>
 										<div id="divTbPages" class="table-responsive">
 											<table id="tablePages" class="table table-striped table-bordered table-hover">
 												<thead>
@@ -153,12 +153,6 @@
 								</div>
 								<div id="tab-4" class="tab-pane">
 									<div class="panel-body">
-										<p>
-											<a href="#formularioModal" class="btn btn-primary" id="btn-addSecretQuestion" role="button" data-toggle="modal"> <i
-												class="glyphicon glyphicon-plus"></i> New
-											</a>
-
-										</p>
 										<div id="divTbSecretQuestion" class="table-responsive">
 											<table id="tableSecretQuestion" class="table table-striped table-hover">
 												<thead>
@@ -171,11 +165,6 @@
 								</div>
 								<div id="tab-5" class="tab-pane">
 									<div class="panel-body">
-										<p>
-											<a href="#formularioModal" class="btn btn-primary" id="btn-addEntities" role="button" data-toggle="modal"> <i
-												class="glyphicon glyphicon-plus"></i> New
-											</a>
-										</p>
 										<div id="divTbEntity" class="table-responsive">
 											<table id="tableEntity" class="table table-striped table-hover">
 												<thead>
@@ -218,6 +207,10 @@
 
     <!-- Sweet alert -->
     <script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/sweetalert/sweetalert.min.js"></script>
+	
+	<!-- Dual Listbox -->
+    <script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/dualListbox/jquery.bootstrap-duallistbox.js"></script>
+    
 	<!-- Custom and plugin javascript -->
 	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/inspinia.js"></script>
 	<script src="${pageContext.request.contextPath}/res/plantilla/INSPINIA/js/plugins/pace/pace.min.js"></script>
