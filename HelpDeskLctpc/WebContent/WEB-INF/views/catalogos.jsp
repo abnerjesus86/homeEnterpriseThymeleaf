@@ -97,7 +97,7 @@
 
 									<div class="modal-footer">
 										<button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-										<button id="#btnSaveConfiguration"  type="button" class="btn btn-primary">Save changes</button>
+										<button id="btnSaveConfiguration"  type="button" class="btn btn-primary">Save changes</button>
 									</div>
 								</div>
 							</div>

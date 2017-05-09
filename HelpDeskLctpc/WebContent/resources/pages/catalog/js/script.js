@@ -97,8 +97,11 @@ jQuery(function($) {
 									data : null,
 									render : function(data, type, row) {
 										var l_check = data.appnActive == false ? "" : " checked";
-										return "<label><input type='checkbox' onclick='return false' class='ace ace-switch ace-switch-6' value='" + data.appnActive + "' " + l_check
-												+ "/><span class='lbl'></span></label>";
+										
+                                    return 	" <div class='checkbox checkbox-success'>"+
+                                    		" <input type='checkbox' id='singleCheckbox2' onclick='return false' value='" + data.appnActive +"' "+ l_check+" aria-label='Single checkbox Two'>"+
+                                    		" <label></label>"+
+                                    		" </div>";
 									}
 								},
 								{
@@ -106,8 +109,8 @@ jQuery(function($) {
 									data : null,
 									render : function(data, type, row) {
 										return "<div class='hidden-sm hidden-xs action-buttons'>"
-												+ "<a class='' id='btn-editApplication' href='#myModalApplication' role='button' data-toggle='modal'><i class='fa fa-pencil'></i></a>"
-												+ "<a class='' id='id-btn-dialog2' href='./appForm/"
+												+ "<a class='' id='btn-edit' href='#myModalApplication' role='button' data-toggle='modal'><i class='fa fa-pencil'></i></a>"
+												+ "<a class='' id='btn-delete' href='./appForm/"
 												+ data.appnId
 												+ "/delete'><i class='fa fa-trash-o'></i></a>"
 												+ "</div> "
@@ -130,17 +133,12 @@ jQuery(function($) {
 
 												+ "</ul>" + "</div>" + "</div>";
 									},
-									className : "colLinkApplicationModal center"
+									className : "colLinkModal center"
 								} ]
 
 					});
-
-			$('#tableApplications tbody').on("click", ".colLinkApplicationModal a#btn-editApplication", function() {
-				var FilaActual = tableApps.row($(this).parents('tr')).data();
-				var link = $(location).attr('origin') + "/HelpDeskLctpc/appForm/" + FilaActual.appnId + "/update";
-				$(this).callAjax(link, "#appn");
-				$("#formularioModal .modal-header h4").text("Form Application [" + FilaActual.appnName + "]");
-			});
+			
+			
 
 			var tablePages = $('#tablePages').DataTable(
 					{
@@ -230,8 +228,10 @@ jQuery(function($) {
 									data : null,
 									render : function(data, type, row) {
 										var l_check = data.pageActive == false ? "" : " checked";
-										return "<label><input type='checkbox' onclick='return false' class='ace ace-switch ace-switch-6' value='" + data.pageActive + "' " + l_check
-												+ "/><span class='lbl'></span></label>";
+										return " <div class='checkbox checkbox-success'>"+
+                                		" <input type='checkbox' id='singleCheckbox2' onclick='return false' value='" + data.pageActive +"' "+ l_check+" aria-label='Single checkbox Two'>"+
+                                		" <label></label>"+
+                                		" </div>";
 									}
 								},
 								{
@@ -239,8 +239,8 @@ jQuery(function($) {
 									data : null,
 									render : function(data, type, row) {
 										return "<div class='hidden-sm hidden-xs action-buttons'>"
-												+ "<a class='' id='btn-editPage' href='#myModalApplication' data-toggle='modal'><i class='fa fa-pencil'></i></a>"
-												+ "<a class='' id='id-btn-dialog2' href='./pageForm/"
+												+ "<a class='' id='btn-edit' href='#myModalApplication' data-toggle='modal'><i class='fa fa-pencil'></i></a>"
+												+ "<a class='' id='btn-delete' href='./pageForm/"
 												+ data.pageId
 												+ "/delete'><i class='ace-icon fa fa-trash-o bigger-130'></i></a>"
 												+ "</div> "
@@ -263,20 +263,60 @@ jQuery(function($) {
 
 												+ "</ul>" + "</div>" + "</div>";
 									},
-									className : "colLinkPageModal center"
+									className : "colLinkModal center"
 								}
 
 						]
 
 					});
-
-			$('#tablePages tbody').on("click", ".colLinkPageModal a#btn-editPage", function() {
+			
+			//#tableApplications tbody
+			$('.table-responsive table tbody').on("click", ".colLinkModal a#btn-edit", function() {
+				
+				var table = $(this).parents('table');
+				var tableData = table.DataTable();
+				var FilaActual = tableData.row($(this).parents('tr')).data();
+				var link = $(location).attr('origin') + "/HelpDeskLctpc/";
+				switch(table.attr('id')){
+					case 'tableApplications':
+						link = link + "appForm/" + FilaActual.appnId + "/update";
+						$(this).callAjax(link, "#appn");
+						$("#myModalApplication .modal-header h4").text("Form Application [" + FilaActual.appnName + "]");
+					break;
+					case 'tablePages':
+						link = link + "pageForm/" + FilaActual.pageId + "/update";
+						$(this).callAjax(link, "#page");
+						$("#myModalApplication .modal-header h4").text("Form Page [" + FilaActual.pageDisplay + "]");
+					break;
+					case 'tablePermission':
+						link = link + "permForm/" + FilaActual.prmnId + "/update";
+						$(this).callAjax(link, "#perm");
+						$("#myModalApplication .modal-header h4").text("Form Permission [" + FilaActual.prmnName + "]");
+					break;
+					case 'tableSecretQuestion':
+						link = link + "secretQuestionForm/" + FilaActual.sequId + "/update";
+						$(this).callAjax(link, "#sctQ");
+						$("#myModalApplication .modal-header h4").text("Form Secret Question [" + FilaActual.sequId + "]");
+					break;
+					case 'tableEntity':
+						link = link + "entityForm/" + FilaActual.enttId + "/update";
+						$(this).callAjax(link, "#entt");
+						$("#myModalApplication .modal-header h4").text("Form Entity [" + FilaActual.enttName + "]");
+					break;
+				}
+				
+				//var link = $(location).attr('origin') + "/HelpDeskLctpc/appForm/" + FilaActual.appnId + "/update";
+				//$(this).callAjax(link, "#appn");
+				//$("#myModalApplication .modal-header h4").text("Form Application [" + FilaActual.appnName + "]");
+			});
+			
+			/*$('#tablePages tbody').on("click", ".colLinkPageModal a#btn-editPage", function() {
 				var FilaActual = tablePages.row($(this).parents('tr')).data();
 				var link = $(location).attr('origin') + "/HelpDeskLctpc/pageForm/" + FilaActual.pageId + "/update";
 				$(this).callAjax(link, "#page");
 				$("#myModalApplication .modal-header h4").text("Form Page [" + FilaActual.pageDisplay + "]");
 				
-			});
+			});*/
 
 			var tablePermission = $('#tablePermission').DataTable(
 					{
@@ -352,8 +392,10 @@ jQuery(function($) {
 									data : null,
 									render : function(data, type, row) {
 										var l_check = data.prmnActive == false ? "" : " checked";
-										return "<label><input type='checkbox' onclick='return false' class='ace ace-switch ace-switch-6' value='" + data.prmnActive + "' " + l_check
-												+ "/><span class='lbl'></span></label>";
+										return " <div class='checkbox checkbox-success'>"+
+                                		" <input type='checkbox' id='singleCheckbox2' onclick='return false' value='" + data.prmnActive +"' "+ l_check+" aria-label='Single checkbox Two'>"+
+                                		" <label></label>"+
+                                		" </div>";
 									}
 								},
 								{
@@ -390,12 +432,12 @@ jQuery(function($) {
 
 					});
 
-			$('#tablePermission tbody').on("click", ".colLinkPermissionModal a#btn-editPermission", function() {
+			/*$('#tablePermission tbody').on("click", ".colLinkPermissionModal a#btn-editPermission", function() {
 				var FilaActual = tablePermission.row($(this).parents('tr')).data();
 				var link = $(location).attr('origin') + "/HelpDeskLctpc/permForm/" + FilaActual.prmnId + "/update";
 				$(this).callAjax("permForm" + link, "#perm");
 				$("#myModalApplication .modal-header h4").text("Form Permission [" + FilaActual.prmnName + "]");
-			});
+			});*/
 
 			var tableSecQues = $('#tableSecretQuestion').DataTable(
 					{
@@ -467,8 +509,10 @@ jQuery(function($) {
 									data : null,
 									render : function(data, type, row) {
 										var l_check = data.sequActive == false ? "" : " checked";
-										return "<label><input type='checkbox' onclick='return false' class='ace ace-switch ace-switch-6' value='" + data.sequActive + "' " + l_check
-												+ "/><span class='lbl'></span></label>";
+										return " <div class='checkbox checkbox-success'>"+
+                                		" <input type='checkbox' id='singleCheckbox2' onclick='return false' value='" + data.sequActive +"' "+ l_check+" aria-label='Single checkbox Two'>"+
+                                		" <label></label>"+
+                                		" </div>";
 									}
 								},
 								{
@@ -507,12 +551,12 @@ jQuery(function($) {
 
 					});
 
-			$('#tableSecretQuestion tbody').on("click", ".colLinkSecretQuestionModal a#btn-editSecQuest", function() {
+			/*$('#tableSecretQuestion tbody').on("click", ".colLinkSecretQuestionModal a#btn-editSecQuest", function() {
 				var FilaActual = tableSecQues.row($(this).parents('tr')).data();
 				var link = $(location).attr('origin') + "/HelpDeskLctpc/secretQuestionForm/" + FilaActual.sequId + "/update";
 				$(this).callAjax(link, "#sctQ");
 				$("#myModalApplication .modal-header h4").text("Form Secret Question [" + FilaActual.sequId + "]");
-			});
+			});*/
 
 			var tableEntity = $('#tableEntity').DataTable(
 					{
@@ -588,8 +632,10 @@ jQuery(function($) {
 									data : null,
 									render : function(data, type, row) {
 										var l_check = data.enttActive == false ? "" : " checked";
-										return "<label><input type='checkbox' onclick='return false' class='ace ace-switch ace-switch-6' value='" + data.enttActive + "' " + l_check
-												+ "/><span class='lbl'></span></label>";
+										return " <div class='checkbox checkbox-success'>"+
+                                		" <input type='checkbox' id='singleCheckbox2' onclick='return false' value='" + data.enttActive +"' "+ l_check+" aria-label='Single checkbox Two'>"+
+                                		" <label></label>"+
+                                		" </div>";
 									}
 								},
 								{
@@ -628,12 +674,12 @@ jQuery(function($) {
 
 					});
 
-			$('#tableEntity tbody').on("click", ".colLinkEntityModal a#btn-editEntity", function() {
+			/*$('#tableEntity tbody').on("click", ".colLinkEntityModal a#btn-editEntity", function() {
 				var FilaActual = tableEntity.row($(this).parents('tr')).data();
 				var link = $(location).attr('origin') + "/HelpDeskLctpc/entityForm/" + FilaActual.enttId + "/update";
 				$(this).callAjax(link, "#entt");
 				$("#myModalApplication .modal-header h4").text("Form Entity [" + FilaActual.enttName + "]");
-			});
+			});*/
 
 			$('#tableApplications tbody').on("click", ".colLinkApplicationModal a#id-btn-dialog2", function(e) {
 				var FilaActual = tableApps.row($(this).parents('tr')).data();
@@ -751,7 +797,6 @@ function showModal(p_url, p_form) {
 	$("#myModalApplication .modal-header h4").text("New ");
 	
 	
-	
 }
 
 function shoModalConfirmation(p_url, p_table){
@@ -812,20 +857,13 @@ function getListValuesText(p_form){
 
     demo1.trigger('bootstrapDualListbox.refresh', true);
     
-    $('#btnSaveConfiguration').on('click', function() {
-		console.log("hola mundo...");
-		$(p_form).submit();
-		// p_table.clear().draw();
-		// p_table.ajax.reload();
-	});
-    
 }
 
 $.fn.callAjax = function(p_url, p_form) {
 	$.ajax({
 		type : "POST",
 		url : p_url,
-		// dataType: "json",
+		 dataType: "html",
 		timeout : 100000,
 		success : function(result) {
 			console.log(p_form + " 0");
@@ -835,7 +873,11 @@ $.fn.callAjax = function(p_url, p_form) {
 				console.log(p_form + " 1");
 				getListValuesText();
 				
-				
+				$('#btnSaveConfiguration').on('click', function() {
+					console.log("hola mundo...");
+					$(p_form).submit();
+					
+				});
 				
 			}
 		},
