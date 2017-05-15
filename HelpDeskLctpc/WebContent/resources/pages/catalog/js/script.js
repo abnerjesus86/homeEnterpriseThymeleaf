@@ -17,10 +17,6 @@ jQuery(function($) {
 						// lengthChange : false,
 						pageLength : 25,
 						responsive : true,
-						/*
-						 * dom : "<'row' <'col-md-6'f> <'col-md-6 text-right'B>>" + "<'row' <'col-md-12'tr>>" + "<'row'<'col-md-6'i><'col-md-6
-						 * text-right'p>>",
-						 */
 						dom : '<"html5buttons"B>lTfgtrip',
 						buttons : {
 							dom : {
@@ -52,7 +48,7 @@ jQuery(function($) {
 								text : "<i class='glyphicon glyphicon-plus'></i>",
 								action : function(e, dt, node, config) {
 
-									showModal("./appForm/", "#appn");
+									showModal("./appForm/");
 								},
 								init : function(dt, node, config) {
 									node.attr("href", "#myModalApplication");
@@ -108,38 +104,19 @@ jQuery(function($) {
 									title : "Actions",
 									data : null,
 									render : function(data, type, row) {
-										return "<div class='hidden-sm hidden-xs action-buttons'>"
-												+ "<a class='' id='btn-edit' href='#myModalApplication' role='button' data-toggle='modal'><i class='fa fa-pencil'></i></a>"
-												+ "<a class='' id='btn-delete' href='./appForm/"
+										return "<div class='btn-group'>"
+												+ "<a class='btn-xs' id='btn-edit' href='#myModalApplication' role='button' data-toggle='modal'><i class='fa fa-pencil fa-lg'></i></a>"
+												+ "<a class='btn-xs' id='btn-delete' href='./appForm/"
 												+ data.appnId
-												+ "/delete'><i class='fa fa-trash-o'></i></a>"
-												+ "</div> "
-												+ "<div class='hidden-md hidden-lg'>"
-												+ "<div class='inline pos-rel'>"
-												+ "<button class='btn btn-minier btn-primary dropdown-toggle' data-toggle='dropdown' data-position='auto'>"
-												+ "<i class='fa fa-cog icon-only'></i>"
-												+ "</button>"
-												+ "<ul class='dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close'>"
-												+ "<li>"
-												+ "<a href='#myModalApplication' id='btn-editApplication' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
-												+ "<span class=''>"
-												+ "<i class='fa fa-pencil-square-o'></i></span></a>"
-												+ "</li>"
-												+ "<li>"
-												+ "<a href='./appForm/"
-												+ data.appnId
-												+ "/delete' id='id-btn-dialog2' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
-												+ "<span class=''> <i class='fa fa-trash-o'></i></span></a>" + "</li>"
-
-												+ "</ul>" + "</div>" + "</div>";
+												+ "/delete'><i class='fa fa-trash-o fa-lg'></i></a>"
+												+ "</div> ";
+												
 									},
 									className : "colLinkModal center"
 								} ]
 
 					});
 			
-			
-
 			var tablePages = $('#tablePages').DataTable(
 					{
 						autoWidth : true,
@@ -185,7 +162,7 @@ jQuery(function($) {
 							}, {
 								text : "<i class='glyphicon glyphicon-plus'></i>",
 								action : function(e, dt, node, config) {
-									showModal("./pageForm/", "#page");
+									showModal("./pageForm/");
 								},
 								init : function(dt, node, config) {
 									node.attr("href", "#myModalApplication");
@@ -238,30 +215,12 @@ jQuery(function($) {
 									title : "Actions",
 									data : null,
 									render : function(data, type, row) {
-										return "<div class='hidden-sm hidden-xs action-buttons'>"
-												+ "<a class='' id='btn-edit' href='#myModalApplication' data-toggle='modal'><i class='fa fa-pencil'></i></a>"
-												+ "<a class='' id='btn-delete' href='./pageForm/"
+										return "<div class='btn-group'>"
+												+ "<a class='btn-xs' id='btn-edit' href='#myModalApplication' data-toggle='modal'><i class='fa fa-pencil fa-lg'></i></a>"
+												+ "<a class='btn-xs' id='btn-delete' href='./pageForm/"
 												+ data.pageId
-												+ "/delete'><i class='ace-icon fa fa-trash-o bigger-130'></i></a>"
-												+ "</div> "
-												+ "<div class='hidden-md hidden-lg'>"
-												+ "<div class='inline pos-rel'>"
-												+ "<button class='btn btn-minier btn-primary dropdown-toggle' data-toggle='dropdown' data-position='auto'>"
-												+ "<i class='ace-icon fa fa-cog icon-only bigger-110'></i>"
-												+ "</button>"
-												+ "<ul class='dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close'>"
-												+ "<li>"
-												+ "<a href='#myModalApplication' id='btn-editPage' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
-												+ "<span class='green'>"
-												+ "<i class='fa fa-pencil-square-o'></i></span></a>"
-												+ "</li>"
-												+ "<li>"
-												+ "<a href='./pageForm/"
-												+ data.pageId
-												+ "/delete' id='id-btn-dialog2' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
-												+ "<span class='red'> <i class='fa fa-trash-o'></i></span></a>" + "</li>"
-
-												+ "</ul>" + "</div>" + "</div>";
+												+ "/delete'><i class='fa fa-trash-o fa-lg'></i></a>"
+												+ "</div> ";
 									},
 									className : "colLinkModal center"
 								}
@@ -270,54 +229,6 @@ jQuery(function($) {
 
 					});
 			
-			//#tableApplications tbody
-			$('.table-responsive table tbody').on("click", ".colLinkModal a#btn-edit", function() {
-				
-				var table = $(this).parents('table');
-				var tableData = table.DataTable();
-				var FilaActual = tableData.row($(this).parents('tr')).data();
-				var link = $(location).attr('origin') + "/HelpDeskLctpc/";
-				switch(table.attr('id')){
-					case 'tableApplications':
-						link = link + "appForm/" + FilaActual.appnId + "/update";
-						$(this).callAjax(link, "#appn");
-						$("#myModalApplication .modal-header h4").text("Form Application [" + FilaActual.appnName + "]");
-					break;
-					case 'tablePages':
-						link = link + "pageForm/" + FilaActual.pageId + "/update";
-						$(this).callAjax(link, "#page");
-						$("#myModalApplication .modal-header h4").text("Form Page [" + FilaActual.pageDisplay + "]");
-					break;
-					case 'tablePermission':
-						link = link + "permForm/" + FilaActual.prmnId + "/update";
-						$(this).callAjax(link, "#perm");
-						$("#myModalApplication .modal-header h4").text("Form Permission [" + FilaActual.prmnName + "]");
-					break;
-					case 'tableSecretQuestion':
-						link = link + "secretQuestionForm/" + FilaActual.sequId + "/update";
-						$(this).callAjax(link, "#sctQ");
-						$("#myModalApplication .modal-header h4").text("Form Secret Question [" + FilaActual.sequId + "]");
-					break;
-					case 'tableEntity':
-						link = link + "entityForm/" + FilaActual.enttId + "/update";
-						$(this).callAjax(link, "#entt");
-						$("#myModalApplication .modal-header h4").text("Form Entity [" + FilaActual.enttName + "]");
-					break;
-				}
-				
-				//var link = $(location).attr('origin') + "/HelpDeskLctpc/appForm/" + FilaActual.appnId + "/update";
-				//$(this).callAjax(link, "#appn");
-				//$("#myModalApplication .modal-header h4").text("Form Application [" + FilaActual.appnName + "]");
-			});
-			
-			/*$('#tablePages tbody').on("click", ".colLinkPageModal a#btn-editPage", function() {
-				var FilaActual = tablePages.row($(this).parents('tr')).data();
-				var link = $(location).attr('origin') + "/HelpDeskLctpc/pageForm/" + FilaActual.pageId + "/update";
-				$(this).callAjax(link, "#page");
-				$("#myModalApplication .modal-header h4").text("Form Page [" + FilaActual.pageDisplay + "]");
-				
-			});*/
-
 			var tablePermission = $('#tablePermission').DataTable(
 					{
 						autoWidth : true,
@@ -357,7 +268,7 @@ jQuery(function($) {
 							}, {
 								text : "<i class='glyphicon glyphicon-plus'></i>",
 								action : function(e, dt, node, config) {
-									showModal("./permForm/", "#perm");
+									showModal("./permForm/");
 								},
 								init : function(dt, node, config) {
 									node.attr("href", "#myModalApplication");
@@ -402,42 +313,18 @@ jQuery(function($) {
 									title : "Actions",
 									data : null,
 									render : function(data, type, row) {
-										return "<div class='hidden-sm hidden-xs action-buttons'>"
-												+ "<a class='green' id='btn-editPermission' href='#formularioModal' role='button' data-toggle='modal'><i class='fa fa-pencil'></i></a>"
-												+ "<a class='red' id='id-btn-dialog2' href='./permForm/"
+										return "<div class='btn-group'>"
+												+ "<a class='btn-xs' id='btn-edit' href='#myModalApplication' role='button' data-toggle='modal'><i class='fa fa-pencil fa-lg'></i></a>"
+												+ "<a class='btn-xs' id='btn-delete' href='./permForm/"
 												+ data.prmnId
-												+ "/delete'><i class='fa fa-trash-o bigger-130'></i></a>"
-												+ "</div> "
-												+ "<div class='hidden-md hidden-lg'>"
-												+ "<div class='inline pos-rel'>"
-												+ "<button class='btn btn-minier btn-primary dropdown-toggle' data-toggle='dropdown' data-position='auto'>"
-												+ "<i class='ace-icon fa fa-cog icon-only bigger-110'></i>"
-												+ "</button>"
-												+ "<ul class='dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close'>"
-												+ "<li>"
-												+ "<a href='#formularioModal' id='btn-editPermission' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
-												+ "<span class='green'>"
-												+ "<i class='fa fa-pencil-square-o'></i></span></a>"
-												+ "</li>"
-												+ "<li>"
-												+ "<a href='./permForm/"
-												+ data.prmnId
-												+ "/delete' id='id-btn-dialog2' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
-												+ "<span class='red'> <i class='fa fa-trash-o'></i></span></a>" + "</li>"
-
-												+ "</ul>" + "</div>" + "</div>";
+												+ "/delete'><i class='fa fa-trash-o fa-lg'></i></a>"
+												+ "</div> ";
+												
 									},
-									className : "colLinkPermissionModal center"
+									className : "colLinkModal center"
 								} ]
 
 					});
-
-			/*$('#tablePermission tbody').on("click", ".colLinkPermissionModal a#btn-editPermission", function() {
-				var FilaActual = tablePermission.row($(this).parents('tr')).data();
-				var link = $(location).attr('origin') + "/HelpDeskLctpc/permForm/" + FilaActual.prmnId + "/update";
-				$(this).callAjax("permForm" + link, "#perm");
-				$("#myModalApplication .modal-header h4").text("Form Permission [" + FilaActual.prmnName + "]");
-			});*/
 
 			var tableSecQues = $('#tableSecretQuestion').DataTable(
 					{
@@ -478,7 +365,7 @@ jQuery(function($) {
 							}, {
 								text : "<i class='glyphicon glyphicon-plus'></i>",
 								action : function(e, dt, node, config) {
-									showModal("./secretQuestionForm/", "#sctQ");
+									showModal("./secretQuestionForm/");
 								},
 								init : function(dt, node, config) {
 									node.attr("href", "#myModalApplication");
@@ -519,44 +406,19 @@ jQuery(function($) {
 									title : "Actions",
 									data : null,
 									render : function(data, type, row) {
-										return "<div class='hidden-sm hidden-xs action-buttons'>"
-												+ "<a class='' id='btn-editSecQuest' href='#myModalApplication' role='button' data-toggle='modal'><i class='fa fa-pencil'></i></a>"
-												+ "<a class='' id='id-btn-dialog2' href='./secretQuestionForm/"
+										return "<div class='btn-group'>"
+												+ "<a class='btn-xs' id='btn-edit' href='#myModalApplication' role='button' data-toggle='modal'><i class='fa fa-pencil fa-lg'></i></a>"
+												+ "<a class='btn-xs' id='btn-delete' href='./secretQuestionForm/"
 												+ data.sequId
-												+ "/delete'><i class='fa fa-trash-o'></i></a>"
-												+ "</div> "
-												+ "<div class='hidden-md hidden-lg'>"
-												+ "<div class='inline pos-rel'>"
-												+ "<button class='btn btn-minier btn-primary dropdown-toggle' data-toggle='dropdown' data-position='auto'>"
-												+ "<i class='fa fa-cog icon-only'></i>"
-												+ "</button>"
-												+ "<ul class='dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close'>"
-												+ "<li>"
-												+ "<a href='#myModalApplication' id='btn-editSecQuest' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
-												+ "<span class='green'>"
-												+ "<i class='fa fa-pencil-square-o'></i></span></a>"
-												+ "</li>"
-												+ "<li>"
-												+ "<a href='./secretQuestionForm/"
-												+ data.sequId
-												+ "/delete' id='id-btn-dialog2' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
-												+ "<span class='red'> <i class='fa fa-trash-o'></i></span></a>" + "</li>"
-
-												+ "</ul>" + "</div>" + "</div>";
+												+ "/delete'><i class='fa fa-trash-o fa-lg'></i></a>"
+												+ "</div>";
 									},
-									className : "colLinkSecretQuestionModal center"
+									className : "colLinkModal center"
 								}
 
 						]
 
 					});
-
-			/*$('#tableSecretQuestion tbody').on("click", ".colLinkSecretQuestionModal a#btn-editSecQuest", function() {
-				var FilaActual = tableSecQues.row($(this).parents('tr')).data();
-				var link = $(location).attr('origin') + "/HelpDeskLctpc/secretQuestionForm/" + FilaActual.sequId + "/update";
-				$(this).callAjax(link, "#sctQ");
-				$("#myModalApplication .modal-header h4").text("Form Secret Question [" + FilaActual.sequId + "]");
-			});*/
 
 			var tableEntity = $('#tableEntity').DataTable(
 					{
@@ -597,7 +459,7 @@ jQuery(function($) {
 							}, {
 								text : "<i class='glyphicon glyphicon-plus'></i>",
 								action : function(e, dt, node, config) {
-									showModal("./entityForm/", "#entt");
+									showModal("./entityForm/");
 								},
 								init : function(dt, node, config) {
 									node.attr("href", "#myModalApplication");
@@ -642,100 +504,93 @@ jQuery(function($) {
 									title : "Actions",
 									data : null,
 									render : function(data, type, row) {
-										return "<div class='hidden-sm hidden-xs action-buttons'>"
-												+ "<a class='' id='btn-editEntity' href='#myModalApplication' role='button' data-toggle='modal'><i class='fa fa-pencil'></i></a>"
-												+ "<a class='' id='id-btn-dialog2' href='./entityForm/"
+										return "<div class='btn-group'>"
+												+ "<a class='btn-xs' id='btn-edit' href='#myModalApplication' role='button' data-toggle='modal'><i class='fa fa-pencil fa-lg'></i></a>"
+												+ "<a class='btn-xs' id='btn-delete' href='./entityForm/"
 												+ data.enttId
-												+ "/delete' role='button'><i class='fa fa-trash-o'></i></a>"
-												+ "</div> "
-												+ "<div class='hidden-md hidden-lg'>"
-												+ "<div class='inline pos-rel'>"
-												+ "<button class='btn btn-minier btn-primary dropdown-toggle' data-toggle='dropdown' data-position='auto'>"
-												+ "<i class='fa fa-cog icon-only'></i>"
-												+ "</button>"
-												+ "<ul class='dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close'>"
-												+ "<li>"
-												+ "<a href='#myModalApplication' id='btn-editEntity' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
-												+ "<span class='green'>"
-												+ "<i class='fa fa-pencil-square-o'></i></span></a>"
-												+ "</li>"
-												+ "<li>"
-												+ "<a href='./entityForm/"
-												+ data.enttId
-												+ "/delete' role='button' id='id-btn-dialog2' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
-												+ "<span class='red'> <i class='fa fa-trash-o'></i></span></a>" + "</li>"
-
-												+ "</ul>" + "</div>" + "</div>";
+												+ "/delete' role='button'><i class='fa fa-trash-o fa-lg'></i></a>"
+												+ "</div> ";
 									},
-									className : "colLinkEntityModal center"
+									className : "colLinkModal center"
 								}
 
 						]
 
 					});
+			
+			//#tableApplications tbody
+			$('.table-responsive table tbody').on("click", ".colLinkModal a#btn-edit", function() {
+				
+				var table = $(this).parents('table');
+				var tableData = table.DataTable();
+				var FilaActual = tableData.row($(this).parents('tr')).data();
+				var link = $(location).attr('origin') + "/HelpDeskLctpc/";
+				var textModal = "";
+				
+				switch(table.attr('id')){
+					case 'tableApplications':
+						link = link + "appForm/" + FilaActual.appnId + "/update";
+						textModal = "Form Application [" + FilaActual.appnName + "]";
+					break;
+					case 'tablePages':
+						link = link + "pageForm/" + FilaActual.pageId + "/update";
+						textModal = "Form Page [" + FilaActual.pageDisplay + "]";
+					break;
+					case 'tablePermission':
+						link = link + "permForm/" + FilaActual.prmnId + "/update";
+						textModal = "Form Permission [" + FilaActual.prmnName + "]";
+					break;
+					case 'tableSecretQuestion':
+						link = link + "secretQuestionForm/" + FilaActual.sequId + "/update";
+						textModal = "Form Secret Question [" + FilaActual.sequId + "]";
+					break;
+					case 'tableEntity':
+						link = link + "entityForm/" + FilaActual.enttId + "/update";
+						textModal = "Form Entity [" + FilaActual.enttName + "]";
+					break;
+					default:
+						link = null;
+				}
+				
+				if(link !== null){
+					$(this).callAjax(link);
+					$("#myModalApplication .modal-header h4").text(textModal);
+				}
+				
+			});
 
-			/*$('#tableEntity tbody').on("click", ".colLinkEntityModal a#btn-editEntity", function() {
-				var FilaActual = tableEntity.row($(this).parents('tr')).data();
-				var link = $(location).attr('origin') + "/HelpDeskLctpc/entityForm/" + FilaActual.enttId + "/update";
-				$(this).callAjax(link, "#entt");
-				$("#myModalApplication .modal-header h4").text("Form Entity [" + FilaActual.enttName + "]");
-			});*/
-
-			$('#tableApplications tbody').on("click", ".colLinkApplicationModal a#id-btn-dialog2", function(e) {
-				var FilaActual = tableApps.row($(this).parents('tr')).data();
-				var linkDelete = this;
+			$('.table-responsive table tbody').on("click", ".colLinkModal a#btn-delete", function(e) {
+				var table = $(this).parents('table');
+				var tableData = table.DataTable();
+				var FilaActual = tableData.row($(this).parents('tr')).data();
+				var isActive = false;
+				
+				var linkDelete = this; //obtener el valor de href del componente a
 				e.preventDefault(); // elimina el evento del link.
 				
-				if (FilaActual.appnActive) { // Verifica si el registro se encuentra activo.
-					shoModalConfirmation(linkDelete, tableApps);
+				switch(table.attr('id')){
+					case 'tableApplications':
+						isActive = FilaActual.appnActive;
+					break;
+					case 'tablePages':
+						isActive = FilaActual.pageActive;
+					break;
+					case 'tablePermission':
+						isActive = FilaActual.prmnActive;	
+					break;
+					case 'tableSecretQuestion':
+						isActive = FilaActual.sequActive;	
+					break;
+					case 'tableEntity':
+						isActive = FilaActual.enttActive;
+					break;
+					default:
+						isActive = false;
 					
-				}// Fin del If para revisar si esta activo el registro
+				}
 				
+				if(isActive) shoModalConfirmation(linkDelete, tableData);
 				
-			});
-
-			$('#tablePages tbody').on("click", ".colLinkPageModal a#id-btn-dialog2", function(e) {
-				var FilaActual = tablePages.row($(this).parents('tr')).data();
-				var linkDelete = this;
-				e.preventDefault(); // elimina el evento del link.
-				if (FilaActual.pageActive) { // Verifica si el registro se encuentra activo.
-					shoModalConfirmation(linkDelete, tablePages);
-					
-				}// Fin del If para revisar si esta activo el registro
-
-			});
-
-			$('#tablePermission tbody').on("click", ".colLinkPermissionModal a#id-btn-dialog2", function(e) {
-				var FilaActual = tablePermission.row($(this).parents('tr')).data();
-				var linkDelete = this;
-				e.preventDefault(); // elimina el evento del link.
-				if (FilaActual.prmnActive) { // Verifica si el registro se encuentra activo.
-					shoModalConfirmation(linkDelete, tablePermission);
-					
-				}// Fin del If para revisar si esta activo el registro
-
-			});
-
-			$('#tableSecretQuestion tbody').on("click", ".colLinkSecretQuestionModal a#id-btn-dialog2", function(e) {
-				var FilaActual = tableSecQues.row($(this).parents('tr')).data();
-				var linkDelete = this;
-				e.preventDefault(); // elimina el evento del link.
-				if (FilaActual.sequActive) { // Verifica si el registro se encuentra activo.
-					shoModalConfirmation(linkDelete, tableSecQues);
-					
-				}// Fin del If para revisar si esta activo el registro
-
-			});
-
-			$('#tableEntity tbody').on("click", ".colLinkEntityModal a#id-btn-dialog2", function(e) {
-				var FilaActual = tableEntity.row($(this).parents('tr')).data();
-				var linkDelete = this;
-				e.preventDefault(); // elimina el evento del link.
-				if (FilaActual.enttActive) { // Verifica si el registro se encuentra activo.
-					shoModalConfirmation(linkDelete, tableEntity);
-					
-				}// Fin del If para revisar si esta activo el registro
-
 			});
 
 			/* Formatting function for row details - modify as you need */
@@ -759,11 +614,6 @@ jQuery(function($) {
 					row.child(format(row.data())).show();
 					tr.addClass('shown');
 				}
-			});
-
-			
-			$('#btn-addPage').on("click", function() {
-				showModal("./pageForm/", "#page");
 			});
 
 			$('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
@@ -792,11 +642,9 @@ jQuery(function($) {
 
 });
 
-function showModal(p_url, p_form) {
-	$(this).callAjax(p_url, p_form);
+function showModal(p_url) {
+	$(this).callAjax(p_url);
 	$("#myModalApplication .modal-header h4").text("New ");
-	
-	
 }
 
 function shoModalConfirmation(p_url, p_table){
@@ -826,8 +674,7 @@ function shoModalConfirmation(p_url, p_table){
 	});
 }
 
-
-function getListValuesText(p_form){
+function getListValuesText(){
 	
 	$('.chosen-select').chosen({
         allow_single_deselect : true,
@@ -859,24 +706,20 @@ function getListValuesText(p_form){
     
 }
 
-$.fn.callAjax = function(p_url, p_form) {
+$.fn.callAjax = function(p_url) {
 	$.ajax({
 		type : "POST",
 		url : p_url,
 		 dataType: "html",
 		timeout : 100000,
 		success : function(result) {
-			console.log(p_form + " 0");
+			
 			if (!(result === null)) {
 				$(".modal-body .row").html(result);
-				
-				console.log(p_form + " 1");
+				var form = $('.modal-body .row form');
 				getListValuesText();
-				
 				$('#btnSaveConfiguration').on('click', function() {
-					console.log("hola mundo...");
-					$(p_form).submit();
-					
+					form.submit();
 				});
 				
 			}

@@ -7,38 +7,42 @@
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="prmnId"> ID </label>
 		<div class="col-sm-9">
-			<sf:input type="text" placeholder="ID" class="col-xs-11" path="prmnId" readonly="true" />
+			<sf:input type="text" placeholder="ID" class="form-control" path="prmnId" readonly="true" />
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="prmnName"> NAME </label>
 		<div class="col-sm-9">
-			<sf:input type="text" class="col-xs-11" path="prmnName" />
+			<sf:input type="text" class="form-control" path="prmnName" />
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="prmnDescription"> DESCRIPTION </label>
 		<div class="col-sm-9">
-			<sf:input type="text" class="col-xs-11" path="prmnDescription" />
+			<sf:textarea class="form-control" path="prmnDescription" rows="3" />
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="prmnActive"> ACTIVE </label>
 		<div class="col-sm-9">
-			<label class="middle"> <sf:checkbox path="prmnActive" class="ace ace-switch ace-switch-6" value="true" /> <span class="lbl"></span>
-			</label>
+		<div class="i-checks">
+                  <label> 
+                      <sf:checkbox path="prmnActive" value="true" />
+                      <i></i>
+                  </label>
+              </div>
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="prmnCreatedBy"> CREATED BY </label>
 		<div class="col-sm-9">
-			<sf:input type="text" class="col-xs-11" path="prmnCreatedBy" />
+			<sf:input type="text" class="form-control" path="prmnCreatedBy" />
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="prmnUpdateBy"> UPDATE BY </label>
 		<div class="col-sm-9">
-			<sf:input type="text" class="col-xs-11" path="prmnUpdateBy" />
+			<sf:input type="text" class="form-control" path="prmnUpdateBy" />
 		</div>
 	</div>
 </sf:form>
