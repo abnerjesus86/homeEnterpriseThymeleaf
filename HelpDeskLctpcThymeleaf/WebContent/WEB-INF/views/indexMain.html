@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Application Manager | Main view</title>
+
+    <div th:replace="templates/template :: header-css"/>
+
+</head>
+
+<body>
+
+<div id="wrapper">
+    <div th:replace="templates/template :: left-nav"/>
+    
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <div th:replace="templates/template :: top-nav"/>
+        </div>
+        
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center m-t-lg">
+                        <h1>
+                            Welcome in HelpDesk Hutchison Ports LCT
+                        </h1>
+                        <br/>
+                        <a th:href="@{/monitoreoEdi}">Acerca de Monitor Edi</a> <br/>
+					    <a th:href="@{/users}">Usuarios</a> <br/>
+					    <a th:href="@{/secretQuestions}">Secret Question</a> <br/>
+					    <a th:href="@{/roles}">Roles</a> <br/>
+					    <a th:href="@{/applications}">Applications</a> <br/>
+					    <a th:href="@{/pages}">Pages</a> <br/>
+					    <a th:href="@{/entities}">Entities</a> <br/>
+					    <a th:href="@{/permissions}">Permissions</a> <br/>
+					    <a th:href="@{/exampleTemplate}">Template</a> <br/>
+					    <a th:href="@{/getUser}">Usuario</a> <br/>
+					    <a th:href="@{/catalogManager}">Catalogs</a> <br/>
+					    <a th:href="@{/applicationWizard}">Setup your application</a> <br/>
+					    <a th:href="@{/appWizards/?id=3}">Setup your wizard application </a> <br/>
+					    <a th:href="@{/appWizard/3}">Setup your application 2</a> <br/>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="templates/template :: foot-copyright"/>
+        
+    </div>
+</div>
+
+<div th:replace="templates/template :: foot-js"/>
+
+</body>
+
+</html>

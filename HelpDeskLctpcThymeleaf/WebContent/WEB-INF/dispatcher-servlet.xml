@@ -11,10 +11,10 @@
 	<!-- Dispatcher configuration for a JSP+JSTL ViewResolver in a -->
 	<!-- Spring MVC application -->
 	<!-- **************************************************************** -->
-	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<!-- <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/"></property>
 		<property name="suffix" value=".jsp"></property>
-	</bean>
+	</bean> -->
 
 
 	<!-- **************************************************************** -->
@@ -53,8 +53,6 @@
 		</property>
 	</bean>
 
-
-
 	<!-- **************************************************************** -->
 	<!-- THYMELEAF-SPECIFIC ARTIFACTS -->
 	<!-- TemplateResolver <- TemplateEngine <- ViewResolver -->
@@ -63,12 +61,12 @@
 	<!-- SpringResourceTemplateResolver automatically integrates with Spring's own -->
 	<!-- resource resolution infrastructure, which is highly recommended. -->
 	<bean id="templateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
-		<property name="prefix" value="/WEB-INF/templates/" />
+		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".html" />
 		<!-- HTML is the default value, added here for the sake of clarity. -->
 		<property name="templateMode" value="HTML5" />
 		<!-- Template cache is true by default. Set to false if you want -->
-		<!-- templates to be automatically updated when modified. -->
+        <!--templates to be automatically updated when modified. -->
 		<property name="cacheable" value="true" />
 	</bean>
 
@@ -76,11 +74,11 @@
 	<!-- enables Spring's own MessageSource message resolution mechanisms. -->
 	<bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
 		<property name="templateResolver" ref="templateResolver" />
-		<!-- Enabling the SpringEL compiler with Spring 4.2.4 or newer can speed up -->
-		<!-- execution in most scenarios, but might be incompatible with specific -->
-		<!-- cases when expressions in one template are reused across different data -->
-		<!-- ypes, so this flag is "false" by default for safer backwards -->
-		<!-- compatibility. -->
+		<!-- Enabling the SpringEL compiler with Spring 4.2.4 or newer can speed up
+		execution in most scenarios, but might be incompatible with specific
+		cases when expressions in one template are reused across different data
+		ypes, so this flag is "false" by default for safer backwards
+		compatibility. -->
 		<property name="enableSpringELCompiler" value="true" />
 	</bean>
 
@@ -89,7 +87,7 @@
 		<property name="templateEngine" ref="templateEngine" />
 		<!-- NOTE 'order' and 'viewNames' are optional -->
 		<property name="order" value="1" />
-		<property name="viewNames" value="*.html,*.xhtml" />
+		<!-- <property name="viewNames" value="*.html,*.xhtml" /> -->
 	</bean>
 
 

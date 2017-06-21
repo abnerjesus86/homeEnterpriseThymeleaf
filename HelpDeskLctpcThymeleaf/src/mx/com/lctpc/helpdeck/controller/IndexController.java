@@ -30,9 +30,10 @@ public class IndexController {
 
 	@RequestMapping( "/" )
 	public String showIndex() {
-		//return "index";
 		
-		return "indexAppMan";
+		System.out.println("Entonces...");
+		return "indexMain";
+		//return "index";
 	}
 	
 	@RequestMapping( "/login" )
