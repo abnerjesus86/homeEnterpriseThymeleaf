@@ -10,15 +10,6 @@
 
 <div th:replace="templates/template :: header-css"/>
 
-<!-- 
-<link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/css/bootstrap.min.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/font-awesome/css/font-awesome.css" rel="stylesheet">
-
-<link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/css/animate.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/res/plantilla/INSPINIA/css/style.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/res/pages/login/css/style_login.css" rel="stylesheet"> 
--->
-
 </head>
 
 <body class="login-layout lctpc-01">
@@ -42,7 +33,7 @@
                         <hr />
                 </div>
 					<!-- <c:url var="loginUrl" value="/appLogin" /> -->
-					<form class="m-t" role="form" name="f" th:action="@{/appLogin}" method="POST">
+					<form class="m-t" role="form" name="f" th:action="@{/}" method="POST">
 						<div class="form-group">
 							<input type="text" class="form-control" name="username" placeholder="Username" required>
 						</div>
@@ -63,7 +54,7 @@
 				<strong>Copyright</strong> Hutchison Ports LCT
 			</div>
 			<div class="col-md-6 text-right">
-				<small>� 2017</small>
+				<small>&copy; 2017</small>
 			</div>
 		</div>
 	</div>

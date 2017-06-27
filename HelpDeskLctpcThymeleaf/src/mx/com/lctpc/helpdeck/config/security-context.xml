@@ -23,7 +23,7 @@
 		<security:form-login login-page="/login"
 			authentication-failure-url="/login?login_error=1"
 			always-use-default-target="false" default-target-url="/"
-			login-processing-url="/appLogin" />
+			login-processing-url="/" />
 		<security:custom-filter ref="filter"
 			before="FILTER_SECURITY_INTERCEPTOR" />
 		<security:logout invalidate-session="true"

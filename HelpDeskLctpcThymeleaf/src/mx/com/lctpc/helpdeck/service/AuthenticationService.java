@@ -25,7 +25,7 @@ public class AuthenticationService implements UserDetailsService {
 	public UserDetails loadUserByUsername( String p_username ) throws UsernameNotFoundException {
 
 		mx.com.lctpc.helpdeck.pojo.User l_user =  secService.getUser(p_username);
-		
+		System.out.println("Entro aqui....");
 		if(l_user == null){
 			throw new UsernameNotFoundException("User doesn`t exist");
 		}

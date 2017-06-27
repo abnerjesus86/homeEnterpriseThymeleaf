@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Application Manager | Catalog view</title>
+
+<div th:replace="templates/template :: header-css"/>
+
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/chosen/bootstrap-chosen.css}" rel="stylesheet">
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/iCheck/custom.css}" rel="stylesheet">
+<!-- Sweet Alert -->
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
+
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/dataTables/datatables.min.css}" rel="stylesheet">
+
+
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}"
+	rel="stylesheet">
+<!-- Dual Listbox -->
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/dualListbox/bootstrap-duallistbox.min.css}" rel="stylesheet">
+</head>
+
+
+<body>
+
+	<div id="wrapper">
+        <div th:replace="templates/template :: left-nav"/>
+        
+		<div id="page-wrapper" class="gray-bg">
+		  <div class="row border-bottom">
+		      <div th:replace="templates/template :: top-nav"/>
+		  </div>
+
+			<div class="wrapper wrapper-content animated fadeInRight">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="modal inmodal fade" id="myModalApplication" tabindex="-1" role="dialog" aria-hidden="true">
+							<div class="modal-dialog modal-lg">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">
+											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+										</button>
+										<h4 class="modal-title">Form </h4>
+									</div>
+									<div class="modal-body">
+										<div class="row"></div>
+									</div>
+
+									<div class="modal-footer">
+										<button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+										<button id="btnSaveConfiguration"  type="button" class="btn btn-primary">Save changes</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div id="myTab" class="tabs-container">
+							<ul class="nav nav-tabs">
+								<li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-desktop"></i> Applications</a></li>
+								<li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-files-o"></i>Pages</a></li>
+								<li class=""><a data-toggle="tab" href="#tab-3"><i class="fa fa-sliders"></i>Permission</a></li>
+								<li class=""><a data-toggle="tab" href="#tab-4"><i class="fa fa-id-card-o"></i>Secret Questions</a></li>
+								<li class=""><a data-toggle="tab" href="#tab-5"><i class="fa fa-gears"></i>Entities</a></li>
+
+							</ul>
+							<div class="tab-content">
+								<div id="tab-1" class="tab-pane active">
+									<div class="panel-body">
+										<div id="divTbApplications" class="table-responsive">
+											<table id="tableApplications" class="table table-striped table-bordered table-hover">
+												<thead>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										</div>
+
+									</div>
+								</div>
+								<div id="tab-2" class="tab-pane">
+									<div class="panel-body">
+										<div id="divTbPages" class="table-responsive">
+											<table id="tablePages" class="table table-striped table-bordered table-hover">
+												<thead>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+								</div>
+								<div id="tab-3" class="tab-pane">
+									<div class="panel-body">
+										<div id="divTbPermission" class="table-responsive">
+											<table id="tablePermission" class="table table-striped table-hover">
+												<thead>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div id="tab-4" class="tab-pane">
+									<div class="panel-body">
+										<div id="divTbSecretQuestion" class="table-responsive">
+											<table id="tableSecretQuestion" class="table table-striped table-hover">
+												<thead>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div id="tab-5" class="tab-pane">
+									<div class="panel-body">
+										<div id="divTbEntity" class="table-responsive">
+											<table id="tableEntity" class="table table-striped table-hover">
+												<thead>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div th:replace="templates/template :: foot-copyright"/>
+		</div>
+	</div>
+
+    <div th:replace="templates/template :: foot-js"/>
+	<!-- DataTable -->
+	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/dataTables/datatables.min.js}"></script>
+
+	<!-- Chosen -->
+	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/chosen/chosen.jquery.js}"></script>
+
+	<!-- iCheck -->
+	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/iCheck/icheck.min.js}"></script>
+
+    <!-- Sweet alert -->
+    <script th:src="@{/res/plantilla/INSPINIA/js/plugins/sweetalert/sweetalert.min.js}"></script>
+	
+	<!-- Dual Listbox -->
+    <script th:src="@{/res/plantilla/INSPINIA/js/plugins/dualListbox/jquery.bootstrap-duallistbox.js}"></script>
+    
+	<!-- Custom and plugin javascript -->
+	<script th:src="@{/res/pages/catalog/js/script.js}"></script>
+
+</body>
+
+</html>
