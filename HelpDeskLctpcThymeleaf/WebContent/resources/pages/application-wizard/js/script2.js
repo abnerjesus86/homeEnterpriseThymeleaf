@@ -46,7 +46,7 @@ jQuery(function($) {
 					 * if (currentIndex === 2) { if (idApp !== null && idApp !== undefined && idApp != '') {
 					 * $('#tableRoles').DataTable().clear().draw();
 					 * $('#tableRoles').DataTable().ajax.url($(location).attr('origin') +
-					 * "/HelpDeskLctpc/getJsonRolesApps/" + idApp).load(); } console.log("entro al index 2 -> " +
+					 * "/HelpDeskLctpcThymeleaf/getJsonRolesApps/" + idApp).load(); } console.log("entro al index 2 -> " +
 					 * currentIndex); $(this).steps("next"); }
 					 */
 
@@ -60,8 +60,9 @@ jQuery(function($) {
 
 			var idApp = $.urlParam('id');
 			//var idApp = 3;
+			console.log(idApp);
 			//console.log( JSON.stringify( $(location) ) );
-			var linkApp = $(location).attr('origin') + "/HelpDeskLctpc/getJsonApp";
+			var linkApp = $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonApp";
 			if (idApp !== null && idApp !== undefined && idApp != '') {
 				linkApp = linkApp + "/" + idApp;
 			}
@@ -80,7 +81,7 @@ jQuery(function($) {
 					getListValuesText({
 						idList : '#appnAppnId',
 						methodType : 'GET',
-						urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonAppsForSelect",
+						urlWs : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonAppsForSelect",
 						optionSelect : [ data.appnAppnId != null ? data.appnAppnId.appnId : null],
 						parameters : null,
 						errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
@@ -90,7 +91,7 @@ jQuery(function($) {
 					getListValuesText({
 						idList : '#appnPlfmId',
 						methodType : 'GET',
-						urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonPlatformForSelect",
+						urlWs : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonPlatformForSelect",
 						optionSelect : [ data.appnPlfmId ],
 						parameters : null,
 						errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
@@ -100,7 +101,7 @@ jQuery(function($) {
 					getListValuesText({
 						idList : '#appnOwnrId',
 						methodType : 'GET',
-						urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonOwnerForSelect",
+						urlWs : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonOwnerForSelect",
 						optionSelect : [ data.appnOwnrId.ownrId ],
 						parameters : null,
 						errorMessage : "Ha ocurrido un error al cargar el listado de Owner",
@@ -264,7 +265,7 @@ function buildDivLstPages(p_divFather) {
 	var idApp = $('#appnId').val();
 	var obj = null;
 
-	callAjax($(location).attr('origin') + "/HelpDeskLctpc/getJsonPermissionRolPageActive2/" + idApp, 'GET', function(dataJson) {
+	callAjax($(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonPermissionRolPageActive2/" + idApp, 'GET', function(dataJson) {
 
 		var divRowPage = $("<div class='row'>");
 		$.each(dataJson.data, function(iPage, itemPage) {
@@ -328,7 +329,7 @@ function buildDivLstPages(p_divFather) {
 					d= JSON.stringify(l_lstPermAssi);
 					
 					$.ajax({
-						url : $(location).attr('origin') + "/HelpDeskLctpc/appWizard/assignedPermission/save",
+						url : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/appWizard/assignedPermission/save",
 						type : 'POST',
 						contentType : "application/json",
 						data : d,
@@ -538,7 +539,7 @@ function buildStep1Rol() {
 								return "<div class='hidden-sm hidden-xs action-buttons'>" + "<a class='green' id='id-btn-edit' href='#' role='button'><i class='ace-icon fa fa-pencil bigger-130'></i></a>"
 										+ "<a class='red' id='id-btn-delete' href='"
 										+ $(location).attr('origin')
-										+ "/HelpDeskLctpc/appForm/"
+										+ "/HelpDeskLctpcThymeleaf/appForm/"
 										+ data.roleId
 										+ "/delete'><i class='ace-icon fa fa-trash-o bigger-130'></i></a>"
 										+ "</div> "
@@ -556,7 +557,7 @@ function buildStep1Rol() {
 										+ "<li>"
 										+ "<a href='"
 										+ $(location).attr('origin')
-										+ "/HelpDeskLctpc/appForm/"
+										+ "/HelpDeskLctpcThymeleaf/appForm/"
 										+ data.roleId
 										+ "/delete' id='id-btn-dialog2' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
 										+ "<span class='red'> <i class='ace-icon fa fa-trash-o bigger-120'></i></span></a>" + "</li>"
@@ -581,7 +582,7 @@ function buildStep1Rol() {
 			}
 		});
 
-		var link = $(location).attr('origin') + "/HelpDeskLctpc/appWizard/roles/save";
+		var link = $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/appWizard/roles/save";
 		/*
 		 * if (idApp !== null && idApp !== undefined && idApp != '') { link = link + "/" + idApp; }
 		 */
@@ -683,9 +684,9 @@ function buildStep2Page() {
 							render : function(data, type, row) {
 								return "<div class='hidden-sm hidden-xs action-buttons'>" 
 										+ "<a class='' id='id-btn-edit' href='#' ><i class='fa fa-pencil'></i></a>" 
-										+ "<a class='' id='id-btn-deleteAssoc' href='" + $(location).attr('origin') + "/HelpDeskLctpc/appWizard/page/delete/" + data.pageId 
+										+ "<a class='' id='id-btn-deleteAssoc' href='" + $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/appWizard/page/delete/" + data.pageId 
 										+ "' role='button'> <i class='fa fa-chain-broken'></i></a>"
-										+ "<a class='' id='id-btn-delete' href='" + $(location).attr('origin') + "/HelpDeskLctpc/appWizard/page/delete/" + data.pageId + "'><i class='fa fa-trash-o'></i></a>" + "</div> "
+										+ "<a class='' id='id-btn-delete' href='" + $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/appWizard/page/delete/" + data.pageId + "'><i class='fa fa-trash-o'></i></a>" + "</div> "
 										+ "<div class='hidden-md hidden-lg'>" 
 										+ "<div class='btn-group'>" 
 										+ "<button class='btn btn-primary dropdown-toggle' data-toggle='dropdown'>"
@@ -696,11 +697,11 @@ function buildStep2Page() {
 										+ "<a href='#' id='id-btn-edit' role='button' data-toggle='modal' class='btn-circle tooltip-success' data-rel='tooltip' title='Edit'>"
 										+ "<i class='fa fa-pencil-square-o'></i></a>" 
 										+ "</li>" 
-										+ "<li>" + "<a href='" + $(location).attr('origin') + "/HelpDeskLctpc/appWizard/page/delete/" + data.pageId
+										+ "<li>" + "<a href='" + $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/appWizard/page/delete/" + data.pageId
 										+ "' id='id-btn-deleteAssoc' class='btn-circle tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>" + "<i class='fa fa-chain-broken'></i>" + "</a>" 
 										+ "</li>"
 										+ "<li>" 
-										+ "<a href='" + $(location).attr('origin') + "/HelpDeskLctpc/appWizard/page/delete/" + data.pageId
+										+ "<a href='" + $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/appWizard/page/delete/" + data.pageId
 										+ "' id='id-btn-delete' class='btn-circle tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>" + "<i class='fa fa-trash-o'></i></a>" 
 										+ "</li>"
 
@@ -739,7 +740,7 @@ function buildStep2Page() {
 		getListValuesText({
 			idList : '#pagePageId',
 			methodType : 'GET',
-			urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesForSelect/",
+			urlWs : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonPagesForSelect/",
 			optionSelect : [ (filaActualPage.pagePageId instanceof Object ? filaActualPage.pagePageId.pageId : filaActualPage.pagePageId) ],
 			parameters : null,
 			errorMessage : "Ha ocurrido un error al cargar el listado de Paginas padres",
@@ -751,7 +752,7 @@ function buildStep2Page() {
 		getListValuesText({
 			idList : '#duallist',
 			methodType : 'GET',
-			urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonEntitiesForSelect/",
+			urlWs : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonEntitiesForSelect/",
 			optionSelect : l_entityOptSel.length !== 0 ? l_entityOptSel : null,
 			parameters : null,
 			errorMessage : "Ha ocurrido un error al cargar el listado de entidades para pagina",
@@ -831,7 +832,7 @@ function buildStep2Page() {
 			} ]
 		});
 
-		var link = $(location).attr('origin') + "/HelpDeskLctpc/appWizard/page/save";
+		var link = $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/appWizard/page/save";
 		if (idApp !== null && idApp !== undefined && idApp != '') {
 			link = link + "/" + idApp;
 		}
@@ -872,7 +873,7 @@ function clearFormRol() {
 
 	if (idApp !== null && idApp !== undefined && idApp != '') {
 		$('#tableRoles').DataTable().clear().draw();
-		$('#tableRoles').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpc/getJsonRolesApps/" + idApp).load();
+		$('#tableRoles').DataTable().ajax.url($(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonRolesApps/" + idApp).load();
 	}
 }
 
@@ -884,7 +885,7 @@ function clearFormPage() {
 
 	$('#tablePages').DataTable().clear().draw();
 	$('#tablePages').DataTable().ajax.url(
-			$(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp).
+			$(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonPagesApps/" + idApp).
 			load(function() {
 				
 		$('#divTbPages').removeClass('hidden');
@@ -894,7 +895,7 @@ function clearFormPage() {
 	
 	$('#tablePages').DataTable().clear().draw();
 	$('#tablePages').DataTable().ajax.url(
-			$(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesApps/" + idApp).load();
+			$(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonPagesApps/" + idApp).load();
 	
 	$('#pageId').val("");
 	$('#pageDisplay').val("");
@@ -904,7 +905,7 @@ function clearFormPage() {
 	getListValuesText({
 		idList : '#pagePageId',
 		methodType : 'GET',
-		urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonPagesForSelect/",
+		urlWs : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonPagesForSelect/",
 		optionSelect : null,
 		parameters : null,
 		errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
@@ -916,7 +917,7 @@ function clearFormPage() {
 	getListValuesText({
 		idList : '#duallist',
 		methodType : 'GET',
-		urlWs : $(location).attr('origin') + "/HelpDeskLctpc/getJsonEntitiesForSelect/",
+		urlWs : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonEntitiesForSelect/",
 		optionSelect : null,
 		parameters : null,
 		errorMessage : "Ha ocurrido un error al cargar el listado de Líneas Navieras",
@@ -931,7 +932,11 @@ function clearFormAssignedPermission(){
 }
 
 $.urlParam = function(name){
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+	var l_url = $(location).attr('href');
+	//window.location.href
+	console.log(l_url);
+	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(l_url);
+    
     if (results==null){
        return null;
     }

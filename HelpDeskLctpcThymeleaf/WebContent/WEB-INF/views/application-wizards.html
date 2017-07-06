@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Application Manager | Wizard</title>
+
+<div th:replace="templates/template :: header-css"/>
+
+<link rel="stylesheet" th:href="@{/res/pages/application-wizard/css/style2.css}" />
+
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/dataTables/datatables.min.css}" rel="stylesheet">
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/iCheck/custom.css}" rel="stylesheet">
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/steps/jquery.steps.css}" rel="stylesheet">
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/chosen/bootstrap-chosen.css}" rel="stylesheet">
+<!-- Sweet Alert -->
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
+<!-- Dual Listbox -->
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/dualListbox/bootstrap-duallistbox.min.css}" rel="stylesheet">
+
+</head>
+
+<body class="pace-done skin-1">
+
+	<div id="wrapper">
+		<div th:replace="templates/template :: left-nav"/>
+
+		<div id="page-wrapper" class="gray-bg">
+			<div class="row border-bottom">
+				<div th:replace="templates/template :: top-nav"/>
+			</div>
+			<div class="wrapper wrapper-content animated fadeInRight">
+				<!-- <div class="middle-box text-center animated fadeInRightBig"> -->
+				<!-- <div class="animated fadeInRightBig"> -->
+
+				<div class="row">
+					<!-- Configuracion del wizard... -->
+					<div id="wizard" class="wizard-big wizard">
+						<h1>Application</h1>
+						<div class="step-content">
+							<!-- <div class="text-center m-t-md"> -->
+							<h2>Create your application</h2>
+							<form class="form-horizontal">
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right" for="appnId"> ID </label>
+									<div class="col-sm-9">
+										<input type="text" placeholder="ID" class="form-control" id="appnId" readonly="true" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right" for="appnAppnId"> Application Father </label>
+									<div class="col-sm-9">
+										<select id="appnAppnId" class="chosen-select" size="5" data-placeholder="Choose a Application Father o Master...">
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right" for="appnPlfmId"> Platform </label>
+									<div class="col-sm-9">
+										<select id="appnPlfmId" class="chosen-select" data-placeholder="Choose a Platform...">
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right" for="appnOwnrId"> Owner </label>
+									<div class="col-sm-9">
+										<select id="appnOwnrId" class="chosen-select" data-placeholder="Choose a Owner...">
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right" for="appnName"> Name </label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" id="appnName" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right" for="appnDescription"> Description </label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" id="appnDescription" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right" for="appnUrl"> Url </label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" id="appnUrl" />
+									</div>
+								</div>
+
+							</form>
+
+						</div>
+
+						<h1>Roles</h1>
+						<div class="step-content">
+							<!-- <div class="text-center m-t-md"> -->
+							<h2>Create Roles for your Application</h2>
+							<div class="row">
+								<div class="col-xs-12 col-sm-6">
+									<div class="table-responsive">
+										<table id="tableRoles" class="table table-striped table-bordered table-hover dataTables-example">
+											<thead>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+
+								</div>
+								<div class="col-xs-12 col-sm-6">
+									<form class="form-horizontal">
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="userId"> ID </label>
+											<div class="col-sm-9">
+												<input type="text" placeholder="ID" class="form-control" id="roleId" readonly="true" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="roleName"> Name </label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="roleName" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="roleDescription"> Description </label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="roleDescription" />
+											</div>
+										</div>
+
+										<div class="hr-line-dashed"></div>
+										<div>
+											<div class="btn-group col-sm-offset-3">
+												<button class="btn btn-success btn-sm" type="button" id="btn-addRole">
+													<i class="fa fa-floppy-o bigger-110"></i> New
+												</button>
+
+												<button class="btn btn-sm" type="reset" id="btn-resetRole">
+													<i class="fa fa-undo bigger-110"></i> Reset
+												</button>
+											</div>
+										</div>
+									</form>
+								</div>
+
+							</div>
+							<!-- </div> -->
+						</div>
+
+						<h1>Pages</h1>
+						<div class="step-content">
+							<!-- <div class="text-center m-t-md"> -->
+							<h2>Create Page for your Application</h2>
+							<div class="row">
+								<div class="col-xs-12 col-sm-7">
+									<div id="divTbPages" class="table-responsive">
+
+										<table id="tablePages" class="table table-striped table-bordered table-hover ">
+										</table>
+									</div>
+									<!-- <div id="capaLoader" class="text-center hidden" style="margin-top: 100px">
+										<img class='loader-gear' src='../res/assets/images/loading1.gif' />
+									</div>
+									<div id="divTbPages" class="table-responsive hidden">
+										dataTables-example
+										<table id="tablePages" class="table table-striped table-bordered table-hover ">
+										</table>
+									</div> -->
+
+								</div>
+
+								<div class="col-xs-12 col-sm-5">
+									<form class="form-horizontal">
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="pageId"> ID </label>
+											<div class="col-sm-9">
+												<input type="text" placeholder="ID" class="form-control" id="pageId" readonly />
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="pagePageId"> Page Father </label>
+											<div class="col-sm-9">
+												<select id="pagePageId" class="chosen-select" data-placeholder="Choose a Page Father o Master...">
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="pageDisplay"> Name </label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="pageDisplay" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="pageDescription"> Descripcion </label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="pageDescription" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="pageUrl"> Url </label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="pageUrl" />
+											</div>
+										</div>
+										<!-- <div class="hr hr-18 dotted hr-double"></div> -->
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-top" for="duallist"> Select Entities </label>
+
+											<div class="col-sm-9">
+												<!-- #section:plugins/input.duallist -->
+												<select multiple="multiple" size="6" class="form-control dual_select" name="duallistbox_demo1[]" id="duallist">
+												</select>
+
+												<!-- /section:plugins/input.duallist -->
+											</div>
+										</div>
+										<div class="hr-line-dashed"></div>
+										<div>
+											<div class="btn-group col-sm-offset-3">
+												<button class="btn btn-success btn-sm" type="button" id="btn-addPage">
+													<i class="fa fa-floppy-o bigger-110"></i> New
+												</button>
+												<button class="btn btn-sm" type="reset" id="btn-resetPage">
+													<i class="fa fa-undo bigger-110"></i> Reset
+												</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+							<!-- </div> -->
+						</div>
+
+						<h1>Assign page to roles</h1>
+						<div class="step-content">
+							<!-- <div class="text-center m-t-md"> -->
+							<h2>Associates permissions to pages</h2>
+							<div id="divPages" class="row">
+								<div class="col-lg-12" id="divColPrincipalPages"></div>
+							</div>
+
+							<!-- </div> -->
+						</div>
+						<!-- fin div wizard -->
+					</div>
+					<!-- Fin div row -->
+				</div>
+				<!-- middle-box text-center animated fadeInRightBig... -->
+				<!-- </div> -->
+			</div>
+			<div th:replace="templates/template :: foot-copyright"/>
+		</div>
+	</div>
+    
+    <div th:replace="templates/template :: foot-js"/>
+
+	<!-- Chosen -->
+	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/chosen/chosen.jquery.js}"></script>
+	<!-- DataTable -->
+	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/dataTables/datatables.min.js}"></script>
+	<!-- Dual Listbox -->
+	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/dualListbox/jquery.bootstrap-duallistbox.js}"></script>
+	<!-- Steps -->
+	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/steps/jquery.steps.min.js}"></script>
+	<!-- Sweet alert -->
+	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/sweetalert/sweetalert.min.js}"></script>
+	<!-- iCheck -->
+	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/iCheck/icheck.min.js}"></script>
+	<!-- Jquery Validate -->
+	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/validate/jquery.validate.min.js}"></script>
+    
+	<script th:src="@{/res/pages/application-wizard/js/script2.js}"></script>
+
+    
+</body>
+
+</html>

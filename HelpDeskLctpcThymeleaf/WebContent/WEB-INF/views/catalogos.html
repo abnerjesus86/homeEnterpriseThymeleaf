@@ -8,7 +8,7 @@
 
 <title>Application Manager | Catalog view</title>
 
-<div th:replace="templates/template :: header-css"/>
+<div th:replace="templates/template :: header-css" />
 
 <link th:href="@{/res/plantilla/INSPINIA/css/plugins/chosen/bootstrap-chosen.css}" rel="stylesheet">
 <link th:href="@{/res/plantilla/INSPINIA/css/plugins/iCheck/custom.css}" rel="stylesheet">
@@ -17,23 +17,21 @@
 
 <link th:href="@{/res/plantilla/INSPINIA/css/plugins/dataTables/datatables.min.css}" rel="stylesheet">
 
-
-<link th:href="@{/res/plantilla/INSPINIA/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}"
-	rel="stylesheet">
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}" rel="stylesheet">
 <!-- Dual Listbox -->
 <link th:href="@{/res/plantilla/INSPINIA/css/plugins/dualListbox/bootstrap-duallistbox.min.css}" rel="stylesheet">
 </head>
 
 
-<body>
+<body class="pace-done skin-1">
 
 	<div id="wrapper">
-        <div th:replace="templates/template :: left-nav"/>
-        
+		<div th:replace="templates/template :: left-nav" />
+
 		<div id="page-wrapper" class="gray-bg">
-		  <div class="row border-bottom">
-		      <div th:replace="templates/template :: top-nav"/>
-		  </div>
+			<div class="row border-bottom">
+				<div th:replace="templates/template :: top-nav" />
+			</div>
 
 			<div class="wrapper wrapper-content animated fadeInRight">
 				<div class="row">
@@ -45,7 +43,7 @@
 										<button type="button" class="close" data-dismiss="modal">
 											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 										</button>
-										<h4 class="modal-title">Form </h4>
+										<h4 class="modal-title">Form</h4>
 									</div>
 									<div class="modal-body">
 										<div class="row"></div>
@@ -53,12 +51,12 @@
 
 									<div class="modal-footer">
 										<button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-										<button id="btnSaveConfiguration"  type="button" class="btn btn-primary">Save changes</button>
+										<button id="btnSaveConfiguration" type="button" class="btn btn-primary">Save changes</button>
 									</div>
 								</div>
 							</div>
 						</div>
-						
+
 						<div id="myTab" class="tabs-container">
 							<ul class="nav nav-tabs">
 								<li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-desktop"></i> Applications</a></li>
@@ -137,11 +135,11 @@
 					</div>
 				</div>
 			</div>
-			<div th:replace="templates/template :: foot-copyright"/>
+			<div th:replace="templates/template :: foot-copyright" />
 		</div>
 	</div>
 
-    <div th:replace="templates/template :: foot-js"/>
+	<div th:replace="templates/template :: foot-js" />
 	<!-- DataTable -->
 	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/dataTables/datatables.min.js}"></script>
 
@@ -151,12 +149,12 @@
 	<!-- iCheck -->
 	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/iCheck/icheck.min.js}"></script>
 
-    <!-- Sweet alert -->
-    <script th:src="@{/res/plantilla/INSPINIA/js/plugins/sweetalert/sweetalert.min.js}"></script>
-	
+	<!-- Sweet alert -->
+	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/sweetalert/sweetalert.min.js}"></script>
+
 	<!-- Dual Listbox -->
-    <script th:src="@{/res/plantilla/INSPINIA/js/plugins/dualListbox/jquery.bootstrap-duallistbox.js}"></script>
-    
+	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/dualListbox/jquery.bootstrap-duallistbox.js}"></script>
+
 	<!-- Custom and plugin javascript -->
 	<script th:src="@{/res/pages/catalog/js/script.js}"></script>
 
