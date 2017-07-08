@@ -524,7 +524,7 @@ jQuery(function($) {
 				var table = $(this).parents('table');
 				var tableData = table.DataTable();
 				var FilaActual = tableData.row($(this).parents('tr')).data();
-				var link = $(location).attr('origin') + "/HelpDeskLctpc/";
+				var link = $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/";
 				var textModal = "";
 				
 				switch(table.attr('id')){

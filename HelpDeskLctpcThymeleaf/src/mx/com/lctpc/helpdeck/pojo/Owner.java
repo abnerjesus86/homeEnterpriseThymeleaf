@@ -172,6 +172,14 @@ public class Owner implements Serializable {
 	public void setAppns( List<Application> p_appns ) {
 		this.g_appns = p_appns;
 	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Owner [g_ownrId=" + this.g_ownrId + ", g_ownrName=" + this.g_ownrName + ", g_ownrLogo=" + this.g_ownrLogo + ", g_ownrActive=" + this.g_ownrActive + ", g_ownrCreatedDate=" + this.g_ownrCreatedDate
+				+ ", g_ownrCreatedBy=" + this.g_ownrCreatedBy + ", g_ownrUpdateDate=" + this.g_ownrUpdateDate + ", g_ownrUpdateBy=" + this.g_ownrUpdateBy + "]";
+	}
 	
 	
 }

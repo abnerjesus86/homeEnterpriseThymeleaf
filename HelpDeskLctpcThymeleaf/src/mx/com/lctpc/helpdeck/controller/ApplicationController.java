@@ -19,6 +19,7 @@ import mx.com.lctpc.helpdeck.pojo.Application;
 import mx.com.lctpc.helpdeck.pojo.Page;
 import mx.com.lctpc.helpdeck.pojo.Rol;
 import mx.com.lctpc.helpdeck.service.ApplicationService;
+import mx.com.lctpc.helpdeck.service.OwnerService;
 import mx.com.lctpc.helpdeck.service.PageService;
 
 @Controller
@@ -29,6 +30,9 @@ public class ApplicationController {
 	
 	@Autowired
 	private PageService pageService;
+	
+	@Autowired
+	private OwnerService ownerService;
 	
 	@RequestMapping( "/applications" )
 	public String showApplications( Model p_model ) {
@@ -45,13 +49,13 @@ public class ApplicationController {
 		p_model.addAttribute("appn", l_app);
 		p_model.addAttribute("platformList", l_map);
 		p_model.addAttribute("appnsMasterList", appService.findAllApplication());
+		p_model.addAttribute("ownersList", ownerService.findOwnersActive());
 		
-		return "applicationForm";
+		return "fragments/applicationForm";
 	}
 
 	@RequestMapping( value = "/appForm/save", method = RequestMethod.POST )
 	public String showAppFormSave( @ModelAttribute( "appn" ) Application p_app, Model p_model ) {
-		
 		appService.saveOrUpdate(p_app);
 		
 		return "redirect:/catalogManager";
@@ -63,11 +67,15 @@ public class ApplicationController {
 		Application l_app = appService.findApplicationById(p_appId);
 		Map<BigDecimal, String> l_map = appService.findPlatform();
 		
+		p_model.addAttribute("appn", l_app);
 		p_model.addAttribute("platformList", l_map);
 		p_model.addAttribute("appnsMasterList", appService.findAllApplication());
-		p_model.addAttribute("appn", l_app);
+		p_model.addAttribute("ownersList", ownerService.findOwnersActive());
 		
-		return "applicationForm";
+		
+		System.out.println("Entro al controller /appForm/{appId}/update ...");
+		
+		return "fragments/applicationForm";
 	}
 	
 	@RequestMapping( value="/appForm/{appId}/delete")

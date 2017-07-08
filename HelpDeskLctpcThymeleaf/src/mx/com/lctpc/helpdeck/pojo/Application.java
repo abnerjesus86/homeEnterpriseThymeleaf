@@ -377,4 +377,16 @@ public class Application implements Serializable {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Application [g_appnId=" + this.g_appnId + ", g_appnOwnrId=" + this.g_appnOwnrId + ", g_appnAppnId=" + this.g_appnAppnId + ", g_appnPlfmId=" + this.g_appnPlfmId + ", g_appnName=" + this.g_appnName
+				+ ", g_appnDescription=" + this.g_appnDescription + ", g_appnUrl=" + this.g_appnUrl + ", g_appnActive=" + this.g_appnActive + ", g_appnCreatedDate=" + this.g_appnCreatedDate + ", g_appnCreatedBy="
+				+ this.g_appnCreatedBy + ", g_appnUpdateDate=" + this.g_appnUpdateDate + ", g_appnUpdateBy=" + this.g_appnUpdateBy + "]";
+	}
+
+		
+	
 }

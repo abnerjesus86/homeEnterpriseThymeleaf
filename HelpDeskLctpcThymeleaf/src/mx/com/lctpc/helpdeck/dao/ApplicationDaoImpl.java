@@ -113,7 +113,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
 		@SuppressWarnings( "unchecked" )
 		Query<Object[]> l_query = getSession().createNativeQuery("SELECT "+
 				  "PLFM_ID, "+
-				  "DVLP_NAME ||' '|| TECH_NAME ||' '|| TECH_VERSION ||' '|| TECH_API  "+
+				  "DVLP_NAME ||' '|| TECH_NAME ||' '|| TECH_VERSION ||' '|| TECH_API  AS NAME "+
 				"FROM PLATFORM "+
 				"INNER JOIN PLATFORM_TECHNOLOGY "+
 				"ON PLTE_PLFM_ID = PLFM_ID "+

@@ -1,0 +1,92 @@
+<th:block th:fragment="content" xmlns:th="http://www.thymeleaf.org">
+	<form th:action="@{/appForm/save}" method="post" th:object="${appn}" class="form-horizontal" role="form">
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="appnId"> ID </label>
+			<div class="col-sm-9">
+				<input type="text" placeholder="ID" class="form-control" th:field="*{appnId}" readonly="true" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="appnName"> NAME </label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" th:field="*{appnName}" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="appnDescription"> DESCRIPTION </label>
+			<div class="col-sm-9">
+				<textarea class="form-control" th:field="*{appnDescription}" rows="3" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="appnUrl"> URL </label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" th:field="*{appnUrl}" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="appnAppnId"> APPLICATION FATHER </label>
+			<div class="col-sm-9">
+				<select th:field="*{appnAppnId}" class="chosen-select col-xs-11" data-placeholder="Choose a Application Father o Master...">
+					<option value="NONE" label="---- Select ----" />
+					<option th:each="appnAppnId : ${appnsMasterList}" th:value="${appnAppnId.appnId}" th:text="${appnAppnId.appnName}" />
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="appnPlfmId"> PLATFORM </label>
+			<div class="col-sm-9">
+				<select th:field="*{appnPlfmId}" class="chosen-select" data-placeholder="Choose a Platform...">
+					<!-- <option value="NONE" label="---- Select ----" />  -->
+					<option th:each="item : ${platformList}" th:value="${item.key}" th:text="${item.value}" />
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="appnOwnrId"> Owner </label>
+			<div class="col-sm-9">
+				<select th:field="*{appnOwnrId}" class="chosen-select" data-placeholder="Choose a Owner...">
+				<option th:each="itemOwner : ${ownersList}" th:value="${itemOwner.ownrId}" th:text="${itemOwner.ownrName}" />
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="appnActive"> ACTIVE </label>
+			<div class="col-sm-9">
+				<div class="i-checks">
+					<label> <input type="checkbox" th:field="*{appnActive}" value="true" /> <i></i>
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="appnCreatedBy"> CREATED BY </label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" th:field="*{appnCreatedBy}" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="appnUpdateBy"> UPDATE BY </label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" th:field="*{appnUpdateBy}" />
+			</div>
+		</div>
+	</form>
+</th:block>
+
+
+<script type="text/javascript">
+	jQuery(function($) {
+
+		/* $('.chosen-select').chosen({
+		    allow_single_deselect : true,
+		    width : "100%"
+		});
+		$('.i-checks').iCheck({
+		    checkboxClass: 'icheckbox_square-green',
+		    radioClass: 'iradio_square-green',
+		}); */
+	});
+</script>
+
