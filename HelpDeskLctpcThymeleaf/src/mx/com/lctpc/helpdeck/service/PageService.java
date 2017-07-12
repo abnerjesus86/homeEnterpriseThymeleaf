@@ -75,4 +75,7 @@ public class PageService {
 		return pageDao.findPageFromApplicationById(p_appnId);
 	}
 	
+	public PageEntity findPageEntity( BigDecimal p_pag, BigDecimal p_Ent ){
+		return null;// pageDao.findPageEntityById(p_pagEntId);
+	}
 }

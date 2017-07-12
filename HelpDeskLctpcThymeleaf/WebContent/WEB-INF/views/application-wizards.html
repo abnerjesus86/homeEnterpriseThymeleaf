@@ -3,12 +3,7 @@
 
 <head>
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Application Manager | Wizard</title>
-
-<div th:replace="templates/template :: header-css"/>
+<div th:replace="templates/template :: header-css(${'Wizard'})" />
 
 <link rel="stylesheet" th:href="@{/res/pages/application-wizard/css/style2.css}" />
 
@@ -26,11 +21,11 @@
 <body class="pace-done skin-1">
 
 	<div id="wrapper">
-		<div th:replace="templates/template :: left-nav"/>
+		<div th:replace="templates/template :: left-nav" />
 
 		<div id="page-wrapper" class="gray-bg">
 			<div class="row border-bottom">
-				<div th:replace="templates/template :: top-nav"/>
+				<div th:replace="templates/template :: top-nav" />
 			</div>
 			<div class="wrapper wrapper-content animated fadeInRight">
 				<!-- <div class="middle-box text-center animated fadeInRightBig"> -->
@@ -251,11 +246,11 @@
 				<!-- middle-box text-center animated fadeInRightBig... -->
 				<!-- </div> -->
 			</div>
-			<div th:replace="templates/template :: foot-copyright"/>
+			<div th:replace="templates/template :: foot-copyright" />
 		</div>
 	</div>
-    
-    <div th:replace="templates/template :: foot-js"/>
+
+	<div th:replace="templates/template :: foot-js" />
 
 	<!-- Chosen -->
 	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/chosen/chosen.jquery.js}"></script>
@@ -271,10 +266,10 @@
 	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/iCheck/icheck.min.js}"></script>
 	<!-- Jquery Validate -->
 	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/validate/jquery.validate.min.js}"></script>
-    
+
 	<script th:src="@{/res/pages/application-wizard/js/script2.js}"></script>
 
-    
+
 </body>
 
 </html>

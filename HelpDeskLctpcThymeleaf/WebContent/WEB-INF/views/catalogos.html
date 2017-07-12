@@ -3,25 +3,18 @@
 
 <head>
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Application Manager | Catalog view</title>
-
-<div th:replace="templates/template :: header-css" />
-
-<link th:href="@{/res/plantilla/INSPINIA/css/plugins/chosen/bootstrap-chosen.css}" rel="stylesheet">
-<link th:href="@{/res/plantilla/INSPINIA/css/plugins/iCheck/custom.css}" rel="stylesheet">
-<!-- Sweet Alert -->
-<link th:href="@{/res/plantilla/INSPINIA/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
+<th:block th:replace="templates/template :: header-css(${'Catalog view'})" />
 
 <link th:href="@{/res/plantilla/INSPINIA/css/plugins/dataTables/datatables.min.css}" rel="stylesheet">
-
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/iCheck/custom.css}" rel="stylesheet">
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/chosen/bootstrap-chosen.css}" rel="stylesheet">
 <link th:href="@{/res/plantilla/INSPINIA/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}" rel="stylesheet">
+<!-- Sweet Alert -->
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
 <!-- Dual Listbox -->
 <link th:href="@{/res/plantilla/INSPINIA/css/plugins/dualListbox/bootstrap-duallistbox.min.css}" rel="stylesheet">
-</head>
 
+</head>
 
 <body class="pace-done skin-1">
 

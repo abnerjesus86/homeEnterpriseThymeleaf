@@ -21,6 +21,6 @@ public interface PageDao {
 	public void savePageEntity(PageEntity p_pagEnt);
 	public void deletePageFromApplicationById(Page p_page, Application p_appnId);
 	public List<Page> findPageFromApplicationById(BigDecimal p_appnId);
-	
+	public PageEntity findPageEntity( BigDecimal p_pag, BigDecimal p_Ent );
 	
 }

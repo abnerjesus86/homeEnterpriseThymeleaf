@@ -136,6 +136,20 @@ public class PageDaoImpl implements PageDao {
 				;
 		return l_queryPageEntity.getResultList();
 	}
+
+	@Override
+	public PageEntity findPageEntity( BigDecimal p_pag, BigDecimal p_Ent ) {
+		Query<PageEntity> l_queryPageEntity = getSession().createQuery("SELECT pagEnt "
+				+ "FROM PageEntity pagEnt WHERE pagEnt.g_paenPageId.g_pageId = :p_pageId "
+				+ "AND pagEnt.g_paenEnttId.g_enttId = :p_entId "
+				+ "AND pagEnt.g_paenActive = :p_Active", PageEntity.class)
+				.setParameter("p_pageId",p_pag)
+				.setParameter("p_entId",p_Ent)
+				.setParameter("p_Active", true);
+		
+		return l_queryPageEntity.getSingleResult();
+		
+	}
 	
 	
 	

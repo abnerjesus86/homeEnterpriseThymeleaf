@@ -40,7 +40,7 @@ public class PageController {
 	@Autowired
 	private ApplicationService appService;
 
-	@InitBinder
+	/*@InitBinder*/
 	protected void initBinder( HttpServletRequest request, ServletRequestDataBinder binder ) throws Exception {
 		binder.registerCustomEditor(List.class, "pageEntities", new CustomCollectionEditor(List.class) {
 			protected Object convertElement( Object element ) {
@@ -50,6 +50,7 @@ public class PageController {
 				}
 				if (element instanceof String) {
 					// Transformar al dato dessea para guardar
+					System.out.println("request ....... " + request.getParameter("pageId"));
 					System.out.println("Looking up staff for id " + element + ": ");
 
 					String l_ids[] = element.toString().split("\\|");
@@ -81,18 +82,9 @@ public class PageController {
 					 */
 				}
 				if (element instanceof BigDecimal) {
-					/*
-					 * AEntities l_ent = entityService.findEntityById(
-					 * (BigDecimal) element); System.out.
-					 * println("Looking up AEntity BigDecimal from String : " +
-					 * element +" : "+l_ent); return l_ent; 41 6 1 42 6 2 43 6 4
-					 */
+					
 					System.out.println("Looking up AEntity BigDecimal from String : " + element);
-					// BigDecimal ld = new BigDecimal(element.toString());
-
-					// System.out.println("Looking up AEntity BigDecimal from
-					// String : " + element);
-					// return ld.toPlainString();
+					
 				}
 				System.out.println("Don't know what to do with: " + element.getClass());
 				return null;
@@ -115,14 +107,73 @@ public class PageController {
 		p_model.addAttribute("pagesMasterList", pageService.findAllPage());
 		p_model.addAttribute("entitiesList", entityService.findAllEntity());
 
-		return "pageForm";
+		return "fragments/pageForm";
 	}
 
 	@RequestMapping( value = "/pageForm/save", method = RequestMethod.POST )
 	public String showPageFormSave( @ModelAttribute( "page" ) Page p_pag, Model model ) {
 		System.out.println("save pageForm " + p_pag.getPageEntities());
-
+		
+		//obtener la pagina actual de la base de datos (pagina que sera actualizada)
+		Page l_pagCurrent = pageService.findPageById(p_pag.getPageId());
+		
+		// Cambiar por el metodo de obtener los pageEntity activas y no todas.
+		List<PageEntity> l_lstCurrent = l_pagCurrent.getPageEntities(); 
+		
+		System.out.println("VALOR: "+ l_lstCurrent.size());
 		pageService.saveOrUpdatePage(p_pag);
+
+		// Proceso de actualizacion de pageEntity cuando todavia no exite ninguna entidad relacionada a la pagina
+		List<PageEntity> l_lstNew = new ArrayList<PageEntity>();
+		if (l_lstCurrent.isEmpty()) {
+
+			for (PageEntity l_pE : p_pag.getPageEntities()) {
+				l_pE.setPaenId(null);
+				l_pE.setPaenPageId(p_pag);
+				l_pE.setPaenActive(true);
+				l_pE.setPaenCreatedBy("BENITEZ.ABNER");
+				l_pE.setPaenUpdateBy("BENITEZ.ABNER");
+
+				pageService.savePageEntity(l_pE);
+			}
+
+		} else {// proceso para cuando ya existen entidades asociadas a la pagina
+
+			for (PageEntity l_pg : p_pag.getPageEntities()) { // Recore PageEntity enviados desde el front-End para su revision.
+				
+				//Traer la PageEntity activa si es que existe, se obtiene el PageEntity ya que el front-End retorno
+				// en el objeto PageEntity el valor del objeto AEntity por eso se obtiene el valor real de PageEntity
+				PageEntity l_pgNew = pageService.findPageEntity(p_pag.getPageId(), l_pg.getPaenEnttId().getEnttId());
+
+				// Caso cuando existen entidad ya relaccionadas y se agrega una nueva.
+				if (l_pgNew == null) {
+					l_pg.setPaenId(null); //Se estable en null por que desde el front-End trae el Id de AEntity
+					l_pg.setPaenPageId(p_pag);
+					l_pg.setPaenActive(true);
+					l_pg.setPaenCreatedBy("BENITEZ.ABNER");
+					l_pg.setPaenUpdateBy("BENITEZ.ABNER");
+
+					pageService.savePageEntity(l_pg);
+
+					l_lstNew.add(l_pg);
+				} else
+					l_lstNew.add(l_pgNew);
+			}
+
+			// Proceso para obtener las entidades a borrar o desactivar; 
+			// Se removeran las entidades nuevas de la lista actual(l_lstCurrent), con esto se quedaran solo las 
+			// entidades a borrar o que se quitaron del dual_select del front-end
+			l_lstCurrent.removeAll(l_lstNew);
+
+			// Desactivar o borrar entidades del array actual
+			for (PageEntity l_pE : l_lstCurrent) {
+				l_pE.setPaenActive(false);
+				l_pE.setPaenUpdateBy("BENITEZ.ABNER");
+				pageService.deletePageEntity(l_pE);
+			}
+
+		}
+
 		return "redirect:/catalogManager";
 	}
 
@@ -134,20 +185,20 @@ public class PageController {
 		// l_page.setPageEntities(l_lstPagEnt);
 		// System.out.println("Page desde pagEntity con ID " +
 		// l_page.getPageEntities() );
-		/*
-		 * List<AEntities> l_lstEnt = new ArrayList<AEntities>(); for(PageEntity
-		 * l_ent : pageService.findEntitiesActiveFromPage(p_pagId)){
-		 * l_lstEnt.add(l_ent.getPaenEnttId()); System.out.println("save " +
-		 * l_ent.getPaenEnttId()); }
-		 * l_page.setEntities(l_lstEnt);
-		 */
-		
+
+		List<BigDecimal> l_lstEnt = new ArrayList<BigDecimal>();
+		for (PageEntity l_ent : l_page.getPageEntities()) {
+			l_lstEnt.add(l_ent.getPaenEnttId().getEnttId());
+
+		}
+
 		p_model.addAttribute("page", l_page);
 		p_model.addAttribute("pagesMasterList", pageService.findAllPage());
 		p_model.addAttribute("entitiesList", entityService.findAllEntity());
+		p_model.addAttribute("pagEntList", l_lstEnt);
 		// p_model.addAttribute("entitiesList",
 		// pageService.findEntitiesActiveLeftJoinFromPage(p_pagId) );
-		return "pageForm";
+		return "fragments/pageForm";
 	}
 
 	@RequestMapping( value = { "/pageForm/{pageId}/delete" } )
@@ -175,7 +226,8 @@ public class PageController {
 	@ResponseBody
 	public ResponseEntity<String> jsonUpdatePage( @RequestBody Page p_page, @PathVariable( "appId" ) BigDecimal p_appId ) {
 		Page l_pagCurrent = pageService.findPageById(p_page.getPageId());
-		List<PageEntity> l_lstCurrent = l_pagCurrent.getPageEntities(); // Cambiar por el metodo de obtener los pageEntity activas y no todas.
+		List<PageEntity> l_lstCurrent = l_pagCurrent.getPageEntities(); // Cambiar por el metodo de obtener los
+																		// pageEntity activas y no todas.
 
 		if (p_appId == null) {
 			return new ResponseEntity<>("not exit Applicacion", HttpStatus.NO_CONTENT);
@@ -195,7 +247,7 @@ public class PageController {
 		// Proceso de actualizacion de pageEntity cuando todavia no exite ninguna entidad relacionada a la pagina
 		List<PageEntity> l_lstNew = new ArrayList<PageEntity>();
 		if (l_lstCurrent.isEmpty()) {
-			
+
 			for (PageEntity l_pE : p_page.getPageEntities()) {
 
 				l_pE.setPaenPageId(p_page);
@@ -208,33 +260,36 @@ public class PageController {
 
 		} else {// proceso para cuando ya existen entidades asociadas a la pagina
 
-			for (PageEntity l_pg : p_page.getPageEntities()) { //Recore PageEntity enviados desde el front-End para su revision.
-				PageEntity l_pgNew = l_pg.getPaenId() != null ? pageService.findPageEntityById(l_pg.getPaenId()) : null;
+			for (PageEntity l_pg : p_page.getPageEntities()) { // Recore PageEntity enviados desde el front-End para su
+																// revision.
 				
-				//Caso cuando existen entidad ya relaccionadas y se agrega una nueva.
-				if (l_pgNew == null) { 
+				//Obetenr los pageEntity que fueron enviadas por el JSON ya creando la case PageEntity
+				PageEntity l_pgNew = l_pg.getPaenId() != null ? pageService.findPageEntityById(l_pg.getPaenId()) : null;
+
+				// Caso cuando existen entidad ya relaccionadas y se agrega una nueva.
+				if (l_pgNew == null) {
 					l_pg.setPaenPageId(p_page);
 					l_pg.setPaenActive(true);
 					l_pg.setPaenCreatedBy("BENITEZ.ABNER");
 					l_pg.setPaenUpdateBy("BENITEZ.ABNER");
-					
+
 					pageService.savePageEntity(l_pg);
-					
+
 					l_lstNew.add(l_pg);
 				} else
 					l_lstNew.add(l_pgNew);
 			}
-			
-			//Proceso para obtener las entidades a borrar o desactivar
+
+			// Proceso para obtener las entidades a borrar o desactivar
 			l_lstCurrent.removeAll(l_lstNew);
-			
-			//Desactivar o borrar entidades del array actual
-			for(PageEntity l_pE : l_lstCurrent){
+
+			// Desactivar o borrar entidades del array actual
+			for (PageEntity l_pE : l_lstCurrent) {
 				l_pE.setPaenActive(false);
 				l_pE.setPaenUpdateBy("BENITEZ.ABNER");
 				pageService.deletePageEntity(l_pE);
 			}
-			
+
 		}
 
 		return new ResponseEntity<String>(HttpStatus.OK);
