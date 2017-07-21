@@ -3,7 +3,7 @@
 
 <head>
 
-<div th:replace="templates/template :: header-css(${'Wizard'})" />
+<th:block th:replace="templates/template :: header-css(${'Wizard'})" />
 
 <link rel="stylesheet" th:href="@{/res/pages/application-wizard/css/style2.css}" />
 
@@ -21,11 +21,11 @@
 <body class="pace-done skin-1">
 
 	<div id="wrapper">
-		<div th:replace="templates/template :: left-nav" />
+		<th:block th:replace="templates/template :: left-nav" />
 
 		<div id="page-wrapper" class="gray-bg">
 			<div class="row border-bottom">
-				<div th:replace="templates/template :: top-nav" />
+				<th:block th:replace="templates/template :: top-nav" />
 			</div>
 			<div class="wrapper wrapper-content animated fadeInRight">
 				<!-- <div class="middle-box text-center animated fadeInRightBig"> -->
@@ -42,7 +42,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label no-padding-right" for="appnId"> ID </label>
 									<div class="col-sm-9">
-										<input type="text" placeholder="ID" class="form-control" id="appnId" readonly="true" />
+										<input type="text" placeholder="ID" class="form-control" id="appnId" readonly />
 									</div>
 								</div>
 								<div class="form-group">
@@ -246,11 +246,11 @@
 				<!-- middle-box text-center animated fadeInRightBig... -->
 				<!-- </div> -->
 			</div>
-			<div th:replace="templates/template :: foot-copyright" />
+			<div th:replace="templates/template :: foot-copyright" ></div>
 		</div>
 	</div>
 
-	<div th:replace="templates/template :: foot-js" />
+	<th:block th:replace="templates/template :: foot-js" />
 
 	<!-- Chosen -->
 	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/chosen/chosen.jquery.js}"></script>

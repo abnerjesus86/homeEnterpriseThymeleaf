@@ -19,7 +19,7 @@
 		<security:authentication-provider user-service-ref="authenticationService"> 
 		</security:authentication-provider> </security:authentication-manager> -->
 
-	<security:http use-expressions="true" auto-config="true">
+	<security:http use-expressions="false" auto-config="true">
 		<security:form-login login-page="/login"
 			authentication-failure-url="/login?login_error=1"
 			always-use-default-target="false" default-target-url="/"

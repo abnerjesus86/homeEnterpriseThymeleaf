@@ -22,13 +22,13 @@
 <body>
 	<!-- ${pageContext.request.userPrincipal.name} <sec:authentication property="principal.username"/> -->
 	<div id="wrapper">
-		<div th:fragment="left-nav">
+		<th:block th:fragment="left-nav">
 			<nav class="navbar-default navbar-static-side" role="navigation">
 				<div class="sidebar-collapse">
 					<ul class="nav metismenu" id="side-menu">
 						<li class="nav-header">
 							<div class="dropdown profile-element">
-								<span> <img alt="image" class="img-circle" th:src="@{/res/plantilla/INSPINIA/img/profile_small.jpg}" />
+								<span> <img alt="image" class="img-circle" th:src="@{/res/plantilla/INSPINIA/img/emp_764.bmp}" style="width: 48px"/>
 								</span> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <span class="clear"> <span class="block m-t-xs"> <strong
 											class="font-bold"> <span sec:authentication="principal.username"></span></strong></span> <span class="text-muted text-xs block"><span
 											sec:authentication="principal.authorities"> </span><b class="caret"></b></span>
@@ -38,24 +38,18 @@
 									<li><a th:href="@{/logout}">Logout</a></li>
 								</ul>
 							</div>
-							<div class="logo-element">IN+</div>
+							<div class="logo-element"><img th:src="@{/res/plantilla/INSPINIA/img/logo_hutchisonports_lctpc_whit.png}"></div>
 						</li>
-						<!-- 
-						<li class="active"><a href='/'><i class="fa fa-th-large"></i> <span class="nav-label">Main view</span></a></li>
-						<li><a th:href="@{/admin_user}"><i class="fa fa-th-large"></i> <span class="nav-label">Administration Users</span> </a></li>
-						<li><a th:href="@{/applications}"><i class="fa fa-th-large"></i> <span class="nav-label">Administration Applications</span> </a></li>
-						<li><a th:href="@{/appWizards/?id=3}"><i class="fa fa-th-large"></i> <span class="nav-label">Applications Wizard</span> </a></li> 
-						-->
 					</ul>
 
 				</div>
 			</nav>
 
-		</div>
+		</th:block>
 
 		<div id="page-wrapper" class="gray-bg">
 			<div class="row border-bottom">
-				<div th:fragment="top-nav">
+				<th:block th:fragment="top-nav">
 					<nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
 						<div class="navbar-header">
 							<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
@@ -67,12 +61,12 @@
 						</div>
 						<ul class="nav navbar-top-links navbar-right">
 							<li><span class="m-r-sm text-muted welcome-message">Welcome to INSPINIA+ Admin Theme.</span></li>
-							<li><a href="@{/logout}"> <i class="fa fa-sign-out"></i> Log out
+							<li><a th:href="@{/logout}"> <i class="fa fa-sign-out"></i> Log out
 							</a></li>
 						</ul>
 
 					</nav>
-				</div>
+				</th:block>
 			</div>
 
 			<div class="wrapper wrapper-content animated fadeInRight">
@@ -92,13 +86,11 @@
 		</div>
 	</div>
 
-	<div th:fragment="foot-js">
+	<th:block th:fragment="foot-js">
 		<!-- Mainly scripts -->
 
 		<script th:src="@{/res/plantilla/INSPINIA/js/jquery-3.1.1.min.js}"></script>
-		<script th:src="@{/res/pages/template/scriptTemplate.js}"></script>
 		<script th:src="@{/res/plantilla/INSPINIA/js/bootstrap.min.js}"></script>
-
 		<script th:src="@{/res/plantilla/INSPINIA/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
 		<script th:src="@{/res/plantilla/INSPINIA/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
 
@@ -106,8 +98,8 @@
 		<script th:src="@{/res/plantilla/INSPINIA/js/inspinia.js}"></script>
 		<script th:src="@{/res/plantilla/INSPINIA/js/plugins/pace/pace.min.js}"></script>
 
-	</div>
-
+	</th:block>
+    <script th:src="@{/res/pages/template/scriptTemplate.js}"></script>
 
 </body>
 

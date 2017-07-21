@@ -79,7 +79,7 @@ public class IndexController {
 		model.addAttribute("users", users);
 		model.addAttribute("resultado1", p_resultado);
 
-		return "users";
+		return "admin_user";
 	}
 
 	@RequestMapping( "/catalogManager" )

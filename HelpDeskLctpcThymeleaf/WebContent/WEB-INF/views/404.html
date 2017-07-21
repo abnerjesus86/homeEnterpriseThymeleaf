@@ -2,13 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>INSPINIA | 404 Error</title>
     
-    <div th:replace="templates/template :: header-css"/>
+    <th:block th:replace="templates/template :: header-css(${'404 Error'})"/>
 
 </head>
 
@@ -20,11 +15,11 @@
 
         <div class="error-desc">
             Sorry, but the page you are looking for has note been found. Try checking the URL for error, then hit the refresh button on your browser or try found something else in our app.
-            <a href='<c:url value="/"/>' class="btn btn-primary m-t">Index</a>
+            <a th:href="@{/}" class="btn btn-primary m-t">Index</a>
         </div>
     </div>
     
-    <div th:replace="templates/template :: foot-js"/>
+    <div th:replace="templates/template :: foot-js"></div>
     <!-- Mainly scripts -->
 
 </body>

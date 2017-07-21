@@ -19,11 +19,11 @@
 <body class="pace-done skin-1">
 
 	<div id="wrapper">
-		<div th:replace="templates/template :: left-nav" />
+		<th:block th:replace="templates/template :: left-nav" />
 
 		<div id="page-wrapper" class="gray-bg">
 			<div class="row border-bottom">
-				<div th:replace="templates/template :: top-nav" />
+				<th:block th:replace="templates/template :: top-nav" />
 			</div>
 
 			<div class="wrapper wrapper-content animated fadeInRight">
@@ -128,11 +128,11 @@
 					</div>
 				</div>
 			</div>
-			<div th:replace="templates/template :: foot-copyright" />
+			<div th:replace="templates/template :: foot-copyright" ></div>
 		</div>
 	</div>
 
-	<div th:replace="templates/template :: foot-js" />
+	<div th:replace="templates/template :: foot-js" ></div>
 	<!-- DataTable -->
 	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/dataTables/datatables.min.js}"></script>
 
