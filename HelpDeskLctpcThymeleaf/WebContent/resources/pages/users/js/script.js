@@ -9,31 +9,32 @@ jQuery(function($) {
 			// Activated the table
 			var tableUser = $('#tableUsers').DataTable({
 
-				autoWidth : true,
+				//autoWidth : true,
+				//paging : false,
+				//info : false,
+				//searching : true,
+				//ordering : true,
+				destroy : true,
+				//stateSave : true,
+				responsive : true,
+				lengthChange : false,
+				//iDisplayLength : 10,
+				//lengthMenu : [ [ 10, 25, 50, 100, 500, 1000, 2000 ], [ 10, 25, 50, 100, 500, 1000, 2000 ] ],
+				dom : "<'row' lTgt>" ,//+ "<'row'<'col-md-5'i><'col-md-7 text-right'p>>",
 				select : {
 			        style:    'single',
 			        selector: 'td:first-child'
 			    },
-				searching : false,
-				ordering : false,
-				stateSave : true,
-				scrollY : '40vh',
-				scrollCollapse : true,
-				iDisplayLength : 10,
-				lengthMenu : [ [ 10, 25, 50, 100, 500, 1000, 2000 ], [ 10, 25, 50, 100, 500, 1000, 2000 ] ],
 				ajax : {
 					url : "./getJsonUsers2",
 					type : "POST",
 					contentType : "application/json; charset=utf-8",
 					dataType : "json"
+						
 				},
 				columns : [ {
-					title : "Consecutivo",
-					data : null,
-					render : function(data, type, row) {
-						return "<div class='action-buttons center'><a href='#gridSystemModal' role='button' data-toggle='modal'><b>" + data.userId + "</b></a></div>";
-					},
-					className : "gridSystemModal center"
+					title : "Id",
+					data : "userId"
 				}, {
 					title : "Account User",
 					data : "userUsername"
@@ -54,8 +55,12 @@ jQuery(function($) {
 					data : null,
 					render : function(data, type, row) {
 						var l_check = data.userActive == false ? "" : " checked";
-						return "<label><input type='checkbox' onclick='return false' class='ace ace-switch ace-switch-6' value='" + data.userActive + "' " + l_check + "/><span class='lbl'></span></label>";
-					}
+						var l_checkLabel = data.userActive == false ? "Inactive" : " Active";
+						var l_labelSpan = data.userActive == false ? "warning" : "primary";
+						return "<span class='label label-"+l_labelSpan+"'>"+l_checkLabel+"</span>";
+						//return "<label><input type='checkbox' onclick='return false' class='ace ace-switch ace-switch-6' value='" + data.userActive + "' " + l_check + "/><span class='lbl'></span></label>";
+					},
+					className : "client-status"
 				},
 				{
 					title : "Actions",
@@ -91,7 +96,15 @@ jQuery(function($) {
 				]
 				
 			});
-			 //.gridSystemModal a 
+			
+			$('#sUsers').on("click", function(){
+				var txtSearch = $('#txtSearch123').val();
+				console.log(txtSearch);
+				tableUser.search( txtSearch ).draw();
+				
+			} );
+			
+			
 			$('#tableUsers tbody').on("click", ".gridSystemModal1 a#id-btn-edit", function() {
 				//var ColumnaActual = $(this).parent().parent().parent().get(0), FilaActual = $('#tableUsers').DataTable().row(ColumnaActual).data();
 				var FilaActual = tableUser.row($(this).parents('tr')).data();
@@ -251,20 +264,5 @@ jQuery(function($) {
 	
 });
 
-$(document).on('click', '#tableUsers .dropdown-toggle', function(e) {
-	console.log("Entro al clic de la tabla..");
-	e.stopImmediatePropagation();
-	e.stopPropagation();
-	e.preventDefault();
-});
 
-//override dialog's title function to allow for HTML titles
-$.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
-	_title: function(title) {
-		var $title = this.options.title || '&nbsp;'
-		if( ("title_html" in this.options) && this.options.title_html == true )
-			title.html($title);
-		else title.text($title);
-	}
-}));
 
