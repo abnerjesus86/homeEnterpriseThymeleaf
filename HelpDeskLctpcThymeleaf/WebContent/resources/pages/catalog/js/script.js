@@ -710,7 +710,7 @@ $.fn.callAjax = function(p_url) {
 	$.ajax({
 		type : "POST",
 		url : p_url,
-		 dataType: "html",
+		dataType: "html",
 		timeout : 100000,
 		success : function(result) {
 			

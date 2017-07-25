@@ -85,7 +85,7 @@ public class JsonController {
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 
-	@RequestMapping( value = "/getJsonUsers2", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE )
+	@RequestMapping( value = "/getJsonUsers2", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<Map<String, List<User>>> showListAllUsersWithData() {
 		List<User> users = userService.findAll();
 		Map<String, List<User>> l_map = new HashMap<String, List<User>>();

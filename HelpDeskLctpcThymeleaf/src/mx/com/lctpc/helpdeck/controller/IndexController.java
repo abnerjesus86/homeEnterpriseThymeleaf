@@ -107,7 +107,7 @@ public class IndexController {
 
 		model.addAttribute("user", l_user);
 
-		return "userForm";
+		return "fragments/userForm";
 	}
 
 	@RequestMapping( value = "/userFormulario/save", method = RequestMethod.POST )
@@ -119,7 +119,7 @@ public class IndexController {
 
 		usersService.saveOrUpdateUser(p_user);
 
-		return "redirect:/exampleTemplate";
+		return "redirect:/admin_user";
 	}
 
 	@RequestMapping( "/userFormulario/{userId}/update" )
@@ -129,7 +129,7 @@ public class IndexController {
 		User l_user = usersService.findUserById(p_userId);
 		model.addAttribute("user", l_user);
 
-		return "userForm";
+		return "fragments/userForm";
 	}
 
 	@RequestMapping( value = "/userFormulario/{userId}/delete" )

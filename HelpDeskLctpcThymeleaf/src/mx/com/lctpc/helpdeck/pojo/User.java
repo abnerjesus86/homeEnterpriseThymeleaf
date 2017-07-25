@@ -32,12 +32,10 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table( name = "\"USER\"", schema = "APPLICATION_MANAGER" )
-@JsonIgnoreProperties(value = {"userRoles","userApplications" })
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class,
-		  property = "userId")
-public class User implements Serializable{
-	
+@JsonIgnoreProperties( value = { "userRoles", "userApplications" } )
+@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, property = "userId" )
+public class User implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	/*
 	 * BigDecimal USER_ID; String USER_EMES_COMPANY; int USER_EMES_ID; String
@@ -62,7 +60,7 @@ public class User implements Serializable{
 	@Column( name = "USER_EMES_COMPANY" )
 	private String					g_userEmesCompany;
 	@Column( name = "USER_EMES_ID" )
-	private BigDecimal						g_userEmesId;
+	private BigDecimal				g_userEmesId;
 	@Column( name = "USER_USERNAME" )
 	private String					g_userUsername;
 	@Column( name = "USER_ACTIVE" )
@@ -70,27 +68,27 @@ public class User implements Serializable{
 	@CreationTimestamp
 	@DateTimeFormat( pattern = "dd/MM/yyyy hh:mm" )
 	@Column( name = "USER_CREATED_DATE", insertable = true, updatable = false )
-	private Date				g_userCreatedDate;
+	private Date					g_userCreatedDate;
 	@Column( name = "USER_CREATED_BY", insertable = true, updatable = false )
 	private String					g_userCreatedBy;
 	@UpdateTimestamp
 	@DateTimeFormat( pattern = "dd/MM/yyyy hh:mm" )
 	@Column( name = "USER_UPDATE_DATE", insertable = true, updatable = true )
-	private Date				g_userUpdateDate;
+	private Date					g_userUpdateDate;
 	@Column( name = "USER_UPDATE_BY", insertable = true, updatable = true )
 	private String					g_userUpdateBy;
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "g_user")
+	@OneToOne( cascade = CascadeType.ALL, mappedBy = "g_user" )
 	@JsonUnwrapped
 	private AccountInformation		g_accountInf;
 	@OneToMany( mappedBy = "g_usroUserId" )
-	private List<UserRole>			g_userRoles = new ArrayList<UserRole>();
-	@OneToMany(  mappedBy = "g_usapUserId" )
+	private List<UserRole>			g_userRoles	= new ArrayList<UserRole>();
+	@OneToMany( mappedBy = "g_usapUserId" )
 	private List<UserApplication>	g_userApplications;
 	@OneToMany( fetch = FetchType.EAGER, mappedBy = "g_pswdUserId" )
 	@Fetch( value = FetchMode.SUBSELECT )
-	@Where(clause = "PSWD_ACTIVE = true")
-	private List<Password> g_passwords = new ArrayList<Password>();
-	
+	@Where( clause = "PSWD_ACTIVE = true" )
+	private List<Password>			g_passwords	= new ArrayList<Password>();
+
 	/**
 	 * @return the userId
 	 */
@@ -271,7 +269,6 @@ public class User implements Serializable{
 		this.g_userApplications = p_userApplications;
 	}
 
-	
 	/**
 	 * @return the passwords
 	 */
@@ -280,7 +277,8 @@ public class User implements Serializable{
 	}
 
 	/**
-	 * @param p_passwords the passwords to set
+	 * @param p_passwords
+	 *            the passwords to set
 	 */
 	public void setPasswords( List<Password> p_passwords ) {
 		this.g_passwords = p_passwords;
@@ -288,10 +286,8 @@ public class User implements Serializable{
 
 	@Override
 	public String toString() {
-		return "User [g_userId=" + g_userId + ", g_userEmesCompany=" + g_userEmesCompany + ", g_userEmesId="
-				+ g_userEmesId + ", g_userUsername=" + g_userUsername + ", g_userActive=" + g_userActive
-				+ ", g_userCreatedDate=" + g_userCreatedDate + ", g_userCreatedBy=" + g_userCreatedBy
-				+ ", g_userUdpateDate=" + g_userUpdateDate + ", g_userUpdateBy=" + g_userUpdateBy + "]";
+		return "User [g_userId=" + g_userId + ", g_userEmesCompany=" + g_userEmesCompany + ", g_userEmesId=" + g_userEmesId + ", g_userUsername=" + g_userUsername + ", g_userActive=" + g_userActive
+				+ ", g_userCreatedDate=" + g_userCreatedDate + ", g_userCreatedBy=" + g_userCreatedBy + ", g_userUdpateDate=" + g_userUpdateDate + ", g_userUpdateBy=" + g_userUpdateBy + "]";
 	}
 
 }

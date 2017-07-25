@@ -8,187 +8,174 @@ jQuery(function($) {
 		initializeTable : function() {
 			// Activated the table
 			var tableUser = $('#tableUsers').DataTable({
-
-				//autoWidth : true,
-				//paging : false,
-				//info : false,
-				//searching : true,
-				//ordering : true,
+				autoWidth : true,
+				ordering : false,
 				destroy : true,
-				//stateSave : true,
 				responsive : true,
-				lengthChange : false,
 				//iDisplayLength : 10,
 				//lengthMenu : [ [ 10, 25, 50, 100, 500, 1000, 2000 ], [ 10, 25, 50, 100, 500, 1000, 2000 ] ],
-				dom : "<'row' lTgt>" ,//+ "<'row'<'col-md-5'i><'col-md-7 text-right'p>>",
+				dom : "Tgt" ,//+ "<'row'<'col-md-5'i><'col-md-7 text-right'p>>",
 				select : {
 			        style:    'single',
 			        selector: 'td:first-child'
 			    },
-				ajax : {
-					url : "./getJsonUsers2",
-					type : "POST",
-					contentType : "application/json; charset=utf-8",
-					dataType : "json"
-						
-				},
 				columns : [ {
-					title : "Id",
+					//title : "Id",
 					data : "userId"
 				}, {
-					title : "Account User",
-					data : "userUsername"
+					//title : "Account User",
+					data : null,//"userUsername"
+					render : function(data, type, row){
+						return "<a data-toggle='tab' href='#contact-1' class='client-link'>"+data.userUsername+"</a>";
+					}
 				}, {
-					title : "Bu",
+					//title : "Bu",
 					data : "userEmesCompany"
 				}, {
-					title : "Num Employee",
+					//title : "Num Employee",
 					data : "userEmesId"
 				}, {
-					title : "Created By",
-					data : "userCreatedBy"
+					//title : "Created By",
+					data : "passwords[0].pswdActive",
+					render : function(data, type, row){
+						
+						var l_checkLabel = data == 'true' ? "Active" : "Inactive";
+						var l_labelSpan = data == 'true' ? "info" : "default";
+						return "<span class='label label-"+l_labelSpan+"'>"+l_checkLabel+"</span>";
+					}
 				}, {
-					title : "Update By",
+					//title : "Update By",
 					data : "userUpdateBy"
 				}, {
-					title : "Active",
+					//title : "Active",
 					data : null,
 					render : function(data, type, row) {
-						var l_check = data.userActive == false ? "" : " checked";
 						var l_checkLabel = data.userActive == false ? "Inactive" : " Active";
-						var l_labelSpan = data.userActive == false ? "warning" : "primary";
+						var l_labelSpan = data.userActive == false ? "danger" : "primary";
 						return "<span class='label label-"+l_labelSpan+"'>"+l_checkLabel+"</span>";
-						//return "<label><input type='checkbox' onclick='return false' class='ace ace-switch ace-switch-6' value='" + data.userActive + "' " + l_check + "/><span class='lbl'></span></label>";
+						
 					},
 					className : "client-status"
 				},
 				{
-					title : "Actions",
+					//title : "Actions",
 					data : null,
 					render : function(data, type, row) {
-						return "<div class='hidden-sm hidden-xs action-buttons'>"
-							+"<a class='green' id='id-btn-edit' href='#gridSystemModal' role='button' data-toggle='modal'><i class='ace-icon fa fa-pencil bigger-130'></i></a>"   	
-							+"<a class='red' id='id-btn-dialog2' href='./userFormulario/"+ data.userId+"/delete'><i class='ace-icon fa fa-trash-o bigger-130'></i></a>"
-						+"</div> "
-						+"<div class='hidden-md hidden-lg'>"
-						+"<div class='inline pos-rel'>"
-							+"<button class='btn btn-minier btn-primary dropdown-toggle' data-toggle='dropdown' data-position='auto'>"
-								+"<i class='ace-icon fa fa-cog icon-only bigger-110'></i>"
-							+"</button>"
-							+"<ul class='dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close'>"
-							+"<li>"
-							+"<a href='#gridSystemModal' id='id-btn-edit' role='button' data-toggle='modal' class='tooltip-success' data-rel='tooltip' title='Edit'>"
-								+"<span class='green'>"
-									+"<i class='ace-icon fa fa-pencil-square-o bigger-120'></i></span></a>"
-						+"</li>"
-							+"<li>"
-								+"<a href='./userFormulario/"+ data.userId+"/delete' id='id-btn-dialog2' class='tooltip-error' data-rel='tooltip' title='' data-original-title='Delete'>"
-									+"<span class='red'> <i class='ace-icon fa fa-trash-o bigger-120'></i></span></a>"
-							+"</li>"
-							
-							+"</ul>"
-						+"</div>"
-					+"</div>";
+						
+						return "<div class='btn-group'>"
+						+ "<a class='btn-xs' id='btn-edit' href='#myModalUsers' role='button' data-toggle='modal'><i class='fa fa-pencil fa-lg'></i></a>"
+						+ "<a class='btn-xs' id='btn-delete' href='./userFormulario/"+ data.userId	+ "/delete'><i class='fa fa-trash-o fa-lg'></i></a>"
+						+ "</div> ";
+						
 					},
 					className : "gridSystemModal1 center"
-				},
+				}
 				
 				]
 				
 			});
 			
 			$('#sUsers').on("click", function(){
-				var txtSearch = $('#txtSearch123').val();
-				console.log(txtSearch);
+				var txtSearch = $('#txtSearch').val();
 				tableUser.search( txtSearch ).draw();
-				
 			} );
 			
+			$('#loading-example-btn').on("click", function(){
+				tableUser.clear().draw();
+				tableUser.ajax.reload();
+			});
 			
-			$('#tableUsers tbody').on("click", ".gridSystemModal1 a#id-btn-edit", function() {
+			$('#tableUsers tbody').on("click", ".gridSystemModal1 a#btn-edit", function() {
 				//var ColumnaActual = $(this).parent().parent().parent().get(0), FilaActual = $('#tableUsers').DataTable().row(ColumnaActual).data();
 				var FilaActual = tableUser.row($(this).parents('tr')).data();
 				var link = "/" + FilaActual.userId + "/update";
 				$.ajax({
 					url : "./userFormulario" + link,
 					type : "POST",
+					dataType: "html",
+					timeout : 100000,
 					success : function(result) {
+						
 						if (!(result === null)) {
 							$(".modal-body .row").html(result);
-							$("#btnSaveConfiguration").on("click", function() {
+							$("#btnSave").on("click", function() {
 								$("#user").submit();
 							});
 						}
+					},
+					error : function(e) {
+						alert("ERROR: ", e);
 					}
 				});
 
 				$("#gridSystemModal .modal-header h4 span").text(FilaActual.userUsername);
 			});
 
-			var tableUserRoles = $('#tableUserRoles').DataTable({
-				deferRender: false,
+			var tableUserRoles = $('#tableRoles').DataTable({
 				paging: false,
 				info: false,
 				autoWidth : true,
 				select : false,
 				searching : false,
 				ordering : false,
-				stateSave : false,
-				scrollY : '25vh',
-				scrollCollapse : false,
-				fixedColumns: {
-			        heightMatch: 'auto'
-			    },
 				columns : [ {
-					title : "Consecutivo",
+					//title : "Id",
 					data : "usroId"
 				}, {
-					title : "Account User",
-					data : "roleName"
+					//title : "Account User",
+					data : null,//"roleName",
+					render : function(data, type, row){
+						return "["+data.roleId+"] " +data.roleName;
+					}
 				}, {
-					title : "Active",
+					data : null,//"roleAppnId.appnName",
+					render : function(data, type, row){
+						return "["+data.roleAppnId.appnId+"] " + data.roleAppnId.appnName;
+					}
+				}, {
+					//title : "Active",
+					width: "20px",
 					data : null,
-					render : function(data, type, row) {
+					render : function(data, type, row){
 						var l_check = data.usroActive == false ? "" : " checked";
-						return "<label><input type='checkbox' onclick='return false' class='ace ace-switch ace-switch-6' value='" + data.usroActive + "' " + l_check + "/><span class='lbl'></span></label>";
+						return " <div class='checkbox checkbox-primary'>"+
+			            			" <input type='checkbox' id='singleCheckbox2' onclick='return false' value='" + data.usroActive +"' "+ l_check+" aria-label='Single checkbox Two'>"+
+			            			" <label></label>"+
+			            	   " </div>";
 					}
 				}
 
 				]
 			});
 
-			var tableUserApps = $('#tableUserApps').DataTable({
-				deferRender: false,
+			var tableUserApps = $('#tableApps').DataTable({
 				paging: false,
 				info: false,
 				autoWidth : true,
 				select : false,
 				searching : false,
 				ordering : false,
-				stateSave : false,
-				scrollY : '25vh',
-				scrollCollapse : false,
-				fixedColumns: {
-			        heightMatch: 'auto'
-			    },
 				columns : [ {
-					title : "Consecutivo",
+					//title : "Consecutivo",
 					data : "usapId"
 				}, {
-					title : "Application",
-					data : "appnName"
-				}, /*{
-					title : "Created By",
-					data : "usapCreatedBy"
+					//title : "Application",
+					data : null,//"appnName",
+					render : function(data, type, row){
+						return "["+data.appnId+"] " + data.appnName ;
+					}
 				}, {
-					title : "Update By",
-					data : "usapUpdateBy"
-				}, */{
-					title : "Active",
-					data : null,
+					//title : "Active",
+					//width: "20px",
+					data : //"usapActive"
+						null,
 					render : function(data, type, row) {
 						var l_check = data.usapActive == false ? "" : " checked";
-						return "<label><input type='checkbox' onclick='return false' class='ace ace-switch ace-switch-6' value='" + data.usapActive + "' " + l_check + "/><span class='lbl'></span></label>";
+						return " <div class='checkbox checkbox-primary'>"+
+                		" <input type='checkbox' id='singleCheckbox2' onclick='return false' value='" + data.usapActive +"' "+ l_check+" aria-label='Single checkbox Two'>"+
+                		" <label></label>"+
+                		" </div>";
+						
 					}
 				}
 				]
@@ -196,14 +183,27 @@ jQuery(function($) {
 
 			$('#tableUsers tbody').on("click", "tr", function() {
 				var FilaActual = $('#tableUsers').DataTable().row(this).data();
+				console.log(FilaActual);
+				$('#lblUser').text( FilaActual.userUsername != null ? FilaActual.userUsername : '' );
+				var txtName = (FilaActual.acinName != null ? FilaActual.acinName : "") + (FilaActual.acinLastName != null ? FilaActual.acinLastName : "");
+				$('#lblName').text(txtName);
+				$('#lblEmail').text( FilaActual.acinEmail != null ? FilaActual.acinEmail : '' );
+				$('#lblAltEmail').text(FilaActual.acinAlternateEmail != null ? FilaActual.acinAlternateEmail : '');
+
+				var	l_checkLabel = FilaActual.passwords[0] != null ? (FilaActual.passwords[0].pswdActive ? "Active" : "Inactive") :  "No Password";
+				var	l_labelSpan = FilaActual.passwords[0] != null ? (FilaActual.passwords[0].pswdActive ? "info" : "default") : "warning";
+
+				$('#lblPass').addClass("label label-"+l_labelSpan) .text( l_checkLabel );
 				
 				if (!$(this).hasClass('selected')) {
 					tableUser.$('tr.selected').removeClass('selected');
 					$(this).addClass('selected');
 					tableUserRoles.clear().draw();
 					tableUserRoles.ajax.url("./getJsonUserRoles/" + FilaActual.userId).load();
+					
 					tableUserApps.clear().draw();
 					tableUserApps.ajax.url("./getJsonUserApps/" + FilaActual.userId).load();
+					
 				}
 				
 			});
@@ -231,8 +231,8 @@ jQuery(function($) {
 												console.log("Guardo...");
 												tableUser.clear().draw();
 												tableUser.ajax.reload();
-												tableUserApps.clear().draw();
-												tableUserRoles.clear().draw();
+												/*tableUserApps.clear().draw();
+												tableUserRoles.clear().draw();*/
 											}
 										}
 									});
@@ -254,8 +254,10 @@ jQuery(function($) {
 				
 					
 			});
-
+			tableUser.clear().draw();
+			tableUser.ajax.url($(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonUsers2").load();
 		}
+	
 	});
 
 	$(this).initializeTable();

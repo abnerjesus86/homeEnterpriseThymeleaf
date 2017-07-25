@@ -3,8 +3,10 @@
 
 <head>
 <th:block th:replace="templates/template :: header-css(${'Administracion Users'})" />
-    <!-- Toastr style -->
-    <link th:href="@{/res/plantilla/INSPINIA/css/plugins/toastr/toastr.min.css}" rel="stylesheet">
+<!-- Toastr style -->
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/toastr/toastr.min.css}" rel="stylesheet">
+
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}" rel="stylesheet">
 </head>
 
 <body class="pace-done skin-1">
@@ -21,26 +23,25 @@
 					<div class="col-sm-8">
 						<div class="ibox">
 							<div class="ibox-content">
-							     <span class="text-muted small pull-right">Last modification: <i class="fa fa-clock-o"></i> 2:10 pm - 12.06.2014</span>
-                            <h2>Clients</h2>
-                            <p>
-                                All users need to be verified before you can send email and set a project.
-                            </p>
-                            <div class="input-group">
-                                <input type="text" placeholder="Search Users " class="input form-control" id="txtSearch123">
-                                <span class="input-group-btn">
-                                        <button type="button" class="btn btn btn-primary" id="sUsers"> <i class="fa fa-search"></i> Search</button>
-                                </span>
-                            </div>
-                            <div class="clients-list">
-                                <div class="full-height-scroll">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-hover" id="tableUsers">
-                                            
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+								<span class="text-muted small pull-right">Last modification: <i class="fa fa-clock-o"></i> 2:10 pm - 12.06.2014
+								</span>
+								<h2>Users</h2>
+								<p>All users need to be verified before you can send email and set a project.</p>
+								<div class="input-group">
+									<input id="txtSearch" type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
+										<button id="sUsers" type="button" class="btn btn-sm btn-primary">Search</button>
+										<button type="button" id="loading-example-btn" class="btn btn-white btn-sm">
+											<i class="fa fa-refresh"></i> Refresh
+										</button>
+									</span>
+								</div>
+								<div class="clients-list">
+									<div class="full-height-scroll">
+										<!-- <div class="table-responsive"> -->
+										<table class="table table-striped table-hover" id="tableUsers">
+										</table>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -52,23 +53,77 @@
 									<div id="contact-1" class="tab-pane active">
 										<div class="row m-b-lg">
 											<div class="col-lg-4 text-center">
-												<h2>Nicki Smith</h2>
-
+												<h5 id="lblUser1">Nicki Smith</h5>
 												<div class="m-b-sm">
 													<img alt="image" class="img-circle" th:src="@{/res/plantilla/INSPINIA/img/emp_764.bmp}" style="width: 62px">
 												</div>
 											</div>
 											<div class="col-lg-8">
-												<strong> About me </strong>
-
+												<strong id="lblName"> About me </strong>
 												<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
 												<button type="button" class="btn btn-primary btn-sm btn-block">
 													<i class="fa fa-envelope"></i> Send Message
 												</button>
 											</div>
 										</div>
+										<div class="client-detail">
+											<div class="full-height-scroll">
+											     <br>
+												<strong>Infor Details</strong>
+												<table class="table small m-b-xs">
+													<tbody>
+														<tr>
+															<td class="pull-right"><strong>User</strong></td>
+															<td id="lblUser"></td>
+														</tr>
+														<tr>
+															<td class="pull-right"><strong>Email</strong></td>
+															<td id="lblEmail"></td>
+														</tr>
+														<tr>
+															<td class="pull-right"><strong>Alt Email</strong></td>
+															<td id="lblAltEmail"></td>
+														</tr>
+														<tr>
+															<td class="pull-right"><strong>Password</strong></td>
+															<td><span id="lblPass"></span></td>
+														</tr>
+
+													</tbody>
+
+												</table>
+												<hr>
+												<strong>Roles Assigned</strong>
+												<table class="table small m-b-xs" id="tableRoles">
+												</table>
+												<strong>Applications Assigned</strong>
+                                                <table class="table small m-b-xs" id="tableApps">
+                                                </table>
+											</div>
+										</div>
 									</div>
 								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal inmodal fade" id="myModalUsers" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title">Form</h4>
+							</div>
+							<div class="modal-body">
+								<div class="row"></div>
+							</div>
+
+							<div class="modal-footer">
+								<button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+								<button id="btnSave" type="button" class="btn btn-primary">Save changes</button>
 							</div>
 						</div>
 					</div>
@@ -79,9 +134,9 @@
 	</div>
 	<div th:replace="templates/template :: foot-js"></div>
 	<!-- DataTable -->
-    <script th:src="@{/res/plantilla/INSPINIA/js/plugins/dataTables/datatables.min.js}"></script>
-    <!-- iCheck -->
-    <script th:src="@{/res/plantilla/INSPINIA/js/plugins/iCheck/icheck.min.js}"></script>
+	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/dataTables/datatables.min.js}"></script>
+	<!-- iCheck -->
+	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/iCheck/icheck.min.js}"></script>
 	<script th:src="@{/res/pages/users/js/script.js}"></script>
 </body>
 </html>
