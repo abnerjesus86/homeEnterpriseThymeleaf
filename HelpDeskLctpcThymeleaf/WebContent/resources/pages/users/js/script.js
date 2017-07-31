@@ -175,41 +175,52 @@ jQuery(function($) {
 			
 			$('#tableUsers tbody').on("click", "tr", function() {
 				var FilaActual = $('#tableUsers').DataTable().row(this).data();
-				if(FilaActual.userEmesCompany != null && FilaActual.userEmesId != null){
-					$.ajax({
-						url : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonEmp/"+FilaActual.userEmesCompany+"/"+FilaActual.userEmesId,
-						success : function(data) {
-							$('#lblName').text(data.nombre);
-							$('#lblJob').text(data.nomPuesto);
-							$('#lblDepto').text(data.nomDepartamento);
-							$('#lblAdmission').text(data.fechaIngreso);
-							var	l_labelActive = (data.activo == 'Y'? "Active" : "Inactive");
-							var	l_labelSpanActive  = (data.activo == 'Y' ? "info" : "danger");
-							$('#lblNomActive').removeClass();
-							$('#lblNomActive').addClass("label label-"+l_labelSpanActive).text( l_labelActive );
-							//$('#lblReason').text(data.motivo);
-						}
-					});
-				}
-				
-				$('#btn-delete').attr('href', $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/userFormulario/"+ FilaActual.userId );
-				
-				$('#lblUser').text( FilaActual.userUsername != null ? FilaActual.userUsername : '' );
-				var txtName = (FilaActual.acinName != null ? FilaActual.acinName : "") + (FilaActual.acinLastName != null ? FilaActual.acinLastName : "");
-				
-				$('#lblEmail').text( FilaActual.acinEmail != null ? FilaActual.acinEmail : '' );
-				$('#lblAltEmail').text(FilaActual.acinAlternateEmail != null ? FilaActual.acinAlternateEmail : '');
-
-				var	l_checkLabel = FilaActual.passwords[0] != null ? (FilaActual.passwords[0].pswdActive ? "Active" : "Inactive") :  "No Password";
-				var	l_labelSpan  = FilaActual.passwords[0] != null ? (FilaActual.passwords[0].pswdActive ? "info" : "default") : "warning";
-				$('#lblPass').removeClass();
-				$('#lblPass').addClass("label label-"+l_labelSpan).text( l_checkLabel );
 				
 				if (!$(this).hasClass('selected')) {
-					console.log("entro..");
-					//tableUser.$('tr.selected').removeClass('selected');
-					//$(this).addClass('selected');
-					$( this ).toggleClass('selected');
+					tableUser.$('tr.selected').removeClass('selected');
+					$(this).addClass('selected');
+					$('#lblUser').text( "" );
+					$('#lblEmail').text( "" );
+					$('#lblAltEmail').text( "" );
+					$('#lblName').text( "" );
+					$('#lblJob').text( "" );
+					$('#lblDepto').text( "" );
+					$('#lblAdmission').text( "" );
+					$('#lblNomActive').removeClass();
+					$('#lblPass').removeClass();
+					//$('#lblReason').text(data.motivo);
+					
+					if(FilaActual.userEmesCompany != null && FilaActual.userEmesId != null){
+						$.ajax({
+							url : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonEmp/"+FilaActual.userEmesCompany+"/"+FilaActual.userEmesId,
+							success : function(data) {
+								$('#lblName').text(data.nombre);
+								$('#lblJob').text(data.nomPuesto);
+								$('#lblDepto').text(data.nomDepartamento);
+								$('#lblAdmission').text(data.fechaIngreso);
+								var	l_labelActive = (data.activo == 'Y'? "Active" : "Inactive");
+								var	l_labelSpanActive  = (data.activo == 'Y' ? "info" : "danger");
+								$('#lblNomActive').removeClass();
+								$('#lblNomActive').addClass("label label-"+l_labelSpanActive).text( l_labelActive );
+								//$('#lblReason').text(data.motivo);
+							}
+						});
+					}
+					if(FilaActual.userActive == false)
+						$('#btn-delete').removeAttr('href').attr("disabled", "disabled");
+					else
+						$('#btn-delete').attr('href', $(location)
+							.attr('origin') + "/HelpDeskLctpcThymeleaf/userFormulario/"+ FilaActual.userId )
+							.removeAttr('disabled');
+					$('#lblUser').text( FilaActual.userUsername != null ? FilaActual.userUsername : '' );
+					var txtName = (FilaActual.acinName != null ? FilaActual.acinName : "") + (FilaActual.acinLastName != null ? FilaActual.acinLastName : "");
+					$('#lblEmail').text( FilaActual.acinEmail != null ? FilaActual.acinEmail : '' );
+					$('#lblAltEmail').text(FilaActual.acinAlternateEmail != null ? FilaActual.acinAlternateEmail : '');
+					var	l_checkLabel = FilaActual.passwords[0] != null ? (FilaActual.passwords[0].pswdActive ? "Active" : "Inactive") :  "No Password";
+					var	l_labelSpan  = FilaActual.passwords[0] != null ? (FilaActual.passwords[0].pswdActive ? "info" : "default") : "warning";
+					
+					$('#lblPass').addClass("label label-"+l_labelSpan).text( l_checkLabel );
+					
 					tableUserRoles.clear().draw();
 					tableUserRoles.ajax.url("./getJsonUserRoles/" + FilaActual.userId).load();
 					
@@ -225,7 +236,8 @@ jQuery(function($) {
 				var linkDelete = this;
 				e.preventDefault(); //elimina el evento del link.
 		        
-				shoModalConfirmation(linkDelete, tableUser);
+				if( !$(this).attr("disabled") ) //Verificar que el boton no este disabled
+					shoModalConfirmation(linkDelete, tableUser);
 					
 			});
 			
