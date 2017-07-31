@@ -29,6 +29,7 @@ import mx.com.lctpc.helpdeck.pojo.SecretQuestion;
 import mx.com.lctpc.helpdeck.pojo.User;
 import mx.com.lctpc.helpdeck.pojo.UserApplication;
 import mx.com.lctpc.helpdeck.pojo.UserRole;
+import mx.com.lctpc.helpdeck.pojo.VEmp;
 import mx.com.lctpc.helpdeck.pojo.SelectList;
 import mx.com.lctpc.helpdeck.service.ApplicationService;
 import mx.com.lctpc.helpdeck.service.EntityService;
@@ -89,15 +90,31 @@ public class JsonController {
 	public ResponseEntity<Map<String, List<User>>> showListAllUsersWithData() {
 		List<User> users = userService.findAll();
 		Map<String, List<User>> l_map = new HashMap<String, List<User>>();
-
+		
 		if (users.isEmpty()) {
 			return new ResponseEntity<Map<String, List<User>>>(HttpStatus.NO_CONTENT);// You many decide to return
 																						// HttpStatus.NOT_FOUND
 		}
+		
 		l_map.put("data", users);
 		return new ResponseEntity<Map<String, List<User>>>(l_map, HttpStatus.OK);
 	}
-
+	
+	@RequestMapping( value = "/getJsonEmp/{p_comp}/{p_emp}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<VEmp> showEmp(@PathVariable( "p_comp" )String p_comp, @PathVariable( "p_emp" ) String p_emp) {
+		VEmp l_emp = userService.findEmp(p_comp, p_emp);
+		
+		System.out.println(l_emp);
+		
+		if (l_emp == null) {
+			return new ResponseEntity<VEmp>(HttpStatus.NO_CONTENT);// You many decide to return
+																						// HttpStatus.NOT_FOUND
+		}
+		
+		
+		return new ResponseEntity<VEmp>(l_emp, HttpStatus.OK);
+	}
+	
 	@RequestMapping( value = "/getJsonUser", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<User> showListAllUser() {
 		User users = userService.findUserById(new BigDecimal(15));

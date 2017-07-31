@@ -19,6 +19,7 @@ import mx.com.lctpc.helpdeck.pojo.AccountInformation;
 import mx.com.lctpc.helpdeck.pojo.Application;
 import mx.com.lctpc.helpdeck.pojo.Rol;
 import mx.com.lctpc.helpdeck.pojo.User;
+import mx.com.lctpc.helpdeck.pojo.VEmp;
 import mx.com.lctpc.helpdeck.pojo.Page;
 import mx.com.lctpc.helpdeck.service.UsersService;
 
@@ -132,15 +133,19 @@ public class IndexController {
 		return "fragments/userForm";
 	}
 
-	@RequestMapping( value = "/userFormulario/{userId}/delete" )
+	@RequestMapping( value = "/userFormulario/{userId}", method = RequestMethod.DELETE )
 	@ResponseBody
 	public ResponseEntity<String> showDeleteUser( Model model, @PathVariable( "userId" ) BigDecimal p_userId ) {
-
+		
 		User l_user = usersService.findUserById(p_userId);
-
+		
+		if (l_user == null) {
+			return new ResponseEntity<String>(HttpStatus.NO_CONTENT);// You many decide to return
+																						// HttpStatus.NOT_FOUND
+		}
+		
 		usersService.deleteUser(l_user);
 
-		// return "redirect:/exampleTemplate";
 		return new ResponseEntity<String>("ok", HttpStatus.OK); // ResponseEntity<String>
 	}
 

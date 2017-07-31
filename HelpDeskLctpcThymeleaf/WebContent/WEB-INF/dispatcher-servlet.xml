@@ -51,6 +51,8 @@
 				</bean>
 				<bean class="mx.com.lctpc.helpdeck.converter.PageToStringConverter">
 				</bean>
+				<!-- <bean class="mx.com.lctpc.helpdeck.converter.StringToBigDecimalConverter">
+                </bean> -->
 			</list>
 		</property>
 	</bean>

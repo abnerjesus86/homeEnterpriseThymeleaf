@@ -60,7 +60,7 @@ public class User implements Serializable {
 	@Column( name = "USER_EMES_COMPANY" )
 	private String					g_userEmesCompany;
 	@Column( name = "USER_EMES_ID" )
-	private BigDecimal				g_userEmesId;
+	private String				g_userEmesId;
 	@Column( name = "USER_USERNAME" )
 	private String					g_userUsername;
 	@Column( name = "USER_ACTIVE" )
@@ -88,7 +88,8 @@ public class User implements Serializable {
 	@Fetch( value = FetchMode.SUBSELECT )
 	@Where( clause = "PSWD_ACTIVE = true" )
 	private List<Password>			g_passwords	= new ArrayList<Password>();
-
+	
+	
 	/**
 	 * @return the userId
 	 */
@@ -122,7 +123,7 @@ public class User implements Serializable {
 	/**
 	 * @return the userEmesId
 	 */
-	public BigDecimal getUserEmesId() {
+	public String getUserEmesId() {
 		return this.g_userEmesId;
 	}
 
@@ -130,7 +131,7 @@ public class User implements Serializable {
 	 * @param p_userEmesId
 	 *            the userEmesId to set
 	 */
-	public void setUserEmesId( BigDecimal p_userEmesId ) {
+	public void setUserEmesId( String p_userEmesId ) {
 		this.g_userEmesId = p_userEmesId;
 	}
 
@@ -284,10 +285,14 @@ public class User implements Serializable {
 		this.g_passwords = p_passwords;
 	}
 
+
 	@Override
 	public String toString() {
 		return "User [g_userId=" + g_userId + ", g_userEmesCompany=" + g_userEmesCompany + ", g_userEmesId=" + g_userEmesId + ", g_userUsername=" + g_userUsername + ", g_userActive=" + g_userActive
 				+ ", g_userCreatedDate=" + g_userCreatedDate + ", g_userCreatedBy=" + g_userCreatedBy + ", g_userUdpateDate=" + g_userUpdateDate + ", g_userUpdateBy=" + g_userUpdateBy + "]";
 	}
+
+	
+	
 
 }

@@ -31,7 +31,7 @@ public class UserDaoImpl implements UserDao {
 	
 	@Override
 	public List<User> findAllUsers() {
-		// TODO Auto-generated method stub
+		
 		//List<User> l_lstUsers = getSession().createQuery("FROM User").getResultList();
 		Query<User> l_query = getSession().createQuery("FROM User",User.class);
 		return l_query.getResultList();
@@ -39,13 +39,13 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void saveUser( User p_user ) {
-		// TODO Auto-generated method stub
+		
 		getSession().save(p_user);
 	}
 
 	@Override
 	public User findUserById( BigDecimal p_userId ) {
-		// TODO Auto-generated method stub
+		
 		/*
 		Criteria l_criteria = getSession().createCriteria(User.class);
 		l_criteria.add(Restrictions.eq("g_userId", p_userId) );
@@ -63,7 +63,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<UserRole> findRolesFromUserById( BigDecimal p_userId ) {
-		// TODO Auto-generated method stub
+		
 		/*Query<UserRole> l_queryUserRole = getSession().createQuery(
 				"select usrRol from User usr join usr.g_userRoles usrRol where usr.g_userId = :p_UserId"
 				,UserRole.class).setParameter("p_UserId", p_userId);

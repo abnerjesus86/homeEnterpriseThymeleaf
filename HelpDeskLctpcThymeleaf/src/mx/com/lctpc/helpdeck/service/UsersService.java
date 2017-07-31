@@ -7,16 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mx.com.lctpc.helpdeck.dao.UserDao;
+import mx.com.lctpc.helpdeck.dao.VEmpDao;
 import mx.com.lctpc.helpdeck.pojo.User;
 import mx.com.lctpc.helpdeck.pojo.UserApplication;
 import mx.com.lctpc.helpdeck.pojo.UserRole;
+import mx.com.lctpc.helpdeck.pojo.VEmp;
 
 @Service
 public class UsersService {
 
 	@Autowired
 	private UserDao userDao;
-
+	
+	@Autowired
+	private VEmpDao vEmpDao;
+	
 	public List<User> findAll() {
 		return userDao.findAllUsers();
 	}
@@ -49,6 +54,14 @@ public class UsersService {
 	public void deleteUser(User p_user){
 		p_user.setUserActive(false);
 		userDao.deleteUser(p_user);
+	}
+	
+	public List<VEmp> findAllEmps(){
+		return vEmpDao.findAllEmps();
+	}
+	
+	public VEmp findEmp(String p_Compania, String p_Emp){
+		return vEmpDao.findEmp(p_Compania, p_Emp);
 	}
 	
 }

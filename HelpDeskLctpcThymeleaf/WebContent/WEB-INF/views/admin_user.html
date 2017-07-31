@@ -7,6 +7,8 @@
 <link th:href="@{/res/plantilla/INSPINIA/css/plugins/toastr/toastr.min.css}" rel="stylesheet">
 
 <link th:href="@{/res/plantilla/INSPINIA/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}" rel="stylesheet">
+<!-- Sweet Alert -->
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
 </head>
 
 <body class="pace-done skin-1">
@@ -28,7 +30,8 @@
 								<h2>Users</h2>
 								<p>All users need to be verified before you can send email and set a project.</p>
 								<div class="input-group">
-									<input id="txtSearch" type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
+									<input id="txtSearch" type="text" placeholder="Search" class="input-sm form-control"> 
+									<span class="input-group-btn">
 										<button id="sUsers" type="button" class="btn btn-sm btn-primary">Search</button>
 										<button type="button" id="loading-example-btn" class="btn btn-white btn-sm">
 											<i class="fa fa-refresh"></i> Refresh
@@ -51,26 +54,48 @@
 							<div class="ibox-content">
 								<div class="tab-content">
 									<div id="contact-1" class="tab-pane active">
+										<div id="tooltip" class="tooltip"><strong>Description Rol:</strong> <p></p></div>
 										<div class="row m-b-lg">
 											<div class="col-lg-4 text-center">
-												<h5 id="lblUser1">Nicki Smith</h5>
+												<!-- <h5 id="lblUser1">Nicki Smith</h5> -->
 												<div class="m-b-sm">
 													<img alt="image" class="img-circle" th:src="@{/res/plantilla/INSPINIA/img/emp_764.bmp}" style="width: 62px">
 												</div>
+												<span id="lblNomActive"></span>
 											</div>
 											<div class="col-lg-8">
 												<strong id="lblName"> About me </strong>
-												<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+												<table class="table small m-b-xs">
+												    <tbody>
+												        <tr>
+												            <td><strong>Job</strong></td> 
+												            <td id="lblJob"></td>
+												        </tr>
+												        <tr>
+                                                            <td><strong>Dept</strong></td>
+                                                            <td id="lblDepto"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Admission</strong></td>
+                                                            <td id="lblAdmission"></td>
+                                                        </tr>
+												    </tbody>
+												</table>
+												
+												<div class="m-t-xs btn-group">
+													<a class='btn btn-white btn-xs' id='btn-edit' href='#myModalUsers' role='button' data-toggle='modal'>
+													   <i class='fa fa-pencil'></i>Edit
+													</a>
+													<a class='btn btn-white btn-xs' id='btn-delete' >
+													   <i class='fa fa-trash-o'></i> Delete
+													</a>
+												</div>
 
-												<button type="button" class="btn btn-primary btn-sm btn-block">
-													<i class="fa fa-envelope"></i> Send Message
-												</button>
 											</div>
 										</div>
 										<div class="client-detail">
 											<div class="full-height-scroll">
-											     <br>
-												<strong>Infor Details</strong>
+												<br> <strong>Infor Details</strong>
 												<table class="table small m-b-xs">
 													<tbody>
 														<tr>
@@ -98,8 +123,8 @@
 												<table class="table small m-b-xs" id="tableRoles">
 												</table>
 												<strong>Applications Assigned</strong>
-                                                <table class="table small m-b-xs" id="tableApps">
-                                                </table>
+												<table class="table small m-b-xs" id="tableApps">
+												</table>
 											</div>
 										</div>
 									</div>
@@ -137,6 +162,8 @@
 	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/dataTables/datatables.min.js}"></script>
 	<!-- iCheck -->
 	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/iCheck/icheck.min.js}"></script>
+	<!-- Sweet alert -->
+    <script th:src="@{/res/plantilla/INSPINIA/js/plugins/sweetalert/sweetalert.min.js}"></script>
 	<script th:src="@{/res/pages/users/js/script.js}"></script>
 </body>
 </html>
