@@ -63,6 +63,8 @@ public class User implements Serializable {
 	private String				g_userEmesId;
 	@Column( name = "USER_USERNAME" )
 	private String					g_userUsername;
+	@Column( name = "USER_NEW_PASSWORD" )
+	private boolean g_userNewPassword;
 	@Column( name = "USER_ACTIVE" )
 	private boolean					g_userActive;
 	@CreationTimestamp
@@ -148,6 +150,20 @@ public class User implements Serializable {
 	 */
 	public void setUserUsername( String p_userUsername ) {
 		this.g_userUsername = p_userUsername;
+	}
+
+	/**
+	 * @return the userNewPassword
+	 */
+	public boolean isUserNewPassword() {
+		return this.g_userNewPassword;
+	}
+
+	/**
+	 * @param p_userNewPassword the userNewPassword to set
+	 */
+	public void setUserNewPassword( boolean p_userNewPassword ) {
+		this.g_userNewPassword = p_userNewPassword;
 	}
 
 	/**

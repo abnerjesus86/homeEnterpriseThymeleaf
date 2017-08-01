@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.com.lctpc.helpdeck.pojo.AEntities;
@@ -35,6 +36,7 @@ import mx.com.lctpc.helpdeck.service.ApplicationService;
 import mx.com.lctpc.helpdeck.service.EntityService;
 import mx.com.lctpc.helpdeck.service.OwnerService;
 import mx.com.lctpc.helpdeck.service.PageService;
+import mx.com.lctpc.helpdeck.service.PasswordService;
 import mx.com.lctpc.helpdeck.service.PermissionService;
 import mx.com.lctpc.helpdeck.service.PlatformService;
 import mx.com.lctpc.helpdeck.service.RolService;
@@ -74,6 +76,9 @@ public class JsonController {
 	
 	@Autowired
 	private OwnerService ownerService;
+	
+	@Autowired
+	private PasswordService passService;
 
 	@RequestMapping( value = "/getJsonUsers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<List<User>> showListAllUsers() {
@@ -115,6 +120,35 @@ public class JsonController {
 		return new ResponseEntity<VEmp>(l_emp, HttpStatus.OK);
 	}
 	
+	@RequestMapping( value="/reset", method = RequestMethod.POST )
+	public ResponseEntity<String> showResetPassword(@RequestParam(value = "username") String p_username, 
+													@RequestParam(value = "passNew", required=false ) String p_passNew){
+		
+		String l_res = null;
+		try{
+			l_res = passService.resetPassword(p_username, p_passNew);
+			return new ResponseEntity<String>(l_res, HttpStatus.OK);
+		}catch(Exception ex){
+			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
+	
+	@RequestMapping( value="/changePass", method = RequestMethod.POST )
+	public ResponseEntity<String> showResetPassword(@RequestParam(value = "username") String p_username, 
+													@RequestParam(value = "passCurr", required=false ) String p_passCurrent,
+													@RequestParam(value = "passNew", required=false ) String p_passNew
+													){
+		
+		String l_res = null;
+		try{
+			l_res = passService.changePassword(p_username, p_passCurrent, p_passNew);
+			return new ResponseEntity<String>(l_res, HttpStatus.OK);
+		}catch(Exception ex){
+			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
+	
+		
 	@RequestMapping( value = "/getJsonUser", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<User> showListAllUser() {
 		User users = userService.findUserById(new BigDecimal(15));
@@ -539,7 +573,6 @@ public class JsonController {
 		return new ResponseEntity<Map<String, List<Map<String, Object>>>>(l_map, HttpStatus.OK);
 
 	}
-	
 	
 	@RequestMapping( value = "/getJsonPermissionRolPageActive2/{p_appId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<Map<String, List<Map<String, Object>>>> showJsonPermissionRolPage2( @PathVariable( "p_appId" ) BigDecimal p_appId ) {

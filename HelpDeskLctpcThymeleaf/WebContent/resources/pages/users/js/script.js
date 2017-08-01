@@ -199,25 +199,31 @@ jQuery(function($) {
 								$('#lblDepto').text(data.nomDepartamento);
 								$('#lblAdmission').text(data.fechaIngreso);
 								var	l_labelActive = (data.activo == 'Y'? "Active" : "Inactive");
-								var	l_labelSpanActive  = (data.activo == 'Y' ? "info" : "danger");
+								var	l_labelSpanActive  = (data.activo == 'Y' ? "success" : "danger");
 								$('#lblNomActive').removeClass();
 								$('#lblNomActive').addClass("label label-"+l_labelSpanActive).text( l_labelActive );
 								//$('#lblReason').text(data.motivo);
 							}
 						});
 					}
-					if(FilaActual.userActive == false)
+					
+					if(FilaActual.userActive == false){
 						$('#btn-delete').removeAttr('href').attr("disabled", "disabled");
-					else
+						$('#btn-resetPass').removeAttr('href').attr("disabled", "disabled");
+						
+					} else{
 						$('#btn-delete').attr('href', $(location)
 							.attr('origin') + "/HelpDeskLctpcThymeleaf/userFormulario/"+ FilaActual.userId )
 							.removeAttr('disabled');
+						$('#btn-resetPass')
+								.removeAttr('disabled');
+					}
 					$('#lblUser').text( FilaActual.userUsername != null ? FilaActual.userUsername : '' );
 					var txtName = (FilaActual.acinName != null ? FilaActual.acinName : "") + (FilaActual.acinLastName != null ? FilaActual.acinLastName : "");
 					$('#lblEmail').text( FilaActual.acinEmail != null ? FilaActual.acinEmail : '' );
 					$('#lblAltEmail').text(FilaActual.acinAlternateEmail != null ? FilaActual.acinAlternateEmail : '');
 					var	l_checkLabel = FilaActual.passwords[0] != null ? (FilaActual.passwords[0].pswdActive ? "Active" : "Inactive") :  "No Password";
-					var	l_labelSpan  = FilaActual.passwords[0] != null ? (FilaActual.passwords[0].pswdActive ? "info" : "default") : "warning";
+					var	l_labelSpan  = FilaActual.passwords[0] != null ? (FilaActual.passwords[0].pswdActive ? "success" : "default") : "warning";
 					
 					$('#lblPass').addClass("label label-"+l_labelSpan).text( l_checkLabel );
 					
