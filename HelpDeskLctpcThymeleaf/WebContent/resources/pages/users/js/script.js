@@ -73,31 +73,7 @@ jQuery(function($) {
 				tableUser.ajax.reload();
 			});
 			
-			$('#btn-edit').on("click", function() {
-				//var ColumnaActual = $(this).parent().parent().parent().get(0), FilaActual = $('#tableUsers').DataTable().row(ColumnaActual).data();
-				var FilaActual = tableUser.row($(this).parents('tr')).data();
-				var link = "/" + FilaActual.userId + "/update";
-				$.ajax({
-					url : "./userFormulario" + link,
-					type : "POST",
-					dataType: "html",
-					timeout : 100000,
-					success : function(result) {
-						
-						if (!(result === null)) {
-							$(".modal-body .row").html(result);
-							$("#btnSave").on("click", function() {
-								$("#user").submit();
-							});
-						}
-					},
-					error : function(e) {
-						alert("ERROR: ", e);
-					}
-				});
-
-				$("#gridSystemModal .modal-header h4 span").text(FilaActual.userUsername);
-			});
+			
 
 			var tableUserRoles = $('#tableRoles').DataTable({
 				paging: false,
@@ -237,6 +213,32 @@ jQuery(function($) {
 				
 			});
 			
+			$('#btn-edit').on("click", function() {
+				//var ColumnaActual = $(this).parent().parent().parent().get(0), FilaActual = $('#tableUsers').DataTable().row(ColumnaActual).data();
+				var FilaActual = tableUser.row($(this).parents('tr')).data();
+				var link = "/" + FilaActual.userId + "/update";
+				$.ajax({
+					url : "./userFormulario" + link,
+					type : "POST",
+					dataType: "html",
+					timeout : 100000,
+					success : function(result) {
+						
+						if (!(result === null)) {
+							$(".modal-body .row").html(result);
+							$("#btnSave").on("click", function() {
+								$("#user").submit();
+							});
+						}
+					},
+					error : function(e) {
+						alert("ERROR: ", e);
+					}
+				});
+
+				$("#gridSystemModal .modal-header h4 span").text(FilaActual.userUsername);
+			});
+			
 			$('#btn-delete').on("click", function(e) {
 				//var FilaActual = tableUser.row($(this).parents('tr')).data();
 				var linkDelete = this;
@@ -244,6 +246,29 @@ jQuery(function($) {
 		        
 				if( !$(this).attr("disabled") ) //Verificar que el boton no este disabled
 					shoModalConfirmation(linkDelete, tableUser);
+					
+			});
+			
+			$('#btnSaveReset').on("click", function(e) {
+				//var FilaActual = tableUser.row($(this).parents('tr')).data();
+				var link = "./reset";
+				
+				$.ajax({
+					url : link,
+					type : "POST",
+					contentType:  'application/x-www-form-urlencoded',
+					data : {
+		                	"username": $("#lblUser").text(),
+		                	"passNew": $("#txtPass").val(),
+		            		},
+					timeout : 100000,
+					success : function(result) {
+						console.log(result);
+					},
+					error : function(e) {
+						alert("ERROR: ", e);
+					}
+				});
 					
 			});
 			
