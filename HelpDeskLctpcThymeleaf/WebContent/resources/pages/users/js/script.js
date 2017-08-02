@@ -249,24 +249,55 @@ jQuery(function($) {
 					
 			});
 			
+			$('#ckbPass11').change(function() {
+		        if($(this).is(':checked'))
+		        	$('#txtPass').removeAttr('disabled');
+		        else
+		        	$('#txtPass').attr('disabled','disabled').val(null);
+		        
+		        //$(this).attr("checked", $(this).is(':checked'));
+		    });
+			
+			$('#btn-resetPass').on("click", function(e) {
+				//var FilaActual = tableUser.row($(this).parents('tr')).data();
+				$('#divAlert').empty();
+				$('#divAlert').removeClass("alert-danger").removeClass("alert-info");
+				if( $('#ckbPass11').is(':checked') )
+					$('#ckbPass11').click(); //se manda el evento del click que removiendo el pincge attributo no jala.
+				$('#txtPass').val(null);
+			});
+			
 			$('#btnSaveReset').on("click", function(e) {
 				//var FilaActual = tableUser.row($(this).parents('tr')).data();
 				var link = "./reset";
+				var divAlert = $('#divAlert');
+				$('#divAlert').empty();
+				var lblPassNewOk = $("<h2 class='font-bold'>");
+				var lblPassNewFail = $("<h3 class='font-bold'>");
+				
 				
 				$.ajax({
 					url : link,
 					type : "POST",
 					contentType:  'application/x-www-form-urlencoded',
 					data : {
-		                	"username": $("#lblUser").text(),
+		                	"username": "12"+$("#lblUser").text(),
 		                	"passNew": $("#txtPass").val(),
 		            		},
 					timeout : 100000,
 					success : function(result) {
-						console.log(result);
+						divAlert.removeClass('alert-danger').addClass('alert-info');
+						divAlert.append($("<h2 class='font-bold'>").text(result));
+						//lblPassNewOk.text(result);
+						//divAlert.append(lblPassNewOk);
+						
 					},
 					error : function(e) {
-						alert("ERROR: ", e);
+						divAlert.removeClass('alert-info').addClass('alert-danger');
+						divAlert.append($("<h3 class='font-bold'>").text(e.responseText));
+						//lblPassNewFail.text(e.responseText);
+						//divAlert.append(lblPassNewFail);
+						
 					}
 				});
 					

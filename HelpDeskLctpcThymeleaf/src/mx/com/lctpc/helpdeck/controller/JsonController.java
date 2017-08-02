@@ -121,7 +121,7 @@ public class JsonController {
 	}
 	
 	@RequestMapping( value="/reset", method = RequestMethod.POST )
-	public ResponseEntity<String> showResetPassword(@RequestParam(value = "username") String p_username, 
+	public ResponseEntity<String> resetPassword(@RequestParam(value = "username") String p_username, 
 													@RequestParam(value = "passNew", required=false ) String p_passNew){
 		
 		String l_res = null;
@@ -129,12 +129,13 @@ public class JsonController {
 			l_res = passService.resetPassword(p_username, p_passNew);
 			return new ResponseEntity<String>(l_res, HttpStatus.OK);
 		}catch(Exception ex){
+			System.out.println("Exception "+ex);
 			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
 	
 	@RequestMapping( value="/changePass", method = RequestMethod.POST )
-	public ResponseEntity<String> showResetPassword(@RequestParam(value = "username") String p_username, 
+	public ResponseEntity<String> changePassword(@RequestParam(value = "username") String p_username, 
 													@RequestParam(value = "passCurr", required=false ) String p_passCurrent,
 													@RequestParam(value = "passNew", required=false ) String p_passNew
 													){
@@ -144,7 +145,8 @@ public class JsonController {
 			l_res = passService.changePassword(p_username, p_passCurrent, p_passNew);
 			return new ResponseEntity<String>(l_res, HttpStatus.OK);
 		}catch(Exception ex){
-			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+			
+			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NO_CONTENT);
 		}
 	}
 	
