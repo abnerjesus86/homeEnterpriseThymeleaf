@@ -156,7 +156,7 @@ public class JsonController {
 		User users = userService.findUserById(new BigDecimal(15));
 
 		if (users == null) {
-			return new ResponseEntity<User>(HttpStatus.NO_CONTENT);// You many decide to return HttpStatus.NOT_FOUND
+			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);// You many decide to return HttpStatus.NOT_FOUND
 		}
 		return new ResponseEntity<User>(users, HttpStatus.OK);
 	}
@@ -242,7 +242,8 @@ public class JsonController {
 		Map<String, List<UserRole>> l_map = new HashMap<String, List<UserRole>>();
 
 		if (l_userRoles.isEmpty()) {
-			return new ResponseEntity<Map<String, List<UserRole>>>(HttpStatus.NO_CONTENT);// You many decide to return
+			
+			return new ResponseEntity<Map<String, List<UserRole>>>(HttpStatus.NOT_FOUND);// You many decide to return
 																							// HttpStatus.NOT_FOUND
 		}
 
@@ -258,7 +259,7 @@ public class JsonController {
 		Map<String, List<UserApplication>> l_map = new HashMap<String, List<UserApplication>>();
 
 		if (l_userApps.isEmpty()) {
-			return new ResponseEntity<Map<String, List<UserApplication>>>(HttpStatus.NO_CONTENT);// You many decide to
+			return new ResponseEntity<Map<String, List<UserApplication>>>(HttpStatus.NOT_FOUND);// You many decide to
 																									// return
 																									// HttpStatus.NOT_FOUND
 		}

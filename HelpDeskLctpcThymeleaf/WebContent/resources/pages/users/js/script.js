@@ -85,6 +85,15 @@ jQuery(function($) {
 				createdRow : function(row, data, dataIndex){
 					$(row).attr("title","Description Role: "+data.roleDescription);
 				},
+				ajax : {
+					//url : "./getJsonApps",
+					type : "GET",
+					contentType : "application/json; charset=utf-8",
+					dataType : "json",
+					error: function(error){
+                        console.log(JSON.stringify(error));
+                    },
+				},
 				columns : [ {
 						data : "usroId"
 					}, {
@@ -98,7 +107,6 @@ jQuery(function($) {
 							return "["+data.roleAppnId.appnId+"] " + data.roleAppnId.appnName;
 						}
 					}, {
-	
 						data : null,
 						render : function(data, type, row){
 							var l_check = data.usroActive == false ? "" : " checked";
@@ -111,7 +119,9 @@ jQuery(function($) {
 				]
 				
 			});
-
+			
+			
+			
 			var tableUserApps = $('#tableApps').DataTable({
 				paging: false,
 				info: false,
@@ -122,6 +132,15 @@ jQuery(function($) {
 				destroy : true,
 				createdRow : function(row, data, dataIndex){
 					$(row).attr("title","Description Application: "+data.appnDescription);
+				},
+				ajax : {
+					//url : "./getJsonApps",
+					type : "GET",
+					contentType : "application/json; charset=utf-8",
+					dataType : "json",
+					error: function(error){
+                        console.log(JSON.stringify(error));
+                    },
 				},
 				columns : [ {
 					//title : "Consecutivo",
@@ -204,7 +223,9 @@ jQuery(function($) {
 					$('#lblPass').addClass("label label-"+l_labelSpan).text( l_checkLabel );
 					
 					tableUserRoles.clear().draw();
-					tableUserRoles.ajax.url("./getJsonUserRoles/" + FilaActual.userId).load();
+					tableUserRoles.ajax.url("./getJsonUserRoles/" + FilaActual.userId).load(function( ){
+						
+					} );
 					
 					tableUserApps.clear().draw();
 					tableUserApps.ajax.url("./getJsonUserApps/" + FilaActual.userId).load();
@@ -275,7 +296,6 @@ jQuery(function($) {
 				var lblPassNewOk = $("<h2 class='font-bold'>");
 				var lblPassNewFail = $("<h3 class='font-bold'>");
 				
-				
 				$.ajax({
 					url : link,
 					type : "POST",
@@ -288,16 +308,10 @@ jQuery(function($) {
 					success : function(result) {
 						divAlert.removeClass('alert-danger').addClass('alert-info');
 						divAlert.append($("<h2 class='font-bold'>").text(result));
-						//lblPassNewOk.text(result);
-						//divAlert.append(lblPassNewOk);
-						
 					},
 					error : function(e) {
 						divAlert.removeClass('alert-info').addClass('alert-danger');
 						divAlert.append($("<h3 class='font-bold'>").text(e.responseText));
-						//lblPassNewFail.text(e.responseText);
-						//divAlert.append(lblPassNewFail);
-						
 					}
 				});
 					
