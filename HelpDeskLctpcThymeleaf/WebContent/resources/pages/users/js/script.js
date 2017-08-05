@@ -9,7 +9,8 @@ jQuery(function($) {
 			// Activated the table
 			var tableUser = $('#tableUsers').DataTable({
 				//serverSide: true,
-				autoWidth : true,
+				saveStatus : true,
+				autoWidth : false,
 				ordering : false,
 				destroy : true,
 				responsive : true,
@@ -21,7 +22,16 @@ jQuery(function($) {
 			        //selector: 'td:first-child',
 			        blurable: true
 			    },
-				columns : [ {
+			    ajax : {
+					url : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonUsers2",
+					type : "GET",
+					contentType : "application/json; charset=utf-8",
+					dataType : "json",
+					error: function(error){
+						console.log(error.statusText);
+                    }
+				},
+			    columns : [ {
 					//title : "Id",
 					data : "userId"
 				}, {
@@ -73,27 +83,20 @@ jQuery(function($) {
 				tableUser.ajax.reload();
 			});
 			
-			
-
 			var tableUserRoles = $('#tableRoles').DataTable({
 				paging: false,
 				info: false,
-				autoWidth : true,
+				autoWidth : false,
 				searching : false,
 				ordering : false,
 				destroy : true,
+				language: {
+				    infoEmpty: "No entries to show"
+				  },
 				createdRow : function(row, data, dataIndex){
 					$(row).attr("title","Description Role: "+data.roleDescription);
 				},
-				ajax : {
-					//url : "./getJsonApps",
-					type : "GET",
-					contentType : "application/json; charset=utf-8",
-					dataType : "json",
-					error: function(error){
-                        console.log(JSON.stringify(error));
-                    },
-				},
+				
 				columns : [ {
 						data : "usroId"
 					}, {
@@ -120,27 +123,19 @@ jQuery(function($) {
 				
 			});
 			
-			
-			
+			$.fn.dataTable.ext.errMode = 'none';
+			//$('#tableApps').on('xhr.dt', dataTableAjaxReturn).DataTable
 			var tableUserApps = $('#tableApps').DataTable({
 				paging: false,
 				info: false,
-				autoWidth : true,
+				processing: false,
+				autoWidth : false,
 				select : false,
 				searching : false,
 				ordering : false,
 				destroy : true,
 				createdRow : function(row, data, dataIndex){
 					$(row).attr("title","Description Application: "+data.appnDescription);
-				},
-				ajax : {
-					//url : "./getJsonApps",
-					type : "GET",
-					contentType : "application/json; charset=utf-8",
-					dataType : "json",
-					error: function(error){
-                        console.log(JSON.stringify(error));
-                    },
 				},
 				columns : [ {
 					//title : "Consecutivo",
@@ -153,7 +148,6 @@ jQuery(function($) {
 					}
 				}, {
 					//title : "Active",
-					//width: "20px",
 					data : //"usapActive"
 						null,
 					render : function(data, type, row) {
@@ -210,8 +204,7 @@ jQuery(function($) {
 						$('#btn-delete').attr('href', $(location)
 							.attr('origin') + "/HelpDeskLctpcThymeleaf/userFormulario/"+ FilaActual.userId )
 							.removeAttr('disabled');
-						$('#btn-resetPass')
-								.removeAttr('disabled');
+						$('#btn-resetPass').removeAttr('disabled');
 					}
 					$('#lblUser').text( FilaActual.userUsername != null ? FilaActual.userUsername : '' );
 					var txtName = (FilaActual.acinName != null ? FilaActual.acinName : "") + (FilaActual.acinLastName != null ? FilaActual.acinLastName : "");
@@ -223,9 +216,7 @@ jQuery(function($) {
 					$('#lblPass').addClass("label label-"+l_labelSpan).text( l_checkLabel );
 					
 					tableUserRoles.clear().draw();
-					tableUserRoles.ajax.url("./getJsonUserRoles/" + FilaActual.userId).load(function( ){
-						
-					} );
+					tableUserRoles.ajax.url("./getJsonUserRoles/" + FilaActual.userId).load();
 					
 					tableUserApps.clear().draw();
 					tableUserApps.ajax.url("./getJsonUserApps/" + FilaActual.userId).load();
@@ -275,8 +266,6 @@ jQuery(function($) {
 		        	$('#txtPass').removeAttr('disabled');
 		        else
 		        	$('#txtPass').attr('disabled','disabled').val(null);
-		        
-		        //$(this).attr("checked", $(this).is(':checked'));
 		    });
 			
 			$('#btn-resetPass').on("click", function(e) {
@@ -317,8 +306,15 @@ jQuery(function($) {
 					
 			});
 			
-			tableUser.clear().draw();
-			tableUser.ajax.url($(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonUsers2").load();
+			function handleAjaxError( xhr, textStatus, error ) {
+				if ( textStatus === 'timeout' ) {
+					alert( 'The server took too long to send the data.' );
+				}
+				console.log("gola "+error);
+				//$('#tableApps').DataTable().fnProcessingIndicator( false );
+			}
+
+			
 		}
 	
 	});
@@ -357,3 +353,27 @@ function shoModalConfirmation(p_url, p_table){
 	});
 }
 
+jQuery.fn.dataTableExt.oApi.fnProcessingIndicator = function ( oSettings, onoff ) {
+	if ( typeof( onoff ) == 'undefined' ) {
+		onoff = true;
+	}
+	this.oApi._fnProcessingDisplay( oSettings, onoff );
+};
+
+
+function dataTableAjaxReturn(e, settings, json) {
+
+	console.log("Entosd  ");
+	if (json == null){
+		console.log("Entri al null");
+	}
+	else if (typeof json.error == 'undefined') {
+	   //handle or ignore your error
+	   console.log("Entri al type json.error");
+   }
+   else
+   {
+     //no error
+   }
+ 
+}
