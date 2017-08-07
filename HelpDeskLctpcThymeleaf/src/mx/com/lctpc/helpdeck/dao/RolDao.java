@@ -14,4 +14,5 @@ public interface RolDao {
 	public Rol findRolById(BigDecimal p_rol);
 	public List<ApplicationRole> findApplicationFromRolById(BigDecimal p_rol);
 	public List<UserRole> findUserFromRolById(BigDecimal p_rol);
+	public List<Rol> findRolesActive();
 }

@@ -6,6 +6,8 @@
 jQuery(function($) {
 	jQuery.fn.extend({
 		initializeTable : function() {
+			//Desactivar la alert de error de los DataTables
+			$.fn.dataTable.ext.errMode = 'none';
 			// Activated the table
 			var tableUser = $('#tableUsers').DataTable({
 				//serverSide: true,
@@ -113,7 +115,7 @@ jQuery(function($) {
 						data : null,
 						render : function(data, type, row){
 							var l_check = data.usroActive == false ? "" : " checked";
-							return " <div class='checkbox checkbox-primary pull-right'>"+
+							return " <div class='checkbox checkbox-success pull-right'>"+
 				            			" <input type='checkbox' id='singleCheckbox2' onclick='return false' value='" + data.usroActive +"' "+ l_check+" aria-label='Single checkbox Two'>"+
 				            			" <label></label>"+
 				            	   " </div>";
@@ -123,7 +125,7 @@ jQuery(function($) {
 				
 			});
 			
-			$.fn.dataTable.ext.errMode = 'none';
+			
 			//$('#tableApps').on('xhr.dt', dataTableAjaxReturn).DataTable
 			var tableUserApps = $('#tableApps').DataTable({
 				paging: false,
@@ -152,7 +154,7 @@ jQuery(function($) {
 						null,
 					render : function(data, type, row) {
 						var l_check = data.usapActive == false ? "" : " checked";
-						return " <div class='checkbox checkbox-primary pull-right'>"+
+						return " <div class='checkbox checkbox-success pull-right'>"+
                 		" <input type='checkbox' id='singleCheckbox2' onclick='return false' value='" + data.usapActive +"' "+ l_check+" aria-label='Single checkbox Two'>"+
                 		" <label></label>"+
                 		" </div>";
@@ -188,7 +190,7 @@ jQuery(function($) {
 								$('#lblDepto').text(data.nomDepartamento);
 								$('#lblAdmission').text(data.fechaIngreso);
 								var	l_labelActive = (data.activo == 'Y'? "Active" : "Inactive");
-								var	l_labelSpanActive  = (data.activo == 'Y' ? "success" : "danger");
+								var	l_labelSpanActive  = (data.activo == 'Y' ? "primary" : "danger");
 								$('#lblNomActive').removeClass();
 								$('#lblNomActive').addClass("label label-"+l_labelSpanActive).text( l_labelActive );
 								//$('#lblReason').text(data.motivo);
@@ -211,7 +213,7 @@ jQuery(function($) {
 					$('#lblEmail').text( FilaActual.acinEmail != null ? FilaActual.acinEmail : '' );
 					$('#lblAltEmail').text(FilaActual.acinAlternateEmail != null ? FilaActual.acinAlternateEmail : '');
 					var	l_checkLabel = FilaActual.passwords[0] != null ? (FilaActual.passwords[0].pswdActive ? "Active" : "Inactive") :  "No Password";
-					var	l_labelSpan  = FilaActual.passwords[0] != null ? (FilaActual.passwords[0].pswdActive ? "success" : "default") : "warning";
+					var	l_labelSpan  = FilaActual.passwords[0] != null ? (FilaActual.passwords[0].pswdActive ? "primary" : "default") : "warning";
 					
 					$('#lblPass').addClass("label label-"+l_labelSpan).text( l_checkLabel );
 					
@@ -306,14 +308,47 @@ jQuery(function($) {
 					
 			});
 			
-			function handleAjaxError( xhr, textStatus, error ) {
-				if ( textStatus === 'timeout' ) {
-					alert( 'The server took too long to send the data.' );
-				}
-				console.log("gola "+error);
-				//$('#tableApps').DataTable().fnProcessingIndicator( false );
-			}
+			$('#btn-AssignRol').on("click", function() {
+				//var ColumnaActual = $(this).parent().parent().parent().get(0), FilaActual = $('#tableUsers').DataTable().row(ColumnaActual).data();
+				var tableRolesActive = $('#tableRolesActive').DataTable({
+					paging: true,
+					info: true,
+					autoWidth : false,
+					searching : true,
+					ordering : false,
+					destroy : true,
+					language: {
+					    infoEmpty: "No entries to show"
+					},
+					ajax : {
+						url : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonRolesActive",
+						type : "GET",
+						contentType : "application/json; charset=utf-8",
+						dataType : "json",
+						error: function(error){
+							console.log(error.statusText);
+	                    }
+					},
+					columns : [ {
+							title : "Id",
+							data : "roleId"
+						}, {
+							title : "Rol Name",
+							data : "roleName"
+						}, {
+							title : "Rol Description",
+							data : "roleDescription"
+						},{
+							title : "Application Name",
+							data : null,//"roleAppnId.appnName",
+							render : function(data, type, row){
+								return "["+data.roleAppnId.appnId+"] " + data.roleAppnId.appnName;
+							}
+						}
+					]
+				});
 
+			});
 			
 		}
 	
@@ -359,6 +394,16 @@ jQuery.fn.dataTableExt.oApi.fnProcessingIndicator = function ( oSettings, onoff 
 	}
 	this.oApi._fnProcessingDisplay( oSettings, onoff );
 };
+
+
+function handleAjaxError( xhr, textStatus, error ) {
+	if ( textStatus === 'timeout' ) {
+		alert( 'The server took too long to send the data.' );
+	}
+	console.log("gola "+error);
+	//$('#tableApps').DataTable().fnProcessingIndicator( false );
+}
+
 
 
 function dataTableAjaxReturn(e, settings, json) {

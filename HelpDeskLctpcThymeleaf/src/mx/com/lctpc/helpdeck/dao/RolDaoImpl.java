@@ -80,6 +80,19 @@ public class RolDaoImpl implements RolDao {
 		return l_queryUserRole.getResultList();
 	}
 
+	@Override
+	public List<Rol> findRolesActive() {
+		// TODO Auto-generated method stub
+		CriteriaBuilder l_builder = getSession().getCriteriaBuilder();
+		CriteriaQuery<Rol> l_crtQuery = l_builder.createQuery(Rol.class);
+		Root<Rol> l_rootUser = l_crtQuery.from(Rol.class);
+		l_crtQuery.select(l_rootUser);
+		l_crtQuery.where(l_builder.equal(l_rootUser.get("g_roleActive"), true));
+
+		return (List<Rol>) getSession().createQuery(l_crtQuery).getResultList();
+		
+	}
+
 	
 	
 	

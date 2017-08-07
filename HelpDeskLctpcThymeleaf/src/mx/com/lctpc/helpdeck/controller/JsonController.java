@@ -234,11 +234,6 @@ public class JsonController {
 
 		List<UserRole> l_userRoles = userService.findRolesFromUserById(p_userId);
 
-		/*
-		 * for(UserRole l_ur: l_userRoles){
-		 * System.out.println(l_ur);
-		 * }
-		 */
 		Map<String, List<UserRole>> l_map = new HashMap<String, List<UserRole>>();
 
 		if (l_userRoles.isEmpty()) {
@@ -281,7 +276,20 @@ public class JsonController {
 		return new ResponseEntity<Map<String, List<Rol>>>(l_map, HttpStatus.OK);
 
 	}
+	
+	@RequestMapping( value = "/getJsonRolesActive", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<Map<String, List<Rol>>> showJsonRolesActive() {
+		List<Rol> l_roles = rolService.findRolesActive();
+		Map<String, List<Rol>> l_map = new HashMap<String, List<Rol>>();
+		if (l_roles.isEmpty()) {
+			return new ResponseEntity<Map<String, List<Rol>>>(HttpStatus.NOT_ACCEPTABLE);// You many decide to return HttpStatus.NOT_FOUND
+		}
 
+		l_map.put("data", l_roles);
+		return new ResponseEntity<Map<String, List<Rol>>>(l_map, HttpStatus.OK);
+
+	}
+	
 	@RequestMapping( value = "/getJsonPages", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<Map<String, List<Page>>> showJsonPages() {
 		List<Page> l_pages = pagService.findAllPage();

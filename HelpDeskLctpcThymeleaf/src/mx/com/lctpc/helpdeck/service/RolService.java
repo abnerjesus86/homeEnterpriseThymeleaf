@@ -20,7 +20,11 @@ public class RolService {
 	public List<Rol> findAll() {
 		return rolDao.findAllRoles();
 	}
-
+	
+	public List<Rol> findRolesActive() {
+		return rolDao.findRolesActive();
+	}
+	
 	public void saveOrUpdateRol( Rol p_rol ) {
 
 		if (p_rol.getRoleId() == null || findRolById(p_rol.getRoleId()) == null) {

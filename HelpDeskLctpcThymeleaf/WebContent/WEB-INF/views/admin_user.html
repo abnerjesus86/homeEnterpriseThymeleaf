@@ -2,20 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<th:block
-	th:replace="templates/template :: header-css(${'Administracion Users'})" />
+<th:block th:replace="templates/template :: header-css(${'Administracion Users'})" />
 <!-- Toastr style -->
-<link
-	th:href="@{/res/plantilla/INSPINIA/css/plugins/toastr/toastr.min.css}"
-	rel="stylesheet">
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/toastr/toastr.min.css}" rel="stylesheet">
 
-<link
-	th:href="@{/res/plantilla/INSPINIA/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}"
-	rel="stylesheet">
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}" rel="stylesheet">
 <!-- Sweet Alert -->
-<link
-	th:href="@{/res/plantilla/INSPINIA/css/plugins/sweetalert/sweetalert.css}"
-	rel="stylesheet">
+<link th:href="@{/res/plantilla/INSPINIA/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
 </head>
 
 <body class="pace-done skin-1">
@@ -32,21 +25,14 @@
 					<div class="col-sm-8">
 						<div class="ibox">
 							<div class="ibox-content">
-								<span class="text-muted small pull-right">Last
-									modification: <i class="fa fa-clock-o"></i> 2:10 pm -
-									12.06.2014
+								<span class="text-muted small pull-right">Last modification: <i class="fa fa-clock-o"></i> 2:10 pm - 12.06.2014
 								</span>
 								<h2>Users</h2>
-								<p>All users need to be verified before you can send email
-									and set a project.</p>
+								<p>All users need to be verified before you can send email and set a project.</p>
 								<div class="input-group">
-									<input id="txtSearch" type="text" placeholder="Search"
-										class="input-sm form-control"> <span
-										class="input-group-btn">
-										<button id="sUsers" type="button"
-											class="btn btn-sm btn-primary">Search</button>
-										<button type="button" id="loading-example-btn"
-											class="btn btn-white btn-sm">
+									<input id="txtSearch" type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
+										<button id="sUsers" type="button" class="btn btn-sm btn-primary">Search</button>
+										<button type="button" id="loading-example-btn" class="btn btn-white btn-sm">
 											<i class="fa fa-refresh"></i> Refresh
 										</button>
 									</span>
@@ -67,17 +53,11 @@
 							<div class="ibox-content">
 								<div class="tab-content">
 									<div id="contact-1" class="tab-pane active">
-										<div id="tooltip" class="tooltip">
-											<strong>Description Rol:</strong>
-											<p></p>
-										</div>
 										<div class="row m-b-lg">
 											<div class="col-lg-4 text-center">
 												<!-- <h5 id="lblUser1">Nicki Smith</h5> -->
 												<div class="m-b-sm">
-													<img alt="image" class="img-circle"
-														th:src="@{/res/plantilla/INSPINIA/img/emp_764.bmp}"
-														style="width: 62px">
+													<img alt="image" class="img-circle" th:src="@{/res/plantilla/INSPINIA/img/emp_764.bmp}" style="width: 62px">
 												</div>
 												<span id="lblNomActive"></span>
 											</div>
@@ -104,15 +84,11 @@
 											</div>
 											<div class="col-lg-12 text-center">
 												<div class="m-t-xs btn-group">
-													<a class='btn btn-white btn-xs' id='btn-edit'
-														href='#myModalUsers' role='button' data-toggle='modal'>
-														<i class='fa fa-pencil'></i> Edit
-													</a> <a class='btn btn-white btn-xs' id='btn-resetPass'
-														data-target="#myModalPass" role='button'
-														data-toggle='modal'> <i class='fa fa-key'></i> Reset
-														Pass
-													</a> <a class='btn btn-white btn-xs' id='btn-delete'> <i
-														class='fa fa-trash-o'></i> Delete
+													<a class='btn btn-white btn-xs' id='btn-edit' href='#myModalUsers' role='button' data-toggle='modal'> <i class='fa fa-pencil'></i>
+														Edit
+													</a> <a class='btn btn-white btn-xs' id='btn-resetPass' data-target="#myModalPass" role='button' data-toggle='modal'> <i
+														class='fa fa-key'></i> Reset Pass
+													</a> <a class='btn btn-white btn-xs' id='btn-delete'> <i class='fa fa-trash-o'></i> Delete
 													</a>
 												</div>
 
@@ -120,7 +96,7 @@
 										</div>
 										<div class="client-detail">
 											<div class="full-height-scroll">
-												<br> <strong>Infor Details</strong>
+												<br> <strong><i class='fa fa-user'></i> Info Details</strong>
 												<table class="table small m-b-xs">
 													<tbody>
 														<tr>
@@ -144,10 +120,16 @@
 
 												</table>
 												<hr>
-												<strong>Roles Assigned</strong>
+												<span class="text-muted small pull-right"> <a class='btn btn-success btn-xs' id='btn-AssignRol' role='button' href="#myModalRoles"
+													data-toggle='modal'> <i class='fa fa-plus'></i> Add Rol
+												</a>
+												</span> <strong><i class='fa fa-users'></i> Roles Assigned</strong>
 												<table class="table small m-b-xs" id="tableRoles">
 												</table>
-												<strong>Applications Assigned</strong>
+												<span class="text-muted small pull-right"> <a class='btn btn-success btn-xs' id='btn-AssignAppn' role='button' href="#myModalApps"
+													data-toggle="modal"> <i class='fa fa-plus'></i> Add App
+												</a>
+												</span> <strong><i class='fa fa-list-alt'></i> Applications Assigned</strong>
 												<table class="table small m-b-xs" id="tableApps">
 												</table>
 											</div>
@@ -158,8 +140,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="modal inmodal fade" id="myModalUsers" tabindex="-1"
-					role="dialog" aria-hidden="true">
+				<div class="modal inmodal fade" id="myModalUsers" tabindex="-1" role="dialog" aria-hidden="true">
 					<div class="modal-dialog modal-lg">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -174,14 +155,12 @@
 
 							<div class="modal-footer">
 								<button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-								<button id="btnSave" type="button" class="btn btn-primary">Save
-									changes</button>
+								<button id="btnSave" type="button" class="btn btn-primary">Save changes</button>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="modal inmodal fade" id="myModalPass" tabindex="-1"
-					role="dialog" aria-hidden="true">
+				<div class="modal inmodal fade" id="myModalPass" tabindex="-1" role="dialog" aria-hidden="true">
 					<div class="modal-dialog modal-sm">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -191,22 +170,39 @@
 								<h4 class="modal-title">Reset Password</h4>
 							</div>
 							<div class="modal-body">
-								<div class="form-group"> 
-								    <label>Password New</label> 
-								    <div class="input-group m-b">
-	                                    <span class="input-group-addon"> 
-                                                <input type="checkbox" id="ckbPass11" />
-	                                    </span> 
-	                                    <input type="text" id="txtPass" class="form-control" placeholder="Enter New Password" disabled="disabled" />
-	                                </div>
-	                                
-				                    <div class="alert text-center" id="divAlert">
-		                            </div>
+								<div class="form-group">
+									<label>Password New</label>
+									<div class="input-group m-b">
+										<span class="input-group-addon"> <input type="checkbox" id="ckbPass11" />
+										</span> <input type="text" id="txtPass" class="form-control" placeholder="Enter New Password" disabled="disabled" />
+									</div>
+
+									<div class="alert text-center" id="divAlert"></div>
 								</div>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
 								<button type="button" class="btn btn-primary" id="btnSaveReset">Send</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal inmodal fade" id="myModalRoles" role="dialog" aria-hidden="true">
+					<div class="modal-dialog ">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title">Select Rol</h4>
+							</div>
+							<div class="modal-body">
+									<table class="table table-bordered table-striped table-hover small m-b-xs" id="tableRolesActive">
+									</table>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+								<button id="btnSaveRolesActive" type="button" class="btn btn-primary">Save</button>
 							</div>
 						</div>
 					</div>
@@ -217,14 +213,11 @@
 	</div>
 	<div th:replace="templates/template :: foot-js"></div>
 	<!-- DataTable -->
-	<script
-		th:src="@{/res/plantilla/INSPINIA/js/plugins/dataTables/datatables.min.js}"></script>
+	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/dataTables/datatables.min.js}"></script>
 	<!-- iCheck -->
-	<script
-		th:src="@{/res/plantilla/INSPINIA/js/plugins/iCheck/icheck.min.js}"></script>
+	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/iCheck/icheck.min.js}"></script>
 	<!-- Sweet alert -->
-	<script
-		th:src="@{/res/plantilla/INSPINIA/js/plugins/sweetalert/sweetalert.min.js}"></script>
+	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/sweetalert/sweetalert.min.js}"></script>
 	<script th:src="@{/res/pages/users/js/script.js}"></script>
 </body>
 </html>
