@@ -16,8 +16,6 @@ jQuery(function($) {
 				ordering : false,
 				destroy : true,
 				responsive : true,
-				//iDisplayLength : 10,
-				//lengthMenu : [ [ 10, 25, 50, 100, 500, 1000, 2000 ], [ 10, 25, 50, 100, 500, 1000, 2000 ] ],
 				dom : "Tgt" ,//+ "<'row'<'col-md-5'i><'col-md-7 text-right'p>>",
 				select : {
 			        style:    'single',
@@ -44,10 +42,7 @@ jQuery(function($) {
 					data : "userEmesId"
 				}, {
 					//title : "Account User",
-					data : null,//"userUsername"
-					render : function(data, type, row){
-						return "<a data-toggle='tab' href='#contact-1' class='client-link'>"+data.userUsername+"</a>";
-					}
+					data : "userUsername"
 				},  /*{
 					//title : "Created By",
 					data : "passwords[0].pswdActive",
@@ -73,16 +68,6 @@ jQuery(function($) {
 				}
 				]
 				
-			});
-			
-			$('#sUsers').on("click", function(){
-				var txtSearch = $('#txtSearch').val();
-				tableUser.search( txtSearch ).draw();
-			} );
-			
-			$('#loading-example-btn').on("click", function(){
-				tableUser.clear().draw();
-				tableUser.ajax.reload();
 			});
 			
 			var tableUserRoles = $('#tableRoles').DataTable({
@@ -125,7 +110,6 @@ jQuery(function($) {
 				
 			});
 			
-			
 			//$('#tableApps').on('xhr.dt', dataTableAjaxReturn).DataTable
 			var tableUserApps = $('#tableApps').DataTable({
 				paging: false,
@@ -164,10 +148,84 @@ jQuery(function($) {
 				]
 			});
 			
+			var tableRolesActive = $('#tableRolesActive').DataTable({
+				paging: true,
+				info: true,
+				autoWidth : false,
+				searching : true,
+				ordering : false,
+				destroy : true,
+				language: {
+				    infoEmpty: "No entries to show"
+				},
+				ajax : {
+					url : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonRolesActive",
+					type : "GET",
+					contentType : "application/json; charset=utf-8",
+					dataType : "json",
+					error: function(error){
+						console.log(error.statusText);
+                    }
+				},
+				columns : [ {
+						title : "Id",
+						data : "roleId"
+					}, {
+						title : "Rol Name",
+						data : "roleName"
+					}, {
+						title : "Rol Description",
+						data : "roleDescription"
+					},{
+						title : "Application Name",
+						data : null,
+						render : function(data, type, row){
+							return "["+data.roleAppnId.appnId+"] " + data.roleAppnId.appnName;
+						}
+					}
+				]
+			});
+			
+			var tableAppsActive = $('#tableAppsActive').DataTable({
+				paging: true,
+				info: true,
+				autoWidth : false,
+				searching : true,
+				ordering : false,
+				destroy : true,
+				language: {
+				    infoEmpty: "No entries to show"
+				},
+				ajax : {
+					url : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonApps",
+					type : "GET",
+					contentType : "application/json; charset=utf-8",
+					dataType : "json",
+					error: function(error){
+						console.log(error.statusText);
+                    }
+				},
+				columns : [ {
+						title : "Id",
+						data : "appnId"
+					}, {
+						title : "App Name",
+						data : "appnName"
+					}, {
+						title : "App Description",
+						data : "appnDescription"
+					}
+				]
+			});
+			
 			$('#tableUsers tbody').on("click", "tr", function() {
 				var FilaActual = $('#tableUsers').DataTable().row(this).data();
 				
 				if (!$(this).hasClass('selected')) {
+					
+					
+					$('#btn-edit').attr('disabled', $(this).hasClass('selected'));
+					
 					tableUser.$('tr.selected').removeClass('selected');
 					$(this).addClass('selected');
 					$('#lblUser').text( "" );
@@ -185,6 +243,7 @@ jQuery(function($) {
 						$.ajax({
 							url : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonEmp/"+FilaActual.userEmesCompany+"/"+FilaActual.userEmesId,
 							success : function(data) {
+								$('#img-Emp').attr("src", "https://admportlct.lctpc.com.mx/Directorio/Fotos/"+FilaActual.userEmesCompany+"/emp_"+FilaActual.userEmesId+".bmp")
 								$('#lblName').text(data.nombre);
 								$('#lblJob').text(data.nomPuesto);
 								$('#lblDepto').text(data.nomDepartamento);
@@ -200,13 +259,22 @@ jQuery(function($) {
 					
 					if(FilaActual.userActive == false){
 						$('#btn-delete').removeAttr('href').attr("disabled", "disabled");
-						$('#btn-resetPass').removeAttr('href').attr("disabled", "disabled");
+						$('#btn-resetPass').removeAttr("data-target").removeAttr('href').attr("disabled", "disabled");
+						
+						$('#btn-AssignRol').attr('disabled', true).removeAttr('data-target');
+						$('#btn-AssignAppn').attr('disabled', true).removeAttr('data-target');
+						
 						
 					} else{
 						$('#btn-delete').attr('href', $(location)
 							.attr('origin') + "/HelpDeskLctpcThymeleaf/userFormulario/"+ FilaActual.userId )
 							.removeAttr('disabled');
-						$('#btn-resetPass').removeAttr('disabled');
+						$('#btn-resetPass').attr("data-target", "#myModalPass").removeAttr('disabled');
+						
+						$('#btn-AssignRol').removeAttr('disabled').attr('data-target', "#myModalRoles");
+						$('#btn-AssignAppn').removeAttr('disabled').attr('data-target', "#myModalAppns");
+						
+						
 					}
 					$('#lblUser').text( FilaActual.userUsername != null ? FilaActual.userUsername : '' );
 					var txtName = (FilaActual.acinName != null ? FilaActual.acinName : "") + (FilaActual.acinLastName != null ? FilaActual.acinLastName : "");
@@ -227,6 +295,33 @@ jQuery(function($) {
 				
 			});
 			
+			$('#tableRolesActive tbody').on("click", "tr", function() {
+				if (!$(this).hasClass('selected')){
+					tableRolesActive.$('tr.selected').removeClass('selected');
+					$(this).addClass('selected');
+				}
+			});
+			
+			$('#tableAppsActive tbody').on("click", "tr", function() {
+				if (!$(this).hasClass('selected')){
+					tableAppsActive.$('tr.selected').removeClass('selected');
+					$(this).addClass('selected');
+				}
+			});
+			
+			//Eventos de boton de Usuarios
+			$('#sUsers').on("click", function(){
+				var txtSearch = $('#txtSearch').val();
+				tableUser.search( txtSearch ).draw();
+			} );
+			
+			$('#btn-loading').on("click", function(){
+				tableUser.clear().draw();
+				tableUser.ajax.reload();
+			});
+			
+			
+			//Eventos de boton para modificar informacion
 			$('#btn-edit').on("click", function() {
 				//var ColumnaActual = $(this).parent().parent().parent().get(0), FilaActual = $('#tableUsers').DataTable().row(ColumnaActual).data();
 				var FilaActual = tableUser.row($(this).parents('tr')).data();
@@ -253,23 +348,6 @@ jQuery(function($) {
 				$("#gridSystemModal .modal-header h4 span").text(FilaActual.userUsername);
 			});
 			
-			$('#btn-delete').on("click", function(e) {
-				//var FilaActual = tableUser.row($(this).parents('tr')).data();
-				var linkDelete = this;
-				e.preventDefault(); //elimina el evento del link.
-		        
-				if( !$(this).attr("disabled") ) //Verificar que el boton no este disabled
-					shoModalConfirmation(linkDelete, tableUser);
-					
-			});
-			
-			$('#ckbPass11').change(function() {
-		        if($(this).is(':checked'))
-		        	$('#txtPass').removeAttr('disabled');
-		        else
-		        	$('#txtPass').attr('disabled','disabled').val(null);
-		    });
-			
 			$('#btn-resetPass').on("click", function(e) {
 				//var FilaActual = tableUser.row($(this).parents('tr')).data();
 				$('#divAlert').empty();
@@ -278,6 +356,22 @@ jQuery(function($) {
 					$('#ckbPass11').click(); //se manda el evento del click que removiendo el pincge attributo no jala.
 				$('#txtPass').val(null);
 			});
+			
+			$('#btn-delete').on("click", function(e) {
+				//var FilaActual = tableUser.row($(this).parents('tr')).data();
+				var linkDelete = this;
+				e.preventDefault(); //elimina el evento del link.
+		        
+				if( !$(this).attr("disabled") ) //Verificar que el boton no este disabled
+					shoModalConfirmation(linkDelete, tableUser);
+			});
+			
+			$('#ckbPass11').change(function() {
+		        if($(this).is(':checked'))
+		        	$('#txtPass').removeAttr('disabled');
+		        else
+		        	$('#txtPass').attr('disabled','disabled').val(null);
+		    });
 			
 			$('#btnSaveReset').on("click", function(e) {
 				//var FilaActual = tableUser.row($(this).parents('tr')).data();
@@ -292,13 +386,14 @@ jQuery(function($) {
 					type : "POST",
 					contentType:  'application/x-www-form-urlencoded',
 					data : {
-		                	"username": "12"+$("#lblUser").text(),
+		                	"username": $("#lblUser").text(),
 		                	"passNew": $("#txtPass").val(),
 		            		},
 					timeout : 100000,
 					success : function(result) {
 						divAlert.removeClass('alert-danger').addClass('alert-info');
 						divAlert.append($("<h2 class='font-bold'>").text(result));
+						
 					},
 					error : function(e) {
 						divAlert.removeClass('alert-info').addClass('alert-danger');
@@ -309,44 +404,12 @@ jQuery(function($) {
 			});
 			
 			$('#btn-AssignRol').on("click", function() {
-				//var ColumnaActual = $(this).parent().parent().parent().get(0), FilaActual = $('#tableUsers').DataTable().row(ColumnaActual).data();
-				var tableRolesActive = $('#tableRolesActive').DataTable({
-					paging: true,
-					info: true,
-					autoWidth : false,
-					searching : true,
-					ordering : false,
-					destroy : true,
-					language: {
-					    infoEmpty: "No entries to show"
-					},
-					ajax : {
-						url : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonRolesActive",
-						type : "GET",
-						contentType : "application/json; charset=utf-8",
-						dataType : "json",
-						error: function(error){
-							console.log(error.statusText);
-	                    }
-					},
-					columns : [ {
-							title : "Id",
-							data : "roleId"
-						}, {
-							title : "Rol Name",
-							data : "roleName"
-						}, {
-							title : "Rol Description",
-							data : "roleDescription"
-						},{
-							title : "Application Name",
-							data : null,//"roleAppnId.appnName",
-							render : function(data, type, row){
-								return "["+data.roleAppnId.appnId+"] " + data.roleAppnId.appnName;
-							}
-						}
-					]
-				});
+				tableRolesActive.ajax.reload();
+
+			});
+			
+			$('#btn-AssignAppn').on("click", function() {
+				tableAppsActive.ajax.reload();
 
 			});
 			

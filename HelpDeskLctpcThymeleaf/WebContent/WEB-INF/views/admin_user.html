@@ -9,6 +9,8 @@
 <link th:href="@{/res/plantilla/INSPINIA/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}" rel="stylesheet">
 <!-- Sweet Alert -->
 <link th:href="@{/res/plantilla/INSPINIA/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
+
+<link rel="stylesheet" th:href="@{/res/pages/users/css/style.css}" />
 </head>
 
 <body class="pace-done skin-1">
@@ -32,7 +34,7 @@
 								<div class="input-group">
 									<input id="txtSearch" type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
 										<button id="sUsers" type="button" class="btn btn-sm btn-primary">Search</button>
-										<button type="button" id="loading-example-btn" class="btn btn-white btn-sm">
+										<button type="button" id="btn-loading" class="btn btn-white btn-sm">
 											<i class="fa fa-refresh"></i> Refresh
 										</button>
 									</span>
@@ -55,9 +57,10 @@
 									<div id="contact-1" class="tab-pane active">
 										<div class="row m-b-lg">
 											<div class="col-lg-4 text-center">
-												<!-- <h5 id="lblUser1">Nicki Smith</h5> -->
+												<!-- <h5 id="lblUser1">Nicki Smith</h5>    -->
+												<!-- th:src="@{/res/plantilla/INSPINIA/img/emp_764.bmp}" -->
 												<div class="m-b-sm">
-													<img alt="image" class="img-circle" th:src="@{/res/plantilla/INSPINIA/img/emp_764.bmp}" style="width: 62px">
+													<img id="img-Emp" alt="image" class="img-circle" th:src="@{https://admportlct.lctpc.com.mx/Directorio/Fotos/LCTPC/emp_764.bmp}" style="width: 62px">
 												</div>
 												<span id="lblNomActive"></span>
 											</div>
@@ -84,11 +87,11 @@
 											</div>
 											<div class="col-lg-12 text-center">
 												<div class="m-t-xs btn-group">
-													<a class='btn btn-white btn-xs' id='btn-edit' href='#myModalUsers' role='button' data-toggle='modal'> <i class='fa fa-pencil'></i>
+													<a class='btn btn-white btn-xs' id='btn-edit' href='#myModalUsers' role='button' data-toggle='modal' disabled="disabled"> <i class='fa fa-pencil'></i>
 														Edit
-													</a> <a class='btn btn-white btn-xs' id='btn-resetPass' data-target="#myModalPass" role='button' data-toggle='modal'> <i
+													</a> <a class='btn btn-white btn-xs' id='btn-resetPass' data-target="#myModalPass" role='button' data-toggle='modal' disabled="disabled"> <i
 														class='fa fa-key'></i> Reset Pass
-													</a> <a class='btn btn-white btn-xs' id='btn-delete'> <i class='fa fa-trash-o'></i> Delete
+													</a> <a class='btn btn-white btn-xs' id='btn-delete' disabled="disabled"> <i class='fa fa-trash-o'></i> Delete
 													</a>
 												</div>
 
@@ -120,13 +123,13 @@
 
 												</table>
 												<hr>
-												<span class="text-muted small pull-right"> <a class='btn btn-success btn-xs' id='btn-AssignRol' role='button' href="#myModalRoles"
+												<span class="text-muted small pull-right"> <a class='btn btn-success btn-xs' id='btn-AssignRol' role='button' data-target="#myModalRoles"
 													data-toggle='modal'> <i class='fa fa-plus'></i> Add Rol
 												</a>
 												</span> <strong><i class='fa fa-users'></i> Roles Assigned</strong>
 												<table class="table small m-b-xs" id="tableRoles">
 												</table>
-												<span class="text-muted small pull-right"> <a class='btn btn-success btn-xs' id='btn-AssignAppn' role='button' href="#myModalApps"
+												<span class="text-muted small pull-right"> <a class='btn btn-success btn-xs' id='btn-AssignAppn' role='button' data-target="#myModalAppns"
 													data-toggle="modal"> <i class='fa fa-plus'></i> Add App
 												</a>
 												</span> <strong><i class='fa fa-list-alt'></i> Applications Assigned</strong>
@@ -207,6 +210,26 @@
 						</div>
 					</div>
 				</div>
+				<div class="modal inmodal fade" id="myModalAppns" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog ">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                                </button>
+                                <h4 class="modal-title">Select Application</h4>
+                            </div>
+                            <div class="modal-body">
+                                    <table class="table table-bordered table-striped table-hover small m-b-xs" id="tableAppsActive">
+                                    </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                                <button id="btnSaveAppsActive" type="button" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 			</div>
 			<div th:replace="templates/template :: foot-copyright"></div>
 		</div>

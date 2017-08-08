@@ -53,22 +53,23 @@ input[type=checkbox].ace.ace-switch.ace-switch-6:checked + input[type=hidden] + 
   text-shadow: 0 -1px 0 rgba(0, 200, 0, 0.25);
 }
 
-#tableUserRoles_wrapper .row:first-child, 
+/* #tableUserRoles_wrapper .row:first-child, 
 #tableUserRoles_wrapper .row:last-child,
 #tableUserApps_wrapper .row:first-child, 
 #tableUserApps_wrapper .row:last-child {
 	
 	background-color: #fff;
 	display: none;
-}
+} 
 
 #tableUserRoles tbody tr td,#tableUserApps tbody tr td {
 	padding-top: 4px;
     padding-right: 4px;
     padding-bottom: 4px;
     padding-left: 4px;
-}
+}*/
 
-.selected{
-	
+table tbody tr.selected{
+	font-weight: bold;
+	background-color: rgba(153, 201, 247, 0.4) !important;
 }
