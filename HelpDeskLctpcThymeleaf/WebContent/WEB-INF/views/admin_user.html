@@ -4,13 +4,13 @@
 <head>
 <th:block th:replace="templates/template :: header-css(${'Administracion Users'})" />
 <!-- Toastr style -->
-<link th:href="@{/res/plantilla/INSPINIA/css/plugins/toastr/toastr.min.css}" rel="stylesheet">
+<link th:href="@{/css/plugins/toastr/toastr.min.css}" rel="stylesheet">
 
-<link th:href="@{/res/plantilla/INSPINIA/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}" rel="stylesheet">
+<link th:href="@{/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}" rel="stylesheet">
 <!-- Sweet Alert -->
-<link th:href="@{/res/plantilla/INSPINIA/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
+<link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
 
-<link rel="stylesheet" th:href="@{/res/pages/users/css/style.css}" />
+<link rel="stylesheet" th:href="@{/pages/users/css/style.css}" />
 </head>
 
 <body class="pace-done skin-1">
@@ -60,7 +60,7 @@
 												<!-- <h5 id="lblUser1">Nicki Smith</h5>    -->
 												<!-- th:src="@{/res/plantilla/INSPINIA/img/emp_764.bmp}" -->
 												<div class="m-b-sm">
-													<img id="img-Emp" alt="image" class="img-circle" th:src="@{https://admportlct.lctpc.com.mx/Directorio/Fotos/LCTPC/emp_764.bmp}" style="width: 62px">
+													<img id="img-Emp" alt="image" class="img-circle"  style="width: 62px">
 												</div>
 												<span id="lblNomActive"></span>
 											</div>
@@ -236,11 +236,11 @@
 	</div>
 	<div th:replace="templates/template :: foot-js"></div>
 	<!-- DataTable -->
-	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/dataTables/datatables.min.js}"></script>
+	<script th:src="@{/js/plugins/dataTables/datatables.min.js}"></script>
 	<!-- iCheck -->
-	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/iCheck/icheck.min.js}"></script>
+	<script th:src="@{/js/plugins/iCheck/icheck.min.js}"></script>
 	<!-- Sweet alert -->
-	<script th:src="@{/res/plantilla/INSPINIA/js/plugins/sweetalert/sweetalert.min.js}"></script>
-	<script th:src="@{/res/pages/users/js/script.js}"></script>
+	<script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}"></script>
+	<script th:src="@{/pages/users/js/script.js}"></script>
 </body>
 </html>

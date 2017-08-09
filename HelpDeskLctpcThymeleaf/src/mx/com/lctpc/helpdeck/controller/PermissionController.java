@@ -53,13 +53,10 @@ public class PermissionController {
 	@RequestMapping( value="/permForm/{permId}/delete")
 	@ResponseBody
 	public ResponseEntity<String> showDeletePerm( Model model, @PathVariable( "permId" ) BigDecimal p_permId ) {
-		System.out.println("Entro al borrar...");
-		
+
 		Permission l_perm = permService.findPermissionById(p_permId);
-		
 		permService.deletePermission(l_perm);;
-		
-		//return "redirect:/exampleTemplate";
+
 		return new ResponseEntity<String>("ok",HttpStatus.OK); //ResponseEntity<String>
 	}
 	

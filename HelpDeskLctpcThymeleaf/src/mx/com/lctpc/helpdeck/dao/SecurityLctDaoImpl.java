@@ -38,7 +38,6 @@ public class SecurityLctDaoImpl implements SecurityLctDao{
 		if(l_lstUser.size() == 1){
 			return l_lstUser.get(0);
 		}else if(l_lstUser.size() > 1){
-			System.out.println("El usuario tiene mas 2 cuantas activa...");
 			return null;
 		}else{
 			return null;

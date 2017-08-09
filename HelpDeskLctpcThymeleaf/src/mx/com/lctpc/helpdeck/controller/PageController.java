@@ -45,14 +45,10 @@ public class PageController {
 		binder.registerCustomEditor(List.class, "pageEntities", new CustomCollectionEditor(List.class) {
 			protected Object convertElement( Object element ) {
 				if (element instanceof PageEntity) {
-					System.out.println("Converting from PageEnt to Ent: " + element);
 					return ((PageEntity) element).getPaenEnttId();
 				}
 				if (element instanceof String) {
 					// Transformar al dato dessea para guardar
-					System.out.println("request ....... " + request.getParameter("pageId"));
-					System.out.println("Looking up staff for id " + element + ": ");
-
 					String l_ids[] = element.toString().split("\\|");
 					PageEntity l_pagEnt = new PageEntity();
 					if (l_ids[0].equals("NEW")) {
@@ -73,7 +69,6 @@ public class PageController {
 
 				}
 				if (element instanceof AEntities) {
-					System.out.println("Converting from AEntities to AEntities: " + element + " : " + ((AEntities) element).getEnttId());
 					// BigDecimal l_d = ((AEntities) element).getEnttId();
 
 					return null;
@@ -83,10 +78,8 @@ public class PageController {
 				}
 				if (element instanceof BigDecimal) {
 					
-					System.out.println("Looking up AEntity BigDecimal from String : " + element);
 					
 				}
-				System.out.println("Don't know what to do with: " + element.getClass());
 				return null;
 			}
 		});
@@ -112,15 +105,12 @@ public class PageController {
 
 	@RequestMapping( value = "/pageForm/save", method = RequestMethod.POST )
 	public String showPageFormSave( @ModelAttribute( "page" ) Page p_pag, Model model ) {
-		System.out.println("save pageForm " + p_pag.getPageEntities());
-		
 		//obtener la pagina actual de la base de datos (pagina que sera actualizada)
 		Page l_pagCurrent = pageService.findPageById(p_pag.getPageId());
 		
 		// Cambiar por el metodo de obtener los pageEntity activas y no todas.
 		List<PageEntity> l_lstCurrent = l_pagCurrent.getPageEntities(); 
 		
-		System.out.println("VALOR: "+ l_lstCurrent.size());
 		pageService.saveOrUpdatePage(p_pag);
 
 		// Proceso de actualizacion de pageEntity cuando todavia no exite ninguna entidad relacionada a la pagina
@@ -181,10 +171,6 @@ public class PageController {
 	public String showUpdatePage( Model p_model, @PathVariable( "pageId" ) BigDecimal p_pagId ) {
 
 		Page l_page = pageService.findPageById(p_pagId);
-		// List<PageEntity> l_lstPagEnt = pageService.findEntitiesActiveFromPage(p_pagId);
-		// l_page.setPageEntities(l_lstPagEnt);
-		// System.out.println("Page desde pagEntity con ID " +
-		// l_page.getPageEntities() );
 
 		List<BigDecimal> l_lstEnt = new ArrayList<BigDecimal>();
 		for (PageEntity l_ent : l_page.getPageEntities()) {

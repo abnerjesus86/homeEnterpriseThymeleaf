@@ -19,10 +19,8 @@ public class RolePageService {
 	public void saveOrUpdate( RolePage p_rolePage ){
 		
 		if(p_rolePage.getRopaId() == null || findRolePageById(p_rolePage.getRopaId() )==null){
-			System.out.println("ENTRO A SAVE ROLE PAGE ");
 			rolePageDao.save(p_rolePage);
 		}else{
-			System.out.println("ENTRO A UPDATE ROLE PAGE ");
 			rolePageDao.update(p_rolePage);
 		}
 		

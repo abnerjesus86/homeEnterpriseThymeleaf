@@ -56,10 +56,8 @@ public class EntityController {
 	@RequestMapping( value="/entityForm/{enttId}/delete")
 	@ResponseBody
 	public ResponseEntity<String> showDeleteEntity( Model model, @PathVariable( "enttId" ) BigDecimal p_enttId ) {
-		System.out.println("Entro al borrar...");
 		
 		AEntities l_ent = entityService.findEntityById(p_enttId);
-		
 		entityService.deleteEntity(l_ent);
 		
 		return new ResponseEntity<String>("ok",HttpStatus.OK); //ResponseEntity<String>

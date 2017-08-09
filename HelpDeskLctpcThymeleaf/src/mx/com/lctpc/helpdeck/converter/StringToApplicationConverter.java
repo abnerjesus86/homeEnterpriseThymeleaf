@@ -20,7 +20,6 @@ public class StringToApplicationConverter implements Converter<String, Applicati
 		}
 		BigDecimal l_Id =  new BigDecimal(p_arg0);
 		Application l_app = appDao.findApplicationById(l_Id);
-		System.out.println("Entro convertir String a Application para guardar y establecer los nuevos valores ... "+ l_app.getAppnId());
 		return l_app;
 	}
 	

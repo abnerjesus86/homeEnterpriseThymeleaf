@@ -1,5 +1,6 @@
 <th:block th:fragment="content" xmlns:th="http://www.thymeleaf.org">
-<form th:action="@{/userFormulario/save}" method="post" th:object="${user}" class="form-horizontal" role="form">
+<!-- th:action="@{/userFormulario}" -->
+<form  id="user" method="post" th:object="${user}" class="form-horizontal" role="form">
 		<div class="form-group">
 			<label class="col-sm-3 control-label no-padding-right" for="userId"> ID </label>
 			<div class="col-sm-9">

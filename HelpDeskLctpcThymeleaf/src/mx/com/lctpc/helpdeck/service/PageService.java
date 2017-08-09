@@ -24,10 +24,8 @@ public class PageService {
 	public void saveOrUpdatePage(Page p_page){
 		
 		if(p_page.getPageId() == null || findPageById(p_page.getPageId())==null){
-			System.out.println("ENTRO A SAVE PAGE ");
 			pageDao.savePage(p_page);
 		}else{
-			System.out.println("ENTRO A UPDATE PAGE ");
 			pageDao.updatePage(p_page);
 		}
 		

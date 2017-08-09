@@ -31,18 +31,16 @@ public class PasswordDaoImpl implements PasswordDao {
 		.registerStoredProcedureParameter("p_User", String.class, ParameterMode.IN)
 		.registerStoredProcedureParameter("p_PasswordNew", String.class, ParameterMode.INOUT)
 		.registerStoredProcedureParameter("p_Message", String.class, ParameterMode.OUT);
-		System.out.println("0" );
+
 		l_querySP
 		.setParameter("p_User", p_username)
 		.setParameter("p_PasswordNew", p_passwordNew )
 		.execute();
-		System.out.println("1" );
+
 		String l_message = l_querySP.getOutputParameterValue("p_Message").toString();
 		
-		System.out.println("Mesnsjae 0" + l_message);
-		
+
 		if(!l_message.equals("OK")){
-			System.out.println("Mesnsjae1 erro " + l_message);
 			throw new Exception(l_message);
 		}
 		

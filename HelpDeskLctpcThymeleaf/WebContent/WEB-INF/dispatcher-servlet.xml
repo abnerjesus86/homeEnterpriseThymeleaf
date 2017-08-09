@@ -21,9 +21,11 @@
 	<!-- Dispatcher configuration for serving static resources -->
 	<!-- **************************************************************** -->
 	<mvc:resources location="/resources/" mapping="/res/**" />
-	<!-- <mvc:resources location="/images/" mapping="/images/**" /> <mvc:resources 
-		location="/css/" mapping="/css/**" /> -->
-
+	<mvc:resources location="/resources/INSPINIA/img/" mapping="/images/**" />
+	<mvc:resources location="/resources/INSPINIA/css/" mapping="/css/**" />
+	<mvc:resources location="/resources/INSPINIA/js/" mapping="/js/**" />
+	<mvc:resources location="/resources/INSPINIA/pages/" mapping="/pages/**" />
+    <mvc:resources location="/resources/INSPINIA/fonts/" mapping="/fonts/**" />
 	<!-- **************************************************************** -->
 	<!-- SPRING ANNOTATION PROCESSING -->
 	<!-- **************************************************************** -->

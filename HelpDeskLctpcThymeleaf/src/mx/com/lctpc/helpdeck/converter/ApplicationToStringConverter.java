@@ -8,9 +8,6 @@ public class ApplicationToStringConverter implements Converter<Application, Stri
 	
 	@Override
 	public String convert( Application p_arg0 ) {
-		//BigDecimal l_Id =  new BigDecimal(p_arg0);
-		//Application l_app = appDao.findApplicationById(l_Id);
-		System.out.println("Entro convertir Application a String para establecer el valor en el select ... " + p_arg0.getAppnId());
 		return p_arg0.getAppnId().toPlainString();
 	}
 	

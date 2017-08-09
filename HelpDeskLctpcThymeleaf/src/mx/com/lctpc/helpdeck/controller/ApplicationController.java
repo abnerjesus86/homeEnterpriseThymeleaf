@@ -72,9 +72,6 @@ public class ApplicationController {
 		p_model.addAttribute("appnsMasterList", appService.findAllApplication());
 		p_model.addAttribute("ownersList", ownerService.findOwnersActive());
 		
-		
-		System.out.println("Entro al controller /appForm/{appId}/update ...");
-		
 		return "fragments/applicationForm";
 	}
 	

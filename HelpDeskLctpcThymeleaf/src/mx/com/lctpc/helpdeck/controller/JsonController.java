@@ -97,8 +97,7 @@ public class JsonController {
 		Map<String, List<User>> l_map = new HashMap<String, List<User>>();
 		
 		if (users.isEmpty()) {
-			return new ResponseEntity<Map<String, List<User>>>(HttpStatus.NO_CONTENT);// You many decide to return
-																						// HttpStatus.NOT_FOUND
+			return new ResponseEntity<Map<String, List<User>>>(HttpStatus.NO_CONTENT);// You many decide to return HttpStatus.NOT_FOUND
 		}
 		
 		l_map.put("data", users);
@@ -109,14 +108,10 @@ public class JsonController {
 	public ResponseEntity<VEmp> showEmp(@PathVariable( "p_comp" )String p_comp, @PathVariable( "p_emp" ) String p_emp) {
 		VEmp l_emp = userService.findEmp(p_comp, p_emp);
 		
-		System.out.println(l_emp);
-		
 		if (l_emp == null) {
-			return new ResponseEntity<VEmp>(HttpStatus.NO_CONTENT);// You many decide to return
-																						// HttpStatus.NOT_FOUND
+			return new ResponseEntity<VEmp>(HttpStatus.NO_CONTENT);// You many decide to return HttpStatus.NOT_FOUND
 		}
-		
-		
+
 		return new ResponseEntity<VEmp>(l_emp, HttpStatus.OK);
 	}
 	
@@ -129,7 +124,6 @@ public class JsonController {
 			l_res = passService.resetPassword(p_username, p_passNew);
 			return new ResponseEntity<String>(l_res, HttpStatus.OK);
 		}catch(Exception ex){
-			System.out.println("Exception "+ex);
 			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
 		}
 	}

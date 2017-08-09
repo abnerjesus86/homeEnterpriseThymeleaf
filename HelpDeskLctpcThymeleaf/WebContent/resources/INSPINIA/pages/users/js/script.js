@@ -9,6 +9,9 @@ jQuery(function($) {
 			//Desactivar la alert de error de los DataTables
 			$.fn.dataTable.ext.errMode = 'none';
 			// Activated the table
+			
+			$('#img-Emp').attr("src", "./images/user1.png");
+			
 			var tableUser = $('#tableUsers').DataTable({
 				//serverSide: true,
 				saveStatus : true,
@@ -223,7 +226,6 @@ jQuery(function($) {
 				
 				if (!$(this).hasClass('selected')) {
 					
-					
 					$('#btn-edit').attr('disabled', $(this).hasClass('selected'));
 					
 					tableUser.$('tr.selected').removeClass('selected');
@@ -243,7 +245,7 @@ jQuery(function($) {
 						$.ajax({
 							url : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/getJsonEmp/"+FilaActual.userEmesCompany+"/"+FilaActual.userEmesId,
 							success : function(data) {
-								$('#img-Emp').attr("src", "https://admportlct.lctpc.com.mx/Directorio/Fotos/"+FilaActual.userEmesCompany+"/emp_"+FilaActual.userEmesId+".bmp")
+								$('#img-Emp').attr("src", "https://admportlct.lctpc.com.mx/Directorio/Fotos/"+FilaActual.userEmesCompany+"/emp_"+FilaActual.userEmesId+".bmp");
 								$('#lblName').text(data.nombre);
 								$('#lblJob').text(data.nomPuesto);
 								$('#lblDepto').text(data.nomDepartamento);
@@ -323,20 +325,24 @@ jQuery(function($) {
 			
 			//Eventos de boton para modificar informacion
 			$('#btn-edit').on("click", function() {
-				//var ColumnaActual = $(this).parent().parent().parent().get(0), FilaActual = $('#tableUsers').DataTable().row(ColumnaActual).data();
-				var FilaActual = tableUser.row($(this).parents('tr')).data();
-				var link = "/" + FilaActual.userId + "/update";
+				var FilaActual = $('#tableUsers').DataTable().row('tbody tr.selected').data();
+				var link = "/" + FilaActual.userId;
 				$.ajax({
 					url : "./userFormulario" + link,
-					type : "POST",
+					type : "GET",
 					dataType: "html",
 					timeout : 100000,
 					success : function(result) {
 						
 						if (!(result === null)) {
+							
+							$("#user").attr("method",'PUT');
+							console.log($("#user"));
 							$(".modal-body .row").html(result);
 							$("#btnSave").on("click", function() {
+								
 								$("#user").submit();
+								//$("#user").attr("method",'PUT').submit();
 							});
 						}
 					},
@@ -349,7 +355,6 @@ jQuery(function($) {
 			});
 			
 			$('#btn-resetPass').on("click", function(e) {
-				//var FilaActual = tableUser.row($(this).parents('tr')).data();
 				$('#divAlert').empty();
 				$('#divAlert').removeClass("alert-danger").removeClass("alert-info");
 				if( $('#ckbPass11').is(':checked') )
@@ -358,7 +363,6 @@ jQuery(function($) {
 			});
 			
 			$('#btn-delete').on("click", function(e) {
-				//var FilaActual = tableUser.row($(this).parents('tr')).data();
 				var linkDelete = this;
 				e.preventDefault(); //elimina el evento del link.
 		        
@@ -374,7 +378,6 @@ jQuery(function($) {
 		    });
 			
 			$('#btnSaveReset').on("click", function(e) {
-				//var FilaActual = tableUser.row($(this).parents('tr')).data();
 				var link = "./reset";
 				var divAlert = $('#divAlert');
 				$('#divAlert').empty();

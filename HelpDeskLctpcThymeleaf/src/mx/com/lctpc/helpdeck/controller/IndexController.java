@@ -1,5 +1,6 @@
 package mx.com.lctpc.helpdeck.controller;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -32,9 +33,7 @@ public class IndexController {
 	@RequestMapping( "/" )
 	public String showIndex() {
 		
-		System.out.println("Entonces...");
 		return "indexMain";
-		//return "index";
 	}
 	
 	@RequestMapping( "/login" )
@@ -99,38 +98,37 @@ public class IndexController {
 		return "application-wizard";
 	}
 
-	@RequestMapping( "/userFormulario" )
+	@RequestMapping( value = "/userFormulario", method = RequestMethod.GET )
 	public String showUserForm( Model model ) {
 		User l_user = new User();
 		AccountInformation l_accInf = new AccountInformation();
-
 		l_user.setAccountInf(l_accInf);
 
 		model.addAttribute("user", l_user);
-
+		System.out.println("emtrp en el GET sin parametros...");
 		return "fragments/userForm";
 	}
-
-	@RequestMapping( value = "/userFormulario/save", method = RequestMethod.POST )
-	public String showUserFormSave( @ModelAttribute( "user" ) User p_user, Model model ) {
-
-		AccountInformation l_accInf = p_user.getAccountInf();
-		l_accInf.setUser(p_user);
-		p_user.setAccountInf(l_accInf);
-
-		usersService.saveOrUpdateUser(p_user);
-
-		return "redirect:/admin_user";
-	}
-
-	@RequestMapping( "/userFormulario/{userId}/update" )
+	
+	@RequestMapping( value = "/userFormulario/{userId}", method = RequestMethod.GET )
 	public String showUpdateUser( Model model, @PathVariable( "userId" ) BigDecimal p_userId ) {
-		System.out.println("Entro al update...");
-
 		User l_user = usersService.findUserById(p_userId);
+		
 		model.addAttribute("user", l_user);
 
 		return "fragments/userForm";
+	}
+	
+	@RequestMapping( value = "/userFormulario", method = {RequestMethod.POST, RequestMethod.PUT} )
+	public ResponseEntity<User> showUserFormSave( @ModelAttribute( "user" ) User p_user, Model model ) {
+		boolean l_isNew = p_user.getUserId() == null ;
+		System.out.println("Entro al guardado..."+ p_user.getAccountInf());
+		AccountInformation l_accInf = p_user.getAccountInf();
+		l_accInf.setUser(p_user);
+		p_user.setAccountInf(l_accInf);
+		
+		usersService.saveOrUpdateUser(p_user);
+		
+		return new ResponseEntity<User>(p_user, l_isNew ? HttpStatus.CREATED : HttpStatus.OK );
 	}
 
 	@RequestMapping( value = "/userFormulario/{userId}", method = RequestMethod.DELETE )

@@ -41,20 +41,15 @@ public class DbFilterInvocationSecurityMetadataSource implements FilterInvocatio
         else
         {
         	principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        	System.out.println( "Usuario login "+ principal );
         	System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
         }
 		
-		
-		
 		FilterInvocation fi=(FilterInvocation)p_arg0;
 		String url=fi.getRequestUrl();
-		System.out.println("Url solicitud : "+ url);
 		
 		if(url.indexOf('?')!=-1)
             url = url.substring(0, url.indexOf('?'));
         url = url.trim();
-        System.out.println("nueva url "+ url);
         
 		/*if(!url.endsWith("/")) {
 			
@@ -72,12 +67,10 @@ public class DbFilterInvocationSecurityMetadataSource implements FilterInvocatio
 		if( roles_ == null ){
 			return null;
 		}
-		System.out.println("Rol solicitud : "+ roles_.toString());
 		
 		String[] stockArr = new String[roles_.size()];
 		stockArr = roles_.toArray(stockArr);
 		
-		System.out.println("stockArr " + stockArr.toString());
 		return SecurityConfig.createList(stockArr);
 	}
 
@@ -93,8 +86,6 @@ public class DbFilterInvocationSecurityMetadataSource implements FilterInvocatio
 		secLctService.getPageRoles(new BigDecimal(3));
 		
 		this.g_urlRoles = urlCache.getUrlRoles();
-		
-		System.out.println("Url Roles object : "+g_urlRoles);
 	}
 
 }
