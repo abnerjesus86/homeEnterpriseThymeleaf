@@ -1,35 +1,40 @@
 <th:block th:fragment="content" xmlns:th="http://www.thymeleaf.org">
-<!-- th:action="@{/userFormulario}" -->
-<form  id="user" method="post" th:object="${user}" class="form-horizontal" role="form">
+<!-- th:action="@{/userFormulario}" method="post" th:object="${user}" -->
+<form  id="user" class="form-horizontal" role="form">
 		<div class="form-group">
 			<label class="col-sm-3 control-label no-padding-right" for="userId"> ID </label>
 			<div class="col-sm-9">
-				<input type="text" placeholder="ID" class="form-control" th:field="*{userId}" readonly />
+			     <!-- th:field="*{userId}" -->
+				<input type="text" placeholder="ID" class="form-control" id="userId" readonly />
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-3 control-label no-padding-right" for="userUsername"> Account User </label>
 			<div class="col-sm-9">
-				<input type="text" placeholder="LASTNAME.NAME" class="col-xs-11" th:field="*{userUsername}" />
+			     <!-- th:field="*{userUsername}" -->
+				<input type="text" placeholder="LASTNAME.NAME" class="col-xs-11" id="userUsername" />
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-3 control-label no-padding-right" for="userEmesCompany"> BU </label>
 			<div class="col-sm-9">
-				<input type="text" placeholder="LCTPC" class="col-xs-11" th:field="*{userEmesCompany}" />
+			<!-- th:field="*{userEmesCompany}" -->
+				<input type="text" placeholder="LCTPC" class="col-xs-11" id="userEmesCompany" />
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-3 control-label no-padding-right" for="userEmesId"> NUM. EMPLOYEE </label>
 			<div class="col-sm-9">
-				<input type="text" placeholder="# EMPLOYEE" class="col-xs-11" th:field="*{userEmesId}" />
+			<!-- th:field="*{userEmesId}" -->
+				<input type="text" placeholder="# EMPLOYEE" class="col-xs-11" id="userEmesId" />
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-3 control-label no-padding-right" for="userActive"> ACTIVE </label>
 			<div class="col-sm-9">
 			 <div class="i-checks">
-                    <label> <input type="checkbox" th:field="*{userActive}" value="true" /> <i></i>
+			 <!-- th:field="*{userActive}" -->
+                    <label> <input type="checkbox" id="userActive" value="true" /> <i></i>
                     </label>
                 </div>
 			</div>
@@ -37,19 +42,22 @@
 		<div class="form-group">
 			<label class="col-sm-3 control-label no-padding-right" for="userCreatedBy"> CREATED BY </label>
 			<div class="col-sm-9">
-				<input type="text" class="col-xs-11" th:field="*{userCreatedBy}" />
+			<!-- th:field="*{userCreatedBy}" -->
+				<input type="text" class="col-xs-11" id="userCreatedBy" />
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-3 control-label no-padding-right" for="userUpdateBy"> UPDATE BY </label>
 			<div class="col-sm-9">
-				<input type="text" class="col-xs-11" th:field="*{userUpdateBy}" />
+			<!-- th:field="*{userUpdateBy}" -->
+				<input type="text" class="col-xs-11" id="userUpdateBy" />
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-3 control-label no-padding-right" for="accountInf.acinProfilePicture"> PROFILE PICTURE </label>
+			<label class="col-sm-3 control-label no-padding-right" for="acinProfilePicture"> PROFILE PICTURE </label>
 			<div class="col-sm-9">
-				<input type="text" placeholder="SELECT PICTURE" class="col-xs-11" th:field="*{accountInf.acinProfilePicture}" />
+			<!-- th:field="*{accountInf.acinProfilePicture}" -->
+				<input type="text" placeholder="SELECT PICTURE" class="col-xs-11" id="acinProfilePicture" />
 			</div>
 		</div>
 		<!-- <div class="form-group">
@@ -59,23 +67,28 @@
 			</div>
 		</div> -->
 		<div class="form-group">
-			<label class="col-sm-3 control-label no-padding-right" for="accountInf.acinAlternateEmail"> ALTERNATE EMAIL </label>
+			<label class="col-sm-3 control-label no-padding-right" for="acinAlternateEmail"> ALTERNATE EMAIL </label>
 			<div class="col-sm-9">
-				<input type="text" placeholder="example@domain.com" class="col-xs-11" th:field="*{accountInf.acinAlternateEmail}" />
+			<!-- th:field="*{accountInf.acinAlternateEmail}" -->
+				<input type="text" placeholder="example@domain.com" class="col-xs-11" id="acinAlternateEmail" />
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-3 control-label no-padding-right" for="accountInf.acinCreatedBy"> CREATED BY </label>
+		
+			<label class="col-sm-3 control-label no-padding-right" for="acinCreatedBy"> CREATED BY </label>
 			<div class="col-sm-9">
-				<input type="text" class="col-xs-11" th:field="*{accountInf.acinCreatedBy}" />
+			<!-- th:field="*{accountInf.acinCreatedBy}" -->
+				<input type="text" class="col-xs-11" id="acinCreatedBy" />
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-3 control-label no-padding-right" for="accountInf.acinUpdateBy"> UPDATE BY </label>
+			<label class="col-sm-3 control-label no-padding-right" for="acinUpdateBy"> UPDATE BY </label>
 			<div class="col-sm-9">
-				<input type="text" class="col-xs-11" th:field="*{accountInf.acinUpdateBy}" />
+			<!-- th:field="*{accountInf.acinUpdateBy}" -->
+				<input type="text" class="col-xs-11" id="acinUpdateBy" />
 			</div>
 		</div>
-	<input type="hidden" placeholder="ID" th:field="*{accountInf.acinUserId}" readonly />
+		<!-- th:field="*{accountInf.acinUserId}" -->
+	<input type="hidden" placeholder="ID" id="acinUserId" readonly />
 </form>
 </th:block>

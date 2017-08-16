@@ -24,17 +24,21 @@ public class PasswordDaoImpl implements PasswordDao {
 	}
 	
 	@Override
-	public String resetPassword( String p_username, String p_passwordNew ) throws Exception {
+	public String resetPassword( String p_username, String p_passwordNew, boolean p_reqNewPass ) throws Exception {
 		// TODO Auto-generated method stub
 		StoredProcedureQuery l_querySP = getSession().createStoredProcedureQuery("PK_ACCOUNT.p_ResetPassword");
 		l_querySP
 		.registerStoredProcedureParameter("p_User", String.class, ParameterMode.IN)
 		.registerStoredProcedureParameter("p_PasswordNew", String.class, ParameterMode.INOUT)
-		.registerStoredProcedureParameter("p_Message", String.class, ParameterMode.OUT);
-
+		.registerStoredProcedureParameter("p_Message", String.class, ParameterMode.OUT)
+		.registerStoredProcedureParameter("p_ReqNewPass", Integer.class, ParameterMode.IN);
+		
+		System.out.println("val " + (p_reqNewPass ? 1 : 0));
+		
 		l_querySP
 		.setParameter("p_User", p_username)
 		.setParameter("p_PasswordNew", p_passwordNew )
+		.setParameter("p_ReqNewPass", p_reqNewPass ? 1 : 0 )
 		.execute();
 
 		String l_message = l_querySP.getOutputParameterValue("p_Message").toString();

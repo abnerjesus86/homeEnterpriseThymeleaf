@@ -6,11 +6,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -109,19 +111,30 @@ public class IndexController {
 		return "fragments/userForm";
 	}
 	
-	@RequestMapping( value = "/userFormulario/{userId}", method = RequestMethod.GET )
+	/*@RequestMapping( value = "/userFormulario/{userId}", method = RequestMethod.GET )
 	public String showUpdateUser( Model model, @PathVariable( "userId" ) BigDecimal p_userId ) {
 		User l_user = usersService.findUserById(p_userId);
 		
 		model.addAttribute("user", l_user);
 
 		return "fragments/userForm";
+	}*/
+	
+	@RequestMapping( value = "/userFormulario/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<User> showUpdateUser( @PathVariable( "userId" ) BigDecimal p_userId ) {
+		
+		User l_user = usersService.findUserById(p_userId);
+		
+		if( l_user == null)
+			return new ResponseEntity<User>(HttpStatus.NO_CONTENT);// You many decide to return HttpStatus.NOT_FOUND
+		
+		return new ResponseEntity<User>(l_user, HttpStatus.OK );
 	}
 	
-	@RequestMapping( value = "/userFormulario", method = {RequestMethod.POST, RequestMethod.PUT} )
-	public ResponseEntity<User> showUserFormSave( @ModelAttribute( "user" ) User p_user, Model model ) {
+	@RequestMapping( value = "/userFormulario", method = {RequestMethod.POST, RequestMethod.PUT}, consumes = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<User> showUserFormSave( @RequestBody User p_user, Model model ) {
 		boolean l_isNew = p_user.getUserId() == null ;
-		System.out.println("Entro al guardado..."+ p_user.getAccountInf());
+		System.out.println("Entro al guardado..."+ p_user);
 		AccountInformation l_accInf = p_user.getAccountInf();
 		l_accInf.setUser(p_user);
 		p_user.setAccountInf(l_accInf);

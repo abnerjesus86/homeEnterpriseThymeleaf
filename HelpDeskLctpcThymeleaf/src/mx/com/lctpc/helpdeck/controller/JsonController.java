@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,6 +48,7 @@ import mx.com.lctpc.helpdeck.service.SecretQuestionService;
 import mx.com.lctpc.helpdeck.service.UsersService;
 
 @RestController
+@RequestMapping("/api/v1.0/")
 public class JsonController {
 
 	@Autowired
@@ -91,7 +95,7 @@ public class JsonController {
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 
-	@RequestMapping( value = "/getJsonUsers2", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
+	@GetMapping(value = "/getJsonUsers2", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, List<User>>> showListAllUsersWithData() {
 		List<User> users = userService.findAll();
 		Map<String, List<User>> l_map = new HashMap<String, List<User>>();
@@ -104,7 +108,7 @@ public class JsonController {
 		return new ResponseEntity<Map<String, List<User>>>(l_map, HttpStatus.OK);
 	}
 	
-	@RequestMapping( value = "/getJsonEmp/{p_comp}/{p_emp}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
+	@GetMapping( value = "/getJsonEmp/{p_comp}/{p_emp}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<VEmp> showEmp(@PathVariable( "p_comp" )String p_comp, @PathVariable( "p_emp" ) String p_emp) {
 		VEmp l_emp = userService.findEmp(p_comp, p_emp);
 		
@@ -115,13 +119,28 @@ public class JsonController {
 		return new ResponseEntity<VEmp>(l_emp, HttpStatus.OK);
 	}
 	
-	@RequestMapping( value="/reset", method = RequestMethod.POST )
+	@PostMapping(value="/reset")
 	public ResponseEntity<String> resetPassword(@RequestParam(value = "username") String p_username, 
-													@RequestParam(value = "passNew", required=false ) String p_passNew){
+												@RequestParam(value = "passNew", required=false) String p_passNew, 
+												@RequestParam(value = "reqNewPass", required=false) boolean p_reqNewPass){
 		
 		String l_res = null;
 		try{
-			l_res = passService.resetPassword(p_username, p_passNew);
+			l_res = passService.resetPassword(p_username, p_passNew, p_reqNewPass);
+			return new ResponseEntity<String>(l_res, HttpStatus.OK);
+		}catch(Exception ex){
+			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
+	
+	@PutMapping(value="/reset" )
+	public ResponseEntity<String> resetPasswordPut(	@RequestParam(value = "username") String p_username, 
+													@RequestParam(value = "passNew", required=false) String p_passNew, 
+													@RequestParam(value = "reqNewPass", required=false) boolean p_reqNewPass){
+		System.out.println("Valor del boolean "+p_reqNewPass);
+		String l_res = null;
+		try{
+			l_res = passService.resetPassword(p_username, p_passNew, p_reqNewPass);
 			return new ResponseEntity<String>(l_res, HttpStatus.OK);
 		}catch(Exception ex){
 			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
@@ -145,9 +164,9 @@ public class JsonController {
 	}
 	
 		
-	@RequestMapping( value = "/getJsonUser", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity<User> showListAllUser() {
-		User users = userService.findUserById(new BigDecimal(15));
+	@GetMapping( value = "/getJsonUser/{p_userId}",  produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<User> showListAllUser( @PathVariable( "p_userId" ) BigDecimal p_usrId) {
+		User users = userService.findUserById(p_usrId);
 
 		if (users == null) {
 			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);// You many decide to return HttpStatus.NOT_FOUND

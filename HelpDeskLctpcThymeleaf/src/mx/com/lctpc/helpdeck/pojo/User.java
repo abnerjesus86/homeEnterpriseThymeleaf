@@ -301,12 +301,16 @@ public class User implements Serializable {
 		this.g_passwords = p_passwords;
 	}
 
-
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return "User [g_userId=" + g_userId + ", g_userEmesCompany=" + g_userEmesCompany + ", g_userEmesId=" + g_userEmesId + ", g_userUsername=" + g_userUsername + ", g_userActive=" + g_userActive
-				+ ", g_userCreatedDate=" + g_userCreatedDate + ", g_userCreatedBy=" + g_userCreatedBy + ", g_userUdpateDate=" + g_userUpdateDate + ", g_userUpdateBy=" + g_userUpdateBy + "]";
+		return "User [g_userId=" + this.g_userId + ", g_userEmesCompany=" + this.g_userEmesCompany + ", g_userEmesId=" + this.g_userEmesId + ", g_userUsername=" + this.g_userUsername + ", g_userNewPassword="
+				+ this.g_userNewPassword + ", g_userActive=" + this.g_userActive + ", g_userCreatedDate=" + this.g_userCreatedDate + ", g_userCreatedBy=" + this.g_userCreatedBy + ", g_userUpdateDate="
+				+ this.g_userUpdateDate + ", g_userUpdateBy=" + this.g_userUpdateBy + ", g_accountInf=" + this.g_accountInf + "]";
 	}
+
 
 	
 	
