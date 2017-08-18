@@ -10,6 +10,8 @@
 <link th:href="@{/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}" rel="stylesheet">
 <!-- Sweet Alert -->
 <link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
+<!--  -->
+<link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 
 <link rel="stylesheet" th:href="@{/pages/users/css/style.css}" />
 </head>
@@ -41,11 +43,15 @@
 									</span>
 								</div>
 								<div class="clients-list">
-									<div class="full-height-scroll">
-										<!-- <div class="table-responsive"> -->
-										<table class="table table-striped table-hover" id="tableUsers">
-										</table>
+									<div class="panelCu">
+									    <div class="full-height-scroll">
+	                                        <div class="table-responsive">
+	                                        <table class="table table-striped table-hover" id="tableUsers">
+	                                        </table>
+	                                        </div>
+	                                    </div>
 									</div>
+									
 								</div>
 							</div>
 						</div>
@@ -92,7 +98,7 @@
 														class='fa fa-pencil'></i> Edit
 													</a> <a class='btn btn-white btn-xs' id='btn-resetPass' data-target="#myModalPass" role='button' data-toggle='modal' disabled="disabled">
 														<i class='fa fa-key'></i> Reset Pass
-													</a> <a class='btn btn-white btn-xs' id='btn-delete' disabled="disabled"> <i class='fa fa-trash-o'></i> Delete
+													</a> <a class='btn btn-white btn-xs' id='btn-delete' disabled="disabled" role='button'> <i class='fa fa-trash-o'></i> Delete
 													</a>
 												</div>
 
@@ -341,6 +347,8 @@
 	<script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}"></script>
 	<!-- Jquery Validate -->
     <script src="js/plugins/validate/jquery.validate.min.js"></script>
+    <!-- Data picker -->
+    <script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
 	<script th:src="@{/pages/users/js/script.js}"></script>
 </body>
 </html>

@@ -93,7 +93,17 @@ public class RolDaoImpl implements RolDao {
 		
 	}
 
-	
+	@Override
+	public void saveUserRole( UserRole p_role ) {
+		// TODO Auto-generated method stub
+		getSession().save(p_role);
+	}
+
+	@Override
+	public void updateUserRole( UserRole p_role ) {
+		// TODO Auto-generated method stub
+		getSession().update(p_role);
+	}
 	
 	
 	/*

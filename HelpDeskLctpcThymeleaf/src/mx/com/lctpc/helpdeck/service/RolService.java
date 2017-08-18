@@ -47,5 +47,14 @@ public class RolService {
 	public List<UserRole> findUserFromRolById( BigDecimal p_rolId ) {
 		return rolDao.findUserFromRolById(p_rolId);
 	}
+	
+	public void saveOrUpdateUserRole( UserRole p_role ){
+		if (p_role.getUsroId() == null || findRolById(p_role.getUsroId()) == null) {
+			
+			rolDao.saveUserRole(p_role);
+		} else {
+			rolDao.updateUserRole(p_role);
+		}
 
+	}
 }

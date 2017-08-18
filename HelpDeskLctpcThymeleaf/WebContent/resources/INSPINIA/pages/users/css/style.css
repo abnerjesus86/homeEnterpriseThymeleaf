@@ -73,3 +73,8 @@ table tbody tr.selected{
 	font-weight: bold;
 	background-color: rgba(153, 201, 247, 0.4) !important;
 }
+
+.clients-list .panelCu{
+	position: relative;
+    height: 600px;
+}

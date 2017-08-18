@@ -8,10 +8,16 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
@@ -34,25 +40,30 @@ public class UserRole implements Serializable{
 	 * USRO_UPDATE_BY VARCHAR2(150)
 	 */
 	@Id
-	@GeneratedValue
+	@GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "USRO_ID" )
+	@SequenceGenerator( name = "USRO_ID", sequenceName = "SQ_USRO_ID", allocationSize = 1 )
 	@Column( name = "USRO_ID" )
 	private BigDecimal	g_usroId;
-	@ManyToOne(cascade=CascadeType.REFRESH)
+	@ManyToOne
 	@JoinColumn( name = "USRO_USER_ID" )
 	private User		g_usroUserId;
-	@ManyToOne(cascade = CascadeType.REFRESH)
+	@ManyToOne
 	@JoinColumn( name = "USRO_ROLE_ID" )
 	@JsonUnwrapped
 	private Rol			g_usroRolId;
 	@Column( name = "USRO_ACTIVE" )
 	private boolean		g_usroActive;
-	@Column( name = "USRO_CREATED_DATE" )
+	@CreationTimestamp
+	@DateTimeFormat( pattern = "dd/MM/yyyy hh:mm" )
+	@Column( name = "USRO_CREATED_DATE", insertable = true, updatable = false )
 	private Timestamp	g_usroCreatedDate;
-	@Column( name = "USRO_CREATED_BY" )
+	@Column( name = "USRO_CREATED_BY", insertable = true, updatable = false )
 	private String		g_usroCreatedBy;
-	@Column( name = "USRO_UPDATE_DATE" )
+	@UpdateTimestamp
+	@DateTimeFormat( pattern = "dd/MM/yyyy hh:mm" )
+	@Column( name = "USRO_UPDATE_DATE", insertable = true, updatable = true )
 	private Timestamp	g_usroUpdateDate;
-	@Column( name = "USRO_UPDATE_BY" )
+	@Column( name = "USRO_UPDATE_BY", insertable = true, updatable = true )
 	private String		g_usroUpdateBy;
 
 	/**

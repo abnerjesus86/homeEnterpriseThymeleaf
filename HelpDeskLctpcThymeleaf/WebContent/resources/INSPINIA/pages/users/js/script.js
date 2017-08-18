@@ -9,12 +9,10 @@ jQuery(function($) {
 			// Desactivar la alert de error de los DataTables
 			$.fn.dataTable.ext.errMode = 'none';
 			// Activated the table
-			
-			$('#img-Emp').attr("src", "./images/user1.png");
-			
 			var tableUser = $('#tableUsers').DataTable({
 				// serverSide: true,
-				saveStatus : true,
+				//stateSave : true,
+				paging:false,
 				autoWidth : false,
 				ordering : false,
 				destroy : true,
@@ -22,7 +20,7 @@ jQuery(function($) {
 				dom : "Tgt" ,// + "<'row'<'col-md-5'i><'col-md-7 text-right'p>>",
 				select : {
 			        style:    'single',
-			        // selector: 'td:first-child',
+			        selector: 'td:first-child',
 			        blurable: true
 			    },
 			    ajax : {
@@ -82,7 +80,6 @@ jQuery(function($) {
 				createdRow : function(row, data, dataIndex){
 					$(row).attr("title","Description Role: "+data.roleDescription);
 				},
-				
 				columns : [ {
 						data : "usroId"
 					}, {
@@ -199,10 +196,9 @@ jQuery(function($) {
 					url : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/api/v1.0/getJsonApps",
 					type : "GET",
 					contentType : "application/json; charset=utf-8",
-					dataType : "json",
-					error: function(error){
-						console.log(error.statusText);
-                    }
+					dataType : "json"
+					//error : handleAjaxError
+					
 				},
 				columns : [ {
 						title : "Id",
@@ -217,9 +213,7 @@ jQuery(function($) {
 				]
 			});
 			
-			$('#tableUsers tbody').on("click", "tr", function() {
-				selectedRowUser($(this));
-			});
+			$('#tableUsers tbody').on("click", "tr", selectedRowUser);
 			
 			$('#tableRolesActive tbody').on("click", "tr", function() {
 				if (!$(this).hasClass('selected')){
@@ -247,57 +241,13 @@ jQuery(function($) {
 			});
 			
 			// Eventos de boton para modificar informacion
-			$('#btn-edit').on("click", function() {
-				var FilaActual = $('#tableUsers').DataTable().row('tbody tr.selected').data();
-				var link = "/" + FilaActual.userId;
-				$.ajax({
-					url : "./userFormulario" + link,
-					type : "GET",
-					contentType : "application/json",
-					timeout : 100000,
-					success : function(result) {
-						
-						if (!(result === null)) {
-							var l_frm = $("#user");
-							l_frm.attr("method", 'post');
-							populateForm(l_frm, result);
-						}
-					},
-					error : function(e) {
-						alert("ERROR: ", e);
-					}
-				});
-
-				$("#gridSystemModal .modal-header h4 span").text(FilaActual.userUsername);
-			});
+			$('#btn-edit').on("click", getUserPop);
 			
-			$("#btnSave").on("click", function() {
-				// $.parseJSON(l_frm.serialize()); --convertir String a JSON
-				// JSON.stringify(); --convertir JSON a String
-				var l_frm = $("#user");
-				console.log(l_frm.find('[id=userId]').val());
-				console.log(l_frm.serializeArray());
-				/*
-				 * $.ajax({ type : 'PUT', url : './userFormulario', data : $.parseJSON(l_frm.serialize()), contentType :
-				 * "application/json", success : function(dataResult){ console.log(dataResult); }, error :
-				 * function(dataResult){ console.log(dataResult); }
-				 * 
-				 * }); //Ajax submit
-				 */
-			});
+			$("#btnSave").on("click", saveUserPop);
 			
+			$('#btn-resetPass').on("click", resetFrmReset);
 			
-			$('#btn-resetPass').on("click", function(e) {
-				resetFrmReset($("#frmReset"));
-			});
-			
-			$('#btn-delete').on("click", function(e) {
-				var linkDelete = this;
-				e.preventDefault(); // elimina el evento del link.
-		        
-				if( !$(this).attr("disabled") ) // Verificar que el boton no este disabled
-					shoModalConfirmation(linkDelete, tableUser);
-			});
+			$('#btn-delete').on("click", deleteUser);
 			
 			$('#ckbPass').change(function() {
 		        if($(this).is(':checked')){
@@ -306,7 +256,6 @@ jQuery(function($) {
 		        }else{
 		        	$('#txtPass').attr('disabled','disabled').removeAttr("placeholder").attr("required",false).val(null);
 		        	$("#txtPass").parents().removeClass("has-error");
-		        	
 		        }
 		    });
 			
@@ -314,7 +263,6 @@ jQuery(function($) {
 			
 			$('#btn-AssignRol').on("click", function() {
 				tableRolesActive.ajax.reload();
-
 			});
 			
 			$('#btn-AssignAppn').on("click", function() {
@@ -322,15 +270,20 @@ jQuery(function($) {
 
 			});
 			
+			$('#btnSaveRolesActive').on("click", saveAssignRole);
+			
 			$('.i-checks').iCheck({
                 checkboxClass: 'icheckbox_square-green',
                 radioClass: 'iradio_square-green',
             });
 			
+			$('#txtPass').on('change', function(){
+			    $(this).parent().addClass("has-error");
+			});
+			
 			$('[data-trigger="hover"]').tooltip();
 			
-			
-			
+			clearInfoUser();
 		}
 		
 	});
@@ -369,36 +322,12 @@ function shoModalConfirmation(p_url, p_table){
 	});
 }
 
-jQuery.fn.dataTableExt.oApi.fnProcessingIndicator = function ( oSettings, onoff ) {
-	if ( typeof( onoff ) == 'undefined' ) {
-		onoff = true;
-	}
-	this.oApi._fnProcessingDisplay( oSettings, onoff );
-};
-
 function handleAjaxError( xhr, textStatus, error ) {
 	if ( textStatus === 'timeout' ) {
 		alert( 'The server took too long to send the data.' );
 	}
 	console.log("gola "+error);
 	// $('#tableApps').DataTable().fnProcessingIndicator( false );
-}
-
-function dataTableAjaxReturn(e, settings, json) {
-
-	console.log("Entosd  ");
-	if (json == null){
-		console.log("Entri al null");
-	}
-	else if (typeof json.error == 'undefined') {
-	   // handle or ignore your error
-	   console.log("Entri al type json.error");
-   }
-   else
-   {
-     // no error
-   }
- 
 }
 
 function resetForm($form)
@@ -412,16 +341,220 @@ function resetForm($form)
     });
 }
 
-function resetFrmReset($form){
-	resetForm($form);
+function resetFrmReset(){
+	
+	resetForm($("#frmReset"));
 	
 	$('#divAlert').empty();
 	$('#divAlert').removeClass("alert-danger").removeClass("alert-info");
-	/*if( $('#ckbPass').is(':checked') )
-		$('#ckbPass').click(); // se manda el evento del click que removiendo el pincge attributo por que no jala.
-*/	$('#txtPass').attr('disabled','disabled').removeAttr("placeholder").attr("required",false);//.val(null);
+	$('#txtPass').attr('disabled','disabled').removeAttr("placeholder").attr("required",false);//.val(null);
 	$("#txtPass").parents().removeClass("has-error");
 }
+
+function clearInfoUser(){
+	
+	$('#btn-edit').attr('disabled', true);
+	$('#img-Emp').attr("src", "./images/user1.png");
+	$('#tableUsers').DataTable().$('tr.selected').removeClass('selected');
+	$('#lblUser').text( "" );
+	$('#lblEmail').text( "" );
+	$('#lblAltEmail').text( "" );
+	$('#lblName').text( "" );
+	$('#lblJob').text( "" );
+	$('#lblDepto').text( "" );
+	$('#lblAdmission').text( "" );
+	$('#lblNomActive').removeClass();
+	$('#lblPass').removeClass();
+	$('#lblNomActive').removeClass().text( "" );
+	// $('#lblReason').text(data.motivo);
+	$('#btn-delete').attr("disabled", "disabled");
+	$('#btn-resetPass').removeAttr("data-target").removeAttr('href').attr("disabled", "disabled");
+	
+	$('#btn-AssignRol').attr('disabled', true).removeAttr('data-target');
+	$('#btn-AssignAppn').attr('disabled', true).removeAttr('data-target');
+}
+
+function selectedRowUser(event){
+	var $row = $(this);
+	var FilaActual = $('#tableUsers').DataTable().row($row).data();
+	
+	if (!$($row).hasClass('selected')) {
+		clearInfoUser();
+		$($row).addClass('selected');
+		
+		$('#btn-edit').attr('disabled', false);
+		
+		if(FilaActual.userEmesCompany != null && FilaActual.userEmesId != null){
+			$.ajax({
+				url : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/api/v1.0/getJsonEmp/"+FilaActual.userEmesCompany+"/"+FilaActual.userEmesId,
+				success : function(data) {
+					$('#img-Emp').attr("src", "https://admportlct.lctpc.com.mx/Directorio/Fotos/"+FilaActual.userEmesCompany+"/emp_"+FilaActual.userEmesId+".bmp");
+					$('#lblName').text(data.nombre);
+					$('#lblJob').text(data.nomPuesto);
+					$('#lblDepto').text(data.nomDepartamento);
+					d= new Date(data.fechaIngreso);
+					var str, year, month, day, hour, minute, d, finalDate;
+					year = d.getFullYear();
+					month = pad( d.getMonth() + 1 );
+					day = pad( d.getDate() );
+					hour = pad( d.getHours() );
+					minutes = pad( d.getMinutes() );
+					
+					finalDate =  day + "/" + month + "/" + year;
+					
+					$('#lblAdmission').text(finalDate);
+					var	l_labelActive = (data.activo == 'Y'? "Active" : "Inactive");
+					var	l_labelSpanActive  = (data.activo == 'Y' ? "primary" : "danger");
+					$('#lblNomActive').removeClass();
+					$('#lblNomActive').addClass("label label-"+l_labelSpanActive).text( l_labelActive );
+					// $('#lblReason').text(data.motivo);
+				}
+			});
+		}
+		
+		if(FilaActual.userActive){
+			$('#btn-delete')/*.attr('href', $(location)
+				.attr('origin') + "/HelpDeskLctpcThymeleaf/userFormulario/"+ FilaActual.userId )*/
+				.removeAttr('disabled');
+			$('#btn-resetPass').attr("data-target", "#myModalPass").removeAttr('disabled');
+			
+			$('#btn-AssignRol').removeAttr('disabled').attr('data-target', "#myModalRoles");
+			$('#btn-AssignAppn').removeAttr('disabled').attr('data-target', "#myModalAppns");
+			
+		}
+		$('#lblUser').text( FilaActual.userUsername != null ? FilaActual.userUsername : '' );
+		var txtName = (FilaActual.acinName != null ? FilaActual.acinName : "") + (FilaActual.acinLastName != null ? FilaActual.acinLastName : "");
+		$('#lblEmail').text( FilaActual.acinEmail != null ? FilaActual.acinEmail : '' );
+		$('#lblAltEmail').text(FilaActual.acinAlternateEmail != null ? FilaActual.acinAlternateEmail : '');
+		var	l_checkLabel = FilaActual.passwords[0] != null ? (FilaActual.passwords[0].pswdActive ? "Active" : "Inactive") :  "No Password";
+		var	l_labelSpan  = FilaActual.passwords[0] != null ? (FilaActual.passwords[0].pswdActive ? "primary" : "default") : "warning";
+		
+		$('#lblPass').addClass("label label-"+l_labelSpan).text( l_checkLabel );
+		
+		$('#tableRoles').DataTable().clear().draw();
+		$('#tableRoles').DataTable().ajax.url("./api/v1.0/getJsonUserRoles/" + FilaActual.userId).load();
+		
+		$('#tableApps').DataTable().clear().draw();
+		$('#tableApps').DataTable().ajax.url("./api/v1.0/getJsonUserApps/" + FilaActual.userId).load();
+		
+	}
+}
+
+function saveReset(){
+	
+	var divAlert = $('#divAlert');
+	$('#divAlert').empty();
+	$('#divAlert').removeClass("alert-danger").removeClass("alert-info");
+	
+	if($("#txtPass").is(":required")&&$("#txtPass").val()==""){
+		$("#txtPass").parent().addClass("has-error");
+		
+	} else{
+		var l_data = jQuery.param({
+        	"username": $("#lblUser").text(),
+        	"passNew": $("#txtPass").val(),
+        	"reqNewPass" : $("#ckbReqNewPass").is(':checked')
+    		});
+		
+		$.ajax({
+			url : "./api/v1.0/reset?"+l_data,
+			type : "PUT",
+			// contentType: "multipart/form-data",
+			// processData: false,
+			data : l_data,
+			timeout : 100000,
+			success : function(result) {
+				divAlert.removeClass('alert-danger').addClass('alert-info');
+				divAlert.append($("<h2 class='font-bold'>").text(result));
+				
+				if( $('#ckbPass').is(':checked') )
+					$('#ckbPass').click(); // se manda el evento del click que removiendo el pincge attributo por que no jala.
+				$('#txtPass').attr('disabled','disabled').removeAttr("placeholder").attr("required",false).val(null);
+				$("#txtPass").parents().removeClass("has-error");
+			},
+			error : function(e) {
+				divAlert.removeClass('alert-info').addClass('alert-danger');
+				divAlert.append($("<h4 class='font-bold'>").text(e.responseText));
+			}
+		});
+	}
+	
+}
+
+function getUserPop(event){
+	var FilaActual = $('#tableUsers').DataTable().row('tbody tr.selected').data();
+	
+	$.ajax({
+		url : "./userFormulario/" + FilaActual.userId,
+		type : "GET",
+		contentType : "application/json",
+		timeout : 100000,
+		success : function(result) {
+			
+			if (!(result === null)) {
+				var l_frm = $("#user");
+				l_frm.attr("method", 'PUT');
+				populateForm(l_frm, result);
+			}
+		},
+		error : function(e) {
+			alert("ERROR: ", e);
+		}
+	});
+
+	$("#gridSystemModal .modal-header h4 span").text(FilaActual.userUsername);
+}
+
+function saveUserPop(event){
+	// $.parseJSON(l_frm.serialize()); --convertir String a JSON
+	// JSON.stringify(); --convertir JSON a String
+	var l_frm = $("#user");
+	console.log(l_frm.find('[id=userId]').val());
+	console.log(l_frm.serializeArray());
+	/*
+	 * $.ajax({ type : 'PUT', url : './userFormulario', data : $.parseJSON(l_frm.serialize()), contentType :
+	 * "application/json", success : function(dataResult){ console.log(dataResult); }, error :
+	 * function(dataResult){ console.log(dataResult); }
+	 * 
+	 * }); //Ajax submit
+	 */
+}
+
+function deleteUser(event){
+	
+	event.preventDefault(); // elimina el evento del link.
+	var $row = $('#tableUsers').DataTable().row('tbody tr.selected');
+	var FilaActual = $row.data();
+	
+	var linkDelete = "./userFormulario/"+FilaActual.userId;
+	if( !$(this).attr("disabled") && FilaActual.userActive ){ // Verificar que el boton no este disabled
+		shoModalConfirmation(linkDelete,  $('#tableUsers').DataTable());
+		clearInfoUser();
+	}
+}
+
+function saveAssignRole(){
+	var tableRoles = $('#tableRolesActive').DataTable();
+	var tableUsers = $('#tableUsers').DataTable();
+	
+	var FilaActual =  tableRoles.row(tableRoles.$('tr.selected')).data();
+	var rowUser =  tableUsers.row(tableUsers.$('tr.selected')).data();
+	$.ajax({
+		url : "./api/v1.0/userRole/"+rowUser.userId+"/"+FilaActual.roleId,
+		type : "POST",
+		// contentType: "multipart/form-data",
+		// processData: false,
+		//data : l_data,
+		timeout : 100000,
+		success : function(result) {
+			console.log(result);
+		},
+		error : function(e) {
+			console.log(e.responseText);
+		}
+	});
+}
+
 
 function populateForm($form, data)
 {
@@ -462,6 +595,11 @@ function populateForm($form, data)
         }
     });
 };
+
+function pad( num ) {
+    num = "0" + num;
+    return num.slice( -2 );
+}
 
 $.fn.serializeObject = function() {
     var o = {};
@@ -510,124 +648,8 @@ function form_to_json ($selector) {
 	  return obj;
 	}
 
-function selectedRowUser($row){
-	
-	var FilaActual = $('#tableUsers').DataTable().row($row).data();
-	
-	if (!$($row).hasClass('selected')) {
-		
-		$('#btn-edit').attr('disabled', $($row).hasClass('selected'));
-		
-		$('#tableUsers').DataTable().$('tr.selected').removeClass('selected');
-		$($row).addClass('selected');
-		$('#lblUser').text( "" );
-		$('#lblEmail').text( "" );
-		$('#lblAltEmail').text( "" );
-		$('#lblName').text( "" );
-		$('#lblJob').text( "" );
-		$('#lblDepto').text( "" );
-		$('#lblAdmission').text( "" );
-		$('#lblNomActive').removeClass();
-		$('#lblPass').removeClass();
-		// $('#lblReason').text(data.motivo);
-		
-		if(FilaActual.userEmesCompany != null && FilaActual.userEmesId != null){
-			$.ajax({
-				url : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/api/v1.0/getJsonEmp/"+FilaActual.userEmesCompany+"/"+FilaActual.userEmesId,
-				success : function(data) {
-					$('#img-Emp').attr("src", "https://admportlct.lctpc.com.mx/Directorio/Fotos/"+FilaActual.userEmesCompany+"/emp_"+FilaActual.userEmesId+".bmp");
-					$('#lblName').text(data.nombre);
-					$('#lblJob').text(data.nomPuesto);
-					$('#lblDepto').text(data.nomDepartamento);
-					$('#lblAdmission').text(data.fechaIngreso);
-					var	l_labelActive = (data.activo == 'Y'? "Active" : "Inactive");
-					var	l_labelSpanActive  = (data.activo == 'Y' ? "primary" : "danger");
-					$('#lblNomActive').removeClass();
-					$('#lblNomActive').addClass("label label-"+l_labelSpanActive).text( l_labelActive );
-					// $('#lblReason').text(data.motivo);
-				}
-			});
-		}else{
-			$('#img-Emp').attr("src", "./images/user1.png");
-			$('#lblNomActive').removeClass().text( "" );
-		}
-		
-		if(FilaActual.userActive == false){
-			$('#btn-delete').removeAttr('href').attr("disabled", "disabled");
-			$('#btn-resetPass').removeAttr("data-target").removeAttr('href').attr("disabled", "disabled");
-			
-			$('#btn-AssignRol').attr('disabled', true).removeAttr('data-target');
-			$('#btn-AssignAppn').attr('disabled', true).removeAttr('data-target');
-			
-			
-		} else{
-			$('#btn-delete').attr('href', $(location)
-				.attr('origin') + "/HelpDeskLctpcThymeleaf/userFormulario/"+ FilaActual.userId )
-				.removeAttr('disabled');
-			$('#btn-resetPass').attr("data-target", "#myModalPass").removeAttr('disabled');
-			
-			$('#btn-AssignRol').removeAttr('disabled').attr('data-target', "#myModalRoles");
-			$('#btn-AssignAppn').removeAttr('disabled').attr('data-target', "#myModalAppns");
-			
-			
-		}
-		$('#lblUser').text( FilaActual.userUsername != null ? FilaActual.userUsername : '' );
-		var txtName = (FilaActual.acinName != null ? FilaActual.acinName : "") + (FilaActual.acinLastName != null ? FilaActual.acinLastName : "");
-		$('#lblEmail').text( FilaActual.acinEmail != null ? FilaActual.acinEmail : '' );
-		$('#lblAltEmail').text(FilaActual.acinAlternateEmail != null ? FilaActual.acinAlternateEmail : '');
-		var	l_checkLabel = FilaActual.passwords[0] != null ? (FilaActual.passwords[0].pswdActive ? "Active" : "Inactive") :  "No Password";
-		var	l_labelSpan  = FilaActual.passwords[0] != null ? (FilaActual.passwords[0].pswdActive ? "primary" : "default") : "warning";
-		
-		$('#lblPass').addClass("label label-"+l_labelSpan).text( l_checkLabel );
-		
-		$('#tableRoles').DataTable().clear().draw();
-		$('#tableRoles').DataTable().ajax.url("./api/v1.0/getJsonUserRoles/" + FilaActual.userId).load();
-		
-		$('#tableApps').DataTable().clear().draw();
-		$('#tableApps').DataTable().ajax.url("./api/v1.0/getJsonUserApps/" + FilaActual.userId).load();
-		
-	}
-}
 
-function saveReset(){
-	
-	var divAlert = $('#divAlert');
-	$('#divAlert').empty();
-	
-	if($("#txtPass").is(":required")&&$("#txtPass").val()==""){
-		$("#txtPass").parents().addClass("has-error");
-		
-	} else{
-		var l_data = jQuery.param({
-        	"username": $("#lblUser").text(),
-        	"passNew": $("#txtPass").val(),
-        	"reqNewPass" : $("#ckbReqNewPass").is(':checked')
-    		});
-		
-		$.ajax({
-			url : "./api/v1.0/reset?"+l_data,
-			type : "PUT",
-			// contentType: "multipart/form-data",
-			// processData: false,
-			data : l_data,
-			timeout : 100000,
-			success : function(result) {
-				divAlert.removeClass('alert-danger').addClass('alert-info');
-				divAlert.append($("<h2 class='font-bold'>").text(result));
-				
-				if( $('#ckbPass').is(':checked') )
-					$('#ckbPass').click(); // se manda el evento del click que removiendo el pincge attributo por que no jala.
-				$('#txtPass').attr('disabled','disabled').removeAttr("placeholder").attr("required",false).val(null);
-				$("#txtPass").parents().removeClass("has-error");
-			},
-			error : function(e) {
-				divAlert.removeClass('alert-info').addClass('alert-danger');
-				divAlert.append($("<h4 class='font-bold'>").text(e.responseText));
-			}
-		});
-	}
-	
-}
+
 
 /*$("#frmReset").validate({
 rules: {
