@@ -1,6 +1,7 @@
 package mx.com.lctpc.helpdeck.controller;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -106,6 +107,10 @@ public class RolController {
 		
 		if (l_rol == null) {
 			return new ResponseEntity<String>(HttpStatus.NO_CONTENT);// You many decide to return HttpStatus.NOT_FOUND
+		}
+		
+		if(!usersService.existsRolesUserByIds(p_userId, p_roleId).isEmpty()){
+			return new ResponseEntity<String>("The user already has Role assigned, Role active.",HttpStatus.NOT_ACCEPTABLE);// You many decide to return HttpStatus.NOT_FOUND
 		}
 		
 		UserRole l_assignRol = new UserRole();

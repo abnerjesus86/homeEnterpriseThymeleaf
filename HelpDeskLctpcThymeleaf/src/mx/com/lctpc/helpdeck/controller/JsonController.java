@@ -14,11 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.com.lctpc.helpdeck.pojo.AEntities;
@@ -31,15 +28,12 @@ import mx.com.lctpc.helpdeck.pojo.Rol;
 import mx.com.lctpc.helpdeck.pojo.RolePage;
 import mx.com.lctpc.helpdeck.pojo.SecretQuestion;
 import mx.com.lctpc.helpdeck.pojo.User;
-import mx.com.lctpc.helpdeck.pojo.UserApplication;
-import mx.com.lctpc.helpdeck.pojo.UserRole;
 import mx.com.lctpc.helpdeck.pojo.VEmp;
 import mx.com.lctpc.helpdeck.pojo.SelectList;
 import mx.com.lctpc.helpdeck.service.ApplicationService;
 import mx.com.lctpc.helpdeck.service.EntityService;
 import mx.com.lctpc.helpdeck.service.OwnerService;
 import mx.com.lctpc.helpdeck.service.PageService;
-import mx.com.lctpc.helpdeck.service.PasswordService;
 import mx.com.lctpc.helpdeck.service.PermissionService;
 import mx.com.lctpc.helpdeck.service.PlatformService;
 import mx.com.lctpc.helpdeck.service.RolService;
@@ -81,8 +75,6 @@ public class JsonController {
 	@Autowired
 	private OwnerService ownerService;
 	
-	@Autowired
-	private PasswordService passService;
 
 	@RequestMapping( value = "/getJsonUsers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<List<User>> showListAllUsers() {
@@ -95,19 +87,6 @@ public class JsonController {
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/getJsonUsers2", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, List<User>>> showListAllUsersWithData() {
-		List<User> users = userService.findAll();
-		Map<String, List<User>> l_map = new HashMap<String, List<User>>();
-		
-		if (users.isEmpty()) {
-			return new ResponseEntity<Map<String, List<User>>>(HttpStatus.NO_CONTENT);// You many decide to return HttpStatus.NOT_FOUND
-		}
-		
-		l_map.put("data", users);
-		return new ResponseEntity<Map<String, List<User>>>(l_map, HttpStatus.OK);
-	}
-	
 	@GetMapping( value = "/getJsonEmp/{p_comp}/{p_emp}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<VEmp> showEmp(@PathVariable( "p_comp" )String p_comp, @PathVariable( "p_emp" ) String p_emp) {
 		VEmp l_emp = userService.findEmp(p_comp, p_emp);
@@ -119,51 +98,6 @@ public class JsonController {
 		return new ResponseEntity<VEmp>(l_emp, HttpStatus.OK);
 	}
 	
-	@PostMapping(value="/reset")
-	public ResponseEntity<String> resetPassword(@RequestParam(value = "username") String p_username, 
-												@RequestParam(value = "passNew", required=false) String p_passNew, 
-												@RequestParam(value = "reqNewPass", required=false) boolean p_reqNewPass){
-		
-		String l_res = null;
-		try{
-			l_res = passService.resetPassword(p_username, p_passNew, p_reqNewPass);
-			return new ResponseEntity<String>(l_res, HttpStatus.OK);
-		}catch(Exception ex){
-			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
-		}
-	}
-	
-	@PutMapping(value="/reset" )
-	public ResponseEntity<String> resetPasswordPut(	@RequestParam(value = "username") String p_username, 
-													@RequestParam(value = "passNew", required=false) String p_passNew, 
-													@RequestParam(value = "reqNewPass", required=false) boolean p_reqNewPass){
-		System.out.println("Valor del boolean "+p_reqNewPass);
-		String l_res = null;
-		try{
-			l_res = passService.resetPassword(p_username, p_passNew, p_reqNewPass);
-			return new ResponseEntity<String>(l_res, HttpStatus.OK);
-		}catch(Exception ex){
-			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
-		}
-	}
-	
-	@RequestMapping( value="/changePass", method = RequestMethod.POST )
-	public ResponseEntity<String> changePassword(@RequestParam(value = "username") String p_username, 
-													@RequestParam(value = "passCurr", required=false ) String p_passCurrent,
-													@RequestParam(value = "passNew", required=false ) String p_passNew
-													){
-		
-		String l_res = null;
-		try{
-			l_res = passService.changePassword(p_username, p_passCurrent, p_passNew);
-			return new ResponseEntity<String>(l_res, HttpStatus.OK);
-		}catch(Exception ex){
-			
-			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NO_CONTENT);
-		}
-	}
-	
-		
 	@GetMapping( value = "/getJsonUser/{p_userId}",  produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<User> showListAllUser( @PathVariable( "p_userId" ) BigDecimal p_usrId) {
 		User users = userService.findUserById(p_usrId);
@@ -242,40 +176,6 @@ public class JsonController {
 		return new ResponseEntity<Application>(l_app, HttpStatus.OK);
 	}
 	
-	@RequestMapping( value = { "/getJsonUserRoles/{p_IdUser}" }, method = { RequestMethod.GET }, produces = "application/json" )
-	public ResponseEntity<Map<String, List<UserRole>>> showJsonUserRoles( @PathVariable( "p_IdUser" ) BigDecimal p_userId ) {
-
-		List<UserRole> l_userRoles = userService.findRolesFromUserById(p_userId);
-
-		Map<String, List<UserRole>> l_map = new HashMap<String, List<UserRole>>();
-
-		if (l_userRoles.isEmpty()) {
-			
-			return new ResponseEntity<Map<String, List<UserRole>>>(HttpStatus.NOT_FOUND);// You many decide to return
-																							// HttpStatus.NOT_FOUND
-		}
-
-		l_map.put("data", l_userRoles);
-		return new ResponseEntity<Map<String, List<UserRole>>>(l_map, HttpStatus.OK);
-	}
-
-	@RequestMapping( value = "/getJsonUserApps/{p_IdUser}", method = { RequestMethod.GET }, produces = "application/json" )
-	public ResponseEntity<Map<String, List<UserApplication>>> showJsonUserApps( @PathVariable( "p_IdUser" ) BigDecimal p_userId ) {
-
-		List<UserApplication> l_userApps = userService.findApplicationFromUserById(p_userId);
-
-		Map<String, List<UserApplication>> l_map = new HashMap<String, List<UserApplication>>();
-
-		if (l_userApps.isEmpty()) {
-			return new ResponseEntity<Map<String, List<UserApplication>>>(HttpStatus.NOT_FOUND);// You many decide to
-																									// return
-																									// HttpStatus.NOT_FOUND
-		}
-
-		l_map.put("data", l_userApps);
-		return new ResponseEntity<Map<String, List<UserApplication>>>(l_map, HttpStatus.OK);
-	}
-
 	@RequestMapping( value = "/getJsonRoles", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<Map<String, List<Rol>>> showJsonRoles() {
 		List<Rol> l_roles = rolService.findAll();

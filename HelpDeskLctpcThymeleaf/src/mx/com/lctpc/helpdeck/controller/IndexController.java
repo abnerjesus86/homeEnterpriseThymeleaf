@@ -120,45 +120,9 @@ public class IndexController {
 		return "fragments/userForm";
 	}*/
 	
-	@RequestMapping( value = "/userFormulario/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity<User> showUpdateUser( @PathVariable( "userId" ) BigDecimal p_userId ) {
-		
-		User l_user = usersService.findUserById(p_userId);
-		
-		if( l_user == null)
-			return new ResponseEntity<User>(HttpStatus.NO_CONTENT);// You many decide to return HttpStatus.NOT_FOUND
-		
-		return new ResponseEntity<User>(l_user, HttpStatus.OK );
-	}
 	
-	@RequestMapping( value = "/userFormulario", method = {RequestMethod.POST, RequestMethod.PUT}, consumes = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity<User> showUserFormSave( @RequestBody User p_user, Model model ) {
-		boolean l_isNew = p_user.getUserId() == null ;
-		System.out.println("Entro al guardado..."+ p_user);
-		AccountInformation l_accInf = p_user.getAccountInf();
-		l_accInf.setUser(p_user);
-		p_user.setAccountInf(l_accInf);
-		
-		usersService.saveOrUpdateUser(p_user);
-		
-		return new ResponseEntity<User>(p_user, l_isNew ? HttpStatus.CREATED : HttpStatus.OK );
-	}
-
-	@RequestMapping( value = "/userFormulario/{userId}", method = RequestMethod.DELETE )
-	@ResponseBody
-	public ResponseEntity<String> showDeleteUser( Model model, @PathVariable( "userId" ) BigDecimal p_userId ) {
-		
-		User l_user = usersService.findUserById(p_userId);
-		
-		if (l_user == null) {
-			return new ResponseEntity<String>(HttpStatus.NO_CONTENT);// You many decide to return
-																						// HttpStatus.NOT_FOUND
-		}
-		
-		usersService.deleteUser(l_user);
-
-		return new ResponseEntity<String>("ok", HttpStatus.OK); // ResponseEntity<String>
-	}
+	
+	
 	
 	
 }

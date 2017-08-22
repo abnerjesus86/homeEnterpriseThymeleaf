@@ -64,4 +64,8 @@ public class UsersService {
 		return vEmpDao.findEmp(p_Compania, p_Emp);
 	}
 	
+	
+	public List<UserRole> existsRolesUserByIds( BigDecimal p_userId, BigDecimal p_roleId ){
+		return userDao.existsRolesUserByIds(p_userId, p_roleId);
+	}
 }

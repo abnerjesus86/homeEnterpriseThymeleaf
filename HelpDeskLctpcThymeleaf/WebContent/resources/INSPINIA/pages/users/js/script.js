@@ -24,7 +24,7 @@ jQuery(function($) {
 			        blurable: true
 			    },
 			    ajax : {
-					url : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/api/v1.0/getJsonUsers2",
+					url : $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/api/v1.0/user/all",
 					type : "GET",
 					contentType : "application/json; charset=utf-8",
 					dataType : "json",
@@ -272,6 +272,8 @@ jQuery(function($) {
 			
 			$('#btnSaveRolesActive').on("click", saveAssignRole);
 			
+			$('#btnSaveAppsActive').on("click", saveAssignApplication);
+			
 			$('.i-checks').iCheck({
                 checkboxClass: 'icheckbox_square-green',
                 radioClass: 'iradio_square-green',
@@ -282,6 +284,23 @@ jQuery(function($) {
 			});
 			
 			$('[data-trigger="hover"]').tooltip();
+			
+			toastr.options = {
+                    closeButton: true,
+                    debug: false,
+                    progressBar: true,
+                    preventDuplicates: true,
+                    positionClass: 'toast-top-right',
+                    onclick: null,
+                    showDuration: 400,
+                    hideDuration: 1000,
+                    timeOut: 7000,
+                    extendedTimeOut: 1000,
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut"
+                };
 			
 			clearInfoUser();
 		}
@@ -432,10 +451,10 @@ function selectedRowUser(event){
 		$('#lblPass').addClass("label label-"+l_labelSpan).text( l_checkLabel );
 		
 		$('#tableRoles').DataTable().clear().draw();
-		$('#tableRoles').DataTable().ajax.url("./api/v1.0/getJsonUserRoles/" + FilaActual.userId).load();
+		$('#tableRoles').DataTable().ajax.url("./api/v1.0/user/rolesAssigned/" + FilaActual.userId).load();
 		
 		$('#tableApps').DataTable().clear().draw();
-		$('#tableApps').DataTable().ajax.url("./api/v1.0/getJsonUserApps/" + FilaActual.userId).load();
+		$('#tableApps').DataTable().ajax.url("./api/v1.0/user/appAssigned/" + FilaActual.userId).load();
 		
 	}
 }
@@ -457,7 +476,7 @@ function saveReset(){
     		});
 		
 		$.ajax({
-			url : "./api/v1.0/reset?"+l_data,
+			url : "./api/v1.0/user/reset?"+l_data,
 			type : "PUT",
 			// contentType: "multipart/form-data",
 			// processData: false,
@@ -526,7 +545,7 @@ function deleteUser(event){
 	var $row = $('#tableUsers').DataTable().row('tbody tr.selected');
 	var FilaActual = $row.data();
 	
-	var linkDelete = "./userFormulario/"+FilaActual.userId;
+	var linkDelete = "./"+FilaActual.userId;
 	if( !$(this).attr("disabled") && FilaActual.userActive ){ // Verificar que el boton no este disabled
 		shoModalConfirmation(linkDelete,  $('#tableUsers').DataTable());
 		clearInfoUser();
@@ -547,14 +566,37 @@ function saveAssignRole(){
 		//data : l_data,
 		timeout : 100000,
 		success : function(result) {
-			console.log(result);
+			
+			toastr.success("Role "+FilaActual.roleName+" assigned to the user ["+rowUser.userId+"]"+rowUser.userUsername, 'Successfully');
 		},
 		error : function(e) {
-			console.log(e.responseText);
+			toastr.error(e.responseText, "Error");
 		}
 	});
 }
 
+function saveAssignApplication(){
+	var tableRoles = $('#tableRolesActive').DataTable();
+	var tableUsers = $('#tableUsers').DataTable();
+	
+	var FilaActual =  tableRoles.row(tableRoles.$('tr.selected')).data();
+	var rowUser =  tableUsers.row(tableUsers.$('tr.selected')).data();
+	$.ajax({
+		url : "./api/v1.0/userRole/"+rowUser.userId+"/"+FilaActual.roleId,
+		type : "POST",
+		// contentType: "multipart/form-data",
+		// processData: false,
+		//data : l_data,
+		timeout : 100000,
+		success : function(result) {
+			
+			toastr.success("Role "+FilaActual.roleName+" assigned to the user ["+rowUser.userId+"]"+rowUser.userUsername, 'Successfully');
+		},
+		error : function(e) {
+			toastr.error(e.responseText, "Error");
+		}
+	});
+}
 
 function populateForm($form, data)
 {

@@ -69,13 +69,24 @@ public class UserDaoImpl implements UserDao {
 				,UserRole.class).setParameter("p_UserId", p_userId);
 		*/
 		Query<UserRole> l_queryUserRole = getSession().createQuery(
-				"select usrRol from UserRole usrRol where usrRol.g_usroUserId.g_userId = :p_UserId"
+				"select usrRol from UserRole usrRol where usrRol.g_usroUserId.g_userId = :p_UserId and usrRol.g_usroActive = true"
 				,UserRole.class).setParameter("p_UserId", p_userId);
 		
 		return l_queryUserRole.getResultList();
 
 	}
+	
+	@Override
+	public List<UserRole> existsRolesUserByIds( BigDecimal p_userId, BigDecimal p_roleId ) {
+		
+		Query<UserRole> l_queryUserRole = getSession().createQuery(
+				"select usrRol from UserRole usrRol where usrRol.g_usroUserId.g_userId = :p_UserId and usrRol.g_usroRolId.g_roleId = :p_roleId and usrRol.g_usroActive =  true"
+				,UserRole.class).setParameter("p_UserId", p_userId).setParameter("p_roleId", p_roleId);
+		
+		return l_queryUserRole.getResultList();
 
+	}
+	
 	@Override
 	public List<UserApplication> findApplicationFromUserById( BigDecimal p_userId ) {
 		// TODO Auto-generated method stub
