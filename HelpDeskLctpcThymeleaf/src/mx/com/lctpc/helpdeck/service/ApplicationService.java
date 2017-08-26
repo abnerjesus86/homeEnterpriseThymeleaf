@@ -11,6 +11,7 @@ import mx.com.lctpc.helpdeck.dao.ApplicationDao;
 import mx.com.lctpc.helpdeck.pojo.Application;
 import mx.com.lctpc.helpdeck.pojo.Rol;
 import mx.com.lctpc.helpdeck.pojo.UserApplication;
+import mx.com.lctpc.helpdeck.pojo.UserRole;
 
 @Service
 public class ApplicationService {
@@ -56,6 +57,15 @@ public class ApplicationService {
 	
 	public Map<BigDecimal, String> findPlatform(){
 		return appDao.findPlatform();
+	}
+	
+	public void saveOrUpdateUserApplication( UserApplication p_appn ){
+		if (p_appn.getUsapId() == null || findApplicationById(p_appn.getUsapId()) == null) {
+			appDao.saveUserApplication(p_appn);
+		} else {
+			appDao.updateUserApplication(p_appn);
+		}
+
 	}
 	
 }

@@ -40,18 +40,12 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public void saveUser( User p_user ) {
 		
-		getSession().save(p_user);
+		getSession().saveOrUpdate(p_user);
 	}
 
 	@Override
 	public User findUserById( BigDecimal p_userId ) {
 		
-		/*
-		Criteria l_criteria = getSession().createCriteria(User.class);
-		l_criteria.add(Restrictions.eq("g_userId", p_userId) );
-		
-		return (User)l_criteria.uniqueResult();
-		*/
 		CriteriaBuilder l_builder = getSession().getCriteriaBuilder();
 		CriteriaQuery<User> l_crtQuery = l_builder.createQuery(User.class);
 		Root<User> l_rootUser = l_crtQuery.from(User.class); 
@@ -64,10 +58,6 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public List<UserRole> findRolesFromUserById( BigDecimal p_userId ) {
 		
-		/*Query<UserRole> l_queryUserRole = getSession().createQuery(
-				"select usrRol from User usr join usr.g_userRoles usrRol where usr.g_userId = :p_UserId"
-				,UserRole.class).setParameter("p_UserId", p_userId);
-		*/
 		Query<UserRole> l_queryUserRole = getSession().createQuery(
 				"select usrRol from UserRole usrRol where usrRol.g_usroUserId.g_userId = :p_UserId and usrRol.g_usroActive = true"
 				,UserRole.class).setParameter("p_UserId", p_userId);
@@ -86,13 +76,21 @@ public class UserDaoImpl implements UserDao {
 		return l_queryUserRole.getResultList();
 
 	}
+	@Override
+	public List<UserApplication> existsAppnsUserByIds( BigDecimal p_userId, BigDecimal p_appId ){
+		Query<UserApplication> l_queryUserApp = getSession().createQuery(
+				"select usrApp from UserApplication usrApp where usrApp.g_usapUserId.g_userId = :p_UserId and usrApp.g_usapAppnId.g_appnId = :p_appId and usrApp.g_usapActive = true "
+				,UserApplication.class).setParameter("p_UserId", p_userId).setParameter("p_appId", p_appId);
+		
+		return l_queryUserApp.getResultList();
+	}
 	
 	@Override
 	public List<UserApplication> findApplicationFromUserById( BigDecimal p_userId ) {
 		// TODO Auto-generated method stub
 		
 		Query<UserApplication> l_queryUserAplicaction = getSession().createQuery(
-				"select usrApp from User usr join usr.g_userApplications usrApp where usr.g_userId = :p_UserId"
+				"select usrApp from User usr join usr.g_userApplications usrApp where usr.g_userId = :p_UserId and usrApp.g_usapActive = true "
 				,UserApplication.class).setParameter("p_UserId", p_userId);
 		
 		return l_queryUserAplicaction.getResultList();
@@ -104,6 +102,7 @@ public class UserDaoImpl implements UserDao {
 			
 		}*/
 		//getSession().update(p_user.getAccountInf());
+		//getSession().persist(p_user);
 		getSession().update(p_user);
 	}
 

@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -26,7 +27,9 @@ import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -43,15 +46,7 @@ public class User implements Serializable {
 	 * USER_CREATED_BY; Timestamp USER_UDPATE_DATE; String USER_UPDATE_BY; ,
 	 * schema ="APPLICATION_MANAGER" , g_userCreatedBy
 	 */
-	/*
-	 * @GeneratedValue( generator="trigger", strategy = GenerationType.IDENTITY
-	 * )
-	 * @GenericGenerator( name="trigger",
-	 * strategy="org.hibernate.id.SelectGenerator",parameters = {
-	 * @Parameter( name="key", value="g_userUsername" ),
-	 * @Parameter( name="key", value="g_userCreatedBy" )
-	 * } )
-	 */
+	
 	@Id
 	@Column( name = "USER_ID" )
 	@GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "TRAIN_SEQ" )
@@ -79,7 +74,8 @@ public class User implements Serializable {
 	private Date					g_userUpdateDate;
 	@Column( name = "USER_UPDATE_BY", insertable = true, updatable = true )
 	private String					g_userUpdateBy;
-	@OneToOne( cascade = CascadeType.ALL, mappedBy = "g_user" )
+	@OneToOne( cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
 	@JsonUnwrapped
 	private AccountInformation		g_accountInf;
 	@OneToMany( mappedBy = "g_usroUserId" )
@@ -244,6 +240,7 @@ public class User implements Serializable {
 	/**
 	 * @return the accountInf
 	 */
+	@JsonIgnore
 	public AccountInformation getAccountInf() {
 		return this.g_accountInf;
 	}
@@ -252,6 +249,7 @@ public class User implements Serializable {
 	 * @param p_accountInf
 	 *            the accountInf to set
 	 */
+	@JsonSetter
 	public void setAccountInf( AccountInformation p_accountInf ) {
 		this.g_accountInf = p_accountInf;
 	}

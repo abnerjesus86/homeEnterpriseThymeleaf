@@ -28,13 +28,14 @@ public class UsersService {
 
 	public void saveOrUpdateUser( User p_user ) {
 		
-		if(findUserById(p_user.getUserId())==null){
+		userDao.saveUser(p_user);
+		/*if(findUserById(p_user.getUserId())==null){
 			
 			userDao.saveUser(p_user);
 		}else{
 			
 			userDao.updateUser(p_user);
-		}
+		}*/
 		
 	}
 
@@ -68,4 +69,9 @@ public class UsersService {
 	public List<UserRole> existsRolesUserByIds( BigDecimal p_userId, BigDecimal p_roleId ){
 		return userDao.existsRolesUserByIds(p_userId, p_roleId);
 	}
+	
+	public List<UserApplication> existsAppnsUserByIds( BigDecimal p_userId, BigDecimal p_appId ){
+		return userDao.existsAppnsUserByIds(p_userId, p_appId);
+	}
+	
 }

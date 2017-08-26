@@ -3,28 +3,31 @@ package mx.com.lctpc.helpdeck.pojo;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.annotations.Parameter;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table( name = "ACCOUNT_INFORMATION", schema = "APPLICATION_MANAGER" )
-@JsonIdentityInfo(
+/*@JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class,
-		  property = "acinUserId")
+		  property = "acinUserId")*/
 public class AccountInformation {
 	/*
 	 * ACIN_USER_ID NOT NULL NUMBER ACIN_PROFILE_PICTURE NOT NULL VARCHAR2(150)
@@ -63,9 +66,9 @@ public class AccountInformation {
 	private Timestamp	g_acinUpdateDate;
 	@Column( name = "ACIN_UPDATE_BY", insertable = true, updatable = true )
 	private String		g_acinUpdateBy;
-	@OneToOne
-	@PrimaryKeyJoinColumn
-/*	@OneToOne(cascade = CascadeType.ALL, mappedBy = "g_accountInf")*/
+//	@OneToOne
+//	@PrimaryKeyJoinColumn
+	@OneToOne( mappedBy = "g_accountInf", fetch =  FetchType.LAZY)
 	private User		g_user;
 
 	/**
@@ -176,6 +179,7 @@ public class AccountInformation {
 	/**
 	 * @return the user
 	 */
+	@JsonIgnore
 	public User getUser() {
 		return this.g_user;
 	}
@@ -184,6 +188,7 @@ public class AccountInformation {
 	 * @param p_user
 	 *            the user to set
 	 */
+	@JsonIgnore
 	public void setUser( User p_user ) {
 		this.g_user = p_user;
 	}
@@ -242,6 +247,16 @@ public class AccountInformation {
 	 */
 	public void setAcinGender( String p_acinGender ) {
 		this.g_acinGender = p_acinGender;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "AccountInformation [g_acinUserId=" + this.g_acinUserId + ", g_acinProfilePicture=" + this.g_acinProfilePicture + ", g_acinName=" + this.g_acinName + ", g_acinLastName=" + this.g_acinLastName
+				+ ", g_acinEmail=" + this.g_acinEmail + ", g_acinAlternateEmail=" + this.g_acinAlternateEmail + ", g_acinGender=" + this.g_acinGender + ", g_acinCreatedDate=" + this.g_acinCreatedDate
+				+ ", g_acinCreatedBy=" + this.g_acinCreatedBy + ", g_acinUpdateDate=" + this.g_acinUpdateDate + ", g_acinUpdateBy=" + this.g_acinUpdateBy + "]";
 	}
 
 	

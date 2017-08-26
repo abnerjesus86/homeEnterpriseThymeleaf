@@ -19,4 +19,6 @@ public interface ApplicationDao {
 	public void deleteApplication(Application p_app);
 	public Map<BigDecimal, String> findPlatform();
 	
+	public void saveUserApplication( UserApplication p_appn );
+	public void updateUserApplication( UserApplication p_appn );
 }

@@ -17,4 +17,5 @@ public interface UserDao {
 	public void deleteUser(User p_user);
 	
 	public List<UserRole> existsRolesUserByIds( BigDecimal p_userId, BigDecimal p_roleId );
+	public List<UserApplication> existsAppnsUserByIds( BigDecimal p_userId, BigDecimal p_appId );
 }

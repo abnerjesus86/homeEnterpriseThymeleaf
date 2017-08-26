@@ -6,11 +6,14 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,11 +21,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import mx.com.lctpc.helpdeck.pojo.Application;
 import mx.com.lctpc.helpdeck.pojo.Page;
 import mx.com.lctpc.helpdeck.pojo.Rol;
+import mx.com.lctpc.helpdeck.pojo.User;
+import mx.com.lctpc.helpdeck.pojo.UserApplication;
 import mx.com.lctpc.helpdeck.service.ApplicationService;
 import mx.com.lctpc.helpdeck.service.OwnerService;
 import mx.com.lctpc.helpdeck.service.PageService;
+import mx.com.lctpc.helpdeck.service.UsersService;
 
 @Controller
+@RequestMapping("/api/v1.0/appn/")
 public class ApplicationController {
 
 	@Autowired
@@ -34,12 +41,28 @@ public class ApplicationController {
 	@Autowired
 	private OwnerService ownerService;
 	
-	@RequestMapping( "/applications" )
-	public String showApplications( Model p_model ) {
+	@Autowired
+	private UsersService usersService;
+	
+	@RequestMapping( "/all" )
+	public String getApplications( Model p_model ) {
 		List<Application> l_appns = appService.findAllApplication();
 		p_model.addAttribute("appns", l_appns);
 		return "applications";
 	}
+	
+	@GetMapping( value = { "/{p_appId}" }, produces = MediaType.APPLICATION_JSON_VALUE )
+	@ResponseBody
+	public ResponseEntity<Application> getAppn( @PathVariable( "p_appId" ) BigDecimal p_appId ) {
+
+		Application l_app = appService.findApplicationById(p_appId);
+		if (l_app == null) {
+			return new ResponseEntity<Application>(HttpStatus.NO_CONTENT);// You many decide to return HttpStatus.NOT_FOUND
+		}
+		
+		return new ResponseEntity<Application>(l_app, HttpStatus.OK);
+	}
+	
 	
 	@RequestMapping( "/appForm" )
 	public String showApplicationForm( Model p_model ) {
@@ -129,7 +152,37 @@ public class ApplicationController {
 
 	}
 	
-	
+	@PostMapping( value = "/userAppn/{userId}/{appnId}" )
+	@ResponseBody
+	public ResponseEntity<String> createUserAppn( @PathVariable( "userId" ) BigDecimal p_userId, @PathVariable( "appnId" ) BigDecimal p_appId ) {
+		
+		User l_user = usersService.findUserById(p_userId);
+		
+		if (l_user == null) {
+			return new ResponseEntity<String>(HttpStatus.NO_CONTENT);// You many decide to return HttpStatus.NOT_FOUND
+		}
+		
+		Application l_app = appService.findApplicationById(p_appId);
+		
+		if (l_app == null) {
+			return new ResponseEntity<String>(HttpStatus.NO_CONTENT);// You many decide to return HttpStatus.NOT_FOUND
+		}
+		
+		if(!usersService.existsAppnsUserByIds(p_userId, p_appId).isEmpty()){
+			return new ResponseEntity<String>("The user already has Application assigned, Application active.",HttpStatus.NOT_ACCEPTABLE);// You many decide to return HttpStatus.NOT_FOUND
+		}
+		
+		UserApplication l_assignAppn = new UserApplication();
+		l_assignAppn.setUsapCreatedBy("BENITEZ.ABNER");
+		l_assignAppn.setUsapUpdateBy("BENITEZ.ABNER");
+		l_assignAppn.setUsapUserId(l_user);
+		l_assignAppn.setUsapAppnId(l_app);
+		l_assignAppn.setUsapActive(true);
+		
+		appService.saveOrUpdateUserApplication(l_assignAppn);
+
+		return new ResponseEntity<String>("ok", HttpStatus.CREATED); // ResponseEntity<String>
+	}
 	
 	
 	

@@ -130,7 +130,19 @@ public class ApplicationDaoImpl implements ApplicationDao {
 		
 		return l_map;
 	}
+	
+	@Override
+	public void saveUserApplication(  UserApplication p_appn ) {
+		// TODO Auto-generated method stub
+		getSession().save(p_appn);
+	}
 
+	@Override
+	public void updateUserApplication(  UserApplication p_appn ) {
+		// TODO Auto-generated method stub
+		getSession().update(p_appn);
+	}
+	
 	/*
 	 * private NamedParameterJdbcTemplate jdbcTemplate;
 	 * 

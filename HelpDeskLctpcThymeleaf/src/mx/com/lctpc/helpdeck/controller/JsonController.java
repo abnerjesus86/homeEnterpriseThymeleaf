@@ -164,18 +164,6 @@ public class JsonController {
 		
 	}
 	
-	@RequestMapping( value = { "/getJsonApp/{p_appId}" }, method = { RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity<Application> showJsonApp( @PathVariable( "p_appId" ) BigDecimal p_appId ) {
-
-		
-		Application l_app = appService.findApplicationById(p_appId);
-		if (l_app == null) {
-			return new ResponseEntity<Application>(HttpStatus.NO_CONTENT);// You many decide to return HttpStatus.NOT_FOUND
-		}
-		
-		return new ResponseEntity<Application>(l_app, HttpStatus.OK);
-	}
-	
 	@RequestMapping( value = "/getJsonRoles", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<Map<String, List<Rol>>> showJsonRoles() {
 		List<Rol> l_roles = rolService.findAll();

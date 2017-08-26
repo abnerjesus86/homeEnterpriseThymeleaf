@@ -4,14 +4,19 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -39,25 +44,30 @@ public class UserApplication implements Serializable{
 		USAP_UPDATE_BY             VARCHAR2(150) 
 	 */
 	@Id
-	@GeneratedValue
+	@GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "USAP_ID" )
+	@SequenceGenerator( name = "USAP_ID", sequenceName = "SQ_USAP_ID", allocationSize = 1 )
 	@Column(name="USAP_ID")
 	private BigDecimal	g_usapId;
-	@ManyToOne(cascade=CascadeType.REFRESH)
+	@ManyToOne
 	@JoinColumn(name="USAP_APPN_ID")
 	@JsonUnwrapped
 	private Application	g_usapAppnId;
-	@ManyToOne(cascade=CascadeType.REFRESH)
+	@ManyToOne
 	@JoinColumn(name="USAP_USER_ID")
 	private User		g_usapUserId;
 	@Column(name="USAP_ACTIVE")
 	private boolean		g_usapActive;
-	@Column(name="USAP_CREATED_DATE")
+	@CreationTimestamp
+	@DateTimeFormat( pattern = "dd/MM/yyyy hh:mm" )
+	@Column(name="USAP_CREATED_DATE", insertable = true, updatable = false)
 	private Timestamp	g_usapCreatedDate;
-	@Column(name="USAP_CREATED_BY")
+	@Column(name="USAP_CREATED_BY", insertable = true, updatable = false)
 	private String		g_usapCreatedBy;
-	@Column(name="USAP_UPDATE_DATE")
+	@UpdateTimestamp
+	@DateTimeFormat( pattern = "dd/MM/yyyy hh:mm" )
+	@Column(name="USAP_UPDATE_DATE", insertable = true, updatable = true )
 	private Timestamp	g_usapUpdateDate;
-	@Column(name="USAP_UPDATE_BY")
+	@Column(name="USAP_UPDATE_BY", insertable = true, updatable = true)
 	private String		g_usapUpdateBy;
 
 	/**
