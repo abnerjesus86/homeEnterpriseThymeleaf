@@ -39,9 +39,9 @@ public class AccountInformation {
 
 	@Id
 	@Column( name = "ACIN_USER_ID" )
-	@GeneratedValue( generator = "myGeneratorUserId" )
+	/*@GeneratedValue( generator = "myGeneratorUserId" )
 	@GenericGenerator( name = "myGeneratorUserId", strategy = "foreign", parameters = @Parameter( value = "g_user", name = "property" ) )
-	private BigDecimal	g_acinUserId;
+	*/private BigDecimal	g_acinUserId;
 	@Column( name = "ACIN_PROFILE_PICTURE" )
 	private String		g_acinProfilePicture;
 	@Column( name = "ACIN_NAME" )
@@ -68,8 +68,8 @@ public class AccountInformation {
 	private String		g_acinUpdateBy;
 //	@OneToOne
 //	@PrimaryKeyJoinColumn
-	@OneToOne( mappedBy = "g_accountInf", fetch =  FetchType.LAZY)
-	private User		g_user;
+	/*@OneToOne( mappedBy = "g_accountInf", fetch =  FetchType.LAZY)
+	private User		g_user;*/
 
 	/**
 	 * @return the acinUserId
@@ -178,21 +178,21 @@ public class AccountInformation {
 
 	/**
 	 * @return the user
-	 */
+	 *//*
 	@JsonIgnore
 	public User getUser() {
 		return this.g_user;
 	}
 
-	/**
+	*//**
 	 * @param p_user
 	 *            the user to set
-	 */
+	 *//*
 	@JsonIgnore
 	public void setUser( User p_user ) {
 		this.g_user = p_user;
 	}
-
+*/
 	/**
 	 * @return the acinName
 	 */

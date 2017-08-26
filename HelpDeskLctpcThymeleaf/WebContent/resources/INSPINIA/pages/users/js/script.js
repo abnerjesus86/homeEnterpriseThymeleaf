@@ -660,6 +660,19 @@ function populateForm($form, data) {
 					}
 
 					break;
+				case "radio":
+					$('.icheckbox_square-green').addClass('checked');
+					if (value = '1') {
+						//$('.icheckbox_square-green').addClass('checked');
+						$ctrl.attr('checked', true);
+						$ctrl.val("1");
+					} else if( value = '2' ){
+						//$('.icheckbox_square-green').removeClass('checked');
+						$ctrl.attr('checked', true);
+						$ctrl.val("2");
+					}
+
+					break;
 			}
 		}
 	});

@@ -67,11 +67,14 @@ public class UserController {
 		boolean l_isNew = p_user.getUserId() == null ;
 		
 		System.out.println("Entro al guardado..."+ p_user);
-		AccountInformation l_accInf = p_user.getAccountInf();
-		//l_accInf.setUser(p_user);
+		if(p_user.getAccountInf() != null){
+			AccountInformation l_accInf = p_user.getAccountInf();
+			//l_accInf.setUser(p_user);
+			
+			p_user.setAccountInf(l_accInf);
 
-		p_user.setAccountInf(l_accInf);
-		
+		}
+						
 		userService.saveOrUpdateUser(p_user);
 		
 		return new ResponseEntity<User>(p_user, l_isNew ? HttpStatus.CREATED : HttpStatus.OK );
@@ -85,8 +88,8 @@ public class UserController {
 		
 		System.out.println("Entro al update..."+ p_user);
 		AccountInformation l_accInf = p_user.getAccountInf();
-		l_accInf.setUser(p_user);
-
+//		l_accInf.setUser(p_user);
+		
 		p_user.setAccountInf(l_accInf);
 		
 		userService.saveOrUpdateUser(p_user);
