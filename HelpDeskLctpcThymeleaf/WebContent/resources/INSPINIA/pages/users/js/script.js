@@ -503,7 +503,7 @@ function saveUserPop(event) {
 
 	console.log(JSON.stringify(user));
 
-	$.ajax({
+	/*$.ajax({
 		type : 'PUT',
 		url : './api/v1.0/user/',
 		data : JSON.stringify($form.serializeObject()),
@@ -516,7 +516,7 @@ function saveUserPop(event) {
 		}
 
 	}); // Ajax submit
-
+*/
 }
 
 function deleteUser(event) {
@@ -710,6 +710,9 @@ $.fn.serializeObject = function() {
 			case "checkbox":
 				elemValue = $(this).is(':checked');
 				break;
+			case "radio" :
+				elemValue = $(this).val();
+				break;
 			default:
 				if ($(this).is('select'))
 					elemValue = $(this).find('option:selected').val();
@@ -717,13 +720,18 @@ $.fn.serializeObject = function() {
 					elemValue = $(this).val();
 				break;
 		}
-
+		
+		if(elemValue === null ||  elemValue === ''){
+			return;
+		}
+		
 		if (o[this.id] !== undefined) {
 			if (!o[this.id].push) {
 				o[this.id] = [ o[this.id] ];
 			}
 			o[this.id].push(elemValue);
 		} else {
+
 			o[this.id] = elemValue;
 		}
 
