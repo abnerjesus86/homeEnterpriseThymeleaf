@@ -464,7 +464,7 @@ function saveReset() {
 
 function getUserEditPop(event) {
 	var l_rowData = $('#tableUsers').DataTable().row('tbody tr.selected').data();
-
+	//resetForm($("#frmUser"));
 	$.ajax({
 		url : "./api/v1.0/user/" + l_rowData.userId,
 		type : "GET",
@@ -538,11 +538,13 @@ function deleteUser(event) {
 function resetForm($form) {
 	$form.find('input:text, input:password, input:file, input:hidden, select, textarea').val('');
 	$form.find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected');
-	var $chks = $form.find('input:radio, input:checkbox');
-	$chks.each(function() {
+	var $chks = $form.find('input:checkbox');
+	$('.iradio_square-green').removeClass('checked');
+	$('.icheckbox_square-green').removeClass('checked');
+	/*$chks.each(function() {
 		if ($(this).is(':checked'))
-			$(this).click(); // se manda el evento del click que removiendo el pincge attributo por que no jala.
-	});
+			$(this).click(); //  se manda el evento del click que removiendo el pincge attributo por que no jala.
+	});*/
 }
 
 function resetFrmReset() {
@@ -648,6 +650,9 @@ function populateForm($form, data) {
 				case "hidden":
 					$ctrl.val(value);
 					break;
+				case 'textarea' :
+					console.log("Enro al textarea");
+					break;
 				case "checkbox":
 
 					if (value) {
@@ -658,20 +663,11 @@ function populateForm($form, data) {
 						$('.icheckbox_square-green').removeClass('checked');
 						$ctrl.attr('checked', false);
 					}
-
 					break;
 				case "radio":
-					$('.icheckbox_square-green').addClass('checked');
-					if (value = '1') {
-						//$('.icheckbox_square-green').addClass('checked');
-						$ctrl.attr('checked', true);
-						$ctrl.val("1");
-					} else if( value = '2' ){
-						//$('.icheckbox_square-green').removeClass('checked');
-						$ctrl.attr('checked', true);
-						$ctrl.val("2");
-					}
-
+					var $elem = $('input[type="radio"][id='+key+'][value='+value+']');
+					$elem.attr('checked', true);
+					$elem.parent().addClass('checked');//Esto para la plantilla INSPINIA
 					break;
 			}
 		}
@@ -750,10 +746,3 @@ function form_to_json($selector) {
 
 	return obj;
 }
-
-/*
- * $("#frmReset").validate({ rules: { txtPass: { required: true, minlength: 4 } }, messages: { txtPass: { required:
- * "Please enter your email address."
- *  }
- *  } });
- */
