@@ -497,13 +497,10 @@ function saveUserPop(event) {
 	// $.parseJSON(l_frm.serialize()); --convertir String a JSON
 	// JSON.stringify(); --convertir JSON a String
 	var $form = $("#frmUser");
-	var user = {
-		user : $form.serializeObject()
-	};
 
-	console.log(JSON.stringify(user));
+	console.log(JSON.stringify($form.serializeObject()));
 
-	/*$.ajax({
+	$.ajax({
 		type : 'PUT',
 		url : './api/v1.0/user/',
 		data : JSON.stringify($form.serializeObject()),
@@ -516,7 +513,7 @@ function saveUserPop(event) {
 		}
 
 	}); // Ajax submit
-*/
+
 }
 
 function deleteUser(event) {
@@ -721,7 +718,7 @@ $.fn.serializeObject = function() {
 				break;
 		}
 		
-		if(elemValue === null ||  elemValue === ''){
+		if(elemValue === null ||  elemValue === '' || elemValue === undefined){
 			return;
 		}
 		

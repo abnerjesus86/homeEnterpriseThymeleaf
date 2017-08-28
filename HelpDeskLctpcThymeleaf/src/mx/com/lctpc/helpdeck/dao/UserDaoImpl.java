@@ -42,7 +42,13 @@ public class UserDaoImpl implements UserDao {
 		
 		getSession().saveOrUpdate(p_user);
 	}
-
+	
+	@Override
+	public void persistsUser( User p_user ) {
+		// TODO Auto-generated method stub
+		getSession().persist(p_user);
+	}
+	
 	@Override
 	public User findUserById( BigDecimal p_userId ) {
 		
@@ -111,6 +117,8 @@ public class UserDaoImpl implements UserDao {
 		// TODO Auto-generated method stub
 		getSession().update(p_user);
 	}
+
+	
 
 	/*
 	 * private NamedParameterJdbcTemplate jdbcTemplate;

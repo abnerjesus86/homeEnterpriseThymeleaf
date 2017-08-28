@@ -85,13 +85,16 @@ public class UserController {
 	public ResponseEntity<User> updateUserForm( @RequestBody User p_user ) {
 		
 		boolean l_isNew = p_user.getUserId() == null ;
+		 
+		System.out.println("Entro al update..."+ p_user.getAccountInf() );
+		/*AccountInformation l_accInf = p_user.getAccountInf();
+		p_user.setAccountInf(null);
 		
-		System.out.println("Entro al update..."+ p_user);
-		AccountInformation l_accInf = p_user.getAccountInf();
-//		l_accInf.setUser(p_user);
+		userService.persistsUser(p_user);
 		
+		l_accInf.setAcinUserId(p_user.getUserId());
 		p_user.setAccountInf(l_accInf);
-		
+		*/
 		userService.saveOrUpdateUser(p_user);
 		
 		return new ResponseEntity<User>(p_user, HttpStatus.OK );

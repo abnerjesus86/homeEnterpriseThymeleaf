@@ -10,6 +10,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -75,7 +76,7 @@ public class User implements Serializable {
 	@Column( name = "USER_UPDATE_BY", insertable = true, updatable = true )
 	private String					g_userUpdateBy;
 	@OneToOne( cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn
+	@PrimaryKeyJoinColumn(name="USER_ID", referencedColumnName = "ACIN_USER_ID")
 	@JsonUnwrapped
 	private AccountInformation		g_accountInf;
 	@OneToMany( mappedBy = "g_usroUserId" )
@@ -240,7 +241,7 @@ public class User implements Serializable {
 	/**
 	 * @return the accountInf
 	 */
-	@JsonIgnore
+	/*@JsonIgnore*/
 	public AccountInformation getAccountInf() {
 		return this.g_accountInf;
 	}
@@ -249,7 +250,7 @@ public class User implements Serializable {
 	 * @param p_accountInf
 	 *            the accountInf to set
 	 */
-	@JsonSetter
+	/*@JsonSetter*/
 	public void setAccountInf( AccountInformation p_accountInf ) {
 		this.g_accountInf = p_accountInf;
 	}
