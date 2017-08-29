@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,37 +66,40 @@ public class UserController {
 	
 	@RequestMapping( value = "/", method = {RequestMethod.POST}/*, consumes = MediaType.APPLICATION_JSON_VALUE*/ )
 	public ResponseEntity<User> saveUserForm( @RequestBody User p_user ) {
-		boolean l_isNew = p_user.getUserId() == null ;
-		
 		System.out.println("Entro al guardado..."+ p_user);
-		if(p_user.getAccountInf() != null){
+		/*if(p_user.getAccountInf() != null){
 			AccountInformation l_accInf = p_user.getAccountInf();
 			//l_accInf.setUser(p_user);
 			
 			p_user.setAccountInf(l_accInf);
 
-		}
+		}*/
 						
 		userService.saveOrUpdateUser(p_user);
 		
-		return new ResponseEntity<User>(p_user, l_isNew ? HttpStatus.CREATED : HttpStatus.OK );
+		return new ResponseEntity<User>(p_user,HttpStatus.CREATED );
 		//return new ResponseEntity<User>(HttpStatus.OK );
 	}
 	
 	@RequestMapping( value = "/", method = {RequestMethod.PUT}/*, consumes = MediaType.APPLICATION_JSON_VALUE*/ )
 	public ResponseEntity<User> updateUserForm( @RequestBody User p_user ) {
+		//((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername()
 		
-		boolean l_isNew = p_user.getUserId() == null ;
-		 
-		System.out.println("Entro al update..."+ p_user.getAccountInf() );
-		/*AccountInformation l_accInf = p_user.getAccountInf();
-		p_user.setAccountInf(null);
+		p_user.setUserUpdateBy(SecurityContextHolder.getContext().getAuthentication().getName());
 		
-		userService.persistsUser(p_user);
+		AccountInformation l_acount = new AccountInformation();
 		
-		l_accInf.setAcinUserId(p_user.getUserId());
-		p_user.setAccountInf(l_accInf);
-		*/
+		if( !p_user.getAccountInf().equals(l_acount) ){
+						
+			if(p_user.getAccountInf().getAcinUserId() == null){
+				p_user.getAccountInf().setAcinCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+				p_user.getAccountInf().setAcinUserId(p_user.getUserId());
+			}else
+				p_user.getAccountInf().setAcinUpdateBy(SecurityContextHolder.getContext().getAuthentication().getName());
+		}
+		else
+			p_user.setAccountInf(null);
+		
 		userService.saveOrUpdateUser(p_user);
 		
 		return new ResponseEntity<User>(p_user, HttpStatus.OK );

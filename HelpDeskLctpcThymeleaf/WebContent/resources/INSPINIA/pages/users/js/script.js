@@ -243,6 +243,8 @@ jQuery(function($) {
 			// Eventos de boton para modificar informacion
 			$('#btn-edit').on("click", getUserEditPop);
 
+			$('#btn-New').on("click", getUserNewPop);
+			
 			$("#btnSave").on("click", saveUserPop);
 
 			$('#btn-resetPass').on("click", resetFrmReset);
@@ -462,35 +464,14 @@ function saveReset() {
 
 }
 
+function getUserNewPop(event){
+	
+}
+
 function getUserEditPop(event) {
-	var l_rowData = $('#tableUsers').DataTable().row('tbody tr.selected').data();
-	//resetForm($("#frmUser"));
-	$.ajax({
-		url : "./api/v1.0/user/" + l_rowData.userId,
-		type : "GET",
-		contentType : "application/json",
-		timeout : 100000,
-		success : function(result) {
-
-			if (!(result === null)) {
-				var l_frm = $("#frmUser");
-				populateForm(l_frm, result);
-				l_frm.attr("method", 'PUT');
-				l_frm.attr("action", $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/api/v1.0/user/");
-
-				/*
-				 * $.ajax({ type : 'PUT', url : './userFormulario', data : $.parseJSON($(this).serialize()), contentType :
-				 * "application/json", success : function(dataResult){ console.log(dataResult); }, error :
-				 * function(dataResult){ console.log(dataResult); } });
-				 */
-			}
-		},
-		error : function(e) {
-			alert("ERROR: ", e);
-		}
-	});
-
-	$("#gridSystemModal .modal-header h4 span").text(l_rowData.userUsername);
+	//var l_rowData = $('#tableUsers').DataTable().row('tbody tr.selected').data();
+	resetForm($("#frmUser"));
+	$("#gridSystemModal .modal-header h4 span").text("New User");
 }
 
 function saveUserPop(event) {

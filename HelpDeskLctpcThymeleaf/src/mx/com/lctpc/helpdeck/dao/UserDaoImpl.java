@@ -50,6 +50,12 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	@Override
+	public void mergeUser( User p_user ) {
+		// TODO Auto-generated method stub
+		getSession().merge(p_user);
+	}
+	
+	@Override
 	public User findUserById( BigDecimal p_userId ) {
 		
 		CriteriaBuilder l_builder = getSession().getCriteriaBuilder();
@@ -119,7 +125,6 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	
-
 	/*
 	 * private NamedParameterJdbcTemplate jdbcTemplate;
 	 * 

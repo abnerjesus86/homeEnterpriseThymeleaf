@@ -11,6 +11,7 @@ public interface UserDao {
 	public List<User> findAllUsers();
 	public void saveUser(User p_user);
 	public void persistsUser(User p_user);
+	public void mergeUser(User p_user);
 	public void updateUser(User p_user);
 	public User findUserById(BigDecimal p_userId);
 	public List<UserRole> findRolesFromUserById(BigDecimal p_userId);

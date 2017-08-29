@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import mx.com.lctpc.helpdeck.dao.UserDao;
@@ -37,41 +38,15 @@ public class UsersService {
 	}
 
 	public void saveOrUpdateUser( User p_user ) {
-		Session l_session = getSession();
-		l_session.beginTransaction();
 		
-		try {
-			
-			AccountInformation l_accInf = p_user.getAccountInf();
-			p_user.setAccountInf(null);
-			
-			l_session.update(p_user);
-			//persistsUser( p_user );
-			
-			l_accInf.setAcinUserId(p_user.getUserId());
-			p_user.setAccountInf(l_accInf);
-			
-			l_session.merge(p_user);
-			
-			l_session.getTransaction().commit();
-		} catch (Exception l_e) {
-			// TODO: handle exception
-			l_e.printStackTrace();
-			System.out.println("Entro....");
-			l_session.getTransaction().rollback();
-		}finally{
-			l_session.close();
-		}
-		
-		
-		//userDao.saveUser(p_user);
-		/*if(findUserById(p_user.getUserId())==null){
+		if(findUserById(p_user.getUserId())==null){
 			
 			userDao.saveUser(p_user);
 		}else{
 			
-			userDao.updateUser(p_user);
-		}*/
+			userDao.mergeUser(p_user);
+			//userDao.updateUser(p_user);
+		}
 		
 	}
 

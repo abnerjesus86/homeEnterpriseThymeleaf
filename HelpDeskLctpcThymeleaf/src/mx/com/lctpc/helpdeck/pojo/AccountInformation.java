@@ -1,5 +1,6 @@
 package mx.com.lctpc.helpdeck.pojo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
@@ -28,7 +29,12 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 /*@JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class,
 		  property = "acinUserId")*/
-public class AccountInformation {
+public class AccountInformation implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/*
 	 * ACIN_USER_ID NOT NULL NUMBER ACIN_PROFILE_PICTURE NOT NULL VARCHAR2(150)
 	 * ACIN_TELEPHONE NUMBER(10) ACIN_LAST_ACCESS NOT NULL DATE
@@ -36,7 +42,7 @@ public class AccountInformation {
 	 * ACIN_CREATED_BY NOT NULL VARCHAR2(150) ACIN_UPDATE_DATE DATE
 	 * ACIN_UPDATE_BY VARCHAR2(150)
 	 */
-
+	
 	@Id
 	@Column( name = "ACIN_USER_ID" )
 	/*@GeneratedValue( generator = "myGeneratorUserId" )
@@ -247,6 +253,99 @@ public class AccountInformation {
 	 */
 	public void setAcinGender( String p_acinGender ) {
 		this.g_acinGender = p_acinGender;
+	}
+
+	
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((this.g_acinAlternateEmail == null) ? 0 : this.g_acinAlternateEmail.hashCode());
+		result = prime * result + ((this.g_acinCreatedBy == null) ? 0 : this.g_acinCreatedBy.hashCode());
+		result = prime * result + ((this.g_acinCreatedDate == null) ? 0 : this.g_acinCreatedDate.hashCode());
+		result = prime * result + ((this.g_acinEmail == null) ? 0 : this.g_acinEmail.hashCode());
+		result = prime * result + ((this.g_acinGender == null) ? 0 : this.g_acinGender.hashCode());
+		result = prime * result + ((this.g_acinLastName == null) ? 0 : this.g_acinLastName.hashCode());
+		result = prime * result + ((this.g_acinName == null) ? 0 : this.g_acinName.hashCode());
+		result = prime * result + ((this.g_acinProfilePicture == null) ? 0 : this.g_acinProfilePicture.hashCode());
+		result = prime * result + ((this.g_acinUpdateBy == null) ? 0 : this.g_acinUpdateBy.hashCode());
+		result = prime * result + ((this.g_acinUpdateDate == null) ? 0 : this.g_acinUpdateDate.hashCode());
+		result = prime * result + ((this.g_acinUserId == null) ? 0 : this.g_acinUserId.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals( Object obj ) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof AccountInformation))
+			return false;
+		AccountInformation other = (AccountInformation) obj;
+		if (this.g_acinAlternateEmail == null) {
+			if (other.g_acinAlternateEmail != null)
+				return false;
+		} else if (!this.g_acinAlternateEmail.equals(other.g_acinAlternateEmail))
+			return false;
+		if (this.g_acinCreatedBy == null) {
+			if (other.g_acinCreatedBy != null)
+				return false;
+		} else if (!this.g_acinCreatedBy.equals(other.g_acinCreatedBy))
+			return false;
+		if (this.g_acinCreatedDate == null) {
+			if (other.g_acinCreatedDate != null)
+				return false;
+		} else if (!this.g_acinCreatedDate.equals(other.g_acinCreatedDate))
+			return false;
+		if (this.g_acinEmail == null) {
+			if (other.g_acinEmail != null)
+				return false;
+		} else if (!this.g_acinEmail.equals(other.g_acinEmail))
+			return false;
+		if (this.g_acinGender == null) {
+			if (other.g_acinGender != null)
+				return false;
+		} else if (!this.g_acinGender.equals(other.g_acinGender))
+			return false;
+		if (this.g_acinLastName == null) {
+			if (other.g_acinLastName != null)
+				return false;
+		} else if (!this.g_acinLastName.equals(other.g_acinLastName))
+			return false;
+		if (this.g_acinName == null) {
+			if (other.g_acinName != null)
+				return false;
+		} else if (!this.g_acinName.equals(other.g_acinName))
+			return false;
+		if (this.g_acinProfilePicture == null) {
+			if (other.g_acinProfilePicture != null)
+				return false;
+		} else if (!this.g_acinProfilePicture.equals(other.g_acinProfilePicture))
+			return false;
+		if (this.g_acinUpdateBy == null) {
+			if (other.g_acinUpdateBy != null)
+				return false;
+		} else if (!this.g_acinUpdateBy.equals(other.g_acinUpdateBy))
+			return false;
+		if (this.g_acinUpdateDate == null) {
+			if (other.g_acinUpdateDate != null)
+				return false;
+		} else if (!this.g_acinUpdateDate.equals(other.g_acinUpdateDate))
+			return false;
+		if (this.g_acinUserId == null) {
+			if (other.g_acinUserId != null)
+				return false;
+		} else if (!this.g_acinUserId.equals(other.g_acinUserId))
+			return false;
+		return true;
 	}
 
 	/* (non-Javadoc)
