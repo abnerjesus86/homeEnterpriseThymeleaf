@@ -9,11 +9,13 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import mx.com.lctpc.helpdeck.pojo.AccountInformation;
 import mx.com.lctpc.helpdeck.pojo.User;
 import mx.com.lctpc.helpdeck.pojo.UserApplication;
 import mx.com.lctpc.helpdeck.pojo.UserRole;
@@ -45,8 +47,22 @@ public class UserDaoImpl implements UserDao {
 	
 	@Override
 	public void persistsUser( User p_user ) {
-		// TODO Auto-generated method stub
-		getSession().persist(p_user);
+		
+		Session l_session = sessionFactory.openSession();//getSession();
+		Transaction tx2 = l_session.beginTransaction();
+		
+		AccountInformation l_acount = p_user.getAccountInf();
+		p_user.setAccountInf(null);
+		
+		l_session.persist(p_user);
+		
+		if( l_acount != null ){			
+			l_acount.setAcinUserId(p_user.getUserId());
+			p_user.setAccountInf(l_acount);
+		}
+
+		tx2.commit();
+		l_session.close();
 	}
 	
 	@Override

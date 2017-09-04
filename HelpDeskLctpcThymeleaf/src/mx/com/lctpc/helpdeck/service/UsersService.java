@@ -39,11 +39,11 @@ public class UsersService {
 
 	public void saveOrUpdateUser( User p_user ) {
 		
-		if(findUserById(p_user.getUserId())==null){
+		if(p_user.getUserId() == null || findUserById(p_user.getUserId())==null){
+
+			persistsUser(p_user);
 			
-			userDao.saveUser(p_user);
 		}else{
-			
 			userDao.mergeUser(p_user);
 			//userDao.updateUser(p_user);
 		}

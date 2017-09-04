@@ -465,13 +465,35 @@ function saveReset() {
 }
 
 function getUserNewPop(event){
-	
+	resetForm($("#frmUser"));
+	var $form = $("#frmUser");
+	$form.attr("method","POST");
+	$("#gridSystemModal .modal-header h4 span").text("New User");
 }
 
 function getUserEditPop(event) {
-	//var l_rowData = $('#tableUsers').DataTable().row('tbody tr.selected').data();
 	resetForm($("#frmUser"));
-	$("#gridSystemModal .modal-header h4 span").text("New User");
+	var l_rowData = $('#tableUsers').DataTable().row('tbody tr.selected').data();
+	$.ajax({
+		url : "./api/v1.0/user/" + l_rowData.userId,
+		type : "GET",
+		contentType : "application/json",
+		timeout : 100000,
+		success : function(result) {
+
+			if (!(result === null)) {
+				var l_frm = $("#frmUser");
+				populateForm(l_frm, result);
+				l_frm.attr("method", 'PUT');
+				l_frm.attr("action", $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/api/v1.0/user/");
+			}
+		},
+		error : function(e) {
+			alert("ERROR: ", e);
+		}
+	});
+	
+	$("#gridSystemModal .modal-header h4 span").text("Edit User");
 }
 
 function saveUserPop(event) {
@@ -479,15 +501,19 @@ function saveUserPop(event) {
 	// JSON.stringify(); --convertir JSON a String
 	var $form = $("#frmUser");
 
-	console.log(JSON.stringify($form.serializeObject()));
+	console.log("Metodo utilizado: " + $form.attr("method") + " Object " +JSON.stringify($form.serializeObject()));
 
 	$.ajax({
-		type : 'PUT',
+		type : $form.attr("method"),
 		url : './api/v1.0/user/',
 		data : JSON.stringify($form.serializeObject()),
 		contentType : "application/json",
 		success : function(dataResult) {
 			console.log(dataResult);
+			toastr.success("User Created", 'Successfully');
+			l_tableUser.clear().draw();
+			l_tableUser.ajax.reload();
+			clearInfoUser();
 		},
 		error : function(dataResult) {
 			console.log(dataResult);
@@ -519,10 +545,7 @@ function resetForm($form) {
 	var $chks = $form.find('input:checkbox');
 	$('.iradio_square-green').removeClass('checked');
 	$('.icheckbox_square-green').removeClass('checked');
-	/*$chks.each(function() {
-		if ($(this).is(':checked'))
-			$(this).click(); //  se manda el evento del click que removiendo el pincge attributo por que no jala.
-	});*/
+	
 }
 
 function resetFrmReset() {

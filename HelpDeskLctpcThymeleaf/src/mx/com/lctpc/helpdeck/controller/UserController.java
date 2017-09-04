@@ -74,7 +74,20 @@ public class UserController {
 			p_user.setAccountInf(l_accInf);
 
 		}*/
-						
+		p_user.setUserCreatedBy( SecurityContextHolder.getContext().getAuthentication().getName() );
+		
+		AccountInformation l_acount = new AccountInformation();
+		
+		if( !p_user.getAccountInf().equals(l_acount) ){
+					
+			if(p_user.getAccountInf().getAcinUserId() == null)
+				p_user.getAccountInf().setAcinCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+			else
+				p_user.getAccountInf().setAcinUpdateBy(SecurityContextHolder.getContext().getAuthentication().getName());
+		}
+		else
+			p_user.setAccountInf(null);
+		
 		userService.saveOrUpdateUser(p_user);
 		
 		return new ResponseEntity<User>(p_user,HttpStatus.CREATED );
