@@ -66,14 +66,7 @@ public class UserController {
 	
 	@RequestMapping( value = "/", method = {RequestMethod.POST}/*, consumes = MediaType.APPLICATION_JSON_VALUE*/ )
 	public ResponseEntity<User> saveUserForm( @RequestBody User p_user ) {
-		System.out.println("Entro al guardado..."+ p_user);
-		/*if(p_user.getAccountInf() != null){
-			AccountInformation l_accInf = p_user.getAccountInf();
-			//l_accInf.setUser(p_user);
-			
-			p_user.setAccountInf(l_accInf);
-
-		}*/
+		
 		p_user.setUserCreatedBy( SecurityContextHolder.getContext().getAuthentication().getName() );
 		
 		AccountInformation l_acount = new AccountInformation();
@@ -92,6 +85,7 @@ public class UserController {
 		
 		return new ResponseEntity<User>(p_user,HttpStatus.CREATED );
 		//return new ResponseEntity<User>(HttpStatus.OK );
+		//return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@RequestMapping( value = "/", method = {RequestMethod.PUT}/*, consumes = MediaType.APPLICATION_JSON_VALUE*/ )

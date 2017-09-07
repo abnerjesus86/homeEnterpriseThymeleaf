@@ -302,7 +302,9 @@ jQuery(function($) {
 				showMethod : "fadeIn",
 				hideMethod : "fadeOut"
 			};
-
+			
+			
+			
 			clearInfoUser();
 		}
 
@@ -311,6 +313,24 @@ jQuery(function($) {
 	$(this).initializeTable();
 
 });
+
+Dropzone.options.dropzoneForm = {
+        paramName: "file", // The name that will be used to transfer the file
+        maxFilesize: 2, // MBc
+        maxFiles : 1,
+        acceptedFiles : "image/*",
+        addRemoveLinks : true,
+        thumbnailMethod: "contain",
+        thumbnailWidth : 200,
+        thumbnailHeight : 200,
+        accept: function(file, done) {
+            if (file.name == "justinbieber.jpg") {
+              done("Naha, you don't.");
+            }
+            else { done(); }
+          },
+        dictDefaultMessage: "<strong>Drop files here or click to upload. </strong></br> (This is just a demo dropzone. Selected files are not actually uploaded.)"
+    };
 
 function shoModalConfirmation(p_url, p_table) {
 	swal({
@@ -348,10 +368,15 @@ function shoModalConfirmation(p_url, p_table) {
 
 function handleAjaxError(xhr, textStatus, error) {
 	if (textStatus === 'timeout') {
-		alert('The server took too long to send the data.');
+		toastr.error('The server took too long to send the data.', "Error");
+	} else if (textStatus === 'parsererror') {
+		toastr.error('Requested JSON parse failed.', "Error");
+	} else if (textStatus === 'abort') {
+		toastr.error('Ajax request aborted.', "Error");
+	}else{
+//		toastr.error(xhr.responseText, "[HTTP "+xhr.status+"] "+error);
+		toastr.error("[HTTP "+xhr.status+"] "+error, "Error");
 	}
-	console.log("gola " + error);
-	// $('#tableApps').DataTable().fnProcessingIndicator( false );
 }
 
 function selectedRowUser(event) {
@@ -388,7 +413,8 @@ function selectedRowUser(event) {
 					$('#lblNomActive').removeClass();
 					$('#lblNomActive').addClass("label label-" + l_labelSpanActive).text(l_labelActive);
 					// $('#lblReason').text(data.motivo);
-				}
+				},
+				error : handleAjaxError
 			});
 		}
 
@@ -488,9 +514,7 @@ function getUserEditPop(event) {
 				l_frm.attr("action", $(location).attr('origin') + "/HelpDeskLctpcThymeleaf/api/v1.0/user/");
 			}
 		},
-		error : function(e) {
-			alert("ERROR: ", e);
-		}
+		error : handleAjaxError
 	});
 	
 	$("#gridSystemModal .modal-header h4 span").text("Edit User");
@@ -501,23 +525,20 @@ function saveUserPop(event) {
 	// JSON.stringify(); --convertir JSON a String
 	var $form = $("#frmUser");
 
-	console.log("Metodo utilizado: " + $form.attr("method") + " Object " +JSON.stringify($form.serializeObject()));
-
 	$.ajax({
 		type : $form.attr("method"),
 		url : './api/v1.0/user/',
 		data : JSON.stringify($form.serializeObject()),
 		contentType : "application/json",
-		success : function(dataResult) {
-			console.log(dataResult);
-			toastr.success("User Created", 'Successfully');
-			l_tableUser.clear().draw();
-			l_tableUser.ajax.reload();
+		success : function(dataResult, status) {
+			console.log(status);
+			toastr.success("User ["+dataResult.userId+"]"+dataResult.userUsername+" Created", 'Successfully');
+			$('#tableUsers').DataTable().clear().draw();
+			$('#tableUsers').DataTable().ajax.reload();
 			clearInfoUser();
+			$('#myModalUsers').modal('hide');
 		},
-		error : function(dataResult) {
-			console.log(dataResult);
-		}
+		error : handleAjaxError
 
 	}); // Ajax submit
 
@@ -574,9 +595,10 @@ function saveAssignRole() {
 
 			toastr.success("Role " + l_rowRoleData.roleName + " assigned to the user [" + l_rowUserData.userId + "] " + l_rowUserData.userUsername, 'Successfully');
 		},
-		error : function(e) {
+		error : handleAjaxError
+		/*function(e) {
 			toastr.error(e.responseText, "Error");
-		}
+		}*/
 	});
 }
 
@@ -596,9 +618,9 @@ function saveAssignApplication() {
 
 			toastr.success("Application " + l_rowAppData.appnName + " assigned to the user [" + l_rowUserData.userId + "] " + l_rowUserData.userUsername, 'Successfully');
 		},
-		error : function(e) {
+		error : handleAjaxError/*function(e) {
 			toastr.error(e.responseText, "Error");
-		}
+		}*/
 	});
 }
 
@@ -738,20 +760,4 @@ $.fn.serializeObject = function() {
 
 	});
 	return o;
-}
-
-// Para cuando se utiliza el submit
-function form_to_json($selector) {
-	var ary = $selector.serializeArray();
-	console.log(ary);
-	var obj = {};
-	for (var a = 0; a < ary.length; a++) {
-
-		if (ary[a].name == "_userActive")
-			continue;
-
-		obj[ary[a].name] = ary[a].value;
-	}
-
-	return obj;
 }

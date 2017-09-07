@@ -12,7 +12,10 @@
 <!-- Sweet Alert -->
 <link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
 <!--  -->
-<link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link th:href="@{css/plugins/datapicker/datepicker3.css}" rel="stylesheet">
+<!-- Dropzone style -->
+<link th:href="@{css/plugins/dropzone/basic.css}" rel="stylesheet">
+<link th:href="@{css/plugins/dropzone/dropzone.css}" rel="stylesheet">
 
 <link rel="stylesheet" th:href="@{/pages/users/css/style.css}" />
 </head>
@@ -42,7 +45,7 @@
 											<i class="fa fa-refresh"></i> Refresh
 										</button>
 										<button type="button" id="btn-New" class="btn btn-white btn-sm" href='#myModalUsers' role='button' data-toggle='modal'>
-                                            <i class='fa fa-plus'></i> New User
+                                            <i class='fa fa-user-plus'></i> New User
                                         </button>
 									</span>
 								</div>
@@ -161,41 +164,50 @@
 								<button type="button" class="close" data-dismiss="modal">
 									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 								</button>
-								<h4 class="modal-title">Form</h4>
+								<h4 class="modal-title">Form User</h4>
 							</div>
 							<div class="modal-body">
 								<div class="row">
-									<form id="frmUser" method="POST" class="form-horizontal" role="form">
-										<div class="form-group">
-											<label class="col-sm-2 control-label no-padding-right" for="userId"> ID </label>
-											<div class="col-sm-10">
-												<input type="text" placeholder="ID" class="form-control input-sm" id="userId" readonly />
+								    <div class="col-sm-6">
+								        <form action="#" class="dropzone" id="dropzoneForm">
+			                                <div class="fallback">
+			                                    <input name="file" type="file"  />
+			                                </div>
+			                            </form>
+			                            
+								    </div>
+								    <div class="col-sm-6">
+										<form id="frmUser" method="POST" class="form-horizontal" role="form">
+											<div class="form-group">
+												<label class="col-sm-2 control-label no-padding-right" for="userId"> ID </label>
+												<div class="col-sm-10">
+													<input type="text" placeholder="ID" class="form-control input-sm" id="userId" readonly />
+												</div>
 											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-2 control-label no-padding-right" for="userUsername"> Account User </label>
-											<div class="col-sm-10">
-												<!-- th:field="*{userUsername}" -->
-												<input type="text" placeholder="LASTNAME.NAME" class="form-control input-sm" id="userUsername" />
+											<div class="form-group">
+												<label class="col-sm-2 control-label no-padding-right" for="userUsername"> Account User </label>
+												<div class="col-sm-10">
+													<!-- th:field="*{userUsername}" -->
+													<input type="text" placeholder="LASTNAME.NAME" class="form-control input-sm" id="userUsername" />
+												</div>
 											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-2 control-label no-padding-right" for="userEmesCompany"> BU / # Employee </label>
-											<div class="col-sm-5">
-												<input type="text" placeholder="LCTPC" class="form-control input-sm" id="userEmesCompany" />
+											<div class="form-group">
+												<label class="col-sm-2 control-label no-padding-right" for="userEmesCompany"> BU / # Employee </label>
+												<div class="col-sm-5">
+													<input type="text" placeholder="LCTPC" class="form-control input-sm" id="userEmesCompany" />
+												</div>
+												<div class="col-sm-5">
+													<input type="text" placeholder="# EMPLOYEE" class="form-control input-sm" id="userEmesId" />
+												</div>
 											</div>
-											<div class="col-sm-5">
-                                                   <input type="text" placeholder="# EMPLOYEE" class="form-control input-sm" id="userEmesId" />
-                                               </div>
-										</div>		
-										<div class="form-group">
-											<label class="col-sm-2 control-label no-padding-right" for="userActive"> ACTIVE </label>
-											<div class="col-sm-10">
-												<label class="i-checks"> <input type="checkbox" class="form-control input-sm" id="userActive" />
-												</label>
+											<div class="form-group">
+												<label class="col-sm-2 control-label no-padding-right" for="userActive"> Active </label>
+												<div class="col-sm-10">
+													<label class="i-checks"> <input type="checkbox" class="form-control input-sm" id="userActive" />
+													</label>
+												</div>
 											</div>
-										</div>
-										<!-- <div class="form-group">
+											<!-- <div class="form-group">
 											<label class="col-sm-2 control-label no-padding-right" for="userCreatedBy"> CREATED BY </label>
 											<div class="col-sm-10">
 												th:field="*{userCreatedBy}"
@@ -209,79 +221,79 @@
 												<input type="text" class="form-control input-sm" id="userUpdateBy" />
 											</div>
 										</div> -->
-										<div class="form-group">
-											<label class="col-sm-2 control-label no-padding-right" for="acinProfilePicture"> PROFILE PICTURE </label>
-											<div class="col-sm-10">
-												<!-- th:field="*{accountInf.acinProfilePicture}" -->
-												<input type="text" placeholder="SELECT PICTURE" class="form-control input-sm" id="acinProfilePicture" />
-											
+											<div class="form-group">
+												<label class="col-sm-2 control-label no-padding-right" for="acinProfilePicture"> Profile Picture </label>
+												<div class="col-sm-10">
+													<!-- th:field="*{accountInf.acinProfilePicture}" -->
+													<input type="text" placeholder="SELECT PICTURE" class="form-control input-sm" id="acinProfilePicture" />
+
+												</div>
 											</div>
-										</div>
-										<div class="form-group">
-                                            <label class="col-sm-2 control-label no-padding-right" for="acinName"> NAME </label>
-                                            <div class="col-sm-5">
-                                                <!-- th:field="*{accountInf.acinProfilePicture}" -->
-                                                <input type="text" placeholder="NAME" class="form-control input-sm" id="acinName" />
-                                            </div>
-                                            <div class="col-sm-5">
-                                                <input type="text" placeholder="LAST NAME" class="form-control input-sm" id="acinLastName" />
-                                            </div>
-                                        </div>
-                                       <div class="form-group">
-                                            <label class="col-sm-2 control-label no-padding-right" for="acinGender"> Gender </label>
-                                            <div class="col-sm-3">
-                                                <div class="i-checks">
-                                                <label> 
-                                                <input type="radio" value="1" name="acinGender" id="acinGender"> <i></i> MAN 
-                                                </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="i-checks">
-                                                <label> 
-                                                <input type="radio" value="2" name="acinGender" id="acinGender"> <i></i> WOMAN 
-                                                </label>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-										<!-- <div class="form-group">
+											<div class="hr-line-dashed"></div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label no-padding-right" for="acinName"> Name </label>
+												<div class="col-sm-5">
+													<!-- th:field="*{accountInf.acinProfilePicture}" -->
+													<input type="text" placeholder="NAME" class="form-control input-sm" id="acinName" />
+												</div>
+												<div class="col-sm-5">
+													<input type="text" placeholder="LAST NAME" class="form-control input-sm" id="acinLastName" />
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label no-padding-right" for="acinGender"> Gender </label>
+												<div class="col-sm-3">
+													<div class="i-checks">
+														<label> <input type="radio" value="1" name="acinGender" id="acinGender"> <i></i> Man
+														</label>
+													</div>
+												</div>
+												<div class="col-sm-3">
+													<div class="i-checks">
+														<label> <input type="radio" value="2" name="acinGender" id="acinGender"> <i></i> Wowan
+														</label>
+													</div>
+
+												</div>
+											</div>
+											<!-- <div class="form-group">
 								            <label class="col-sm-3 control-label no-padding-right" for="accountInf.acinTelephone"> TELEPHONE </label>
 								            <div class="col-sm-9">
 								                <input type="text" class="col-xs-11" th:field="*{accountInf.acinTelephone}" />
 								            </div>
 								        </div> -->
-								        <div class="form-group">
-                                            <label class="col-sm-2 control-label no-padding-right" for="acinEmail"> EMAIL </label>
-                                            <div class="col-sm-10">
-                                                <!-- th:field="*{accountInf.acinAlternateEmail}" -->
-                                                <input type="text" placeholder="example@domain.com" class="form-control input-sm" id="acinEmail" />
-                                            </div>
-                                        </div>
-										<div class="form-group">
-											<label class="col-sm-2 control-label no-padding-right" for="acinAlternateEmail"> ALTERNATE EMAIL </label>
-											<div class="col-sm-10">
-												<!-- th:field="*{accountInf.acinAlternateEmail}" -->
-												<input type="text" placeholder="example@domain.com" class="form-control input-sm" id="acinAlternateEmail" />
+											<div class="form-group">
+												<label class="col-sm-2 control-label no-padding-right" for="acinEmail"> Email </label>
+												<div class="col-sm-10">
+													<!-- th:field="*{accountInf.acinAlternateEmail}" -->
+													<input type="text" placeholder="example@domain.com" class="form-control input-sm" id="acinEmail" />
+												</div>
 											</div>
-										</div>
-										<div class="form-group">
+											<div class="form-group">
+												<label class="col-sm-2 control-label no-padding-right" for="acinAlternateEmail"> Alternate Email </label>
+												<div class="col-sm-10">
+													<!-- th:field="*{accountInf.acinAlternateEmail}" -->
+													<input type="text" placeholder="example@domain.com" class="form-control input-sm" id="acinAlternateEmail" />
+												</div>
+											</div>
+											<div class="form-group">
 
-											<label class="col-sm-2 control-label no-padding-right" for="acinCreatedBy"> CREATED BY </label>
-											<div class="col-sm-10">
-												<!-- th:field="*{accountInf.acinCreatedBy}" -->
-												<input type="text" class="form-control input-sm" id="acinCreatedBy" />
+												<label class="col-sm-2 control-label no-padding-right" for="acinCreatedBy"> Created By </label>
+												<div class="col-sm-10">
+													<!-- th:field="*{accountInf.acinCreatedBy}" -->
+													<input type="text" class="form-control input-sm" id="acinCreatedBy" readonly />
+												</div>
 											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-2 control-label no-padding-right" for="acinUpdateBy"> UPDATE BY </label>
-											<div class="col-sm-10">
-												<!-- th:field="*{accountInf.acinUpdateBy}" -->
-												<input type="text" class="form-control input-sm" id="acinUpdateBy" />
+											<div class="form-group">
+												<label class="col-sm-2 control-label no-padding-right" for="acinUpdateBy"> Update By </label>
+												<div class="col-sm-10">
+													<!-- th:field="*{accountInf.acinUpdateBy}" -->
+													<input type="text" class="form-control input-sm" id="acinUpdateBy" readonly />
+												</div>
 											</div>
-										</div>
-										<input type="hidden" placeholder="ID" id="acinUserId" />
-									</form>
+											<input type="hidden" placeholder="ID" id="acinUserId" />
+										</form>
+									</div>
 								</div>
 							</div>
 
@@ -376,11 +388,13 @@
 	<!-- Sweet alert -->
 	<script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}"></script>
 	<!-- Jquery Validate -->
-    <script src="js/plugins/validate/jquery.validate.min.js"></script>
+    <script th:src="@{js/plugins/validate/jquery.validate.min.js}"></script>
     <!-- Data picker -->
-    <script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script th:src="@{js/plugins/datapicker/bootstrap-datepicker.js}"></script>
     <!-- Toastr script -->
-    <script src="js/plugins/toastr/toastr.min.js"></script>
+    <script th:src="@{js/plugins/toastr/toastr.min.js}"></script>
+    <!-- DROPZONE -->
+    <script th:src="@{js/plugins/dropzone/dropzone.js}"></script>
     
 	<script th:src="@{/pages/users/js/script.js}"></script>
 </body>
