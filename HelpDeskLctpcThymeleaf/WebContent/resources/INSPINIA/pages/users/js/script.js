@@ -302,8 +302,126 @@ jQuery(function($) {
 				showMethod : "fadeIn",
 				hideMethod : "fadeOut"
 			};
+			var options = {
+			        aspectRatio: 16 / 9,
+			        preview: '.img-preview',
+			      };
 			
+			var $image = $(".img-container > img");
+			$($image).cropper(options);
+
+            var $inputImage = $("#inputImage");
+            if (window.FileReader) {
+                $inputImage.change(function() {
+                    var fileReader = new FileReader(),
+                            files = this.files,
+                            file;
+
+                    if (!files.length) {
+                        return;
+                    }
+
+                    file = files[0];
+
+                    if (/^image\/\w+$/.test(file.type)) {
+                        fileReader.readAsDataURL(file);
+                        fileReader.onload = function () {
+                            $inputImage.val("");
+                            //$image.cropper("reset", true).cropper("replace", this.result);
+                            $image.cropper("destroy").attr('src', URL.createObjectURL(file)).cropper(options);
+                        };
+                    } else {
+                        showMessage("Please choose an image file.");
+                    }
+                });
+            } else {
+                $inputImage.addClass("hide");
+            }
 			
+            $("#btn-arrows").click(function() {
+            	$image.cropper("setDragMode", "move");
+            });
+            
+            $("#btn-crop").click(function() {
+            	$image.cropper("setDragMode", "crop");
+            });
+            
+            $("#btn-CropperDisable").click(function() {
+                $image.cropper("disable");
+            });
+            
+            $("#btn-CropperEnable").click(function() {
+                $image.cropper("enable");
+            });
+            
+            $("#download").click(function() {
+            	console.log($image.cropper("getDataURL"));
+                window.open();
+            });
+            
+            $("#zoomIn").click(function() {
+                $image.cropper("zoom", 0.1);
+            });
+
+            $("#zoomOut").click(function() {
+                $image.cropper("zoom", -0.1);
+            });
+
+            $("#rotateLeft").click(function() {
+                $image.cropper("rotate", 45);
+            });
+
+            $("#rotateRight").click(function() {
+                $image.cropper("rotate", -45);
+            });
+
+            $("#setDrag").click(function() {
+                $image.cropper("setDragMode", "crop");
+            });
+            
+			/*var $uploadCrop = $('#upload-demo').croppie({
+			    enableExif: true,
+			    viewport: {
+			        width: 200,
+			        height: 200,
+			        type: 'circle'
+			    },
+			    boundary: {
+			        width: 300,
+			        height: 300
+			    }
+			});
+
+			$('#upload').on('change', function () { 
+				var reader = new FileReader();
+			    reader.onload = function (e) {
+			    	$uploadCrop.croppie('bind', {
+			    		url: e.target.result
+			    	}).then(function(){
+			    		console.log('jQuery bind complete');
+			    	});
+			    	
+			    }
+			    reader.readAsDataURL(this.files[0]);
+			});
+
+			$('.upload-result').on('click', function (ev) {
+				$uploadCrop.croppie('result', {
+					type: 'canvas',
+					size: 'viewport'
+				}).then(function (resp) {
+
+					$.ajax({
+						url: "/ajaxpro.php",
+						type: "POST",
+						data: {"image":resp},
+						success: function (data) {
+							html = '<img src="' + resp + '" />';
+							$("#upload-demo-i").html(html);
+						}
+					});
+				});
+			});*/
 			
 			clearInfoUser();
 		}
@@ -314,23 +432,7 @@ jQuery(function($) {
 
 });
 
-Dropzone.options.dropzoneForm = {
-        paramName: "file", // The name that will be used to transfer the file
-        maxFilesize: 2, // MBc
-        maxFiles : 1,
-        acceptedFiles : "image/*",
-        addRemoveLinks : true,
-        thumbnailMethod: "contain",
-        thumbnailWidth : 200,
-        thumbnailHeight : 200,
-        accept: function(file, done) {
-            if (file.name == "justinbieber.jpg") {
-              done("Naha, you don't.");
-            }
-            else { done(); }
-          },
-        dictDefaultMessage: "<strong>Drop files here or click to upload. </strong></br> (This is just a demo dropzone. Selected files are not actually uploaded.)"
-    };
+
 
 function shoModalConfirmation(p_url, p_table) {
 	swal({
@@ -761,3 +863,9 @@ $.fn.serializeObject = function() {
 	});
 	return o;
 }
+
+
+/*
+ 
+ 
+ */
