@@ -190,8 +190,8 @@
 										</div> 
 										
 										-->
-										<div class="img-container">
-											<img  th:src="@{/images/user1.png}" alt="Picture">
+										<div class="img-cont">
+											<img id="image" th:src="@{/images/user1.png}" alt="Picture">
 										</div>
 										<div class="btn-group">
 											<button id="btn-arrows" type="button" class="btn btn-primary" data-method="setDragMode" data-option="move" title="Move">
@@ -224,7 +224,9 @@
 												<i class='fa fa-unlock'></i>
 											</button>
 										</div>
-										<div class="img-preview preview-md"></div>
+										<div class="docs-preview clearfix">
+										  <div class="img-prev preview-lg"></div>
+										</div>
 										<div class="btn-group">
 											<label title="Upload image file" for="inputImage" class="btn btn-primary"> <input type="file" accept="image/*" name="file"
 												id="inputImage" class="hide"> Upload new image

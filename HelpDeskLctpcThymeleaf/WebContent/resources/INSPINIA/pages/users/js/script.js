@@ -3,6 +3,30 @@
  * 
  * Copyright 2016, Abner Jesus Benitez Yañez LCTPC - Lazaro Cardenas Terminal Portuaria de Contenedores.
  */
+var options = {
+			        aspectRatio: 16 / 9,
+			        preview: '.img-prev',
+			        autoCrop: true
+			        //viewMode : 2,
+			        //background: true
+			        //dragMode: 'crop',
+			        //zoomable: true,
+			        //autoCropArea: 0.8,
+			        //center: true,
+			        //restore: true,
+			        //zoomOnWheel: true,
+			        //cropBoxResizable: true,
+			       /* minCanvasWidth: 0,
+			        minCanvasHeight: 0,
+			        minCropBoxWidth: 0,
+			        minCropBoxHeight: 0,
+			        minContainerWidth: 200,
+			        minContainerHeight: 100,*/
+			        //modal: true,
+			        /*crop : function(e){
+			        	
+			        }*/
+			      };
 jQuery(function($) {
 	jQuery.fn.extend({
 		initializeTable : function() {
@@ -302,15 +326,12 @@ jQuery(function($) {
 				showMethod : "fadeIn",
 				hideMethod : "fadeOut"
 			};
-			var options = {
-			        aspectRatio: 16 / 9,
-			        preview: '.img-preview',
-			      };
 			
-			var $image = $(".img-container > img");
-			$($image).cropper(options);
+			var $image = $(".img-cont > img");
+			
+			$image.cropper(options);
 
-            var $inputImage = $("#inputImage");
+			var $inputImage = $("#inputImage");
             if (window.FileReader) {
                 $inputImage.change(function() {
                     var fileReader = new FileReader(),
@@ -379,49 +400,7 @@ jQuery(function($) {
                 $image.cropper("setDragMode", "crop");
             });
             
-			/*var $uploadCrop = $('#upload-demo').croppie({
-			    enableExif: true,
-			    viewport: {
-			        width: 200,
-			        height: 200,
-			        type: 'circle'
-			    },
-			    boundary: {
-			        width: 300,
-			        height: 300
-			    }
-			});
-
-			$('#upload').on('change', function () { 
-				var reader = new FileReader();
-			    reader.onload = function (e) {
-			    	$uploadCrop.croppie('bind', {
-			    		url: e.target.result
-			    	}).then(function(){
-			    		console.log('jQuery bind complete');
-			    	});
-			    	
-			    }
-			    reader.readAsDataURL(this.files[0]);
-			});
-
-			$('.upload-result').on('click', function (ev) {
-				$uploadCrop.croppie('result', {
-					type: 'canvas',
-					size: 'viewport'
-				}).then(function (resp) {
-
-					$.ajax({
-						url: "/ajaxpro.php",
-						type: "POST",
-						data: {"image":resp},
-						success: function (data) {
-							html = '<img src="' + resp + '" />';
-							$("#upload-demo-i").html(html);
-						}
-					});
-				});
-			});*/
+			
 			
 			clearInfoUser();
 		}

@@ -80,27 +80,26 @@ table tbody tr.selected{
 }
 
 
-o
-.img-container,
-.img-preview {
+.img-cont,
+.img-prev {
   background-color: #f7f7f7;
   text-align: center;
   width: 100%;
 }
 
-.img-container {
+.img-cont {
   margin-bottom: 1rem;
-  max-height: 497px;
+  max-height: 300px;
   min-height: 200px;
 }
 
 @media (min-width: 200px) {
-  .img-container {
-    min-height: 170px;
+  .img-cont {
+    min-height: 300px;
   }
 }
 
-.img-container > img {
+.img-cont > img {
   max-width: 100%;
 }
 
@@ -108,14 +107,14 @@ o
   margin-right: -1rem;
 }
 
-.img-preview {
+.img-prev {
   float: left;
   margin-bottom: .5rem;
   margin-right: .5rem;
   overflow: hidden;
 }
 
-.img-preview > img {
+.img-prev > img {
   max-width: 100%;
 }
 
