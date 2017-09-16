@@ -6,16 +6,16 @@
 var options = {
 			        aspectRatio: 16 / 9,
 			        preview: '.img-prev',
-			        autoCrop: true
-			        //viewMode : 2,
-			        //background: true
+			        autoCrop: true,
+			        viewMode : 0,
+			        background: true,
 			        //dragMode: 'crop',
 			        //zoomable: true,
 			        //autoCropArea: 0.8,
 			        //center: true,
-			        //restore: true,
+			        restore: false
 			        //zoomOnWheel: true,
-			        //cropBoxResizable: true,
+			        //cropBoxResizable: true
 			       /* minCanvasWidth: 0,
 			        minCanvasHeight: 0,
 			        minCropBoxWidth: 0,
@@ -329,8 +329,8 @@ jQuery(function($) {
 			
 			var $image = $(".img-cont > img");
 			
-			$image.cropper(options);
-
+	        $image.cropper(options);
+			
 			var $inputImage = $("#inputImage");
             if (window.FileReader) {
                 $inputImage.change(function() {
@@ -349,6 +349,7 @@ jQuery(function($) {
                         fileReader.onload = function () {
                             $inputImage.val("");
                             //$image.cropper("reset", true).cropper("replace", this.result);
+                            console.log(URL.createObjectURL(file));
                             $image.cropper("destroy").attr('src', URL.createObjectURL(file)).cropper(options);
                         };
                     } else {
@@ -573,13 +574,19 @@ function saveReset() {
 
 function getUserNewPop(event){
 	resetForm($("#frmUser"));
-	var $form = $("#frmUser");
-	$form.attr("method","POST");
+	//$(".img-cont > img").cropper("destroy").attr('src', '').cropper(options);
+	$("#frmUser").attr("method","POST");
 	$("#gridSystemModal .modal-header h4 span").text("New User");
 }
 
 function getUserEditPop(event) {
 	resetForm($("#frmUser"));
+	
+	var $image = $(".img-cont > img");
+    
+    //$image.cropper('destroy');//.cropper(options);
+    //URL.createObjectURL('')
+	$(".img-cont > img").cropper("destroy").attr('src', '').cropper(options);
 	var l_rowData = $('#tableUsers').DataTable().row('tbody tr.selected').data();
 	$.ajax({
 		url : "./api/v1.0/user/" + l_rowData.userId,
