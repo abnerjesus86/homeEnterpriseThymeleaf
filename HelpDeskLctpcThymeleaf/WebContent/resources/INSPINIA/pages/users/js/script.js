@@ -378,7 +378,7 @@ jQuery(function($) {
             
             $("#download").click(function() {
             	console.log($image.cropper("getDataURL"));
-                window.open();
+                window.open($image.cropper("getDataURL"));
             });
             
             $("#zoomIn").click(function() {
