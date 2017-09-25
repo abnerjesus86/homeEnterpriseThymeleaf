@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import mx.com.lctpc.helpdeck.pojo.AccountInformation;
 import mx.com.lctpc.helpdeck.pojo.User;
@@ -65,7 +66,7 @@ public class UserController {
 	}
 	
 	@RequestMapping( value = "/", method = {RequestMethod.POST}/*, consumes = MediaType.APPLICATION_JSON_VALUE*/ )
-	public ResponseEntity<User> saveUserForm( @RequestBody User p_user ) {
+	public ResponseEntity<User> saveUserForm( @RequestBody User p_user, @RequestParam("uploadfileImageUser") MultipartFile p_uploadfileImage ) {
 		
 		p_user.setUserCreatedBy( SecurityContextHolder.getContext().getAuthentication().getName() );
 		

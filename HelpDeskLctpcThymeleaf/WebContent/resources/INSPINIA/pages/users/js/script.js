@@ -331,7 +331,7 @@ jQuery(function($) {
 			
 	        $image.cropper(options);
 			
-			var $inputImage = $("#inputImage");
+			var $inputImage = $("#uploadfile");
             if (window.FileReader) {
                 $inputImage.change(function() {
                     var fileReader = new FileReader(),
@@ -612,23 +612,34 @@ function saveUserPop(event) {
 	// $.parseJSON(l_frm.serialize()); --convertir String a JSON
 	// JSON.stringify(); --convertir JSON a String
 	var $form = $("#frmUser");
+	var $image = $(".img-cont > img");
+    $image.cropper(options);
+    //console.log(JSON.stringify($form.serializeObject()));
+    $image.cropper('getCroppedCanvas').toBlob(function (blob){
+    	var formData = new FormData();
+    	formData.append('uploadfileImageUser', blob);
+    	formData.append('User', JSON.stringify($form.serializeObject()));
+    	
+    	$.ajax({
+    		type : $form.attr("method"),
+    		url : './api/v1.0/user/',
+    		//data : JSON.stringify($form.serializeObject()),
+    		data : formData,
+    		//contentType : "application/json",
+    		success : function(dataResult, status) {
+    			console.log(status);
+    			toastr.success("User ["+dataResult.userId+"]"+dataResult.userUsername+" Created", 'Successfully');
+    			$('#tableUsers').DataTable().clear().draw();
+    			$('#tableUsers').DataTable().ajax.reload();
+    			clearInfoUser();
+    			$('#myModalUsers').modal('hide');
+    		},
+    		error : handleAjaxError
 
-	$.ajax({
-		type : $form.attr("method"),
-		url : './api/v1.0/user/',
-		data : JSON.stringify($form.serializeObject()),
-		contentType : "application/json",
-		success : function(dataResult, status) {
-			console.log(status);
-			toastr.success("User ["+dataResult.userId+"]"+dataResult.userUsername+" Created", 'Successfully');
-			$('#tableUsers').DataTable().clear().draw();
-			$('#tableUsers').DataTable().ajax.reload();
-			clearInfoUser();
-			$('#myModalUsers').modal('hide');
-		},
-		error : handleAjaxError
-
-	}); // Ajax submit
+    	}); // Ajax submit
+    	
+    });
+	
 
 }
 
